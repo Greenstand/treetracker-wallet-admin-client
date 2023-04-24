@@ -10,6 +10,6 @@ can be found in thie figma file https://www.figma.com/file/kXhFReuUVcqQonIgl59On
 ## Slack
 the corresponding channel #wallet-admin-client can be found in our slack community. Here there will be additional support for you.
 ## User Stories
-https://docs.google.com/document/d/1IF4fe4_BC319aoBKBW5LV2pypyDTy4K8qe1qqHexQ1Y/edit#
+https://docs.google.com/document/d/1IF4fe4_BC319aoBKBW5LV2pypyDTy4K8qe1qqHexQ1Y/
 ## Note
 Contributing to this project can sometimes involve a steep learning curve. Please do not give up and come and find us on slack to get support setting you up. This is a fun project with an amazing potential to disrupt untransparent practices and open reforestation to the digital world. 
