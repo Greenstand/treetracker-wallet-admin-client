@@ -1,67 +1,50 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React, { useState } from "react";
 import SideMenu from "./SideMenu/SideMenu";
-// import styles from "./Layout.module.scss";
-import { Box, Drawer, Grid, Paper, makeStyles } from "@material-ui/core";
-// import styles from "./Layout.styles";
-// import "./Layout.css";
+import { styled } from "@mui/system";
+import { Box, Drawer, Grid, Paper } from "@mui/material";
+import { MENU_WIDTH, MENU_WIDTH_COLLAPSED } from "./SideMenu/Menu/Menu";
+import styles from "./Layout.module.scss";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const Layout = ({ children }) => {
+  const [menuCollapsed, setMenuCollapsed] = useState(false);
+
+  const StyledRoot = styled("div")(({ theme }) => ({
     display: "flex",
-  },
-  drawer: {
-    width: 232,
+  }));
+
+  const StyledDrawer = styled(Drawer)(({ theme }) => ({
+    width: menuCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH,
     flexShrink: 0,
-  },
-  drawerPaper: {
-    width: 232,
-  },
-  content: {
+  }));
+
+  const StyledDrawerPaper = styled(Paper)(({ theme }) => ({
+    width: menuCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH,
+  }));
+
+  const StyledContent = styled(Grid)(({ theme }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
-  },
-}));
+    backgroundColor: "rgb(239, 239, 239)",
+    height: "100vh",
+  }));
 
-const Layout = ({ props, children }) => {
-  //const classes = props.classes;
-  const classes = useStyles();
+  const menuToggleHandler = () => {
+    setMenuCollapsed((value) => !value);
+  };
 
   return (
-    // <div className={styles.layout}>
-    //   <div className={styles.layout__content}>
-    //     <SideMenu />
-    //     {/* <MainContent>{children}</MainContent> */}
-    //     {children}
-    //   </div>
-    // </div>
-
-    // <Grid className={classes.box}>
-    //   <Grid className={classes.menuAside}>
-    //     <Paper elevation={3} className={classes.menu}>
-    //       <SideMenu />
-    //     </Paper>
-    //   </Grid>
-    //   <Grid className={classes.rightBox}>
-    //     <Box className={classes.box2}>Main body</Box>
-    //   </Grid>
-    // </Grid>
-    <div className={classes.root}>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <SideMenu />
-      </Drawer>
-      <Grid container className={classes.content}>
-        {children}
-      </Grid>
-    </div>
+    <StyledRoot>
+      <StyledDrawer variant="permanent" open={true}>
+        <StyledDrawerPaper>
+          <SideMenu
+            onMenuToggle={menuToggleHandler}
+            isMenuCollapsed={menuCollapsed}
+          />
+        </StyledDrawerPaper>
+      </StyledDrawer>
+      <StyledContent container>{children}</StyledContent>
+    </StyledRoot>
   );
 };
 
-// export default withStyles(styles)(Layout);
 export default Layout;

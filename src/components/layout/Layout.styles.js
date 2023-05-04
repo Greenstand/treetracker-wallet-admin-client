@@ -41,7 +41,7 @@ const styles = (theme) => ({
     height: "100%",
     position: "absolute",
     padding: "40px",
-    left: 232, //MENU_WIDTH,
+    left: MENU_WIDTH,
     top: 0,
     right: 0,
     backgroundColor: "rgb(239, 239, 239)",

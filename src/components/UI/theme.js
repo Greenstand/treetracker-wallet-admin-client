@@ -1,7 +1,7 @@
 /*
  * The Material-UI theme for the whole UI
  */
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme } from "@mui/material/styles";
 
 /**
  * @constant
