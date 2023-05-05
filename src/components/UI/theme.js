@@ -44,6 +44,8 @@ export default createTheme({
   palette: {
     primary: {
       main: colorPrimary,
+      lightMain: "rgba(118, 187, 35, 0.7)",
+      light: "rgba(118, 187, 35, 0.1)",
       lightMed: "rgba(118, 187, 35, 0.4)",
       //very light primary color, for background sometimes
       lightVery: "#F9FCF4",

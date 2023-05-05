@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
-import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import { styled } from "@mui/system";
 
 import Menu from "./Menu/Menu";
 import IconLogo from "../../UI/IconLogo";
-
-const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  minHeight: "calc(15px - 2vw)",
-}));
+import { Box } from "@mui/material";
 
 const SideMenu = (props) => {
   const [isMenuShown, setMenuShown] = useState(true);
@@ -23,16 +17,31 @@ const SideMenu = (props) => {
 
   return (
     <>
-      <Grid container direction="column" justifyContent="space-between">
+      <Grid
+        container
+        direction="column"
+        justifyContent="space-between"
+        spacing={5}
+      >
         <Grid item>
-          <IconButton title="menu" onClick={() => handleMenuClick()}>
-            <MenuIcon />
-          </IconButton>
-          {!iconsOnly && <IconLogo />}
+          <Grid container direction="row" alignItems="center">
+            <IconButton
+              title="menu"
+              onClick={() => handleMenuClick()}
+              style={iconsOnly ? { width: "100%" } : {}}
+            >
+              <MenuIcon />
+            </IconButton>
+            {!iconsOnly && (
+              <Box p={4}>
+                <IconLogo />
+              </Box>
+            )}
+          </Grid>
         </Grid>
         <Grid item>{props.children}</Grid>
       </Grid>
-      <StyledToolbar />
+
       {isMenuShown && (
         <Menu onClose={() => setMenuShown(true)} iconsOnly={iconsOnly} />
       )}

@@ -1,5 +1,3 @@
-// import { MENU_WIDTH } from "../common/Menu";
-
 const styles = (theme) => ({
   box: {
     width: "100%",
@@ -36,17 +34,6 @@ const styles = (theme) => ({
   menu: {
     height: "100%",
     overflow: "hidden",
-  },
-  rightBox: {
-    height: "100%",
-    position: "absolute",
-    padding: "40px",
-    left: MENU_WIDTH,
-    top: 0,
-    right: 0,
-    backgroundColor: "rgb(239, 239, 239)",
-    boxSizing: "border-box",
-    overflowY: "auto",
   },
   welcomeBox: {
     height: "100%",

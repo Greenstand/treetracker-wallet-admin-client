@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import SideMenu from "./SideMenu/SideMenu";
 import { styled } from "@mui/system";
-import { Box, Drawer, Grid, Paper } from "@mui/material";
+import { Drawer, Grid, Paper } from "@mui/material";
 import { MENU_WIDTH, MENU_WIDTH_COLLAPSED } from "./SideMenu/Menu/Menu";
-import styles from "./Layout.module.scss";
 
 const Layout = ({ children }) => {
   const [menuCollapsed, setMenuCollapsed] = useState(false);
@@ -19,6 +18,7 @@ const Layout = ({ children }) => {
 
   const StyledDrawerPaper = styled(Paper)(({ theme }) => ({
     width: menuCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH,
+    height: "100vh",
   }));
 
   const StyledContent = styled(Grid)(({ theme }) => ({
