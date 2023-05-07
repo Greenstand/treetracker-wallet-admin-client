@@ -1,8 +1,24 @@
-import { render, screen } from "@testing-library/react";
+import React from "react";
+import { shallow } from "enzyme";
 import App from "./App";
 
-test("renders learn react link", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe("App component", () => {
+  it("renders without crashing", () => {
+    shallow(<App />);
+  });
+
+  it("renders the Router component", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find("BrowserRouter")).toHaveLength(1);
+  });
+
+  it("renders the Layout component", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find("Layout")).toHaveLength(1);
+  });
+
+  it("renders the ClientRoutes component", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find("ClientRoutes")).toHaveLength(1);
+  });
 });
