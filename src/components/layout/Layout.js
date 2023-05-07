@@ -3,6 +3,7 @@ import SideMenu from "./SideMenu/SideMenu";
 import { styled } from "@mui/system";
 import { Drawer, Grid, Paper } from "@mui/material";
 import { MENU_WIDTH, MENU_WIDTH_COLLAPSED } from "./SideMenu/Menu/Menu";
+import MenuContext from "../../store/menu-context";
 
 const Layout = ({ children }) => {
   const [menuCollapsed, setMenuCollapsed] = useState(false);
@@ -34,15 +35,22 @@ const Layout = ({ children }) => {
 
   return (
     <StyledRoot>
-      <StyledDrawer variant="permanent" open={true}>
-        <StyledDrawerPaper>
-          <SideMenu
-            onMenuToggle={menuToggleHandler}
-            isMenuCollapsed={menuCollapsed}
-          />
-        </StyledDrawerPaper>
-      </StyledDrawer>
-      <StyledContent container>{children}</StyledContent>
+      <MenuContext.Provider
+        value={{
+          isMenuCollapsed: menuCollapsed,
+          onMenuToggle: menuToggleHandler,
+        }}
+      >
+        <StyledDrawer variant="permanent" open={true}>
+          <StyledDrawerPaper>
+            <SideMenu
+              onMenuToggle={menuToggleHandler}
+              isMenuCollapsed={menuCollapsed}
+            />
+          </StyledDrawerPaper>
+        </StyledDrawer>
+        <StyledContent container>{children}</StyledContent>
+      </MenuContext.Provider>
     </StyledRoot>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -6,13 +6,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "./Menu/Menu";
 import IconLogo from "../../UI/IconLogo";
 import { Box } from "@mui/material";
+import MenuContext from "../../../store/menu-context";
 
 const SideMenu = (props) => {
-  const [isMenuShown, setMenuShown] = useState(true);
-  const iconsOnly = props.isMenuCollapsed;
+  const menuCtx = useContext(MenuContext);
 
   function handleMenuClick() {
-    props.onMenuToggle(!iconsOnly);
+    menuCtx.onMenuToggle();
   }
 
   return (
@@ -28,11 +28,11 @@ const SideMenu = (props) => {
             <IconButton
               title="menu"
               onClick={() => handleMenuClick()}
-              style={iconsOnly ? { width: "100%" } : {}}
+              style={menuCtx.isMenuCollapsed ? { width: "100%" } : {}}
             >
               <MenuIcon />
             </IconButton>
-            {!iconsOnly && (
+            {!menuCtx.isMenuCollapsed && (
               <Box p={4}>
                 <IconLogo />
               </Box>
@@ -41,10 +41,7 @@ const SideMenu = (props) => {
         </Grid>
         <Grid item>{props.children}</Grid>
       </Grid>
-
-      {isMenuShown && (
-        <Menu onClose={() => setMenuShown(true)} iconsOnly={iconsOnly} />
-      )}
+      <Menu />
     </>
   );
 };
