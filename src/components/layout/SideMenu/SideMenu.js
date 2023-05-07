@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-
 import Menu from "./Menu/Menu";
 import IconLogo from "../../UI/IconLogo";
 import { Box } from "@mui/material";

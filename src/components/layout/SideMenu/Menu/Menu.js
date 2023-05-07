@@ -1,21 +1,14 @@
 import React, { useContext } from "react";
-import { styled } from "@mui/system";
 import HomeIcon from "@mui/icons-material/Home";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import MenuItem from "./MenuItem/MenuItem";
 import MenuContext from "../../../../store/menu-context";
-
-export const MENU_WIDTH = 232;
-export const MENU_WIDTH_COLLAPSED = 55;
+import { MenuContainer } from "./MenuStyled";
 
 const Menu = () => {
   const menuCtx = useContext(MenuContext);
 
   const iconsOnly = menuCtx.isMenuCollapsed;
-
-  const MenuContainer = styled("div")(() => ({
-    width: iconsOnly ? MENU_WIDTH_COLLAPSED : MENU_WIDTH,
-  }));
 
   const menu = (
     <>
@@ -34,7 +27,7 @@ const Menu = () => {
     </>
   );
 
-  return <MenuContainer>{menu}</MenuContainer>;
+  return <MenuContainer iconsOnly={iconsOnly}>{menu}</MenuContainer>;
 };
 
 export default Menu;
