@@ -16,6 +16,9 @@ A green marketing company is utilizing the treetracker platform to plant/maintai
 
 can be found in thie figma file https://www.figma.com/file/kXhFReuUVcqQonIgl59On3/Wallet-admin-module-UX?node-id=4%3A21&t=rLUiYOgkuHix3Z5B-1
 
+## User Stories
+https://docs.google.com/document/d/1IF4fe4_BC319aoBKBW5LV2pypyDTy4K8qe1qqHexQ1Y/
+
 ## Development Environment Setup
 
 ### Step 1: Install git
@@ -96,3 +99,4 @@ the corresponding channel #wallet-admin-client can be found in our slack communi
 ## Note
 
 Contributing to this project can sometimes involve a steep learning curve. Please do not give up and come and find us on slack to get support setting you up. This is a fun project with an amazing potential to disrupt untransparent practices and open reforestation to the digital world. 
+
