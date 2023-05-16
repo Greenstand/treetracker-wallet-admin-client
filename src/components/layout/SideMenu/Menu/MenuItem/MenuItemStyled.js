@@ -34,7 +34,7 @@ export const StyledListItemIcon = styled(ListItemIcon)({
   minWidth: 46,
 });
 
-export const StyledListItemText = styled(ListItemText)(({ theme }) => ({
+export const StyledListItemText = styled(ListItemText)(() => ({
   "& .MuiTypography-body1": {
     fontWeight: 700,
   },
