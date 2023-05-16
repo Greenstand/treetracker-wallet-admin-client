@@ -2,16 +2,16 @@ import { styled } from "@mui/system";
 import { Drawer, Grid, Paper } from "@mui/material";
 import { MENU_WIDTH, MENU_WIDTH_COLLAPSED } from "./SideMenu/Menu/MenuStyled";
 
-export const StyledRoot = styled("div")(({ theme }) => ({
+export const StyledRoot = styled("div")(() => ({
   display: "flex",
 }));
 
-export const StyledDrawer = styled(Drawer)(({ menuCollapsed, theme }) => ({
+export const StyledDrawer = styled(Drawer)(({ menuCollapsed }) => ({
   width: menuCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH,
   flexShrink: 0,
 }));
 
-export const StyledDrawerPaper = styled(Paper)(({ menuCollapsed, theme }) => ({
+export const StyledDrawerPaper = styled(Paper)(({ menuCollapsed }) => ({
   width: menuCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH,
   height: "100vh",
 }));
