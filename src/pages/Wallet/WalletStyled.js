@@ -17,15 +17,17 @@ export const SquareBoxTitle = styled(Typography)({
 export const InnerCircle = styled("div")({
   width: "13rem",
   height: "13rem",
-  backgroundColor: "green",
+  backgroundColor: "rgb(134, 194, 50)",
   borderRadius: "50%",
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
 });
 
 export const InnerText = styled(Typography)({
-  fontSize: 48,
+  fontSize: 36,
+  lineHeight: 1,
   fontWeight: "bold",
   color: "#FFF",
 });
