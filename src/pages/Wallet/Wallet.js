@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { CircularProgress, Container, Grid } from "@mui/material";
+import { Alert, CircularProgress, Grid } from "@mui/material";
 import WalletInfoBlock from "./WalletInfoBlock/WalletInfoBlock";
 import apiClient from "../../utils/apiClient";
+import { ContentContainer, ContentGrid, LoaderGrid } from "./WalletStyled";
 
 const mapWallet = (walletData) => {
   return {
@@ -13,7 +14,9 @@ const mapWallet = (walletData) => {
 };
 
 const Wallet = () => {
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const defaultWallet = {
     id: "",
@@ -25,7 +28,7 @@ const Wallet = () => {
   const [wallet, setWallet] = useState(defaultWallet);
 
   useEffect(() => {
-    setLoading(true);
+    setIsLoading(true);
 
     // TODO: get wallet id by decoding the token. We get the token after login, which is not implemented yet.
     apiClient
@@ -36,71 +39,53 @@ const Wallet = () => {
       })
       .catch((error) => {
         console.error(error);
+        setIsError(true);
+        setErrorMessage("An error occurred while fetching wallet data.");
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
-      <Grid
-        sx={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <LoaderGrid>
         <CircularProgress />
-      </Grid>
+      </LoaderGrid>
     );
   }
 
   return (
-    <Grid
-      sx={{
-        width: "100%",
-      }}
-    >
+    <Grid>
       <div>
         <header style={{ height: "10vh" }}>Wallet</header>
       </div>
-      <Container
-        maxWidth="false"
-        sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          height: "calc(100% - 10vh)",
-          "@media (max-width: 480px)": {
-            height: "100%",
-          },
-        }}
-      >
-        <Grid
-          sx={{
-            display: "grid",
-            // update when more blocks are added
-            gridTemplateColumns: "repeat(1, 20rem)",
-            gridTemplateRows: "repeat(1, 20rem)",
-            gridGap: "2rem",
-            color: "#444",
-            "@media (max-width: 768px)": {
-              gridTemplateColumns: "repeat(2, 20rem)",
-              gridTemplateRows: "repeat(1, 20rem)",
-            },
-            "@media (max-width: 480px)": {
-              gridTemplateColumns: "repeat(1, 20rem)",
-              gridTemplateRows: "repeat(1, 20rem)",
-            },
-          }}
-        >
+      {isError && (
+        <div style={{ display: "inline-block", minWidth: "35%" }}>
+          <Alert severity="error" onClose={() => setIsError(false)}>
+            {errorMessage}
+          </Alert>
+        </div>
+      )}
+      <ContentContainer maxWidth="false">
+        <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}
             innerNumber={wallet.tokensInWallet}
             innerText="tokens"
           />
-        </Grid>
-      </Container>
+          <WalletInfoBlock
+            title={`Wallet ${wallet.name}`}
+            innerNumber={wallet.tokensInWallet}
+            innerText="tokens"
+          />
+          <WalletInfoBlock
+            title={`Wallet ${wallet.name}`}
+            innerNumber={wallet.tokensInWallet}
+            innerText="tokens"
+          />
+        </ContentGrid>
+      </ContentContainer>
     </Grid>
   );
 };

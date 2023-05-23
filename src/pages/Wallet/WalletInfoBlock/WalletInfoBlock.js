@@ -4,10 +4,10 @@ import {
   InnerText,
   SquareBox,
   SquareBoxTitle,
-} from "../WalletStyled";
+} from "./WalletInfoBlockStyled";
 
 const WalletInfoBlock = (props) => {
-  const { title, innerNumber, innerText, listData } = props;
+  const { title, innerNumber, innerText } = props;
 
   return (
     <SquareBox className="box" elevation={3}>

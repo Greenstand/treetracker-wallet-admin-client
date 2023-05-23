@@ -1,33 +1,37 @@
 import styled from "@emotion/styled";
-import { Paper, Typography } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 
-export const SquareBox = styled(Paper)({
-  position: "relative",
+export const LoaderGrid = styled(Grid)({
+  width: "100%",
   display: "flex",
-  justifyContent: "center",
   alignItems: "center",
+  justifyContent: "center",
 });
 
-export const SquareBoxTitle = styled(Typography)({
-  position: "absolute",
-  top: "1rem",
-  left: "1rem",
-});
-
-export const InnerCircle = styled("div")({
-  width: "13rem",
-  height: "13rem",
-  backgroundColor: "rgb(134, 194, 50)",
-  borderRadius: "50%",
+export const ContentContainer = styled(Container)({
   display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
+  alignItems: "flex-start",
+  justifyContent: "space-between",
+  height: "calc(100% - 10vh)",
+  "@media (max-width: 480px)": {
+    height: "100%",
+  },
+  maxWidth: "false",
 });
 
-export const InnerText = styled(Typography)({
-  fontSize: 36,
-  lineHeight: 1,
-  fontWeight: "bold",
-  color: "#FFF",
+export const ContentGrid = styled(Grid)({
+  display: "grid",
+  // update when more blocks are added
+  gridTemplateColumns: "repeat(3, 20rem)",
+  gridTemplateRows: "repeat(1, 20rem)",
+  gridGap: "2rem",
+  color: "#444",
+  "@media (max-width: 768px)": {
+    gridTemplateColumns: "repeat(2, 20rem)",
+    gridTemplateRows: "repeat(1, 20rem)",
+  },
+  "@media (max-width: 480px)": {
+    gridTemplateColumns: "repeat(1, 20rem)",
+    gridTemplateRows: "repeat(1, 20rem)",
+  },
 });
