@@ -74,16 +74,6 @@ const Wallet = () => {
             innerNumber={wallet.tokensInWallet}
             innerText="tokens"
           />
-          <WalletInfoBlock
-            title={`Wallet ${wallet.name}`}
-            innerNumber={wallet.tokensInWallet}
-            innerText="tokens"
-          />
-          <WalletInfoBlock
-            title={`Wallet ${wallet.name}`}
-            innerNumber={wallet.tokensInWallet}
-            innerText="tokens"
-          />
         </ContentGrid>
       </ContentContainer>
     </Grid>

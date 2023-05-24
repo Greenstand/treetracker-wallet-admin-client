@@ -21,7 +21,7 @@ export const ContentContainer = styled(Container)({
 export const ContentGrid = styled(Grid)({
   display: "grid",
   // update when more blocks are added
-  gridTemplateColumns: "repeat(3, 20rem)",
+  gridTemplateColumns: "repeat(1, 20rem)",
   gridTemplateRows: "repeat(1, 20rem)",
   gridGap: "2rem",
   color: "#444",
