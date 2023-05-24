@@ -27,3 +27,5 @@ package-lock.json
 src/components/layout/SideMenu/__snapshots__/
 
 src/components/layout/SideMenu/Menu/__snapshots__/
+
+*.snap
