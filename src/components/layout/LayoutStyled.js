@@ -22,4 +22,5 @@ export const StyledContent = styled(Grid)(({ theme }) => ({
   backgroundColor: "rgb(239, 239, 239)",
   minHeight: "100vh",
   height: "100%",
+  width: "unset",
 }));

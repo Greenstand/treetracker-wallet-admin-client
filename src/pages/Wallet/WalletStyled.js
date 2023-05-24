@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { Container, Grid } from "@mui/material";
 
 export const LoaderGrid = styled(Grid)({
-  width: "100%",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
