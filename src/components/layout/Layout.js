@@ -26,9 +26,9 @@ const Layout = ({ children }) => {
         <StyledDrawer
           variant="permanent"
           open={true}
-          menuCollapsed={menuCollapsed}
+          menucollapsed={menuCollapsed ? 1 : 0}
         >
-          <StyledDrawerPaper menuCollapsed={menuCollapsed}>
+          <StyledDrawerPaper menucollapsed={menuCollapsed ? 1 : 0}>
             <SideMenu
               onMenuToggle={menuToggleHandler}
               isMenuCollapsed={menuCollapsed}

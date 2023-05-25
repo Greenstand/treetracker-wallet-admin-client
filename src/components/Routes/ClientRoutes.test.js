@@ -4,9 +4,23 @@ import { MemoryRouter } from "react-router-dom";
 import ClientRoutes from "./ClientRoutes";
 import Wallet from "../../pages/Wallet/Wallet";
 import TransferStatus from "../../pages/TransferStatus/TransferStatus";
+import apiClient from "../../utils/apiClient";
+
+jest.mock("../../utils/apiClient", () => ({
+  get: jest.fn(),
+}));
 
 describe("ClientRoutes component", () => {
   it("should render Wallet component when on '/' route", () => {
+    apiClient.get.mockResolvedValueOnce({
+      data: {
+        id: "9d6c674f-ae62-4fab-8d14-ae5de9f14ab8",
+        logo_url: "https://example.com/logo.png",
+        tokens_in_wallet: 100,
+        wallet: "test wallet",
+      },
+    });
+
     const wrapper = mount(
       <MemoryRouter initialEntries={["/"]}>
         <ClientRoutes />
