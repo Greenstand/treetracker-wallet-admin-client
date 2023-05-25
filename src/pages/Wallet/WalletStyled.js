@@ -5,6 +5,7 @@ export const LoaderGrid = styled(Grid)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  width: "100%",
 });
 
 export const ContentContainer = styled(Container)({

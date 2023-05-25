@@ -4,7 +4,8 @@ import App from "./App";
 
 describe("App component", () => {
   it("renders without crashing", () => {
-    shallow(<App />);
+    const wrapper = shallow(<App />);
+    expect(wrapper.exists()).toBe(true);
   });
 
   it("renders the Router component", () => {
