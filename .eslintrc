@@ -1,0 +1,39 @@
+{
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "requireConfigFile" : false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    },
+  },
+  "plugins": [
+    "react",
+    "jest"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jest/recommended"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect",
+      "runtime": "automatic"
+    }
+  },
+  "env": {
+    "jest/globals": true,
+    "browser": true,
+    "node": true,
+    "es6": true
+  }
+}
