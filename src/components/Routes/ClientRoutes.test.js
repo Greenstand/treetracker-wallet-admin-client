@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import ClientRoutes from "./ClientRoutes";
 import Wallet from "../../pages/Wallet/Wallet";
 import TransferStatus from "../../pages/TransferStatus/TransferStatus";
+import NotFound from "../../pages/NotFound/NotFound";
 import apiClient from "../../utils/apiClient";
 
 jest.mock("../../utils/apiClient", () => ({
@@ -38,5 +39,15 @@ describe("ClientRoutes component", () => {
     );
 
     expect(wrapper.find(TransferStatus)).toHaveLength(1);
+  });
+
+  it("should render NotFound component when on non-existent route", () => {
+    const wrapper = mount(
+      <MemoryRouter initialEntries={["/non-existent"]}>
+        <ClientRoutes />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find(NotFound)).toHaveLength(1);
   });
 });
