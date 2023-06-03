@@ -12,12 +12,12 @@ const NotFoundContainer = styled(Container)`
   align-items: center;
   justify-content: center;
   height: 100vh; // This makes it take up the full height of the viewport
-  background-color: #F0F0F0; // This could be a light color for a more modern look
+  background-color: #F0F0F0; 
 `;
 
 const LogoContainer = styled.div`
-  width: 100px; // Adjust size as needed
-  height: 100px; // Adjust size as needed
+  width: 100px; 
+  height: 100px; 
   margin-bottom: 20px;
   background-image: url(${Logo});
   background-size: contain;
@@ -26,13 +26,13 @@ const LogoContainer = styled.div`
 `;
 
 const NotFoundHeader = styled(Typography)`
-  font-size: 3rem; // Increase the font size
-  color: #333; // A dark color for contrast
+  font-size: 3rem; 
+  color: #333; 
 `;
 
 const NotFoundText = styled(Typography)`
-  font-size: 1.5rem; // Increase the font size
-  color: #666; // A medium-dark color for readability
+  font-size: 1.5rem; 
+  color: #666;
 `;
 
 const NotFound = () => (
