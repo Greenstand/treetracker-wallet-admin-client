@@ -44,6 +44,9 @@ const Wallet = () => {
       })
       .finally(() => {
         setIsLoading(false);
+
+        setIsError(true);
+        setErrorMessage("An error occurred while fetching wallet data.");
       });
   }, []);
 
@@ -55,11 +58,14 @@ const Wallet = () => {
     );
   }
 
+  
+
   return (
     <Grid>
       <div>
         <header style={{ height: "10vh" }}>Wallet</header>
       </div>
+      {/* TODO: move this to a separate component */}
       {isError && (
         <div style={{ display: "inline-block", minWidth: "35%" }}>
           <Alert severity="error" onClose={() => setIsError(false)}>
