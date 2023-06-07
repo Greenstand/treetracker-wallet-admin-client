@@ -1,44 +1,27 @@
-import React, { useState } from "react";
-import SideMenu from "./SideMenu/SideMenu";
-import MenuContext from "../../store/menu-context";
-import {
-  StyledContent,
-  StyledDrawer,
-  StyledDrawerPaper,
-  StyledRoot,
-} from "./LayoutStyled";
+import Box from '@mui/material/Box';
+import * as React from 'react';
+import { StyledContent } from './LayoutStyled';
+import Menu from './Menu/Menu';
 
-const Layout = ({ children }) => {
-  const [menuCollapsed, setMenuCollapsed] = useState(false);
+export default function Layout({ children }) {
+	const [open, setOpen] = React.useState(false);
 
-  const menuToggleHandler = () => {
-    setMenuCollapsed((value) => !value);
-  };
+	const handleDrawerClose = () => {
+		setOpen(false);
+	};
 
-  return (
-    <StyledRoot>
-      <MenuContext.Provider
-        value={{
-          isMenuCollapsed: menuCollapsed,
-          onMenuToggle: menuToggleHandler,
-        }}
-      >
-        <StyledDrawer
-          variant="permanent"
-          open={true}
-          menucollapsed={menuCollapsed ? 1 : 0}
-        >
-          <StyledDrawerPaper menucollapsed={menuCollapsed ? 1 : 0}>
-            <SideMenu
-              onMenuToggle={menuToggleHandler}
-              isMenuCollapsed={menuCollapsed}
-            />
-          </StyledDrawerPaper>
-        </StyledDrawer>
-        <StyledContent container>{children}</StyledContent>
-      </MenuContext.Provider>
-    </StyledRoot>
-  );
-};
-
-export default Layout;
+	return (
+		<Box sx={{ display: 'flex' }}>
+			<Menu
+				open={open}
+				setOpen={setOpen}
+				handleDrawerClose={handleDrawerClose}
+			/>
+			<StyledContent
+				container
+				onClick={handleDrawerClose}>
+				{children}
+			</StyledContent>
+		</Box>
+	);
+}
