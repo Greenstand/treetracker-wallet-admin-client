@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@mui/material';
+import { Typography, useMediaQuery } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import MuiDrawer from '@mui/material/Drawer';
 import { styled } from '@mui/system';
@@ -80,4 +80,11 @@ const DrawerStyled = styled(MuiDrawer, {
 	}),
 }));
 
-export { AppBarStyled, DrawerHeaderStyled, DrawerStyled };
+const LogoStyled = styled(Typography)(({ theme }) => ({
+	'@media(max-width: 480px)': {
+		margin: 'auto',
+		paddingRight: `calc(${theme.spacing(8)} + 1px)`,
+	},
+}));
+
+export { AppBarStyled, DrawerHeaderStyled, DrawerStyled, LogoStyled };

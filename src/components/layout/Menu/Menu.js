@@ -4,11 +4,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import IconLogo from '../../UI/IconLogo';
 import MenuItem from './MenuItem/MenuItem';
-import { AppBarStyled, DrawerHeaderStyled, DrawerStyled } from './MenuStyled';
+import {
+	AppBarStyled,
+	DrawerHeaderStyled,
+	DrawerStyled,
+	LogoStyled,
+} from './MenuStyled';
 
 export default function Menu({ open, setOpen, handleDrawerClose }) {
 	const theme = useTheme();
@@ -34,12 +38,12 @@ export default function Menu({ open, setOpen, handleDrawerClose }) {
 						}}>
 						<MenuIcon />
 					</IconButton>
-					<Typography
+					<LogoStyled
 						variant="h6"
 						noWrap
 						component="div">
 						<IconLogo />
-					</Typography>
+					</LogoStyled>
 				</Toolbar>
 			</AppBarStyled>
 			<DrawerStyled
