@@ -22,7 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-package-lock.json
 
 src/components/layout/SideMenu/__snapshots__/
 
