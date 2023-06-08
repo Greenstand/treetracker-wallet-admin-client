@@ -11,6 +11,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "npm": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
@@ -21,6 +22,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:dev": "env-cmd -f .env.development npm run build && mv build build-dev",
+    "build:test": "env-cmd -f .env.test npm run build",
+    "build:staging": "env-cmd -f .env.staging npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
@@ -55,5 +59,8 @@
     "eslint": "^8.40.0",
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-react": "^7.32.2"
+  },
+  "engines": {
+    "node": ">= 18 < 19"
   }
 }
