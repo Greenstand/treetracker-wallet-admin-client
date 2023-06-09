@@ -5,6 +5,7 @@ import TransferStatus from "../../pages/TransferStatus/TransferStatus";
 import Login from "../../pages/Login/Login";
 import Layout from "../layout/Layout";
 import AuthContext from "../../store/auth-context";
+import NotFound from "../../pages/NotFound/NotFound";
 
 const ProtectedRoute = ({ isLoggedIn, redirectPath = "/login" }) => {
   if (!isLoggedIn) {
@@ -38,8 +39,7 @@ const ClientRoutes = () => {
         />
       </Route>
       <Route path="login" element={<Login />} />
-      {/* TODO: create a 404 page */}
-      <Route path="*" element={<p>There is nothing here: 404!</p>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

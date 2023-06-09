@@ -44,9 +44,6 @@ const Wallet = () => {
       })
       .finally(() => {
         setIsLoading(false);
-
-        setIsError(true);
-        setErrorMessage("An error occurred while fetching wallet data.");
       });
   }, []);
 
@@ -57,8 +54,6 @@ const Wallet = () => {
       </LoaderGrid>
     );
   }
-
-  
 
   return (
     <Grid>
