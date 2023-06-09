@@ -1,21 +1,32 @@
 import Box from '@mui/material/Box';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { StyledContent } from './LayoutStyled';
 import Menu from './Menu/Menu';
 
-export default function Layout({ children }) {
-	const [open, setOpen] = React.useState(false);
+const Layout = ({ children }) => {
+	const [open, setOpen] = useState(false);
+
+	const handleDrawerOpen = () => {
+		setOpen(true);
+	};
 
 	const handleDrawerClose = () => {
 		setOpen(false);
 	};
 
+	let location = useLocation();
+
+	useEffect(() => {
+		handleDrawerClose();
+	}, [location]);
+
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<Menu
 				open={open}
-				setOpen={setOpen}
 				handleDrawerClose={handleDrawerClose}
+				handleDrawerOpen={handleDrawerOpen}
 			/>
 			<StyledContent
 				container
@@ -24,4 +35,6 @@ export default function Layout({ children }) {
 			</StyledContent>
 		</Box>
 	);
-}
+};
+
+export default Layout;

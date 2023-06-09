@@ -1,13 +1,8 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import Layout from './Layout';
-import {
-	StyledContent,
-	StyledDrawer,
-	StyledDrawerPaper,
-	StyledRoot,
-} from './LayoutStyled';
-import SideMenu from './SideMenu/SideMenu';
+import { StyledContent } from './LayoutStyled';
+import Menu from './Menu/Menu';
 
 describe('Layout component', () => {
 	let wrapper;
@@ -24,20 +19,8 @@ describe('Layout component', () => {
 		expect(wrapper).toBeTruthy();
 	});
 
-	it('should render SideMenu component', () => {
-		expect(wrapper.find(SideMenu)).toHaveLength(1);
-	});
-
-	it('should render StyledRoot component', () => {
-		expect(wrapper.find(StyledRoot)).toHaveLength(1);
-	});
-
-	it('should render StyledDrawer component', () => {
-		expect(wrapper.find(StyledDrawer)).toHaveLength(1);
-	});
-
-	it('should render StyledDrawerPaper component', () => {
-		expect(wrapper.find(StyledDrawerPaper)).toHaveLength(1);
+	it('should render Menu component', () => {
+		expect(wrapper.find(Menu)).toHaveLength(1);
 	});
 
 	it('should render StyledContent component', () => {

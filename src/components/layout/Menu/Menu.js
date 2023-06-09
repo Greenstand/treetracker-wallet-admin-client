@@ -14,12 +14,8 @@ import {
 	LogoStyled,
 } from './MenuStyled';
 
-export default function Menu({ open, setOpen, handleDrawerClose }) {
+const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
 	const theme = useTheme();
-
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
 
 	return (
 		<>
@@ -62,4 +58,6 @@ export default function Menu({ open, setOpen, handleDrawerClose }) {
 			</DrawerStyled>
 		</>
 	);
-}
+};
+
+export default Menu;

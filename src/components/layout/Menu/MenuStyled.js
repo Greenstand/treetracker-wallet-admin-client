@@ -1,20 +1,16 @@
-import { Typography, useMediaQuery } from '@mui/material';
+import { Typography } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import MuiDrawer from '@mui/material/Drawer';
 import { styled } from '@mui/system';
 
-// let drawerWidth;
-
-const drawerWidth = () => {
-	const isSm = useMediaQuery('(max-width:480px)');
-	if (isSm) {
-		return 140;
-	}
-	return 240;
-};
+const drawerWidth = 240;
+const mobileDrawerWidth = 140;
 
 const openedMixin = (theme) => ({
-	width: drawerWidth(),
+	width: mobileDrawerWidth,
+	[theme.breakpoints.up('sm')]: {
+		width: drawerWidth,
+	},
 	transition: theme.transitions.create('width', {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.enteringScreen,
@@ -54,8 +50,12 @@ const AppBarStyled = styled(MuiAppBar, {
 		duration: theme.transitions.duration.leavingScreen,
 	}),
 	...(open && {
-		marginLeft: drawerWidth(),
-		width: `calc(100% - ${drawerWidth()}px)`,
+		[theme.breakpoints.up('sm')]: {
+			marginLeft: drawerWidth,
+			width: `calc(100% - ${drawerWidth}px)`,
+		},
+		marginLeft: mobileDrawerWidth,
+		width: `calc(100% - ${mobileDrawerWidth}px)`,
 		transition: theme.transitions.create(['width', 'margin'], {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
@@ -66,7 +66,10 @@ const AppBarStyled = styled(MuiAppBar, {
 const DrawerStyled = styled(MuiDrawer, {
 	shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
-	width: drawerWidth,
+	width: mobileDrawerWidth,
+	[theme.breakpoints.up('sm')]: {
+		width: drawerWidth,
+	},
 	flexShrink: 0,
 	whiteSpace: 'nowrap',
 	boxSizing: 'border-box',
@@ -83,7 +86,7 @@ const DrawerStyled = styled(MuiDrawer, {
 const LogoStyled = styled(Typography)(({ theme }) => ({
 	'@media(max-width: 480px)': {
 		margin: 'auto',
-		paddingRight: `calc(${theme.spacing(8)} + 1px)`,
+		paddingRight: `calc(${theme.spacing(7)} + 1px)`,
 	},
 }));
 
