@@ -10,7 +10,7 @@ import * as React from 'react';
 export default function MenuItem({ open }) {
 	return (
 		<List>
-			{['Home', 'Transfer Status'].map((text, index) => (
+			{['Home', 'Send Tokens'].map((text, index) => (
 				<ListItem
 					key={text}
 					disablePadding
