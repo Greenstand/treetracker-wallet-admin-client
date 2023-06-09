@@ -6,15 +6,12 @@
     },
     "ecmaVersion": 2020,
     "sourceType": "module",
-    "requireConfigFile" : false,
+    "requireConfigFile": false,
     "babelOptions": {
       "presets": ["@babel/preset-react"]
-    },
+    }
   },
-  "plugins": [
-    "react",
-    "jest"
-  ],
+  "plugins": ["react", "jest"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",

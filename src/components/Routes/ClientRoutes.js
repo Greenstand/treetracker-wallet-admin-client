@@ -37,9 +37,16 @@ const ClientRoutes = () => {
             </Layout>
           }
         />
+        <Route
+          path="*"
+          element={
+            <Layout>
+              <NotFound />
+            </Layout>
+          }
+        />
       </Route>
       <Route path="login" element={<Login />} />
-      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
