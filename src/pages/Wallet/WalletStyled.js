@@ -12,10 +12,7 @@ export const ContentContainer = styled(Container)({
   display: 'flex',
   alignItems: 'flex-start',
   justifyContent: 'space-between',
-  height: 'calc(100% - 10vh)',
-  '@media (max-width: 480px)': {
-    height: '100%',
-  },
+  height: 'calc(100%-1)',
   maxWidth: 'false',
 });
 

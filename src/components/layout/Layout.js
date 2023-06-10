@@ -1,9 +1,9 @@
+import { useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { StyledContent } from './LayoutStyled';
 import Menu from './Menu/Menu';
-import { useMediaQuery } from '@mui/material';
 
 const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
