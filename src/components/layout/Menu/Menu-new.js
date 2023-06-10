@@ -8,58 +8,58 @@ import * as React from 'react';
 import IconLogo from '../../UI/IconLogo';
 import MenuItem from './MenuItem/MenuItem';
 import {
-	AppBarStyled,
-	DrawerHeaderStyled,
-	DrawerStyled,
-	LogoStyled,
+  AppBarStyled,
+  DrawerHeaderStyled,
+  DrawerStyled,
+  LogoStyled,
 } from './MenuStyled';
 
 const Menu = ({ handleDrawerOpen }) => {
-	// const theme = useTheme();
-	const open = true;
+  // const theme = useTheme();
+  const open = true;
 
-	return (
-		<>
-			<AppBarStyled
-				position="fixed"
-				open={open}>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
-						sx={{
-							marginRight: 5,
-							...(open && { display: 'none' }),
-						}}>
-						<MenuIcon />
-					</IconButton>
-					<LogoStyled
-						variant="h6"
-						noWrap
-						component="div">
-						<IconLogo />
-					</LogoStyled>
-				</Toolbar>
-			</AppBarStyled>
-			<DrawerStyled
-				variant="permanent"
-				open={open}>
-				<DrawerHeaderStyled>
-					{/* <IconButton onClick={handleDrawerClose}>
+  return (
+    <>
+      <AppBarStyled
+        position="fixed"
+        open={open}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}>
+            <MenuIcon />
+          </IconButton>
+          <LogoStyled
+            variant="h6"
+            noWrap
+            component="div">
+            <IconLogo />
+          </LogoStyled>
+        </Toolbar>
+      </AppBarStyled>
+      <DrawerStyled
+        variant="permanent"
+        open={open}>
+        <DrawerHeaderStyled>
+          {/* <IconButton onClick={handleDrawerClose}>
 						{theme.direction === 'rtl' ? (
 							<ChevronRightIcon />
 						) : (
 							<ChevronLeftIcon />
 						)}
 					</IconButton> */}
-					<IconLogo />
-				</DrawerHeaderStyled>
-				<MenuItem open={open} />
-			</DrawerStyled>
-		</>
-	);
+          <IconLogo />
+        </DrawerHeaderStyled>
+        <MenuItem open={open} />
+      </DrawerStyled>
+    </>
+  );
 };
 
 export default Menu;

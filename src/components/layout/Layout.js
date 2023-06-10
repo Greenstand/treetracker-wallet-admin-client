@@ -5,36 +5,36 @@ import { StyledContent } from './LayoutStyled';
 import Menu from './Menu/Menu';
 
 const Layout = ({ children }) => {
-	const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-	const handleDrawerClose = () => {
-		setOpen(false);
-	};
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
-	let location = useLocation();
+  let location = useLocation();
 
-	useEffect(() => {
-		handleDrawerClose();
-	}, [location]);
+  useEffect(() => {
+    handleDrawerClose();
+  }, [location]);
 
-	return (
-		<Box sx={{ display: 'flex' }}>
-			<Menu
-				open={open}
-				handleDrawerClose={handleDrawerClose}
-				handleDrawerOpen={handleDrawerOpen}
-			/>
-			<StyledContent
-				container
-				onClick={handleDrawerClose}>
-				{children}
-			</StyledContent>
-		</Box>
-	);
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <Menu
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+        handleDrawerOpen={handleDrawerOpen}
+      />
+      <StyledContent
+        container
+        onClick={handleDrawerClose}>
+        {children}
+      </StyledContent>
+    </Box>
+  );
 };
 
 export default Layout;
