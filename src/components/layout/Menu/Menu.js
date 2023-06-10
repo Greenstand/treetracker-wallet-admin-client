@@ -19,9 +19,7 @@ const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
 
   return (
     <>
-      <AppBarStyled
-        position="fixed"
-        open={open}>
+      <AppBarStyled position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -34,17 +32,12 @@ const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             }}>
             <MenuIcon />
           </IconButton>
-          <LogoStyled
-            variant="h6"
-            noWrap
-            component="div">
+          <LogoStyled variant="h6" noWrap component="div">
             <IconLogo />
           </LogoStyled>
         </Toolbar>
       </AppBarStyled>
-      <DrawerStyled
-        variant="permanent"
-        open={open}>
+      <DrawerStyled variant="permanent" open={open}>
         <DrawerHeaderStyled>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? (

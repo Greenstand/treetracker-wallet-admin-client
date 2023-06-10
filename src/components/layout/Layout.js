@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { StyledContent } from './LayoutStyled';
 import Menu from './Menu/Menu';
+import { useMediaQuery } from '@mui/material';
 
 const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -11,14 +12,28 @@ const Layout = ({ children }) => {
     setOpen(true);
   };
 
+  const mobile = useMediaQuery('(max-width:480px');
+
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleDrawerCloseAuto = () => {
+    if (mobile) {
+      setOpen(false);
+    }
+  };
+  const handleResponsiveDrawerClose = () => {
+    if (mobile) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
   };
 
   let location = useLocation();
 
   useEffect(() => {
-    handleDrawerClose();
+    handleResponsiveDrawerClose();
   }, [location]);
 
   return (
@@ -28,9 +43,7 @@ const Layout = ({ children }) => {
         handleDrawerClose={handleDrawerClose}
         handleDrawerOpen={handleDrawerOpen}
       />
-      <StyledContent
-        container
-        onClick={handleDrawerClose}>
+      <StyledContent container onClick={handleDrawerCloseAuto}>
         {children}
       </StyledContent>
     </Box>
