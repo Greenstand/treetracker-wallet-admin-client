@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import { Alert, CircularProgress, Grid } from '@mui/material';
-import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
+import React, { useEffect, useState } from 'react';
 import apiClient from '../../utils/apiClient';
+import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
 import { ContentContainer, ContentGrid, LoaderGrid } from './WalletStyled';
-
+//
 const mapWallet = (walletData) => {
 	return {
 		id: walletData.id,
