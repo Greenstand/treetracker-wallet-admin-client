@@ -1,8 +1,9 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Wallet from "../../pages/Wallet/Wallet";
+import TransferStatus from "../../pages/TransferStatus/TransferStatus";
 import SendTokens from '../../pages/SendTokens/SendTokens';
-import TransferStatus from '../../pages/TransferStatus/TransferStatus';
-import Wallet from '../../pages/Wallet/Wallet';
+import NotFound from "../../pages/NotFound/NotFound";
 
 const ClientRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const ClientRoutes = () => {
         exact
         element={<SendTokens />}
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

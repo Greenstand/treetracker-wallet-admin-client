@@ -1,13 +1,14 @@
-import { mount } from 'enzyme';
-import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import React from "react";
+import { mount } from "enzyme";
+import { MemoryRouter } from "react-router-dom";
+import ClientRoutes from "./ClientRoutes";
+import Wallet from "../../pages/Wallet/Wallet";
 import SendTokens from '../../pages/SendTokens/SendTokens';
-import TransferStatus from '../../pages/TransferStatus/TransferStatus';
-import Wallet from '../../pages/Wallet/Wallet';
-import apiClient from '../../utils/apiClient';
-import ClientRoutes from './ClientRoutes';
+import TransferStatus from "../../pages/TransferStatus/TransferStatus";
+import NotFound from "../../pages/NotFound/NotFound";
+import apiClient from "../../utils/apiClient";
 
-jest.mock('../../utils/apiClient', () => ({
+jest.mock("../../utils/apiClient", () => ({
   get: jest.fn(),
 }));
 
@@ -49,5 +50,15 @@ describe('ClientRoutes component', () => {
     );
 
     expect(wrapper.find(SendTokens)).toHaveLength(1);
+  });
+
+  it("should render NotFound component when on non-existent route", () => {
+    const wrapper = mount(
+      <MemoryRouter initialEntries={["/non-existent"]}>
+        <ClientRoutes />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find(NotFound)).toHaveLength(1);
   });
 });
