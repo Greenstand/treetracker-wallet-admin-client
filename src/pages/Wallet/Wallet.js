@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Alert, CircularProgress, Grid } from "@mui/material";
-import WalletInfoBlock from "./WalletInfoBlock/WalletInfoBlock";
-import apiClient from "../../utils/apiClient";
-import { ContentContainer, ContentGrid, LoaderGrid } from "./WalletStyled";
+import { Alert, CircularProgress, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import apiClient from '../../utils/apiClient';
+import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
+import { ContentContainer, ContentGrid, LoaderGrid } from './WalletStyled';
 
 const mapWallet = (walletData) => {
   return {
@@ -16,13 +16,13 @@ const mapWallet = (walletData) => {
 const Wallet = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
   const defaultWallet = {
-    id: "",
-    logoURL: "",
+    id: '',
+    logoURL: '',
     tokensInWallet: 0,
-    name: "",
+    name: '',
   };
 
   const [wallet, setWallet] = useState(defaultWallet);
@@ -32,7 +32,7 @@ const Wallet = () => {
 
     // TODO: get wallet id by decoding the token. We get the token after login, which is not implemented yet.
     apiClient
-      .get("/wallets/9d6c674f-ae62-4fab-8d14-ae5de9f14ab8")
+      .get('/wallets/9d6c674f-ae62-4fab-8d14-ae5de9f14ab8')
       .then((response) => {
         const wallet = mapWallet(response.data);
         setWallet(wallet);
@@ -40,7 +40,7 @@ const Wallet = () => {
       .catch((error) => {
         console.error(error);
         setIsError(true);
-        setErrorMessage("An error occurred while fetching wallet data.");
+        setErrorMessage('An error occurred while fetching wallet data.');
       })
       .finally(() => {
         setIsLoading(false);
@@ -58,11 +58,13 @@ const Wallet = () => {
   return (
     <Grid>
       <div>
-        <header style={{ height: "10vh" }}>Wallet</header>
+        <header style={{ marginTop: '9.4vh', height: '10vh' }}>Wallet</header>
       </div>
       {isError && (
-        <div style={{ display: "inline-block", minWidth: "35%" }}>
-          <Alert severity="error" onClose={() => setIsError(false)}>
+        <div style={{ display: 'inline-block', minWidth: '35%' }}>
+          <Alert
+            severity="error"
+            onClose={() => setIsError(false)}>
             {errorMessage}
           </Alert>
         </div>
