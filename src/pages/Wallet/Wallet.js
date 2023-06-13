@@ -58,7 +58,14 @@ const Wallet = () => {
   return (
     <Grid>
       <div>
-        <header style={{ marginTop: '9.4vh', height: '10vh' }}>Wallet</header>
+        <header style={{ marginTop: '9.4vh', height: '10vh' }}>
+          <div>
+            <i className='fas fa-wallet'></i>
+          </div>
+          <div>
+            <h3 className="title">Name of Wallet</h3>
+            <h3 className="status-bar">Pending Transfer = -4</h3>
+          </div></header>
       </div>
       {isError && (
         <div style={{ display: 'inline-block', minWidth: '35%' }}>
