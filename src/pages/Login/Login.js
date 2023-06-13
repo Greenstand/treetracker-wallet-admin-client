@@ -18,34 +18,50 @@ import {
 import AuthContext from "../../store/auth-context";
 import apiClient from "../../utils/apiClient";
 import IconLogo from "../../components/UI/IconLogo";
+import { validatePassword, validateWallet } from "./login.validator";
 
 const LOGIN_API = `${process.env.REACT_APP_WALLET_API_ROOT}/auth`;
 
 const Login = () => {
   const [wallet, setWallet] = useState("");
   const [password, setPassword] = useState("");
-  const [walletBlurred, setWalletBlurred] = useState(false);
-  const [passwordBlurred, setPasswordBlurred] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isRemember, setRemember] = useState(true);
+  const [walletError, setWalletError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const authContext = useContext(AuthContext);
 
-  const isWalletBlank = () => walletBlurred && wallet === "";
-  const isPasswordBlank = () => passwordBlurred && password === "";
+  const handleWalletBlur = (value) =>
+    value ? validateWalletInput(wallet) : setWalletError("");
 
-  const handleWalletBlur = (value) => setWalletBlurred(value);
-  const handlePasswordBlur = (value) => setPasswordBlurred(value);
-  const handleWalletChange = (event) => setWallet(event.target.value);
-  const handlePasswordChange = (event) => setPassword(event.target.value);
+  const handlePasswordBlur = (value) =>
+    value ? validatePasswordInput(password) : setPasswordError("");
+
+  const validateWalletInput = (value) => {
+    const error = validateWallet(value);
+    setWalletError(error);
+  };
+
+  const validatePasswordInput = (value) => {
+    const error = validatePassword(value);
+    setPasswordError(error);
+  };
+
+  const handleWalletChange = (event) => {
+    setWallet(event.target.value);
+    validateWalletInput(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    validatePasswordInput(event.target.value);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    setWalletBlurred(true);
-    setPasswordBlurred(true);
 
     if (wallet && password) {
       login();
@@ -85,9 +101,18 @@ const Login = () => {
     <StyledContainer component="main" maxWidth="xs">
       <CssBaseline />
       <div>
-        <IconLogo />
-        <Box m={2} />
-        <Typography variant="h2">Admin Panel</Typography>
+        {/* TODO: move styles */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <IconLogo />
+          <Box m={2} />
+          <Typography variant="h2">Admin Panel</Typography>
+        </div>
         <StyledForm onSubmit={handleSubmit} noValidate>
           <TextField
             variant="outlined"
@@ -100,8 +125,8 @@ const Login = () => {
             autoComplete="wallet"
             onFocus={() => handleWalletBlur(false)}
             onBlur={() => handleWalletBlur(true)}
-            helperText={isWalletBlank() ? "Wallet is required" : ""}
-            error={isWalletBlank()}
+            helperText={walletError}
+            error={!!walletError}
             onChange={handleWalletChange}
             value={wallet}
           />
@@ -117,8 +142,8 @@ const Login = () => {
             autoComplete="current-password"
             onFocus={() => handlePasswordBlur(false)}
             onBlur={() => handlePasswordBlur(true)}
-            helperText={isPasswordBlank() ? "Password is required" : ""}
-            error={isPasswordBlank()}
+            helperText={passwordError}
+            error={!!passwordError}
             onChange={handlePasswordChange}
             value={password}
           />
