@@ -5,9 +5,12 @@ import {
   CssBaseline,
   FormControlLabel,
   Grid,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
+
 import React, { useContext, useState } from "react";
 import {
   StyledButton,
@@ -19,6 +22,7 @@ import AuthContext from "../../store/auth-context";
 import apiClient from "../../utils/apiClient";
 import IconLogo from "../../components/UI/IconLogo";
 import { validatePassword, validateWallet } from "./login.validator";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LOGIN_API = `${process.env.REACT_APP_WALLET_API_ROOT}/auth`;
 
@@ -30,6 +34,7 @@ const Login = () => {
   const [isRemember, setRemember] = useState(true);
   const [walletError, setWalletError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const authContext = useContext(AuthContext);
 
@@ -111,7 +116,7 @@ const Login = () => {
         >
           <IconLogo />
           <Box m={2} />
-          <Typography variant="h2">Admin Panel</Typography>
+          <Typography variant="h2">Wallet Admin Panel</Typography>
         </div>
         <StyledForm onSubmit={handleSubmit} noValidate>
           <TextField
@@ -137,7 +142,7 @@ const Login = () => {
             fullWidth
             name="password"
             label="Password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             autoComplete="current-password"
             onFocus={() => handlePasswordBlur(false)}
@@ -146,6 +151,18 @@ const Login = () => {
             error={!!passwordError}
             onChange={handlePasswordChange}
             value={password}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    onMouseDown={(event) => event.preventDefault()}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Grid container justifyContent="space-between">
             <Grid item>

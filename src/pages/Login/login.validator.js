@@ -13,8 +13,8 @@ const validatePassword = (value) => {
     return "Password cannot be empty.";
   }
 
-  return value.length > 150
-    ? "Password cannot contain more than 150 characters."
+  return value.length > 50
+    ? "Password cannot contain more than 50 characters."
     : "";
 };
 
