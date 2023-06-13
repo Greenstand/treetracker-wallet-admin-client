@@ -1,7 +1,7 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import Wallet from "./Wallet";
+import React from "react";
 import apiClient from "../../utils/apiClient";
+import Wallet from "./Wallet";
 
 jest.mock("../../utils/apiClient", () => ({
   get: jest.fn(),

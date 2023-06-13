@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
 import { Alert, CircularProgress, Grid } from "@mui/material";
-import WalletInfoBlock from "./WalletInfoBlock/WalletInfoBlock";
+import React, { useEffect, useState } from "react";
 import apiClient from "../../utils/apiClient";
+import WalletInfoBlock from "./WalletInfoBlock/WalletInfoBlock";
 import { ContentContainer, ContentGrid, LoaderGrid } from "./WalletStyled";
 
 const mapWallet = (walletData) => {
@@ -58,7 +58,7 @@ const Wallet = () => {
   return (
     <Grid>
       <div>
-        <header style={{ height: "10vh" }}>Wallet</header>
+        <header style={{ marginTop: "9.4vh", height: "10vh" }}>Wallet</header>
       </div>
       {/* TODO: move this to a separate component */}
       {isError && (

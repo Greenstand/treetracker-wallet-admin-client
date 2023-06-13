@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AuthContext from "./auth-context";
 import { session } from "./AuthModel";
 import { useNavigate } from "react-router-dom";
 
 const AuthProvider = (props) => {
-  const [wallet, setWallet] = useState(undefined);
-  const [token, setToken] = useState(undefined);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const retrieveToken = () => JSON.parse(localStorage.getItem("token"));
+  const retrieveWallet = () => JSON.parse(localStorage.getItem("wallet"));
+
+  const [wallet, setWallet] = useState(retrieveWallet);
+  const [token, setToken] = useState(retrieveToken);
+  const [isLoggedIn, setIsLoggedIn] = useState(wallet && token);
   const navigate = useNavigate();
 
   const login = (newToken, rememberDetails, newWallet) => {
@@ -40,6 +43,7 @@ const AuthProvider = (props) => {
     setToken(undefined);
     localStorage.removeItem("token");
     localStorage.removeItem("wallet");
+    navigate("/login");
   };
 
   const value = {
@@ -52,16 +56,14 @@ const AuthProvider = (props) => {
     ...props.value,
   };
 
-  useEffect(() => {
-    if (!wallet || !token) {
-      const localToken = JSON.parse(localStorage.getItem("token"));
-      const localWallet = JSON.parse(localStorage.getItem("wallet"));
+  if (!wallet || !token) {
+    const localToken = JSON.parse(localStorage.getItem("token"));
+    const localWallet = JSON.parse(localStorage.getItem("wallet"));
 
-      if (localToken && localWallet) {
-        login(localToken, true, localWallet);
-      }
+    if (localToken && localWallet) {
+      login(localToken, true, localWallet);
     }
-  }, []);
+  }
 
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
