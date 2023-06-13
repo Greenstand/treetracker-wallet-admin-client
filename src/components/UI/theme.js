@@ -83,20 +83,6 @@ export default createTheme({
         },
       },
     },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        input: {
-          padding: "10.5px 10px",
-        },
-      },
-    },
-    MuiInputLabel: {
-      styleOverrides: {
-        outlined: {
-          transform: "translate(10px, 12px) scale(1)",
-        },
-      },
-    },
     MuiListItem: {
       styleOverrides: {
         root: {
