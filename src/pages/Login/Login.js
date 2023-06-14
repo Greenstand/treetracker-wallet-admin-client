@@ -1,5 +1,4 @@
 import {
-  Alert,
   Box,
   Checkbox,
   CssBaseline,
@@ -23,6 +22,9 @@ import apiClient from "../../utils/apiClient";
 import IconLogo from "../../components/UI/IconLogo";
 import { validatePassword, validateWallet } from "./login.validator";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { FlexDiv } from "../../components/UI/styledComponents/CommonStyled";
+import { Loader } from "../../components/UI/components/Loader/Loader";
+import ErrorMessage from "../../components/UI/components/ErrorMessage/ErrorMessage";
 
 const LOGIN_API = `${process.env.REACT_APP_WALLET_API_ROOT}/auth`;
 
@@ -106,18 +108,11 @@ const Login = () => {
     <StyledContainer component="main" maxWidth="xs">
       <CssBaseline />
       <div>
-        {/* TODO: move styles */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+        <FlexDiv flexDirection="column">
           <IconLogo />
           <Box m={2} />
-          <Typography variant="h2">Wallet Admin Panel</Typography>
-        </div>
+          <Typography variant="h3">Wallet Admin Panel</Typography>
+        </FlexDiv>
         <StyledForm onSubmit={handleSubmit} noValidate>
           <TextField
             variant="outlined"
@@ -185,17 +180,21 @@ const Login = () => {
             fullWidth
             variant="contained"
             color="primary"
-            //Disable button if sending request, username or password are empty
+            //Disable button if sending request, wallet or password are empty
             disabled={isLoading || !wallet || !password}
           >
             <StyledTypography>LOG IN</StyledTypography>
           </StyledButton>
+          {isLoading && (
+            <FlexDiv>
+              <Loader />
+            </FlexDiv>
+          )}
           {errorMessage && (
-            <div style={{ display: "inline-block", minWidth: "35%" }}>
-              <Alert severity="error" onClose={() => setErrorMessage("")}>
-                {errorMessage}
-              </Alert>
-            </div>
+            <ErrorMessage
+              message={errorMessage}
+              onClose={() => setErrorMessage("")}
+            />
           )}
         </StyledForm>
       </div>

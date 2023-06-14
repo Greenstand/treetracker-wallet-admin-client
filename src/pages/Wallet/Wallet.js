@@ -1,8 +1,10 @@
-import { Alert, CircularProgress, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import apiClient from "../../utils/apiClient";
 import WalletInfoBlock from "./WalletInfoBlock/WalletInfoBlock";
-import { ContentContainer, ContentGrid, LoaderGrid } from "./WalletStyled";
+import { ContentContainer, ContentGrid } from "./WalletStyled";
+import { Loader } from "../../components/UI/components/Loader/Loader";
+import ErrorMessage from "../../components/UI/components/ErrorMessage/ErrorMessage";
 
 const mapWallet = (walletData) => {
   return {
@@ -15,7 +17,6 @@ const mapWallet = (walletData) => {
 
 const Wallet = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const defaultWallet = {
@@ -39,7 +40,6 @@ const Wallet = () => {
       })
       .catch((error) => {
         console.error(error);
-        setIsError(true);
         setErrorMessage("An error occurred while fetching wallet data.");
       })
       .finally(() => {
@@ -48,11 +48,7 @@ const Wallet = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <LoaderGrid>
-        <CircularProgress />
-      </LoaderGrid>
-    );
+    return <Loader />;
   }
 
   return (
@@ -60,13 +56,11 @@ const Wallet = () => {
       <div>
         <header style={{ marginTop: "9.4vh", height: "10vh" }}>Wallet</header>
       </div>
-      {/* TODO: move this to a separate component */}
-      {isError && (
-        <div style={{ display: "inline-block", minWidth: "35%" }}>
-          <Alert severity="error" onClose={() => setIsError(false)}>
-            {errorMessage}
-          </Alert>
-        </div>
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage("")}
+        />
       )}
       <ContentContainer maxWidth="false">
         <ContentGrid>
