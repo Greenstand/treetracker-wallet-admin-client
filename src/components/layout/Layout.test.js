@@ -1,29 +1,41 @@
-import { shallow } from 'enzyme';
-import React from 'react';
-import Layout from './Layout';
-import { StyledContent } from './LayoutStyled';
-import Menu from './Menu/Menu';
+import { mount } from "enzyme";
+import React from "react";
+import Layout from "./Layout";
+import { StyledContent } from "./LayoutStyled";
+import Menu from "./Menu/Menu";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material";
 
-describe('Layout component', () => {
+const theme = createTheme({
+  zIndex: {
+    drawer: 1200,
+  },
+});
+
+describe("Layout component", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(
-      <Layout>
-        <div>Test</div>
-      </Layout>,
+    wrapper = mount(
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Layout>
+            <div>Test</div>
+          </Layout>
+        </Router>
+      </ThemeProvider>
     );
   });
 
-  it('should render Layout component', () => {
+  it("should render Layout component", () => {
     expect(wrapper).toBeTruthy();
   });
 
-  it('should render Menu component', () => {
+  it("should render Menu component", () => {
     expect(wrapper.find(Menu)).toHaveLength(1);
   });
 
-  it('should render StyledContent component', () => {
+  it("should render StyledContent component", () => {
     expect(wrapper.find(StyledContent)).toHaveLength(1);
   });
 });
