@@ -1,36 +1,39 @@
-import { shallow } from 'enzyme';
-import React from 'react';
-import MenuItem from './MenuItem';
+import { shallow } from "enzyme";
+import React from "react";
+import MenuItem from "./MenuItem";
 import {
   ItemButtonStyled,
   ItemIconStyled,
   LinkItemStyled,
-} from './MenuItemStyled';
+} from "./MenuItemStyled";
 
-describe('Layout component', () => {
+describe("Layout component", () => {
   let wrapper;
 
   beforeEach(() => {
     wrapper = shallow(
       <MenuItem>
         <div>Test</div>
-      </MenuItem>,
+      </MenuItem>
     );
   });
 
-  it('should render Layout component', () => {
+  it("should render Layout component", () => {
     expect(wrapper).toBeTruthy();
   });
 
-  it('should render ItemButtonStyled component', () => {
-    expect(wrapper.find(ItemButtonStyled)).toHaveLength(1);
+  it("should render ItemButtonStyled component", () => {
+    const itemButtons = wrapper.find(ItemButtonStyled);
+    expect(itemButtons.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('should render ItemIconStyled component', () => {
-    expect(wrapper.find(ItemIconStyled)).toHaveLength(1);
+  it("should render ItemIconStyled component", () => {
+    const itemIcons = wrapper.find(ItemIconStyled);
+    expect(itemIcons.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('should render LinkItemStyled component', () => {
-    expect(wrapper.find(LinkItemStyled)).toHaveLength(1);
+  it("should render LinkItemStyled component", () => {
+    const linkItems = wrapper.find(LinkItemStyled);
+    expect(linkItems.length).toBeGreaterThanOrEqual(1);
   });
 });

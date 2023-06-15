@@ -20,7 +20,7 @@ import {
 import AuthContext from "../../store/auth-context";
 import apiClient from "../../utils/apiClient";
 import IconLogo from "../../components/UI/IconLogo";
-import { validatePassword, validateWallet } from "./login.validator";
+import { validatePassword, validateWallet } from "./loginValidator";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { FlexDiv } from "../../components/UI/styledComponents/CommonStyled";
 import { Loader } from "../../components/UI/components/Loader/Loader";

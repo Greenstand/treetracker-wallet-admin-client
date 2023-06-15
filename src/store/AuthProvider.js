@@ -3,16 +3,16 @@ import AuthContext from "./auth-context";
 import { useNavigate } from "react-router-dom";
 
 const AuthProvider = (props) => {
-  const retrieveToken = () => JSON.parse(localStorage.getItem("token"));
-  const retrieveWallet = () => JSON.parse(localStorage.getItem("wallet"));
+  const tokenKey = "token";
+  const walletKey = "wallet";
+
+  const retrieveToken = () => JSON.parse(localStorage.getItem(tokenKey));
+  const retrieveWallet = () => JSON.parse(localStorage.getItem(walletKey));
 
   const [wallet, setWallet] = useState(retrieveWallet);
   const [token, setToken] = useState(retrieveToken);
   const [isLoggedIn, setIsLoggedIn] = useState(wallet && token);
   const navigate = useNavigate();
-
-  const tokenKey = "token";
-  const walletKey = "wallet";
 
   const login = (newToken, rememberDetails, newWallet) => {
     if (token === newToken) return;
