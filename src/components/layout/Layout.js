@@ -1,9 +1,9 @@
-import { useMediaQuery } from '@mui/material';
-import Box from '@mui/material/Box';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { StyledContent } from './LayoutStyled';
-import Menu from './Menu/Menu';
+import { useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { StyledContent } from "./LayoutStyled";
+import Menu from "./Menu/Menu";
 
 const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
     setOpen(true);
   };
 
-  const mobile = useMediaQuery('(max-width:480px');
+  const mobile = useMediaQuery("(max-width:480px");
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
   }, [location]);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <Menu
         open={open}
         handleDrawerClose={handleDrawerClose}
