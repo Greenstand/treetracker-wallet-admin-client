@@ -1,22 +1,46 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useTheme } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import * as React from "react";
-import MenuItem from "./MenuItem/MenuItem";
-import { DrawerHeaderStyled, DrawerStyled } from "./MenuStyled";
-import TopMenu from "./TopMenu/TopMenu";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useTheme } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
+import * as React from 'react';
+import IconLogo from '../../UI/IconLogo';
+import MenuItem from './MenuItem/MenuItem';
+import {
+  AppBarStyled,
+  DrawerHeaderStyled,
+  DrawerStyled,
+  LogoStyled,
+} from './MenuStyled';
 
 const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
   const theme = useTheme();
 
   return (
     <>
-      <TopMenu handleDrawerOpen={handleDrawerOpen} open={open} />
+      <AppBarStyled position="fixed" open={open}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}>
+            <MenuIcon sx={{ '@media(max-width:480px)': { marginLeft: 0.8 } }} />
+          </IconButton>
+          <LogoStyled variant="h6" noWrap component="div">
+            <IconLogo />
+          </LogoStyled>
+        </Toolbar>
+      </AppBarStyled>
       <DrawerStyled variant="permanent" open={open}>
         <DrawerHeaderStyled>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
+            {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
               <ChevronLeftIcon />
