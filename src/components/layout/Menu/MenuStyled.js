@@ -4,7 +4,7 @@ import { styled } from "@mui/system";
 const drawerWidth = 240;
 const mobileDrawerWidth = 140;
 
-const openedMixin = theme => ({
+const openedMixin = (theme) => ({
   width: mobileDrawerWidth,
   [theme.breakpoints.up("sm")]: {
     width: drawerWidth,
@@ -16,7 +16,7 @@ const openedMixin = theme => ({
   overflowX: "hidden",
 });
 
-const closedMixin = theme => ({
+const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -38,7 +38,7 @@ const DrawerHeaderStyled = styled("div")(({ theme }) => ({
 }));
 
 const DrawerStyled = styled(MuiDrawer, {
-  shouldForwardProp: prop => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: mobileDrawerWidth,
   [theme.breakpoints.up("sm")]: {
