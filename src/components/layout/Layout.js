@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
   }, [location]);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", overflowY: "hidden" }}>
       <Menu
         open={open}
         handleDrawerClose={handleDrawerClose}
