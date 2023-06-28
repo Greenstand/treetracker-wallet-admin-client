@@ -1,12 +1,12 @@
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-import Wallet from "../../pages/Wallet/Wallet";
-import TransferStatus from "../../pages/TransferStatus/TransferStatus";
-import Login from "../../pages/Login/Login";
-import Layout from "../layout/Layout";
-import AuthContext from "../../store/auth-context";
-import SendTokens from "../../pages/SendTokens/SendTokens";
-import NotFound from "../../pages/NotFound/NotFound";
 import { useContext } from "react";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import Login from "../../pages/Login/Login";
+import MyTransfers from "../../pages/MyTransfers/MyTransfers";
+import NotFound from "../../pages/NotFound/NotFound";
+import SendTokens from "../../pages/SendTokens/SendTokens";
+import Wallet from "../../pages/Wallet/Wallet";
+import AuthContext from "../../store/auth-context";
+import Layout from "../layout/Layout";
 
 const ProtectedRoute = ({ isLoggedIn, redirectPath = "/login" }) => {
   if (!isLoggedIn) {
@@ -32,11 +32,11 @@ const ClientRoutes = () => {
           }
         />
         <Route
-          path="/transfer-status"
+          path="/my-transfers"
           exact
           element={
             <Layout>
-              <TransferStatus />
+              <MyTransfers />
             </Layout>
           }
         />
