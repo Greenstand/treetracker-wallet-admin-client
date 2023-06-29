@@ -1,10 +1,11 @@
 import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import ErrorMessage from "../../components/UI/components/ErrorMessage/ErrorMessage";
+import { Loader } from "../../components/UI/components/Loader/Loader";
 import apiClient from "../../utils/apiClient";
+import WalletHeader from "./WalletHeader/WalletHeader";
 import WalletInfoBlock from "./WalletInfoBlock/WalletInfoBlock";
 import { ContentContainer, ContentGrid } from "./WalletStyled";
-import { Loader } from "../../components/UI/components/Loader/Loader";
-import ErrorMessage from "../../components/UI/components/ErrorMessage/ErrorMessage";
 
 const mapWallet = (walletData) => {
   return {
@@ -53,16 +54,14 @@ const Wallet = () => {
 
   return (
     <Grid>
-      <div>
-        <header style={{ marginTop: "9.4vh", height: "10vh" }}>Wallet</header>
-      </div>
+      <WalletHeader title={wallet.name} />
       {errorMessage && (
         <ErrorMessage
           message={errorMessage}
           onClose={() => setErrorMessage("")}
         />
       )}
-      <ContentContainer maxWidth="false">
+      <ContentContainer>
         <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}

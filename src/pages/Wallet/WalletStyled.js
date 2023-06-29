@@ -7,6 +7,7 @@ export const ContentContainer = styled(Container)({
   justifyContent: "space-between",
   height: "auto",
   maxWidth: "false",
+  marginTop: "4rem",
 });
 
 export const ContentGrid = styled(Grid)({
