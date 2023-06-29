@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const TransferStatus = () => {
-  return <div>Transfer Status</div>;
+  return <div style={{ marginTop: "9.4vh" }}>Transfer Status</div>;
 };
 
 export default TransferStatus;
