@@ -29,6 +29,7 @@ const InnerSubtext = styled(Typography)({
   color: 'rgb(134, 194, 50)',
 });
 
+//TODO refactor this and WalletInfoBlock
 const InfoCircle = (props) => {
   const { innerNumber, innerText } = props;
 

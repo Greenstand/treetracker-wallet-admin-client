@@ -22,15 +22,13 @@ const SendTokens = () => {
         setWalletList(wallets.data.wallets);
       } catch (error) {
         console.error(error);
-        setErrorMessage(error.message);
+        setErrorMessage('An error occured while fetching wallet data.');
       } finally {
         setIsLoading(false);
       }
     };
     loadWallets();
   }, []);
-
-  console.log('WALLET LIST:', walletList);
 
   if (isLoading) return <Loader />;
 
@@ -55,13 +53,8 @@ const SendTokens = () => {
         <div>
           <InfoCircle innerText={'Available tokens'} innerNumber={defaultWallet.tokens_in_wallet} />
         </div>
-
       </Paper>
-
     </Grid>
-
-
-    // <div style={{ marginTop: '9.4vh' }}>SendTokens</div>
   );
 };
 
