@@ -49,7 +49,6 @@ const SendTokens = () => {
         />
       )}
       <Paper elevation={3}>
-        <h3>Wallet name : {defaultWallet.name}</h3>
         <div>
           <InfoCircle innerText={'Available tokens'} innerNumber={defaultWallet.tokens_in_wallet} />
         </div>
