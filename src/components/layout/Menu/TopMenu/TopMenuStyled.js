@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 import { Toolbar, Typography } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 
-const drawerWidth = 240;
-const mobileDrawerWidth = 140;
+import { drawerWidth, mobileDrawerWidth } from "../MenuStyled";
 
 const AppBarStyled = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -42,4 +41,4 @@ const ToolbarStyled = styled(Toolbar)(() => ({
   justifyContent: "space-between",
 }));
 
-export { AppBarStyled, ToolbarStyled, LogoStyled };
+export { AppBarStyled, LogoStyled, ToolbarStyled };
