@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import apiClient from '../../utils/apiClient';
 import { Loader } from '../../components/UI/components/Loader/Loader';
