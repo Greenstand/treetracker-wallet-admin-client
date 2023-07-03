@@ -1,7 +1,7 @@
+import WalletIcon from "@mui/icons-material/Wallet";
 import {
   ContentContainer,
   InnerCircle,
-  InnerText,
   PendingTransfers,
   Title,
   TitleContainer,
@@ -12,7 +12,7 @@ const WalletHeader = ({ title }) => {
     <>
       <ContentContainer>
         <InnerCircle>
-          <InnerText>logo</InnerText>
+          <WalletIcon style={{ color: "#fff", fontSize: 70 }} />
         </InnerCircle>
         <TitleContainer>
           <Title>{title}</Title>
