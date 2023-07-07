@@ -32,15 +32,11 @@ jobs:
             const ref = process.env.GITHUB_REF_NAME
             const s3BucketSecretNames = {
               "main": "DEV_CDN_S3_BUCKET",
-              "freetown": "DEV_CDN_S3_BUCKET_FREETOWN",
-              "beta": "DEV_STAGING_CDN_S3_BUCKET",
-              "alpha": "DEV_ALPHA_CDN_S3_BUCKET",
+              "v1": "DEV_STAGING_CDN_S3_BUCKET",
             }
             const cdnIdSecretNames = {
               "main": "DEV_CDN_DISTRIBUTION_ID",
-              "freetown": "DEV_CDN_DISTRIBUTION_ID_FREETOWN",
-              "beta": "DEV_STAGING_CDN_DISTRIBUTION_ID",
-              "alpha": "DEV_ALPHA_CDN_DISTRIBUTION_ID",
+              "v1": "DEV_STAGING_CDN_DISTRIBUTION_ID",
             }
             const releaseJson = require("./.releaserc.json");        
             const branches = releaseJson.branches.map(e => e.name? e.name : e);
@@ -87,30 +83,24 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
       - name: npm clean install
-        if: ${{ !env.ACT }}
         run: npm ci --legacy-peer-deps
         working-directory: ${{ env.project-directory }}
       - name: run ESLint
-        if: ${{ !env.ACT }}
         run: npm run lint
         working-directory: ${{ env.project-directory }}
       - name: build client dev project
         if: github.event_name == 'push' && github.repository == ${{ env.repository }}
-        #if: ${{ !env.ACT }}
         run: npm run build:dev
         working-directory: ${{ env.project-directory }}
       - uses: actions/upload-artifact@v2
         if: github.event_name == 'push' && github.repository == ${{ env.repository }}
-        #if: ${{ !env.ACT }}
         with:
           name: client-bundle
           path: build-dev
       - name: build client project
-        if: ${{ !env.ACT }}
         run: npm run build
         working-directory: ${{ env.project-directory }}
       - name: run React tests
-        if: ${{ !env.ACT }}
         run: npm test
         working-directory: ${{ env.project-directory }}
   release:
@@ -133,10 +123,8 @@ jobs:
       # install dependencies and run semantic-release
       - run: npm i -g semantic-release @semantic-release/{git,exec,changelog}
       - run: semantic-release
-        if: ${{ !env.ACT }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
   deploy:
     name: Deploy to dev CDN
     runs-on: ubuntu-latest
@@ -148,7 +136,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download bundled client resources
-        if: ${{ !env.ACT }}
         uses: actions/download-artifact@v2
         with:
           name: client-bundle
