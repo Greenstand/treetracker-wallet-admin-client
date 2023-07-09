@@ -35,13 +35,13 @@ const MenuItem = ({ open }) => {
         </ItemButtonStyled>
       </LinkItemStyled>
 
-      <LinkItemStyled to="/transfer-status">
+      <LinkItemStyled to="/my-transfers">
         <ItemButtonStyled open={open}>
           <ItemIconStyled open={open}>
             <CompareIcon />
           </ItemIconStyled>
           <ListItemText
-            primary={"Transfer Status"}
+            primary={"My Transfers"}
             sx={{ opacity: open ? 1 : 0, marginLeft: open ? "1rem" : 0 }}
           />
         </ItemButtonStyled>
