@@ -1,4 +1,3 @@
-import CompareIcon from '@mui/icons-material/Compare';
 import HomeIcon from '@mui/icons-material/Home';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 import ListItemText from '@mui/material/ListItemText';
@@ -30,17 +29,6 @@ const MenuItem = ({ open }) => {
           </ItemIconStyled>
           <ListItemText
             primary={'Send Tokens'}
-            sx={{ opacity: open ? 1 : 0, marginLeft: open ? '1rem' : 0 }}
-          />
-        </ItemButtonStyled>
-      </LinkItemStyled>
-      <LinkItemStyled to="/my-transfers">
-        <ItemButtonStyled open={open}>
-          <ItemIconStyled open={open}>
-            <CompareIcon />
-          </ItemIconStyled>
-          <ListItemText
-            primary={'My Transfers'}
             sx={{ opacity: open ? 1 : 0, marginLeft: open ? '1rem' : 0 }}
           />
         </ItemButtonStyled>

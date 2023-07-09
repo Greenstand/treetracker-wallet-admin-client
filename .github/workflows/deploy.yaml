@@ -6,7 +6,7 @@ on:
       version:
         description: 'Version to deploy'
         required: true
-        default: 'e.g. v1.20.1-freetown.1'
+        default: 'e.g. v1.20.1-beta.1'
       env:
         type: choice
         description: Environment to deploy to
@@ -46,23 +46,17 @@ jobs:
               "main-dev": "DEV_CDN_S3_BUCKET",
               "main-test": "TEST_CDN_S3_BUCKET",
               "main-prod": "PROD_CDN_S3_BUCKET",
-              "freetown-dev": "DEV_CDN_S3_BUCKET_FREETOWN",
-              "freetown-prod": "PROD_CDN_S3_BUCKET_FREETOWN",
-              "beta-dev": "DEV_STAGING_CDN_S3_BUCKET",
-              "beta-prod": "STAGING_CDN_S3_BUCKET",
-              "alpha-dev": "DEV_ALPHA_CDN_S3_BUCKET",
-              "alpha-prod": "PROD_ALPHA_CDN_S3_BUCKET",
+              "v1-dev": "DEV_STAGING_CDN_S3_BUCKET",
+              "v1-dev": "TEST_STAGING_CDN_S3_BUCKET",
+              "v1-prod": "STAGING_CDN_S3_BUCKET",
             }
             const cdnIdSecretNames = {
               "main-dev": "DEV_CDN_DISTRIBUTION_ID",
               "main-test": "TEST_CDN_DISTRIBUTION_ID",
               "main-prod": "PROD_CDN_DISTRIBUTION_ID",
-              "freetown-dev": "DEV_CDN_DISTRIBUTION_ID_FREETOWN",
-              "freetown-prod": 'PROD_CDN_DISTRIBUTION_ID_FREETOWN"',
-              "beta-dev": "DEV_STAGING_CDN_DISTRIBUTION_ID",
-              "beta-prod": "STAGING_CDN_DISTRIBUTION_ID",
-              "alpha-dev": "DEV_ALPHA_CDN_DISTRIBUTION_ID",
-              "alpha-prod": "PROD_ALPHA_CDN_DISTRIBUTION_ID",
+              "v1-dev": "DEV_STAGING_CDN_DISTRIBUTION_ID",
+              "v1-dev": "TEST_STAGING_CDN_DISTRIBUTION_ID",
+              "v1-prod": "STAGING_CDN_DISTRIBUTION_ID",
             }
             const releaseJson = require("./.releaserc.json");        
             const version = process.env.VERSION_TO_DEPLOY
