@@ -5,7 +5,7 @@
       {
         "name": "v1",
         "prerelease": true,
-        "channel": "beta"
+        "channel": "v1"
       }
     ],
     "plugins": [
