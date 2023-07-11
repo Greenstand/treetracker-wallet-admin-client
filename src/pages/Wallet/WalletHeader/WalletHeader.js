@@ -7,7 +7,18 @@ import {
   TitleContainer,
 } from "./WalletHeaderStyled";
 
+import { useEffect, useState } from "react";
+import apiClient from "../../../utils/apiClient";
+
 const WalletHeader = ({ title }) => {
+  const [pendingTransfers, setPendingTransfers] = useState(0);
+
+  useEffect(() => {
+    apiClient.get("/transfers?state=pending").then((res) => {
+      setPendingTransfers(res.data.transfers.length);
+    });
+  }, []);
+
   return (
     <>
       <ContentContainer>
@@ -16,7 +27,9 @@ const WalletHeader = ({ title }) => {
         </InnerCircle>
         <TitleContainer>
           <Title>{title}</Title>
-          <PendingTransfers>Pending Transfers - 4</PendingTransfers>
+          <PendingTransfers>
+            Pending Transfers - {pendingTransfers}
+          </PendingTransfers>
         </TitleContainer>
       </ContentContainer>
     </>
