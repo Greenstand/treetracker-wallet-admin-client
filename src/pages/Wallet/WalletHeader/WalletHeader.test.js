@@ -15,7 +15,7 @@ describe("WalletHeader", () => {
   });
 
   it("displays the correct inner number", () => {
-    render(<WalletInfoBlock {...props} />);
+    render(<WalletHeader {...props} />);
     expect(
       screen.getByText(props.pendingTransfers.toString()),
     ).toBeInTheDocument();
