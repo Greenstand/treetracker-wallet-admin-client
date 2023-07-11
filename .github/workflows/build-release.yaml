@@ -121,8 +121,8 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
       # install dependencies and run semantic-release
-      #- run: npm i -g semantic-release @semantic-release/{git,exec,changelog}
-      - run: npx semantic-release
+      - run: npm i -g semantic-release @semantic-release/{git,exec,changelog}
+      - run: semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deploy:
