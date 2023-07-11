@@ -15,7 +15,6 @@ describe("<Wallet />", () => {
         logo_url: "https://example.com/logo.png",
         tokens_in_wallet: 100,
         wallet: "test wallet",
-        pendingTransfers: 4,
       },
     });
 

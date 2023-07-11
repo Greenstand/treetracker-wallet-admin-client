@@ -52,7 +52,6 @@ const Wallet = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    // TODO: get wallet id by decoding the token. We get the token after login, which is not implemented yet.
     apiClient
       .get("/transfers?state=pending")
       .then((response) => {
