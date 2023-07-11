@@ -15,6 +15,7 @@ describe("<Wallet />", () => {
         logo_url: "https://example.com/logo.png",
         tokens_in_wallet: 100,
         wallet: "test wallet",
+        pendingTransfers: 4,
       },
     });
 
@@ -39,7 +40,7 @@ describe("<Wallet />", () => {
     await screen.findByRole("alert");
 
     expect(screen.getByRole("alert")).toHaveTextContent(
-      "An error occurred while fetching wallet data."
+      "An error occurred while fetching wallet data.",
     );
   });
 });

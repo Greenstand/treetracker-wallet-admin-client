@@ -28,6 +28,7 @@ const Wallet = () => {
   };
 
   const [wallet, setWallet] = useState(defaultWallet);
+  const [pendingTransfers, setPendingTransfers] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
@@ -48,13 +49,35 @@ const Wallet = () => {
       });
   }, []);
 
+  useEffect(() => {
+    setIsLoading(true);
+
+    // TODO: get wallet id by decoding the token. We get the token after login, which is not implemented yet.
+    apiClient
+      .get("/transfers?state=pending")
+      .then((response) => {
+        setPendingTransfers(response.data.transfers.length);
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorMessage("An error occurred while fetching wallet data.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
   if (isLoading) {
     return <Loader />;
   }
 
   return (
     <Grid>
-      <WalletHeader title={wallet.name} />
+      <WalletHeader
+        title={wallet.name}
+        pendingTransfers={pendingTransfers}
+        logoURL={wallet.logoURL}
+      />
       {errorMessage && (
         <ErrorMessage
           message={errorMessage}

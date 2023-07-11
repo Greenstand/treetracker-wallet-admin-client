@@ -7,23 +7,16 @@ import {
   TitleContainer,
 } from "./WalletHeaderStyled";
 
-import { useEffect, useState } from "react";
-import apiClient from "../../../utils/apiClient";
-
-const WalletHeader = ({ title }) => {
-  const [pendingTransfers, setPendingTransfers] = useState(0);
-
-  useEffect(() => {
-    apiClient.get("/transfers?state=pending").then((res) => {
-      setPendingTransfers(res.data.transfers.length);
-    });
-  }, []);
-
+const WalletHeader = ({ title, pendingTransfers, logoURL }) => {
   return (
     <>
       <ContentContainer>
         <InnerCircle>
-          <WalletIcon style={{ color: "#fff", fontSize: 70 }} />
+          {logoURL ? (
+            <img src="logoURL" alt="Wallet Logo" />
+          ) : (
+            <WalletIcon style={{ color: "#fff", fontSize: 70 }} />
+          )}
         </InnerCircle>
         <TitleContainer>
           <Title>{title}</Title>
