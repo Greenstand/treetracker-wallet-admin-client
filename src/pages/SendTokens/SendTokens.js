@@ -4,6 +4,7 @@ import { Loader } from '../../components/UI/components/Loader/Loader';
 import { Grid, Paper } from '@mui/material';
 import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessage';
 import InfoCircle from './InfoCircle';
+import TokenInfoBlock from './TokenInfoBlock';
 
 const SendTokens = () => {
 
@@ -47,11 +48,24 @@ const SendTokens = () => {
           onClose={() => setErrorMessage('')}
         />
       )}
-      <Paper elevation={3}>
-        <div>
-          <InfoCircle innerText={'Available tokens'} innerNumber={defaultWallet.tokens_in_wallet} />
-        </div>
-      </Paper>
+      <Grid container spacing={2}>
+        <Grid item>
+          <Paper elevation={3}>
+            <div>
+              <InfoCircle innerText={'Available tokens'} innerNumber={defaultWallet.tokens_in_wallet} />
+            </div>
+          </Paper>
+        </Grid>
+        <Grid item>
+          <Paper elevation={3}>
+            <div>
+              <TokenInfoBlock />
+            </div>
+          </Paper>
+        </Grid>
+      </Grid>
+
+
     </Grid>
   );
 };
