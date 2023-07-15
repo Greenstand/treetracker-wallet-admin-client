@@ -57,10 +57,10 @@ const SendTokens = () => {
           </Paper>
         </Grid>
         <Grid item>
-          <Paper elevation={3}>
-            <div>
-              <TokenInfoBlock />
-            </div>
+          <Paper elevation={3} sx={{ border: '2px solid yellow' }}>
+
+            <TokenInfoBlock />
+
           </Paper>
         </Grid>
       </Grid>

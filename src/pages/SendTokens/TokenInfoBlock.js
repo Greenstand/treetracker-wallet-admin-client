@@ -1,14 +1,8 @@
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Paper, Box, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import tokenIcon from './tokens.svg';
 
-// const Item = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(1),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }));
+// const
 
 const SubText = styled(Typography)({
   fontSize: 16,
@@ -26,42 +20,46 @@ const AmountText = styled(Typography)({
 
 const TokenDisplay = ({ tokenAmount, subText }) => {
   return (
-    <Grid item container spacing={1} sx={{ border: '1px solid green' }}>
-      <Grid item>
-        <Grid container spacing={1}>
-          <Grid item>
-            <AmountText>{tokenAmount}</AmountText>
-          </Grid>
-          <Grid item>
-            <SubText>{subText}</SubText>
-          </Grid>
-        </Grid>
+    <div style={{}}>
+      <Grid item xs={4}>
+        <AmountText>{tokenAmount}</AmountText>
       </Grid>
-    </Grid>
+      <Grid item xs={5}>
+        <SubText>{subText}</SubText>
+      </Grid>
+    </div>
+
   );
 };
 
+const TokenIcon = styled(Box)({
+  paddingX: '5px', paddingY: '10px',
+});
 
 const TokenInfoBlock = () => {
   return (
-    <Box sx={{ width: '255px' }}>
-      <Grid container sx={{ border: '1px solid red' }}>
-        <Grid item xs={3} sx={{ border: '1px solid black' }}>
-          <Box sx={{ paddingX: '5px', paddingY: '10px', width: '50px', height: '60px' }}>
-            <img src={tokenIcon} alt='Token Icon' />
-          </Box>
-        </Grid>
+    <Paper sx={{ maxWidth: '255px', border: '1px solid purple' }}>
+      <Grid container sx={{ border: '1px solid red', height: '100%' }}>
+        <Grid container>
+          <Grid item xs={3} sx={{ border: '1px solid black' }}>
+            <TokenIcon>
+              <img src={tokenIcon} alt='Token Icon' />
+            </TokenIcon>
+          </Grid>
 
-        <Grid item xs={9}>
           <TokenDisplay subText='Available tokens' tokenAmount='150000' />
-
-
-          <Divider light />
-          <TokenDisplay subText='WalletA tokens' tokenAmount='30000' />
         </Grid>
+
+        <Grid item xs={2}>
+
+        </Grid>
+        <div style={{ borderTop: '2px solid rgb(97,137,47)' }}>
+          <TokenDisplay subText='WalletA tokens' tokenAmount='30000' />
+        </div>
+
 
       </Grid>
-    </Box>
+    </Paper>
 
   );
 };
