@@ -9,6 +9,8 @@ const SubText = styled(Typography)({
   fontWeight: 700,
   color: 'rgb(97,137,47)',
   textAlign: 'center',
+  overflowWrap: 'break-word',
+  padding: '10px',
 });
 
 const AmountText = styled(Typography)({
@@ -17,12 +19,13 @@ const AmountText = styled(Typography)({
   fontWeight: 700,
   color: 'rgb(97,137,47)',
   textAlign: 'center',
+  overflowWrap: 'break-word',
 });
 
 
 const TokenInfoBlock = ({ totalTokens, subWalletName = null, subWalletTokens = null }) => {
   return (
-    <Paper sx={{ maxWidth: '255px' }}>
+    <Paper sx={{ width: '255px' }}>
       <Grid container sx={{ alignItems: 'center' }}>
 
         <Grid item xs={3} sx={{ paddingX: '5px', paddingY: '10px' }}>
@@ -42,7 +45,7 @@ const TokenInfoBlock = ({ totalTokens, subWalletName = null, subWalletTokens = n
             <Grid item xs={9} sx={{ borderTop: '2px solid rgb(97,137,47)' }}>
             </Grid>
 
-            <Grid item xs={3} sx={{ height: '65px' }}>
+            <Grid item xs={3} sx={{ minHeight: '65px' }}>
             </Grid>
             <Grid item xs={5}>
               <AmountText>{subWalletTokens}</AmountText>
