@@ -1,6 +1,7 @@
 import apiClient from '../../utils/apiClient';
 import { render, screen } from '@testing-library/react';
 import SendTokens from './SendTokens';
+import TokenInfoBlock from './TokenInfoBlock';
 
 jest.mock('../../utils/apiClient', () => ({
   get: jest.fn(),
@@ -14,7 +15,7 @@ describe('Display available tokens v1', () => {
         {
           id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
           logo_url: 'https://example.com/logo.png',
-          tokens_in_wallet: 100,
+          tokens_in_wallet: 1000,
           name: 'test wallet',
         },
       ],
@@ -30,8 +31,8 @@ describe('Display available tokens v1', () => {
 
     await screen.findByText('Send Tokens');
 
-    expect(screen.getByText('100')).toBeInTheDocument();
-    expect(screen.getByText('Available tokens')).toBeInTheDocument();
+    expect(screen.getByText('1,000')).toBeInTheDocument();
+    expect(screen.getByText('Available Tokens')).toBeInTheDocument();
   });
 
   it('display error for failed request', async () => {
@@ -45,4 +46,23 @@ describe('Display available tokens v1', () => {
       'An error occured while fetching wallet data.',
     );
   });
+
+  it('display sub wallet tokens correctly', async () => {
+
+    const subWalletData = {
+      name: 'WalletA',
+      tokensInWallet: '500',
+    };
+
+    render(<TokenInfoBlock totalTokens={1000} subWalletTokens={500}
+                           subWalletName={'WalletA'} />);
+
+    await screen.findByText('Available Tokens');
+
+    expect(screen.getByText('1000')).toBeInTheDocument();
+    expect(screen.getByText('500')).toBeInTheDocument();
+    expect(screen.getByText('WalletA Tokens')).toBeInTheDocument();
+
+  });
 });
+
