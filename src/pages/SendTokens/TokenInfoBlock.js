@@ -35,21 +35,23 @@ const TokenInfoBlock = ({ totalTokens, subWalletName = null, subWalletTokens = n
           <SubText>Available Tokens</SubText>
         </Grid>
 
+        {subWalletName && subWalletTokens &&
+          <>
+            <Grid item xs={3}>
+            </Grid>
+            <Grid item xs={9} sx={{ borderTop: '2px solid rgb(97,137,47)' }}>
+            </Grid>
 
-        <Grid item xs={3}>
-        </Grid>
-        <Grid item xs={9} sx={{ borderTop: '2px solid rgb(97,137,47)' }}>
-        </Grid>
-
-        <Grid item xs={3} sx={{ height: '65px' }}>
-        </Grid>
-        <Grid item xs={5}>
-          <AmountText>{subWalletTokens}</AmountText>
-        </Grid>
-        <Grid item xs={4} sx={{ justifyContent: 'center' }}>
-          <SubText>{subWalletName} Tokens</SubText>
-        </Grid>
-
+            <Grid item xs={3} sx={{ height: '65px' }}>
+            </Grid>
+            <Grid item xs={5}>
+              <AmountText>{subWalletTokens}</AmountText>
+            </Grid>
+            <Grid item xs={4} sx={{ justifyContent: 'center' }}>
+              <SubText>{subWalletName} Tokens</SubText>
+            </Grid>
+          </>
+        }
       </Grid>
     </Paper>
 
