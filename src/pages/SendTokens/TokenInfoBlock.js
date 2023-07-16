@@ -20,8 +20,30 @@ const AmountText = styled(Typography)({
   color: 'rgb(97,137,47)',
   textAlign: 'center',
   overflowWrap: 'break-word',
+  paddingTop: '10px',
+  paddingBottom: '10px',
 });
 
+
+const SubWalletInfo = ({ subWalletName, subWalletTokens }) => {
+  return (
+    <>
+      <Grid item xs={3}>
+      </Grid>
+      <Grid item xs={9} sx={{ borderTop: '1px solid rgb(97,137,47)' }}>
+      </Grid>
+
+      <Grid item xs={3} sx={{ minHeight: '65px' }}>
+      </Grid>
+      <Grid item xs={5}>
+        <AmountText>{subWalletTokens}</AmountText>
+      </Grid>
+      <Grid item xs={4}>
+        <SubText>{subWalletName} Tokens</SubText>
+      </Grid>
+    </>
+  );
+};
 
 const TokenInfoBlock = ({ totalTokens, subWalletName = null, subWalletTokens = null }) => {
   return (
@@ -39,21 +61,7 @@ const TokenInfoBlock = ({ totalTokens, subWalletName = null, subWalletTokens = n
         </Grid>
 
         {subWalletName && subWalletTokens &&
-          <>
-            <Grid item xs={3}>
-            </Grid>
-            <Grid item xs={9} sx={{ borderTop: '2px solid rgb(97,137,47)' }}>
-            </Grid>
-
-            <Grid item xs={3} sx={{ minHeight: '65px' }}>
-            </Grid>
-            <Grid item xs={5}>
-              <AmountText>{subWalletTokens}</AmountText>
-            </Grid>
-            <Grid item xs={4} sx={{ justifyContent: 'center' }}>
-              <SubText>{subWalletName} Tokens</SubText>
-            </Grid>
-          </>
+          <SubWalletInfo subWalletTokens={subWalletTokens} subWalletName={subWalletName} />
         }
       </Grid>
     </Paper>
