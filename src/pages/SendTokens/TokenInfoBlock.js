@@ -1,62 +1,54 @@
-import { Paper, Box, Grid, Typography } from '@mui/material';
+import { Paper, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import tokenIcon from './tokens.svg';
 
-// const
 
 const SubText = styled(Typography)({
   fontSize: 16,
-  lineHeight: 1,
+  lineHeight: '24px',
   fontWeight: 700,
   color: 'rgb(97,137,47)',
+  textAlign: 'center',
 });
 
 const AmountText = styled(Typography)({
   fontSize: 24,
-  lineHeight: 1,
+  lineHeight: '24px',
   fontWeight: 700,
   color: 'rgb(97,137,47)',
+  textAlign: 'center',
 });
 
-const TokenDisplay = ({ tokenAmount, subText }) => {
+
+const TokenInfoBlock = ({ totalTokens, subWalletName = null, subWalletTokens = null }) => {
   return (
-    <div style={{}}>
-      <Grid item xs={4}>
-        <AmountText>{tokenAmount}</AmountText>
-      </Grid>
-      <Grid item xs={5}>
-        <SubText>{subText}</SubText>
-      </Grid>
-    </div>
+    <Paper sx={{ maxWidth: '255px' }}>
+      <Grid container sx={{ alignItems: 'center' }}>
 
-  );
-};
-
-const TokenIcon = styled(Box)({
-  paddingX: '5px', paddingY: '10px',
-});
-
-const TokenInfoBlock = () => {
-  return (
-    <Paper sx={{ maxWidth: '255px', border: '1px solid purple' }}>
-      <Grid container sx={{ border: '1px solid red', height: '100%' }}>
-        <Grid container>
-          <Grid item xs={3} sx={{ border: '1px solid black' }}>
-            <TokenIcon>
-              <img src={tokenIcon} alt='Token Icon' />
-            </TokenIcon>
-          </Grid>
-
-          <TokenDisplay subText='Available tokens' tokenAmount='150000' />
+        <Grid item xs={3} sx={{ paddingX: '5px', paddingY: '10px' }}>
+          <img src={tokenIcon} alt='Token Icon' />
+        </Grid>
+        <Grid item xs={5}>
+          <AmountText>{totalTokens}</AmountText>
+        </Grid>
+        <Grid item xs={4}>
+          <SubText>Available Tokens</SubText>
         </Grid>
 
-        <Grid item xs={2}>
 
+        <Grid item xs={3}>
         </Grid>
-        <div style={{ borderTop: '2px solid rgb(97,137,47)' }}>
-          <TokenDisplay subText='WalletA tokens' tokenAmount='30000' />
-        </div>
+        <Grid item xs={9} sx={{ borderTop: '2px solid rgb(97,137,47)' }}>
+        </Grid>
 
+        <Grid item xs={3} sx={{ height: '65px' }}>
+        </Grid>
+        <Grid item xs={5}>
+          <AmountText>{subWalletTokens}</AmountText>
+        </Grid>
+        <Grid item xs={4} sx={{ justifyContent: 'center' }}>
+          <SubText>{subWalletName} Tokens</SubText>
+        </Grid>
 
       </Grid>
     </Paper>
