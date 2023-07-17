@@ -16,7 +16,7 @@ describe('MenuItem tests v1', () => {
   };
 
   it('Links are rendered correctly', async () => {
-    //MenuItem open prop is irrelevant as Menu is responsible for open/close
+    //MenuItem open prop is irrelevant as Layout is responsible for open/close
     render(
       <TestWrapper>
         <MenuItem />

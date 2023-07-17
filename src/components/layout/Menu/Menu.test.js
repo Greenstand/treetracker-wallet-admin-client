@@ -1,33 +1,39 @@
-import { shallow } from "enzyme";
-import React from "react";
-import Menu from "./Menu";
-import MenuItem from "./MenuItem/MenuItem";
-import { DrawerHeaderStyled, DrawerStyled } from "./MenuStyled";
+import React from 'react';
+import Menu from './Menu';
+import { ThemeProvider } from '@mui/material';
+import theme from '../../UI/theme';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
 
-describe("Menu component", () => {
-  let wrapper;
+describe('Menu component', () => {
 
-  beforeEach(() => {
-    wrapper = shallow(
-      <Menu>
-        <div>Test</div>
-      </Menu>
-    );
-  });
+  const TestWrapper = (props) => {
+    return <ThemeProvider theme={theme}>
+      <Router>
+        {props.children}
+      </Router>
+    </ThemeProvider>;
+  };
 
-  it("should render Menu component", () => {
-    expect(wrapper).toBeTruthy();
-  });
+  it('renders correctly', async () => {
+    //Menu open prop is irrelevant as Layout is responsible for open/close
+    render(<TestWrapper>
+      <Menu />
+    </TestWrapper>);
 
-  it("should render MenuItem component", () => {
-    expect(wrapper.find(MenuItem)).toHaveLength(1);
-  });
+    //links have loaded
+    await screen.findAllByRole('link');
+    await screen.findByAltText(/Greenstand logo/);
 
-  it("should render DrawerHeaderStyled component", () => {
-    expect(wrapper.find(DrawerHeaderStyled)).toHaveLength(1);
-  });
+    //Logo, Home and Send Tokens for now
+    expect(screen.getAllByRole('link')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(4);
 
-  it("should render DrawerStyled component", () => {
-    expect(wrapper.find(DrawerStyled)).toHaveLength(1);
+    expect(screen.getByText(/Home/)).toBeInTheDocument();
+    expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
+    expect(screen.getByRole('button', {
+      name: /open drawer/,
+    })).toBeInTheDocument();
+
   });
 });
