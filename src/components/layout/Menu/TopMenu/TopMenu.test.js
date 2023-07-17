@@ -19,8 +19,6 @@ describe('TopMenu component', () => {
       <TopMenu />
     </TestWrapper>);
 
-    screen.debug();
-
     //logo has loaded
     await screen.findByAltText(/Greenstand logo/);
 

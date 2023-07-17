@@ -16,7 +16,6 @@ describe('Menu component', () => {
   };
 
   it('renders correctly', async () => {
-    //Menu open prop is irrelevant as Layout is responsible for open/close
     render(<TestWrapper>
       <Menu />
     </TestWrapper>);
