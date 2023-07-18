@@ -23,6 +23,7 @@ const SubWalletInfo = ({ senderWalletName, senderWalletTokens }) => {
   );
 };
 
+
 const TokenInfoBlock = ({ totalTokens, senderWalletName = null, senderWalletTokens = null }) => {
   return (
     <Paper sx={{ width: '255px' }}>
