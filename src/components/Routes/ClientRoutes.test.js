@@ -1,28 +1,40 @@
-import React from "react";
-import { shallow } from "enzyme";
-import { useContext } from "react";
-import ClientRoutes from "./ClientRoutes";
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import ClientRoutes from './ClientRoutes';
+import { render, screen } from '@testing-library/react';
+import { ThemeProvider } from '@mui/material';
+import theme from '../UI/theme';
 
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  useContext: jest.fn(),
-}));
+describe('ClientRoutes component', () => {
 
-jest.mock("../../utils/apiClient", () => ({
-  get: jest.fn(),
-}));
+  const TestWrapper = (props) => {
+    return <ThemeProvider theme={theme}>
+      <Router>{props.children}</Router>
+    </ThemeProvider>
+      ;
+  };
 
-describe("ClientRoutes component", () => {
-  beforeEach(() => {
-    useContext.mockReset();
-  });
 
-  it("renders without crashing", () => {
-    useContext.mockReturnValueOnce({
-      isLoggedIn: true,
-    });
+  it('renders without crashing', async () => {
+    render(
+      <TestWrapper>
+        <ClientRoutes>
+        </ClientRoutes>
+      </TestWrapper>,
+    );
 
-    const wrapper = shallow(<ClientRoutes />);
-    expect(wrapper.exists()).toBe(true);
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+
+    //links have loaded
+    await screen.findAllByRole('link');
+    await screen.findByAltText(/Greenstand logo/);
+
+    //Logo, Home and Send Tokens for now
+    expect(screen.getAllByRole('link')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(3);
+
+    expect(screen.getByText(/Home/)).toBeInTheDocument();
+    expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
+
   });
 });
