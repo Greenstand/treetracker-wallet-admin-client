@@ -33,7 +33,7 @@ const Wallet = () => {
 
     // TODO: get wallet id by decoding the token. We get the token after login, which is not implemented yet.
     apiClient
-      .get("/wallets/9d6c674f-ae62-4fab-8d14-ae5de9f14ab8")
+      .get("/wallets/644f4d3b-a53c-457c-8677-42b5b812c23d")
       .then((response) => {
         const wallet = mapWallet(response.data);
         setWallet(wallet);

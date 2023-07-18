@@ -1,4 +1,4 @@
-# Greenstand Treetracker Wallet Admin Client
+# Greenstand Treetracker Wallet Admin Client 
 
 The admin panel for accessing wallets and execute all known API calls for the wallet API
 
