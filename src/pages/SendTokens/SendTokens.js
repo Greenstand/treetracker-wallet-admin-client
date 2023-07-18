@@ -6,11 +6,9 @@ import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessa
 import InfoCircle from './InfoCircle';
 
 const SendTokens = () => {
-
   const [walletList, setWalletList] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
 
   //when the page is first rendered
   useEffect(() => {
@@ -31,16 +29,21 @@ const SendTokens = () => {
 
   if (isLoading) return <Loader />;
 
-  const defaultWallet = walletList.length > 0 ? walletList[0] : {
-    id: '',
-    logo_url: '',
-    tokens_in_wallet: 0,
-    name: '',
-  };
+  const defaultWallet =
+    walletList.length > 0
+      ? walletList[0]
+      : {
+          id: '',
+          logo_url: '',
+          tokens_in_wallet: 0,
+          name: '',
+        };
 
   return (
     <Grid>
-      <header style={{ marginTop: '18vh', height: '10vh' }}>Send Tokens</header>
+      <header style={{ marginTop: '9.4vh', height: '10vh' }}>
+        Send Tokens
+      </header>
       {errorMessage && (
         <ErrorMessage
           message={errorMessage}
@@ -49,7 +52,10 @@ const SendTokens = () => {
       )}
       <Paper elevation={3}>
         <div>
-          <InfoCircle innerText={'Available tokens'} innerNumber={defaultWallet.tokens_in_wallet} />
+          <InfoCircle
+            innerText={'Available tokens'}
+            innerNumber={defaultWallet.tokens_in_wallet}
+          />
         </div>
       </Paper>
     </Grid>
