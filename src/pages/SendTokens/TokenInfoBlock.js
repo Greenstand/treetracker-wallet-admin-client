@@ -1,31 +1,9 @@
-import { Paper, Grid, Typography } from '@mui/material';
-import { styled } from '@mui/system';
+import { Paper, Grid } from '@mui/material';
 import tokenIcon from './tokens.svg';
+import { AmountText, SubText } from './TokenInfoBlockStyled';
 
 
-const SubText = styled(Typography)({
-  fontSize: 16,
-  lineHeight: '24px',
-  fontWeight: 700,
-  color: 'rgb(97,137,47)',
-  textAlign: 'center',
-  overflowWrap: 'break-word',
-  padding: '10px',
-});
-
-const AmountText = styled(Typography)({
-  fontSize: 24,
-  lineHeight: '24px',
-  fontWeight: 700,
-  color: 'rgb(97,137,47)',
-  textAlign: 'center',
-  overflowWrap: 'break-word',
-  paddingTop: '10px',
-  paddingBottom: '10px',
-});
-
-
-const SubWalletInfo = ({ subWalletName, subWalletTokens }) => {
+const SubWalletInfo = ({ senderWalletName, senderWalletTokens }) => {
   return (
     <>
       <Grid item xs={3}>
@@ -36,16 +14,16 @@ const SubWalletInfo = ({ subWalletName, subWalletTokens }) => {
       <Grid item xs={3} sx={{ minHeight: '65px' }}>
       </Grid>
       <Grid item xs={5}>
-        <AmountText>{subWalletTokens}</AmountText>
+        <AmountText>{senderWalletTokens}</AmountText>
       </Grid>
       <Grid item xs={4}>
-        <SubText>{subWalletName} Tokens</SubText>
+        <SubText>{senderWalletName} Tokens</SubText>
       </Grid>
     </>
   );
 };
 
-const TokenInfoBlock = ({ totalTokens, subWalletName = null, subWalletTokens = null }) => {
+const TokenInfoBlock = ({ totalTokens, senderWalletName = null, senderWalletTokens = null }) => {
   return (
     <Paper sx={{ width: '255px' }}>
       <Grid container sx={{ alignItems: 'center' }}>
@@ -60,8 +38,8 @@ const TokenInfoBlock = ({ totalTokens, subWalletName = null, subWalletTokens = n
           <SubText>Available Tokens</SubText>
         </Grid>
 
-        {subWalletName && subWalletTokens &&
-          <SubWalletInfo subWalletTokens={subWalletTokens} subWalletName={subWalletName} />
+        {senderWalletName && senderWalletTokens &&
+          <SubWalletInfo senderWalletTokens={senderWalletTokens} senderWalletName={senderWalletName} />
         }
       </Grid>
     </Paper>

@@ -40,26 +40,6 @@ const SendTokens = () => {
     loadWallets();
   }, []);
 
-  //
-  // useEffect(async () => {
-  //   setIsLoading(true);
-  //
-  //   // TODO: get wallet id by decoding the token. We get the token after login, which is not implemented yet.
-  //   apiClient
-  //     .get('/wallets/e46cae85-f0e3-40d4-a637-46d2168bfaad')
-  //     .then((response) => {
-  //       const wallet = mapWallet(response.data);
-  //       setWalletList({ wallet });
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //       setErrorMessage('An error occurred while fetching wallet data.');
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }, []);
-
 
   if (isLoading) return <Loader />;
 

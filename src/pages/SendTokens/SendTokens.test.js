@@ -49,13 +49,13 @@ describe('Display available tokens v1', () => {
 
   it('display sub wallet tokens correctly', async () => {
 
-    const subWalletData = {
+    const senderWalletData = {
       name: 'WalletA',
       tokensInWallet: '500',
     };
 
-    render(<TokenInfoBlock totalTokens={1000} subWalletTokens={500}
-                           subWalletName={'WalletA'} />);
+    render(<TokenInfoBlock totalTokens={1000} senderWalletTokens={senderWalletData.tokensInWallet}
+                           senderWalletName={senderWalletData.name} />);
 
     await screen.findByText('Available Tokens');
 
