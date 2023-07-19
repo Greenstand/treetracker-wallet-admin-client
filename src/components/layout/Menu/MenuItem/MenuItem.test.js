@@ -26,10 +26,11 @@ describe('MenuItem tests v1', () => {
     await screen.findAllByRole('link');
 
     //Home and Send Tokens for now
-    expect(screen.getAllByRole('link')).toHaveLength(2);
-    expect(screen.getAllByRole('button')).toHaveLength(2);
+    expect(screen.getAllByRole('link')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(3);
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
+    expect(screen.getByText(/My Transfers/)).toBeInTheDocument();
 
   });
 
