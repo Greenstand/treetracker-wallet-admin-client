@@ -25,10 +25,11 @@ describe('Layout component', () => {
     await screen.findByAltText(/Greenstand logo/);
     await screen.findAllByRole('link');
 
-    expect(screen.getAllByRole('link')).toHaveLength(3);
+    expect(screen.getAllByRole('link')).toHaveLength(4);
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
-    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getByText(/My Transfers/)).toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(4);
   });
 
 });
