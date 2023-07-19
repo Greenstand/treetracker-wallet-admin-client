@@ -24,15 +24,15 @@ describe('Menu component', () => {
     await screen.findAllByRole('link');
     await screen.findByAltText(/Greenstand logo/);
 
-    //Logo, Home and Send Tokens for now
-    expect(screen.getAllByRole('link')).toHaveLength(3);
-    expect(screen.getAllByRole('button')).toHaveLength(4);
-
-    expect(screen.getByText(/Home/)).toBeInTheDocument();
-    expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
+    //Logo, Home,  Send Tokens, My Transfers for now
+    expect(screen.getAllByRole('link')).toHaveLength(4);
+    expect(screen.getAllByRole('button')).toHaveLength(5);
     expect(screen.getByRole('button', {
       name: /open drawer/,
     })).toBeInTheDocument();
 
+    expect(screen.getByText(/Home/)).toBeInTheDocument();
+    expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
+    expect(screen.getByText(/My Transfers/)).toBeInTheDocument();
   });
 });
