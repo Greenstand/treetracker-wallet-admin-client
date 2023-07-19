@@ -23,6 +23,8 @@ describe('ClientRoutes component', () => {
       </TestWrapper>,
     );
 
+    expect(await screen.findByRole('progressbar')).toBeInTheDocument();
+
     //links have loaded
     await screen.findAllByRole('link');
     await screen.findByAltText(/Greenstand logo/);
