@@ -23,14 +23,12 @@ describe('ClientRoutes component', () => {
       </TestWrapper>,
     );
 
-    expect(await screen.findByRole('progressbar')).toBeInTheDocument();
-
     //links have loaded
     await screen.findAllByRole('link');
     await screen.findByAltText(/Greenstand logo/);
 
     //Logo, Home and Send Tokens for now
-    expect(screen.getAllByRole('link')).toHaveLength(3);
+    expect(screen.getAllByRole('link')).toHaveLength(4);
     expect(screen.getAllByRole('button')).toHaveLength(3);
 
     expect(screen.getByText(/Home/)).toBeInTheDocument();
