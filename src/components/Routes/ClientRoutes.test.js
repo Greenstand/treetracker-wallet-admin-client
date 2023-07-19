@@ -23,7 +23,7 @@ describe('ClientRoutes component', () => {
       </TestWrapper>,
     );
 
-    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(await screen.findByRole('progressbar')).toBeInTheDocument();
 
     //links have loaded
     await screen.findAllByRole('link');
