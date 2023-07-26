@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import AuthContext from "./auth-context";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import jwt_decode from 'jwt-decode';
+import AuthContext from './auth-context';
+import { useNavigate } from 'react-router-dom';
 
 const AuthProvider = (props) => {
-  const tokenKey = "token";
-  const walletKey = "wallet";
+  const tokenKey = 'token';
+  const walletKey = 'wallet';
 
-  const retrieveToken = () => JSON.parse(localStorage.getItem(tokenKey));
+  const retrieveToken = () => localStorage.getItem(tokenKey);
   const retrieveWallet = () => JSON.parse(localStorage.getItem(walletKey));
 
   const [wallet, setWallet] = useState(retrieveWallet);
@@ -19,13 +20,11 @@ const AuthProvider = (props) => {
 
     setToken(newToken);
 
-    // wallet is taken from the token
-    // todo: decode token and get wallet from it
-    const wallet = newWallet ? newWallet : {};
+    const wallet = newWallet ? newWallet : parseToken(newToken);
     setWallet(wallet);
 
     if (rememberDetails) {
-      localStorage.setItem(tokenKey, JSON.stringify(newToken));
+      localStorage.setItem(tokenKey, newToken);
       localStorage.setItem(walletKey, JSON.stringify(wallet));
     } else {
       localStorage.removeItem(tokenKey);
@@ -33,7 +32,20 @@ const AuthProvider = (props) => {
     }
 
     setIsLoggedIn(true);
-    navigate("/");
+    navigate('/');
+  };
+
+  const parseToken = (token) => {
+    var decoded = jwt_decode(token);
+
+    return {
+      id: decoded.id,
+      name: decoded.name,
+      logoURL: decoded.logo_url,
+      createdAt: decoded.created_at,
+      expiration: decoded.expiration,
+      about: decoded.about,
+    };
   };
 
   const logout = () => {
@@ -41,14 +53,13 @@ const AuthProvider = (props) => {
     setToken(undefined);
     localStorage.removeItem(tokenKey);
     localStorage.removeItem(walletKey);
-    navigate("/login");
+    navigate('/login');
   };
 
   const value = {
     isLoggedIn,
     login,
     logout,
-    // TODO: wallet info will be filled from Token (after token is decoded)
     wallet,
     token,
     ...props.value,
