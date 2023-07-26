@@ -36,15 +36,15 @@ const AuthProvider = (props) => {
   };
 
   const parseToken = (token) => {
-    var decoded = jwt_decode(token);
+    var decodedWalletInfo = jwt_decode(token);
 
     return {
-      id: decoded.id,
-      name: decoded.name,
-      logoURL: decoded.logo_url,
-      createdAt: decoded.created_at,
-      expiration: decoded.expiration,
-      about: decoded.about,
+      id: decodedWalletInfo.id,
+      name: decodedWalletInfo.name,
+      logoURL: decodedWalletInfo.logo_url,
+      createdAt: decodedWalletInfo.created_at,
+      expiration: decodedWalletInfo.expiration,
+      about: decodedWalletInfo.about,
     };
   };
 
