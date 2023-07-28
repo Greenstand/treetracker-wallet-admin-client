@@ -4,16 +4,22 @@ import ClientRoutes from './ClientRoutes';
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
 import theme from '../UI/theme';
-import AuthProvider from '../../store/AuthProvider';
 import AuthContext from '../../store/auth-context';
 
 
 describe('ClientRoutes component', () => {
 
   const TestWrapper = (props) => {
+    const testContext = {
+      isLoggedIn: true,
+      login: () => {
+      },
+      logout: () => {
+      },
+    };
     return <ThemeProvider theme={theme}>
       <Router>
-        <AuthContext.Provider value={{ isLoggedIn: true }}>
+        <AuthContext.Provider value={testContext}>
           {props.children}
         </AuthContext.Provider>
       </Router>
