@@ -47,7 +47,7 @@ jobs:
               "main-test": "TEST_CDN_S3_BUCKET",
               "main-prod": "PROD_CDN_S3_BUCKET",
               "beta-dev": "DEV_STAGING_CDN_S3_BUCKET",
-              "beta-dev": "TEST_STAGING_CDN_S3_BUCKET",
+              "beta-test": "TEST_STAGING_CDN_S3_BUCKET",
               "beta-prod": "STAGING_CDN_S3_BUCKET",
             }
             const cdnIdSecretNames = {
@@ -55,7 +55,7 @@ jobs:
               "main-test": "TEST_CDN_DISTRIBUTION_ID",
               "main-prod": "PROD_CDN_DISTRIBUTION_ID",
               "beta-dev": "DEV_STAGING_CDN_DISTRIBUTION_ID",
-              "beta-dev": "TEST_STAGING_CDN_DISTRIBUTION_ID",
+              "beta-test": "TEST_STAGING_CDN_DISTRIBUTION_ID",
               "beta-prod": "STAGING_CDN_DISTRIBUTION_ID",
             }
             const releaseJson = require("./.releaserc.json");        

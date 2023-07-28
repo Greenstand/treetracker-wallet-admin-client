@@ -1,10 +1,11 @@
-import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import apiClient from "../../utils/apiClient";
-import WalletInfoBlock from "./WalletInfoBlock/WalletInfoBlock";
-import { ContentContainer, ContentGrid } from "./WalletStyled";
-import { Loader } from "../../components/UI/components/Loader/Loader";
-import ErrorMessage from "../../components/UI/components/ErrorMessage/ErrorMessage";
+import { Grid } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import apiClient from '../../utils/apiClient';
+import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
+import { ContentContainer, ContentGrid } from './WalletStyled';
+import { Loader } from '../../components/UI/components/Loader/Loader';
+import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessage';
+import AuthContext from '../../store/auth-context';
 
 const mapWallet = (walletData) => {
   return {
@@ -16,31 +17,32 @@ const mapWallet = (walletData) => {
 };
 
 const Wallet = () => {
+  const [wallet, setWallet] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const defaultWallet = {
-    id: "",
-    logoURL: "",
-    tokensInWallet: 0,
-    name: "",
-  };
-
-  const [wallet, setWallet] = useState(defaultWallet);
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     setIsLoading(true);
 
-    // TODO: get wallet id by decoding the token. We get the token after login, which is not implemented yet.
+    // LocalStorage should have some wallet info after login
+    const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
+    if (!wallet || !wallet.id) {
+      console.log('Wallet info not found in the localStorage');
+      authContext.logout();
+      return;
+    }
+
     apiClient
-      .get("/wallets/644f4d3b-a53c-457c-8677-42b5b812c23d")
+      .get('/wallets/' + wallet.id)
       .then((response) => {
         const wallet = mapWallet(response.data);
         setWallet(wallet);
       })
       .catch((error) => {
         console.error(error);
-        setErrorMessage("An error occurred while fetching wallet data.");
+        setErrorMessage('An error occurred while fetching wallet data.');
       })
       .finally(() => {
         setIsLoading(false);
@@ -54,12 +56,12 @@ const Wallet = () => {
   return (
     <Grid>
       <div>
-        <header style={{ marginTop: "9.4vh", height: "10vh" }}>Wallet</header>
+        <header style={{ marginTop: '9.4vh', height: '10vh' }}>Wallet</header>
       </div>
       {errorMessage && (
         <ErrorMessage
           message={errorMessage}
-          onClose={() => setErrorMessage("")}
+          onClose={() => setErrorMessage('')}
         />
       )}
       <ContentContainer maxWidth="false">
