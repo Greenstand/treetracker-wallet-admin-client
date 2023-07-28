@@ -1,3 +1,10 @@
+# [1.0.0-v1.2](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.1...v1.0.0-v1.2) (2023-07-28)
+
+
+### Bug Fixes
+
+* correct channel for test env ([076b2ad](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/076b2ad39102a9de7b9daba6b126505cd3228059))
+
 # 1.0.0-v1.1 (2023-07-11)
 
 

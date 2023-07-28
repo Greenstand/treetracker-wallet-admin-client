@@ -152,6 +152,7 @@ const Login = () => {
                   <IconButton
                     onClick={() => setShowPassword(!showPassword)}
                     onMouseDown={(event) => event.preventDefault()}
+                    name='password visibility'
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
