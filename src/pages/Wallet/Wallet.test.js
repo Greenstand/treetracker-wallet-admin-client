@@ -46,7 +46,7 @@ describe('<Wallet />', () => {
   it('displays error message on fetch failure', async () => {
     apiClient.get.mockImplementationOnce(() => Promise.reject('API error'));
 
-    ender(<Wallet />);
+    render(<Wallet />);
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
 
