@@ -1,7 +1,6 @@
 import {
-  FormControl,
-  Grid, MenuItem,
-  Paper, Select,
+  Grid,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -11,9 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { ArrowDropDownIcon, FilterLabelText, SelectMenuItem, SelectFilter } from './TransfersTable.styled';
-import { DatePicker } from '@mui/x-date-pickers';
-
+import { DateRangeFilter, TransferFilter } from './TableFilters';
 
 const statusList = [
   {
@@ -33,51 +30,15 @@ const statusList = [
   },
 ];
 
-const TransferFilter = ({ transferFilterValue, setTransferFilterValue }) => {
-
-  // select value color must match the menuitem color
-  // 'None' option has a default color
-  const getSelectColor = () => {
-    return transferFilterValue
-      ? statusList.find(x => x.value === transferFilterValue).color
-      : '#585B5D';
-  };
-
-  return (
-    <FormControl sx={{ width: '192px' }}>
-      <FilterLabelText>Transfer Status</FilterLabelText>
-
-      <SelectFilter
-        displayEmpty
-        value={transferFilterValue}
-        onChange={(e) => setTransferFilterValue(e.target.value)}
-        IconComponent={ArrowDropDownIcon}
-        sx={{
-          color: getSelectColor(),
-        }}
-      >
-        <SelectMenuItem value={''}>None</SelectMenuItem>
-
-        {statusList.map((status, index) => <SelectMenuItem key={index} value={status.value}
-                                                           sx={{ color: status.color }}>{status.label}</SelectMenuItem>)}
-      </SelectFilter>
-    </FormControl>);
-};
-
-const DateRangeFilter = () => {
-  return (
-    <FormControl>
-      <Select>
-        <MenuItem>
-          <DatePicker />
-        </MenuItem>
-      </Select>
-    </FormControl>
-
-  );
-};
-
-const TableHeader = ({ tableTitle, transferFilterValue, setTransferFilterValue }) => {
+const TableHeader = ({
+                       tableTitle,
+                       transferFilterValue,
+                       setTransferFilterValue,
+                       startDate,
+                       setStartDate,
+                       endDate,
+                       setEndDate,
+                     }) => {
   return (
     <Grid item sx={{ paddingBottom: '15px' }}>
       <Typography variant={'h4'}>
@@ -86,8 +47,14 @@ const TableHeader = ({ tableTitle, transferFilterValue, setTransferFilterValue }
       <TransferFilter
         transferFilterValue={transferFilterValue}
         setTransferFilterValue={setTransferFilterValue}
+        statusList={statusList}
       />
-      <DateRangeFilter />
+      <DateRangeFilter
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+      />
     </Grid>
 
   );
@@ -97,10 +64,19 @@ const TableHeader = ({ tableTitle, transferFilterValue, setTransferFilterValue }
 const TransfersTable = ({ tableTitle, tableColumns }) => {
 
   const [tranferFilterValue, setTransferFilterValue] = useState('');
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   return (<Grid container direction={'column'}>
-    <TableHeader tableTitle={tableTitle} transferFilterValue={tranferFilterValue}
-                 setTransferFilterValue={setTransferFilterValue} />
+    <TableHeader
+      tableTitle={tableTitle}
+      transferFilterValue={tranferFilterValue}
+      setTransferFilterValue={setTransferFilterValue}
+      startDate={startDate}
+      endDate={endDate}
+      setStartDate={setStartDate}
+      setEndDate={setEndDate}
+    />
     {/*<Grid>*/}
     {/*  <Paper elevation={3} sx={{ height: '400px', width: '1000px' }}>*/}
     {/*    */}
