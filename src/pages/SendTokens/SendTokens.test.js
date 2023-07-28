@@ -1,13 +1,13 @@
+import '@testing-library/jest-dom';
 import apiClient from '../../utils/apiClient';
 import { render, screen } from '@testing-library/react';
 import SendTokens from './SendTokens';
 
 jest.mock('../../utils/apiClient', () => ({
-  get: jest.fn(),
+  get: jest.fn(() => Promise.resolve({ data: { wallets: [] } })),
 }));
 
 describe('Display available tokens v1', () => {
-
   const mockData = {
     data: {
       wallets: [
@@ -42,7 +42,7 @@ describe('Display available tokens v1', () => {
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
     await screen.findByRole('alert');
     expect(screen.getByRole('alert')).toHaveTextContent(
-      'An error occured while fetching wallet data.',
+      'An error occured while fetching wallet data.'
     );
   });
 });
