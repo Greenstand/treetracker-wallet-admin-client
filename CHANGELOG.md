@@ -1,3 +1,24 @@
+# [1.0.0-v1.4](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.3...v1.0.0-v1.4) (2023-07-28)
+
+
+### Bug Fixes
+
+* fixed overflow issues ([4126802](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/41268029bbccd91150490c913854d2019b612fc8))
+* minor fix and refactoring ([3494b56](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/3494b56517bba75086e940877eea76c3ebcd74ae))
+* remove InfoCircle.js ([479d635](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/479d6353bdf431f57b17868fb7b53fb635b8a30e))
+* restore commits ([26f3048](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/26f3048cda4a060ad036c948655c454f143ab166))
+* TokenInfoBlock.js conditional display of subwallet ([295f188](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/295f1887314aa2451fb3a949b10fee2c29f46ce0))
+* update tests and SendTokens.js ([25dcab6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/25dcab6b213bfd0a18bc48eca70664ae4815d19c))
+
+
+### Features
+
+* basic structure of updated display ([5aaee3d](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5aaee3de8b52f20fdfc81888d8f670b10de741bb))
+* display available tokens ([37b74d6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/37b74d6adbe36bb4fa88e8add8ddca03609e1c84))
+* finished display component ([a34f419](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a34f4196681e10e3beb7acb0499ec9bb1068ac2b))
+* minor refactoring ([aa92187](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/aa92187da1ee9550bd18b1b72b9d03b2829c7aa7))
+* updated structure ([a5aed3f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a5aed3f54d8e0cdf091023b86d786b3bc2311139))
+
 # [1.0.0-v1.3](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.2...v1.0.0-v1.3) (2023-07-28)
 
 
