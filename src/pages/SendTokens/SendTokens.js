@@ -2,17 +2,19 @@
 /* eslint-disable no-debugger */
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
-import { Grid, InputLabel, Paper } from '@mui/material';
-import { ContentContainer, ContentGrid } from './SendTokensStyled';
+import { Grid, Paper } from '@mui/material';
+import { ContentContainer } from './SendTokensStyled';
 import PageHeader from '../../components/layout/PageHeader/PageHeader';
 import SendTokensForm from './SendTokensForm/SendTokensForm';
-import InfoCircle from './InfoCircle';
 import Message, {
   MessageType,
 } from '../../components/UI/components/Message/Message';
 import apiClient from '../../utils/apiClient';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import WalletContext from '../../store/wallet-context';
+import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessage';
+import TokenInfoBlock from './TokenInfoBlock';
+import { formatWithCommas } from '../../utils/formatting';
 
 const mapWallet = (walletData) => {
   return {
@@ -25,6 +27,7 @@ const mapWallet = (walletData) => {
 
 const SendTokens = () => {
   const walletContext = useContext(WalletContext);
+
   const [walletList, setWalletList] = useState({});
   const [createdWalletName, setCreatedWalletName] = useState();
   const [errorMessage, setErrorMessage] = useState();
@@ -34,6 +37,23 @@ const SendTokens = () => {
   useEffect(() => {
     console.log('SendTokens.js rendered');
   }, []);
+
+  // ? get wallets here and pass to autocompletes ?
+  // useEffect(() => {
+  //   const loadWallets = async () => {
+  //     try {
+  //       // TODO: default limit
+  //       const wallets = await apiClient.get('/wallets?limit=200');
+  //       setWalletList(wallets.data.wallets.map(wallet => mapWallet(wallet)));
+  //     } catch (error) {
+  //       console.error(error);
+  //       setErrorMessage('An error occured while fetching wallet data.');
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   loadWallets();
+  // }, []);
 
   const handleSendTokenForm = (data) => {
     // {{baseUrl}}/transfers
@@ -84,22 +104,41 @@ const SendTokens = () => {
       });
   };
 
+  // when the page is first rendered
+  useEffect(() => {
+    const loadWallets = async () => {
+      try {
+        // TODO: default limit
+        const wallets = await apiClient.get('/wallets?limit=200');
+        setWalletList(wallets.data.wallets.map((wallet) => mapWallet(wallet)));
+      } catch (error) {
+        console.error(error);
+        setErrorMessage('An error occured while fetching wallet data.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadWallets();
+  }, []);
+
   const defaultWallet = walletContext.currentWallet;
 
   if (isLoading) return <Loader />;
 
-  walletList.length > 0
-    ? walletList[0]
-    : {
-        id: '',
-        logo_url: '',
-        tokens_in_wallet: 0,
-        name: '',
-      };
+  // const defaultWallet = walletList.length > 0
+  //   ? walletList[0]
+  //   : {
+  //       id: '',
+  //     logoURL: '',
+  // tokensInWallet: 0,
+  // name: '',
+  //     };
 
   return (
-    <Grid style={{ width: '100%' }}>
+    // <Grid style={{ width: '100%' }}>
+    <Grid>
       <PageHeader title="Send tokens" />
+      {/* <header style={{ marginTop: '18vh', height: '10vh' }}>Send Tokens</header> */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {errorMessage && (
           <Message
@@ -131,13 +170,20 @@ const SendTokens = () => {
         </Paper>
         {/* </ContentGrid> */}
       </ContentContainer>
+
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage('')}
+        />
+      )}
+
       <Paper elevation={3}>
-        <div>
-          <InfoCircle
-            innerText={'Available tokens'}
-            innerNumber={defaultWallet.tokens_in_wallet}
-          />
-        </div>
+        <TokenInfoBlock
+          totalTokens={formatWithCommas(defaultWallet.tokensInWallet)}
+          subWalletName={''}
+          subWalletTokens={''}
+        />
       </Paper>
     </Grid>
   );

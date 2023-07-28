@@ -1,29 +1,26 @@
-import React from "react";
-import { shallow } from "enzyme";
-import App from "./App";
+import React from 'react';
+import App from './App';
+import { render, screen } from '@testing-library/react';
 
-jest.mock("./utils/apiClient", () => ({
-  get: jest.fn(),
-}));
+describe('App component', () => {
 
-describe("App component", () => {
-  it("renders without crashing", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.exists()).toBe(true);
+  it('should redirect to login', async () => {
+    render(<App />);
+    
+    //load data
+    await screen.findByAltText(/Greenstand logo/);
+
+    expect(screen.getAllByRole('heading')).toHaveLength(1);
+    expect(screen.getByRole('heading', { name: /Wallet Admin Panel/ })).toBeInTheDocument();
+
+    //type='password' doesn't have a role, so no getByRole
+    expect(screen.getByLabelText('Password *')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: /Wallet/ })).toBeInTheDocument();
+
+    expect(screen.getAllByRole('button')).toHaveLength(2);
+    expect(screen.getByRole('button', { name: /LOG IN/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '' })).toHaveAttribute('name', 'password visibility');
+
   });
 
-  it("renders the Router component", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find("BrowserRouter")).toHaveLength(1);
-  });
-
-  it("renders the Layout component", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find("Layout")).toHaveLength(1);
-  });
-
-  it("renders the ClientRoutes component", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find("ClientRoutes")).toHaveLength(1);
-  });
 });

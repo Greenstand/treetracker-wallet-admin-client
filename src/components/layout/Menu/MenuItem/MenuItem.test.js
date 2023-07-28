@@ -1,43 +1,37 @@
-import { shallow } from 'enzyme';
-import React from 'react';
+import { render, screen } from '@testing-library/react';
 import MenuItem from './MenuItem';
-import {
-  ItemButtonStyled,
-  ItemIconStyled,
-  LinkItemStyled,
-} from './MenuItemStyled';
-import LinkItem from './LinkItem';
+import { ThemeProvider } from '@mui/material';
+import theme from '../../../UI/theme';
 
-describe('Layout component', () => {
-  let wrapper;
+import { BrowserRouter as Router } from 'react-router-dom';
 
-  beforeEach(() => {
-    wrapper = shallow(
-      <MenuItem>
-        <div>Test</div>
-      </MenuItem>,
+describe('MenuItem tests v1', () => {
+
+  const TestWrapper = (props) => {
+    return <ThemeProvider theme={theme}>
+      <Router>
+        {props.children}
+      </Router>
+    </ThemeProvider>;
+  };
+
+  it('Links are rendered correctly', async () => {
+    render(
+      <TestWrapper>
+        <MenuItem />
+      </TestWrapper>,
     );
+
+    //links have loaded
+    await screen.findAllByRole('link');
+
+    //Home and Send Tokens for now
+    expect(screen.getAllByRole('link')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getByText(/Home/)).toBeInTheDocument();
+    expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
+    expect(screen.getByText(/My Transfers/)).toBeInTheDocument();
+
   });
 
-  it('should render Layout component', () => {
-    expect(wrapper).toBeTruthy();
-  });
-
-  it('should render LinkItem component(s)', () => {
-    const linkItems = wrapper.find(LinkItem);
-    expect(linkItems.length).toBeGreaterThanOrEqual(1);
-  });
-
-  it('LinkItems rendering links correctly', () => {
-    const linkItems = wrapper.find(LinkItem);
-    let itemButton, itemIcon, itemLink;
-    linkItems.map(linkItem => {
-      itemButton = linkItem.find(ItemButtonStyled);
-      itemIcon = linkItem.find(ItemIconStyled);
-      itemLink = linkItem.find(LinkItemStyled);
-      expect(itemButton).toBeTruthy();
-      expect(itemIcon).toBeTruthy();
-      expect(itemLink).toBeTruthy();
-    });
-  });
 });
