@@ -9,7 +9,7 @@ export const FilterLabelText = styled(Typography)({
   marginBottom: '3px',
 });
 
-export const TransferSelectFilter = styled(Select)({
+export const SelectFilter = styled(Select)({
   fontSize: '16px',
   borderRadius: '4px',
   border: '1px solid #E0E0E0',
@@ -19,6 +19,12 @@ export const TransferSelectFilter = styled(Select)({
   opacity: '0.8',
   padding: '8px',
   '& .MuiSelect-select:focus': {
+    backgroundColor: 'transparent',
+    color: 'inherit',
+  },
+  // for MenuItem with empty value ('')
+  // for some reason belongs to a different class
+  '& .MuiOutlinedInput-input.MuiSelect-select:focus': {
     backgroundColor: 'transparent',
     color: 'inherit',
   },

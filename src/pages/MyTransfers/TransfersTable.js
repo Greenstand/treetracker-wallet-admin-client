@@ -1,7 +1,7 @@
 import {
   FormControl,
-  Grid,
-  Paper,
+  Grid, MenuItem,
+  Paper, Select,
   Table,
   TableBody,
   TableCell,
@@ -11,7 +11,8 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { ArrowDropDownIcon, FilterLabelText, SelectMenuItem, TransferSelectFilter } from './TransfersTable.styled';
+import { ArrowDropDownIcon, FilterLabelText, SelectMenuItem, SelectFilter } from './TransfersTable.styled';
+import { DatePicker } from '@mui/x-date-pickers';
 
 
 const statusList = [
@@ -46,22 +47,35 @@ const TransferFilter = ({ transferFilterValue, setTransferFilterValue }) => {
     <FormControl sx={{ width: '192px' }}>
       <FilterLabelText>Transfer Status</FilterLabelText>
 
-      <TransferSelectFilter
+      <SelectFilter
         displayEmpty
         value={transferFilterValue}
         onChange={(e) => setTransferFilterValue(e.target.value)}
         IconComponent={ArrowDropDownIcon}
-        sx={{ color: getSelectColor() }}
+        sx={{
+          color: getSelectColor(),
+        }}
       >
         <SelectMenuItem value={''}>None</SelectMenuItem>
 
         {statusList.map((status, index) => <SelectMenuItem key={index} value={status.value}
                                                            sx={{ color: status.color }}>{status.label}</SelectMenuItem>)}
-      </TransferSelectFilter>
+      </SelectFilter>
     </FormControl>);
 };
 
-// const Date;
+const DateRangeFilter = () => {
+  return (
+    <FormControl>
+      <Select>
+        <MenuItem>
+          <DatePicker />
+        </MenuItem>
+      </Select>
+    </FormControl>
+
+  );
+};
 
 const TableHeader = ({ tableTitle, transferFilterValue, setTransferFilterValue }) => {
   return (
@@ -73,7 +87,7 @@ const TableHeader = ({ tableTitle, transferFilterValue, setTransferFilterValue }
         transferFilterValue={transferFilterValue}
         setTransferFilterValue={setTransferFilterValue}
       />
-
+      <DateRangeFilter />
     </Grid>
 
   );
