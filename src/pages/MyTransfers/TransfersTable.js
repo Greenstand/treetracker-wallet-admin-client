@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { DateRangeFilter, TransferFilter } from './TableFilters';
+import { TableCellStyled } from './TransfersTable.styled';
 
 const statusList = [
   {
@@ -38,6 +39,7 @@ const TableHeader = ({
                        setStartDate,
                        endDate,
                        setEndDate,
+                       getStatusColor,
                      }) => {
   return (
     <Grid item container sx={{ paddingBottom: '15px' }}>
@@ -52,6 +54,7 @@ const TableHeader = ({
             transferFilterValue={transferFilterValue}
             setTransferFilterValue={setTransferFilterValue}
             statusList={statusList}
+            getStatusColor={getStatusColor}
           />
         </Grid>
         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -88,60 +91,71 @@ const TransfersTable = ({
     setPage(0);
   };
 
+  // status value color must match the menuitem color
+  // 'None' option has a default color
+  const getStatusColor = (status) => {
+    return statusList.find(x => x.value === status).color;
+  };
 
-  return (<Grid container direction={'column'}>
-    <TableHeader
-      tableTitle={tableTitle}
-      transferFilterValue={transferFilterValue}
-      setTransferFilterValue={setTransferFilterValue}
-      startDate={startDate}
-      endDate={endDate}
-      setStartDate={setStartDate}
-      setEndDate={setEndDate}
-    />
-    {/*<Grid>*/}
-    {/*  <Paper elevation={3} sx={{ height: '400px', width: '1000px' }}>*/}
-    {/*    */}
-    {/*  </Paper>*/}
-    {/*</Grid>*/}
-    <TableContainer component={Paper} sx={{ height: '400px', width: '1000px' }}>
-      <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-        <TableHead>
-          <TableRow>
-            {tableColumns.map((column, id) => {
+  return (
+    <Grid container direction={'column'}>
+      <TableHeader
+        tableTitle={tableTitle}
+        transferFilterValue={transferFilterValue}
+        setTransferFilterValue={setTransferFilterValue}
+        startDate={startDate}
+        endDate={endDate}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
+        getStatusColor={getStatusColor}
+      />
+
+      <TableContainer component={Paper} sx={{ height: '400px', width: '1000px' }}>
+        <Table stickyHeader sx={{ minWidth: 650 }} aria-label='transfers table'>
+          <TableHead>
+            <TableRow>
+              {tableColumns.map((column, id) => {
+                return (
+                  <TableCell key={`${id}-${column.description}`}
+                             sx={{ fontSize: '14px' }}>{column.description}</TableCell>
+                );
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => {
               return (
-                <TableCell key={`${id}-${column.description}`}
-                           sx={{ fontSize: '14px' }}>{column.description}</TableCell>
+                <TableRow key={rowIndex}>
+                  {tableColumns.map((column, colIndex) => {
+                    return (
+                      <TableCellStyled key={`${rowIndex}-${colIndex}-${column.description}`}
+                                       sx={{
+                                         color: column.name === 'status'
+                                           ? getStatusColor(row[column.name])
+                                           : '',
+                                       }}
+                      >
+                        {row[column.name]}
+                      </TableCellStyled>
+                    );
+                  })}
+                </TableRow>
               );
             })}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tableRows.map((row, rowIndex) => {
-            return (
-              <TableRow key={rowIndex}>
-                {tableColumns.map((column, id) => {
-                  return (
-                    <TableCell key={`${rowIndex}-${id}-${column.description}`}
-                               sx={{ fontSize: '14px' }}>{row[column.name]}</TableCell>
-                  );
-                })}
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <TablePagination
-      rowsPerPageOptions={[10, 50]}
-      component={'div'}
-      count={tableRows.length}
-      rowsPerPage={rowsPerPage}
-      onRowsPerPageChange={handleRowsPerPage}
-      page={page}
-      onPageChange={(e, newPage) => setPage(newPage)}
-    />
-  </Grid>);
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <TablePagination
+        rowsPerPageOptions={[10, 50]}
+        component={'div'}
+        count={tableRows.length}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleRowsPerPage}
+        page={page}
+        onPageChange={(e, newPage) => setPage(newPage)}
+      />
+    </Grid>);
 };
 
 export default TransfersTable;

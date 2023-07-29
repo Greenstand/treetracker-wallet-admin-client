@@ -11,15 +11,7 @@ import React, { useState } from 'react';
 import { DatePicker, DateRangeIcon } from '@mui/x-date-pickers';
 import { getDateText } from '../../utils/formatting';
 
-export const TransferFilter = ({ transferFilterValue, setTransferFilterValue, statusList }) => {
-
-  // select value color must match the menuitem color
-  // 'None' option has a default color
-  const getSelectColor = () => {
-    return transferFilterValue
-      ? statusList.find(x => x.value === transferFilterValue).color
-      : '#585B5D';
-  };
+export const TransferFilter = ({ transferFilterValue, setTransferFilterValue, statusList, getStatusColor }) => {
 
   return (
     <FormControl sx={{ width: '192px' }}>
@@ -31,7 +23,7 @@ export const TransferFilter = ({ transferFilterValue, setTransferFilterValue, st
         onChange={(e) => setTransferFilterValue(e.target.value)}
         IconComponent={ArrowDropDownIcon}
         sx={{
-          color: getSelectColor(),
+          color: transferFilterValue ? getStatusColor(transferFilterValue) : '#585B5D',
         }}
       >
         <SelectMenuItem value={''}>None</SelectMenuItem>

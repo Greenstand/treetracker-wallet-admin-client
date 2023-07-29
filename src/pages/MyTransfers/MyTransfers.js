@@ -3,6 +3,7 @@ import { Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
 // import { CustomTableHeader } from './CustomTable';
 import mockData from '../../mock_data.json';
+import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessage';
 
 
 const transferColumns = [
@@ -72,22 +73,31 @@ const MyTransfers = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
 
+  // error
+  const [errorMessage, setErrorMessage] = useState('');
 
-  return <div style={{ marginTop: '5rem', marginLeft: '1rem' }}>
-    {/*<Typography sx={{ fontWeight: 700, fontSize: '24px' }}>My Transfers</Typography>*/}
-    <Grid container direction='column'>
-      {/*<CustomTableHeader headerTitle={'My Transfers'} activeDateRange={'null'} />*/}
-      <TransfersTable
-        tableTitle={'My Transfers'}
-        tableColumns={transferColumns}
-        tableRows={newData.slice(1, 25)}
-        rowsPerPage={rowsPerPage}
-        setRowsPerPage={setRowsPerPage}
-        page={page}
-        setPage={setPage}
-      />
-    </Grid>
-  </div>;
+
+  return (
+    <div style={{ marginTop: '5rem', marginLeft: '1rem' }}>
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage('')}
+        />
+      )}
+      <Grid container direction='column'>
+
+        <TransfersTable
+          tableTitle={'My Transfers'}
+          tableColumns={transferColumns}
+          tableRows={newData.slice(1, 25)}
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+          page={page}
+          setPage={setPage}
+        />
+      </Grid>
+    </div>);
 };
 
 export default MyTransfers;
