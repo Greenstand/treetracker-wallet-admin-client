@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
 // import { CustomTableHeader } from './CustomTable';
+import mockData from '../../mock_data.json';
 
 
 const transferColumns = [
   {
     description: 'Transfer ID',
-    name: 'transfer_id',
+    name: 'id',
     sortable: true,
     showInfoIcon: false,
   },
@@ -56,16 +57,36 @@ const transferColumns = [
 
 ];
 
+const statuses = ['Completed', 'Pending', 'Failed'];
+
+const newData = mockData.map(x => {
+  return {
+    ...x,
+    status: statuses[Math.floor(Math.random() * 3)],
+  };
+});
+
+
 const MyTransfers = () => {
+  // pagination
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
+
+
   return <div style={{ marginTop: '5rem', marginLeft: '1rem' }}>
     {/*<Typography sx={{ fontWeight: 700, fontSize: '24px' }}>My Transfers</Typography>*/}
     <Grid container direction='column'>
       {/*<CustomTableHeader headerTitle={'My Transfers'} activeDateRange={'null'} />*/}
-      <TransfersTable tableTitle={'My Transfers'} tableColumns={transferColumns} />
-
+      <TransfersTable
+        tableTitle={'My Transfers'}
+        tableColumns={transferColumns}
+        tableRows={newData.slice(1, 25)}
+        rowsPerPage={rowsPerPage}
+        setRowsPerPage={setRowsPerPage}
+        page={page}
+        setPage={setPage}
+      />
     </Grid>
-
-
   </div>;
 };
 
