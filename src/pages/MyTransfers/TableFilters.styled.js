@@ -29,6 +29,12 @@ export const SelectFilter = styled(Select)({
     backgroundColor: 'transparent',
     color: 'inherit',
   },
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
+  ':hover': {
+    border: '1px solid black',
+  },
 });
 
 export const SelectMenuItem = styled(MenuItem)({
@@ -57,6 +63,10 @@ export const DateRangeButton = styled(Button)({
   textTransform: 'none',
   justifyContent: 'space-between',
   color: '#585B5D',
+  ':hover': {
+    background: 'var(--neutral-white, #FFF)',
+    border: '1px solid black',
+  },
 });
 
 export const DateRangeFilterIcon = styled(DateRangeIcon)({

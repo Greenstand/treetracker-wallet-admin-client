@@ -64,6 +64,7 @@ export const DateRangeFilter = ({ startDate, setStartDate, endDate, setEndDate }
 
   return (
     <FormControl sx={{ width: '192px' }}>
+      <FilterLabelText>Created Date</FilterLabelText>
       <DateRangeButton onClick={handleClick} endIcon={<DateRangeFilterIcon />}>
         {startDate ? getDateText(startDate) : defaultDateText} - {endDate ? getDateText(endDate) : defaultDateText}
         {/*{defaultDateText}*/}

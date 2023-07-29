@@ -40,23 +40,30 @@ const TableHeader = ({
                        setEndDate,
                      }) => {
   return (
-    <Grid item sx={{ paddingBottom: '15px' }}>
-      <Typography variant={'h4'}>
-        {tableTitle}
-      </Typography>
-      <TransferFilter
-        transferFilterValue={transferFilterValue}
-        setTransferFilterValue={setTransferFilterValue}
-        statusList={statusList}
-      />
-      <DateRangeFilter
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-      />
+    <Grid item container sx={{ paddingBottom: '15px' }}>
+      <Grid item xs={7} sx={{ display: 'flex', alignItems: 'end' }}>
+        <Typography variant={'h4'}>
+          {tableTitle}
+        </Typography>
+      </Grid>
+      <Grid container xs={5}>
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <TransferFilter
+            transferFilterValue={transferFilterValue}
+            setTransferFilterValue={setTransferFilterValue}
+            statusList={statusList}
+          />
+        </Grid>
+        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <DateRangeFilter
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
+        </Grid>
+      </Grid>
     </Grid>
-
   );
 };
 
