@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
-// import { CustomTableHeader } from './CustomTable';
 import mockData from '../../mock_data.json';
 import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessage';
+// import { useTransfersContext } from '../../store/TransfersContext';
 
-
+// columns of the transfers table
 const transferColumns = [
   {
     description: 'Transfer ID',
@@ -67,14 +67,32 @@ const newData = mockData.map(x => {
   };
 });
 
-
+/**@function
+ * @name MyTransfers
+ * @description Renders the My Transfers page
+ *
+ * @returns {JSX.Element} - My Transfers page component
+ * */
 const MyTransfers = () => {
-  // pagination
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
+  // get pagination and filter from context
+  // const { pagination, filter } = useTransfersContext();
 
   // error
   const [errorMessage, setErrorMessage] = useState('');
+  // const [data, setData] = useState([]);
+
+  // load data
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     const { page, rowsPerPage } = pagination;
+  //     const url = `https://dev-k8s.treetracker.org/query/v2/captures?limit=${rowsPerPage}&offset=${page * rowsPerPage}`;
+  //     const returnedData = await axios.get(url);
+  //     setData(returnedData.data);
+  //   };
+  //   loadData();
+  // }, [pagination]);
+  //
+  // console.log('DATA', data);
 
 
   return (
@@ -91,10 +109,6 @@ const MyTransfers = () => {
           tableTitle={'My Transfers'}
           tableColumns={transferColumns}
           tableRows={newData.slice(1, 25)}
-          rowsPerPage={rowsPerPage}
-          setRowsPerPage={setRowsPerPage}
-          page={page}
-          setPage={setPage}
         />
       </Grid>
     </div>);

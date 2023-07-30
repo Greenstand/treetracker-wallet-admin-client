@@ -9,9 +9,10 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import { DateRangeFilter, TransferFilter } from './TableFilters';
 import { TableCellStyled } from './TransfersTable.styled';
+import { useTransfersContext } from '../../store/TransfersContext';
 
 const statusList = [
   {
@@ -31,14 +32,16 @@ const statusList = [
   },
 ];
 
+/**@function
+ * @name TableHeader
+ * @description Renders the table header (title, filters) for TransfersTable
+ * @param {string} tableTitle Name of the table to be displayed
+ * @param {function} getStatusColor returns color corresponding to transfer state value
+ *
+ * @returns {JSX.Element} - Table header component
+ */
 const TableHeader = ({
                        tableTitle,
-                       transferFilterValue,
-                       setTransferFilterValue,
-                       startDate,
-                       setStartDate,
-                       endDate,
-                       setEndDate,
                        getStatusColor,
                      }) => {
   return (
@@ -51,19 +54,12 @@ const TableHeader = ({
       <Grid item container xs={5}>
         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <TransferFilter
-            transferFilterValue={transferFilterValue}
-            setTransferFilterValue={setTransferFilterValue}
             statusList={statusList}
             getStatusColor={getStatusColor}
           />
         </Grid>
         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DateRangeFilter
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-          />
+          <DateRangeFilter />
         </Grid>
       </Grid>
     </Grid>
@@ -71,28 +67,40 @@ const TableHeader = ({
 };
 
 
+/**@function
+ * @name TransfersTable
+ * @description Renders the transfers table
+ * @param {string} tableTitle Name of the table to be displayed
+ * @param {object} tableColumns Array of table column objects to be displayed
+ * @param {object} tableRows Array of table row objects to be displayed
+ *
+ * @returns {JSX.Element} - transfer table component
+ */
 const TransfersTable = ({
                           tableTitle,
                           tableColumns,
                           tableRows,
-                          rowsPerPage,
-                          setRowsPerPage,
-                          page,
-                          setPage,
                         }) => {
-  // filter values
-  const [transferFilterValue, setTransferFilterValue] = useState('');
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+
+  // get pagination from context
+  const { pagination, setPagination } = useTransfersContext();
+  const { page, rowsPerPage } = pagination;
 
   // pagination
-  const handleRowsPerPage = (e) => {
-    setRowsPerPage(parseInt(e.target.value, 10));
-    setPage(0);
+  const handleRowsPerPageChange = (e) => {
+    const newPagination = {
+      rowsPerPage: parseInt(e.target.value, 10),
+      page: 0,
+    };
+    setPagination(newPagination);
   };
 
-  // status value color must match the menuitem color
-  // 'None' option has a default color
+  const handlePageChange = (e, newPage) => {
+    const newPagination = { ...pagination, page: newPage };
+    setPagination(newPagination);
+  };
+
+  // get color corresponding to the status value
   const getStatusColor = (status) => {
     return statusList.find(x => x.value === status).color;
   };
@@ -101,12 +109,6 @@ const TransfersTable = ({
     <Grid container direction={'column'}>
       <TableHeader
         tableTitle={tableTitle}
-        transferFilterValue={transferFilterValue}
-        setTransferFilterValue={setTransferFilterValue}
-        startDate={startDate}
-        endDate={endDate}
-        setStartDate={setStartDate}
-        setEndDate={setEndDate}
         getStatusColor={getStatusColor}
       />
 
@@ -151,9 +153,9 @@ const TransfersTable = ({
         component={'div'}
         count={tableRows.length}
         rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleRowsPerPage}
+        onRowsPerPageChange={handleRowsPerPageChange}
         page={page}
-        onPageChange={(e, newPage) => setPage(newPage)}
+        onPageChange={(e, newPage) => handlePageChange(e, newPage)}
       />
     </Grid>);
 };

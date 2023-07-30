@@ -10,8 +10,28 @@ import {
 import React, { useState } from 'react';
 import { DatePicker, DateRangeIcon } from '@mui/x-date-pickers';
 import { getDateText } from '../../utils/formatting';
+import { useTransfersContext } from '../../store/TransfersContext';
 
-export const TransferFilter = ({ transferFilterValue, setTransferFilterValue, statusList, getStatusColor }) => {
+/**@function
+ * @name TransferFilter
+ * @description Renders the transfer status filter
+ *
+ * @param {object} statusList Array of transfer status objects
+ * @param {function} getStatusColor returns color corresponding to transfer state value
+ *
+ * @return {JSX.Element} Transfer status filter component
+ * @constructor
+ */
+export const TransferFilter = ({ statusList, getStatusColor }) => {
+
+  // get filter from context
+  const { filter, setFilter } = useTransfersContext();
+  const { transferStatus } = filter;
+
+  const handleSelectChange = (e) => {
+    const newFilter = { ...filter, transferStatus: e.target.value };
+    setFilter(newFilter);
+  };
 
   return (
     <FormControl sx={{ width: '192px' }}>
@@ -19,11 +39,11 @@ export const TransferFilter = ({ transferFilterValue, setTransferFilterValue, st
 
       <SelectFilter
         displayEmpty
-        value={transferFilterValue}
-        onChange={(e) => setTransferFilterValue(e.target.value)}
+        value={transferStatus}
+        onChange={handleSelectChange}
         IconComponent={ArrowDropDownIcon}
         sx={{
-          color: transferFilterValue ? getStatusColor(transferFilterValue) : '#585B5D',
+          color: transferStatus ? getStatusColor(transferStatus) : '#585B5D',
         }}
       >
         <SelectMenuItem value={''}>None</SelectMenuItem>
@@ -36,7 +56,29 @@ export const TransferFilter = ({ transferFilterValue, setTransferFilterValue, st
     </FormControl>);
 };
 
-export const DateRangeFilter = ({ startDate, setStartDate, endDate, setEndDate }) => {
+/**@function
+ * @name DateRangeFilter
+ * @description Renders the date range filter
+ *
+ * @return {JSX.Element} Date range filter component
+ * @constructor
+ */
+export const DateRangeFilter = () => {
+  // get filter from context
+  const { filter, setFilter } = useTransfersContext();
+  const { startDate, endDate } = filter;
+
+  const handleStartDateChange = (date) => {
+    const newFilter = { ...filter, startDate: date };
+    setFilter(newFilter);
+  };
+
+  const handleEndDateChange = (date) => {
+    const newFilter = { ...filter, endDate: date };
+    setFilter(newFilter);
+  };
+
+
   const [anchorEl, setAnchorEl] = useState(null);
   const defaultDateText = 'mm/dd/yyyy';
 
@@ -46,8 +88,8 @@ export const DateRangeFilter = ({ startDate, setStartDate, endDate, setEndDate }
 
   const handleClose = () => {
     setAnchorEl(null);
-    setStartDate(null);
-    setEndDate(null);
+    const newFilter = { ...filter, startDate: null, endDate: null };
+    setFilter(newFilter);
   };
 
   const handleOK = () => {
@@ -80,7 +122,7 @@ export const DateRangeFilter = ({ startDate, setStartDate, endDate, setEndDate }
                 <DatePicker
                   label={'Start date'}
                   value={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  onChange={(date) => handleStartDateChange(date)}
                   disableFuture
                   maxDate={endDate}
                 />
@@ -89,7 +131,7 @@ export const DateRangeFilter = ({ startDate, setStartDate, endDate, setEndDate }
                 <DatePicker
                   label={'End date'}
                   value={endDate}
-                  onChange={(date) => setEndDate(date)}
+                  onChange={(date) => handleEndDateChange(date)}
                   disableFuture
                   minDate={startDate}
                 />
