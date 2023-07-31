@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 import { DatePicker, DateRangeIcon } from '@mui/x-date-pickers';
 import { getDateText } from '../../utils/formatting';
 import { useTransfersContext } from '../../store/TransfersContext';
+import TransferFilter from '../../models/TransferFilter';
 
 /**@function
  * @name TransferFilter
@@ -25,10 +26,10 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
 
   // get filter from context
   const { filter, setFilter, statusList } = useTransfersContext();
-  const { transferStatus } = filter;
+  const { status } = filter;
 
   const handleSelectChange = (e) => {
-    const newFilter = { ...filter, transferStatus: e.target.value };
+    const newFilter = new TransferFilter({ ...filter, status: e.target.value });
     setFilter(newFilter);
   };
 
@@ -38,11 +39,11 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
 
       <SelectFilter
         displayEmpty
-        value={transferStatus}
+        value={status}
         onChange={handleSelectChange}
         IconComponent={ArrowDropDownIcon}
         sx={{
-          color: transferStatus ? getStatusColor(transferStatus) : '#585B5D',
+          color: status ? getStatusColor(status) : '#585B5D',
         }}
       >
         <SelectMenuItem value={''}>None</SelectMenuItem>
@@ -65,15 +66,15 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
 export const DateRangeFilter = () => {
   // get filter from context
   const { filter, setFilter } = useTransfersContext();
-  const { startDate, endDate } = filter;
+  const { after, before } = filter;
 
   const handleStartDateChange = (date) => {
-    const newFilter = { ...filter, startDate: date };
+    const newFilter = new TransferFilter({ ...filter, after: date });
     setFilter(newFilter);
   };
 
   const handleEndDateChange = (date) => {
-    const newFilter = { ...filter, endDate: date };
+    const newFilter = new TransferFilter({ ...filter, before: date });
     setFilter(newFilter);
   };
 
@@ -87,7 +88,7 @@ export const DateRangeFilter = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-    const newFilter = { ...filter, startDate: null, endDate: null };
+    const newFilter = new TransferFilter({ ...filter, before: null, after: null });
     setFilter(newFilter);
   };
 
@@ -99,7 +100,7 @@ export const DateRangeFilter = () => {
     <FormControl sx={{ width: '192px' }}>
       <FilterLabelText>Created Date</FilterLabelText>
       <DateRangeButton onClick={handleClick} endIcon={<DateRangeFilterIcon />}>
-        {startDate ? getDateText(startDate) : defaultDateText} - {endDate ? getDateText(endDate) : defaultDateText}
+        {after ? getDateText(after) : defaultDateText} - {before ? getDateText(before) : defaultDateText}
         {/*{defaultDateText}*/}
       </DateRangeButton>
       <Popover
@@ -120,19 +121,19 @@ export const DateRangeFilter = () => {
               <Grid item xs={12}>
                 <DatePicker
                   label={'Start date'}
-                  value={startDate}
+                  value={after}
                   onChange={(date) => handleStartDateChange(date)}
                   disableFuture
-                  maxDate={endDate}
+                  maxDate={before}
                 />
               </Grid>
               <Grid item xs={12}>
                 <DatePicker
                   label={'End date'}
-                  value={endDate}
+                  value={before}
                   onChange={(date) => handleEndDateChange(date)}
                   disableFuture
-                  minDate={startDate}
+                  minDate={after}
                 />
               </Grid>
             </Grid>

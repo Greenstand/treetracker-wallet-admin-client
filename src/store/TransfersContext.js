@@ -14,7 +14,12 @@ const TransfersProvider = ({ children }) => {
 
   // filter
   // default filter is empty
-  const defaultFilter = new TransferFilter({});
+  const defaultFilter = new TransferFilter({
+    wallet: null,
+    status: '',
+    before: null,
+    after: null,
+  });
   const [filter, setFilter] = useState(defaultFilter);
 
   // transfer statuses
