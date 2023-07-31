@@ -7,8 +7,8 @@ const TransfersContext = createContext();
 const TransfersProvider = ({ children }) => {
   // pagination
   const defaultPagination = {
-    page: 0,
-    rowsPerPage: 10,
+    limit: 10,
+    offset: 0,
   };
   const [pagination, setPagination] = useState(defaultPagination);
 
@@ -16,7 +16,7 @@ const TransfersProvider = ({ children }) => {
   // default filter is empty
   const defaultFilter = new TransferFilter({
     wallet: null,
-    status: '',
+    state: '',
     before: null,
     after: null,
   });

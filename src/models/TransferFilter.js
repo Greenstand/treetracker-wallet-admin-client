@@ -1,6 +1,8 @@
+import { getDateText } from '../utils/formatting';
+
 export default class TransferFilter {
   // possible query options
-  status;
+  state;
   wallet;
   before;
   after;
@@ -11,14 +13,14 @@ export default class TransferFilter {
   }
 
   // where object contains the query options
-  getWhereObj = () => {
+  getWhereObj() {
     let where = {};
 
-    if (this.status) where.status = this.status;
+    if (this.state) where.state = this.state.toLowerCase();
     if (this.wallet) where.wallet = this.wallet;
-    if (this.before) where.before = this.before;
-    if (this.after) where.after = this.after;
+    if (this.before) where.before = getDateText(this.before, 'YYYY-MM-DD');
+    if (this.after) where.after = getDateText(this.after, 'YYYY-MM-DD');
 
     return where;
-  };
+  }
 }

@@ -9,7 +9,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { DateRangeFilter, TransferSelectFilter } from './TableFilters';
 import { TableCellStyled } from './TransfersTable.styled';
 import { useTransfersContext } from '../../store/TransfersContext';
@@ -63,21 +63,27 @@ const TransfersTable = ({
                           tableRows,
                         }) => {
 
-  // get pagination from context
+  // get pagination object from context
   const { pagination, setPagination, statusList } = useTransfersContext();
-  const { page, rowsPerPage } = pagination;
 
   // pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const handleRowsPerPageChange = (e) => {
+    const newRowsPerPage = parseInt(e.target.value, 10);
+    setRowsPerPage(newRowsPerPage);
+    setPage(0);
+
     const newPagination = {
-      rowsPerPage: parseInt(e.target.value, 10),
-      page: 0,
+      limit: newRowsPerPage,
+      offset: 0,
     };
     setPagination(newPagination);
   };
 
   const handlePageChange = (e, newPage) => {
-    const newPagination = { ...pagination, page: newPage };
+    setPage(newPage);
+    const newPagination = { ...pagination, offset: newPage * rowsPerPage };
     setPagination(newPagination);
   };
 

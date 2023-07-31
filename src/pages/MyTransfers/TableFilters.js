@@ -26,10 +26,10 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
 
   // get filter from context
   const { filter, setFilter, statusList } = useTransfersContext();
-  const { status } = filter;
+  const { state } = filter;
 
   const handleSelectChange = (e) => {
-    const newFilter = new TransferFilter({ ...filter, status: e.target.value });
+    const newFilter = new TransferFilter({ ...filter, state: e.target.value });
     setFilter(newFilter);
   };
 
@@ -39,18 +39,18 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
 
       <SelectFilter
         displayEmpty
-        value={status}
+        value={state}
         onChange={handleSelectChange}
         IconComponent={ArrowDropDownIcon}
         sx={{
-          color: status ? getStatusColor(status) : '#585B5D',
+          color: state ? getStatusColor(state) : '#585B5D',
         }}
       >
         <SelectMenuItem value={''}>None</SelectMenuItem>
 
-        {statusList.map((status, index) => {
-          return (<SelectMenuItem key={index} value={status.value}
-                                  sx={{ color: status.color }}>{status.label}</SelectMenuItem>);
+        {statusList.map((state, index) => {
+          return (<SelectMenuItem key={index} value={state.value}
+                                  sx={{ color: state.color }}>{state.label}</SelectMenuItem>);
         })}
       </SelectFilter>
     </FormControl>);
@@ -68,31 +68,33 @@ export const DateRangeFilter = () => {
   const { filter, setFilter } = useTransfersContext();
   const { after, before } = filter;
 
-  const handleStartDateChange = (date) => {
-    const newFilter = new TransferFilter({ ...filter, after: date });
-    setFilter(newFilter);
-  };
-
-  const handleEndDateChange = (date) => {
-    const newFilter = new TransferFilter({ ...filter, before: date });
-    setFilter(newFilter);
-  };
-
+  // start and end dates (for datepicker display)
+  // they are dayjs date objects
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const defaultDateText = 'mm/dd/yyyy';
+  // MM/DD/YYYY format is used to convert date object to text
+  const dateFormat = defaultDateText.toUpperCase();
 
+  // opens the popover
   const handleClick = (e) => {
     setAnchorEl(e.target);
   };
 
+  // resets dates to previously present values and closes the popover
   const handleClose = () => {
+    setStartDate(after);
+    setEndDate(before);
     setAnchorEl(null);
-    const newFilter = new TransferFilter({ ...filter, before: null, after: null });
-    setFilter(newFilter);
   };
 
+  // updates the filter object and closes the popver
   const handleOK = () => {
+    const newFilter = new TransferFilter({ ...filter, after: startDate, before: endDate });
+    setFilter(newFilter);
+
     setAnchorEl(null);
   };
 
@@ -100,8 +102,7 @@ export const DateRangeFilter = () => {
     <FormControl sx={{ width: '192px' }}>
       <FilterLabelText>Created Date</FilterLabelText>
       <DateRangeButton onClick={handleClick} endIcon={<DateRangeFilterIcon />}>
-        {after ? getDateText(after) : defaultDateText} - {before ? getDateText(before) : defaultDateText}
-        {/*{defaultDateText}*/}
+        {startDate ? getDateText(startDate, dateFormat) : defaultDateText} - {endDate ? getDateText(endDate, dateFormat) : defaultDateText}
       </DateRangeButton>
       <Popover
         open={!!anchorEl}
@@ -121,19 +122,19 @@ export const DateRangeFilter = () => {
               <Grid item xs={12}>
                 <DatePicker
                   label={'Start date'}
-                  value={after}
-                  onChange={(date) => handleStartDateChange(date)}
+                  value={startDate}
+                  onChange={(date) => setStartDate(date)}
                   disableFuture
-                  maxDate={before}
+                  maxDate={endDate}
                 />
               </Grid>
               <Grid item xs={12}>
                 <DatePicker
                   label={'End date'}
-                  value={before}
-                  onChange={(date) => handleEndDateChange(date)}
+                  value={endDate}
+                  onChange={(date) => setEndDate(date)}
                   disableFuture
-                  minDate={after}
+                  minDate={startDate}
                 />
               </Grid>
             </Grid>
