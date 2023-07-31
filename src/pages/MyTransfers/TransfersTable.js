@@ -10,27 +10,9 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { DateRangeFilter, TransferFilter } from './TableFilters';
+import { DateRangeFilter, TransferSelectFilter } from './TableFilters';
 import { TableCellStyled } from './TransfersTable.styled';
 import { useTransfersContext } from '../../store/TransfersContext';
-
-const statusList = [
-  {
-    label: 'Completed',
-    value: 'Completed',
-    color: '#86C232',
-  },
-  {
-    label: 'Pending',
-    value: 'Pending',
-    color: 'black',
-  },
-  {
-    label: 'Failed',
-    value: 'Failed',
-    color: 'red',
-  },
-];
 
 /**@function
  * @name TableHeader
@@ -53,8 +35,7 @@ const TableHeader = ({
       </Grid>
       <Grid item container xs={5}>
         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <TransferFilter
-            statusList={statusList}
+          <TransferSelectFilter
             getStatusColor={getStatusColor}
           />
         </Grid>
@@ -83,7 +64,7 @@ const TransfersTable = ({
                         }) => {
 
   // get pagination from context
-  const { pagination, setPagination } = useTransfersContext();
+  const { pagination, setPagination, statusList } = useTransfersContext();
   const { page, rowsPerPage } = pagination;
 
   // pagination
@@ -100,9 +81,10 @@ const TransfersTable = ({
     setPagination(newPagination);
   };
 
-  // get color corresponding to the status value
+  // get color corresponding to the status value, else default color
   const getStatusColor = (status) => {
-    return statusList.find(x => x.value === status).color;
+    const color = statusList.find(x => x.value === status).color;
+    return color ? color : '#585B5D';
   };
 
   return (

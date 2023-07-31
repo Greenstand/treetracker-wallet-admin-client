@@ -16,16 +16,15 @@ import { useTransfersContext } from '../../store/TransfersContext';
  * @name TransferFilter
  * @description Renders the transfer status filter
  *
- * @param {object} statusList Array of transfer status objects
  * @param {function} getStatusColor returns color corresponding to transfer state value
  *
  * @return {JSX.Element} Transfer status filter component
  * @constructor
  */
-export const TransferFilter = ({ statusList, getStatusColor }) => {
+export const TransferSelectFilter = ({ getStatusColor }) => {
 
   // get filter from context
-  const { filter, setFilter } = useTransfersContext();
+  const { filter, setFilter, statusList } = useTransfersContext();
   const { transferStatus } = filter;
 
   const handleSelectChange = (e) => {
@@ -145,6 +144,5 @@ export const DateRangeFilter = () => {
         </Card>
       </Popover>
     </FormControl>
-
   );
 };

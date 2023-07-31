@@ -1,9 +1,10 @@
 import { createContext, useContext, useState } from 'react';
+import TransferFilter from '../models/TransferFilter';
 
 const TransfersContext = createContext();
 
 // transfers context provider
-const TransfersProvider = (props) => {
+const TransfersProvider = ({ children }) => {
   // pagination
   const defaultPagination = {
     page: 0,
@@ -12,23 +13,51 @@ const TransfersProvider = (props) => {
   const [pagination, setPagination] = useState(defaultPagination);
 
   // filter
-  const defaultFilter = {
-    transferStatus: '',
-    startDate: null,
-    endDate: null,
-  };
+  // default filter is empty
+  const defaultFilter = new TransferFilter({});
   const [filter, setFilter] = useState(defaultFilter);
+
+  // transfer statuses
+  const statusList = [
+    {
+      label: 'Requested',
+      value: 'Requested',
+      color: 'black',
+    },
+    {
+      label: 'Pending',
+      value: 'Pending',
+      color: 'black',
+    },
+    {
+      label: 'Completed',
+      value: 'Completed',
+      color: '#86C232',
+    },
+    {
+      label: 'Cancelled',
+      value: 'Cancelled',
+      color: 'red',
+    },
+    {
+      label: 'Failed',
+      value: 'Failed',
+      color: 'red',
+    },
+  ];
+
 
   const value = {
     pagination,
     setPagination,
     filter,
     setFilter,
+    statusList,
   };
 
   return (
     <TransfersContext.Provider value={value}>
-      {props.children}
+      {children}
     </TransfersContext.Provider>
   );
 };
