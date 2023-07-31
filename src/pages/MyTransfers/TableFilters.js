@@ -66,7 +66,7 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
 export const DateRangeFilter = () => {
   // get filter from context
   const { filter, setFilter } = useTransfersContext();
-  const { after, before } = filter;
+  // const { after, before } = filter;
 
   // start and end dates (for datepicker display)
   // they are dayjs date objects
@@ -85,8 +85,8 @@ export const DateRangeFilter = () => {
 
   // resets dates to previously present values and closes the popover
   const handleClose = () => {
-    setStartDate(after);
-    setEndDate(before);
+    setStartDate(null);
+    setEndDate(null);
     setAnchorEl(null);
   };
 

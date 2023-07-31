@@ -13,19 +13,20 @@ import React, { useState } from 'react';
 import { DateRangeFilter, TransferSelectFilter } from './TableFilters';
 import { TableCellStyled } from './TransfersTable.styled';
 import { useTransfersContext } from '../../store/TransfersContext';
+import { Loader } from '../../components/UI/components/Loader/Loader';
 
 /**@function
  * @name TableHeader
- * @description Renders the table header (title, filters) for TransfersTable
+ * @description Renders the table header (title, filters) for the transfers table
  * @param {string} tableTitle Name of the table to be displayed
  * @param {function} getStatusColor returns color corresponding to transfer state value
  *
  * @returns {JSX.Element} - Table header component
  */
-const TableHeader = ({
-                       tableTitle,
-                       getStatusColor,
-                     }) => {
+const TransfersTableHeader = ({
+                                tableTitle,
+                                getStatusColor,
+                              }) => {
   return (
     <Grid item container sx={{ paddingBottom: '15px' }}>
       <Grid item xs={7} sx={{ display: 'flex', alignItems: 'end' }}>
@@ -45,6 +46,60 @@ const TableHeader = ({
       </Grid>
     </Grid>
   );
+};
+
+
+/**@function
+ * @name TransfersTableBody
+ * @description Renders the table body (table rows) for the transfers table
+ * @param tableColumns
+ * @param tableRows
+ * @param getStatusColor
+ * @return {JSX.Element} - Table body component
+ */
+const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
+  const { isLoading } = useTransfersContext();
+
+  if (isLoading)
+    return (
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={12}>
+            <Loader />
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    );
+
+  return (
+    <TableBody>
+      {tableRows && tableRows.map((row, rowIndex) => {
+        return (
+          <TableRow key={rowIndex}>
+            {tableColumns.map((column, colIndex) => {
+              return (
+                <TableCellStyled key={`${rowIndex}-${colIndex}-${column.description}`}
+                                 sx={{
+                                   color: column.name === 'state'
+                                     ? getStatusColor(row[column.name])
+                                     : '',
+                                 }}
+                >
+                  {row[column.name]
+                    ? (column.renderer
+                      ? column.renderer(row[column.name])
+                      : row[column.name])
+                    : '--'
+                  }
+                </TableCellStyled>
+              );
+            })}
+          </TableRow>
+        );
+      })}
+    </TableBody>
+  );
+
 };
 
 
@@ -95,7 +150,7 @@ const TransfersTable = ({
 
   return (
     <Grid container direction={'column'}>
-      <TableHeader
+      <TransfersTableHeader
         tableTitle={tableTitle}
         getStatusColor={getStatusColor}
       />
@@ -112,27 +167,11 @@ const TransfersTable = ({
               })}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {tableRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, rowIndex) => {
-              return (
-                <TableRow key={rowIndex}>
-                  {tableColumns.map((column, colIndex) => {
-                    return (
-                      <TableCellStyled key={`${rowIndex}-${colIndex}-${column.description}`}
-                                       sx={{
-                                         color: column.name === 'status'
-                                           ? getStatusColor(row[column.name])
-                                           : '',
-                                       }}
-                      >
-                        {row[column.name]}
-                      </TableCellStyled>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
+          <TransfersTableBody
+            tableColumns={tableColumns}
+            tableRows={tableRows}
+            getStatusColor={getStatusColor}
+          />
         </Table>
       </TableContainer>
 

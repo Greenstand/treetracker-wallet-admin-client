@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 export const formatWithCommas = (number) => Intl.NumberFormat(process.env.USER_LOCALE).format(number);
 
 /**Converts a date object into a string with format (eg. mm/dd/yyyy)
- * @param {Object} date Dayjs date object
+ * @param {Object} date Dayjs date object, ISO date, etc.
  * @param {string} dateFormat Date format
  * @return {string} string with format
  */

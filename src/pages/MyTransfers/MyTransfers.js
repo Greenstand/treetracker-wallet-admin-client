@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { capitalize, Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
-import mockData from '../../mock_data.json';
+// import mockData from '../../mock_data.json';
 import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessage';
-// import { useTransfersContext } from '../../store/TransfersContext';
+import { getTransfers } from '../../api/transfers';
+import { useTransfersContext } from '../../store/TransfersContext';
+import { formatWithCommas, getDateText } from '../../utils/formatting';
 
 // columns of the transfers table
 const transferColumns = [
@@ -15,7 +17,7 @@ const transferColumns = [
   },
   {
     description: 'Sender Wallet',
-    name: 'sender_wallet',
+    name: 'source_wallet',
     sortable: true,
     showInfoIcon: false,
   },
@@ -24,48 +26,53 @@ const transferColumns = [
     name: 'token_amount',
     sortable: true,
     showInfoIcon: false,
+    renderer: (val) => formatWithCommas(val),
   },
   {
     description: 'Receiver Wallet',
-    name: 'receiver_wallet',
+    name: 'destination_wallet',
     sortable: true,
     showInfoIcon: false,
   },
   {
     description: 'Created Date',
-    name: 'created_date',
+    name: 'created_at',
     sortable: true,
     showInfoIcon: false,
+    renderer: (val) => getDateText(val, 'MM/DD/YYYY'),
   },
   {
     description: 'Initiated By',
-    name: 'initiated_by',
+    name: 'originating_wallet',
     sortable: true,
     showInfoIcon: false,
   },
   {
     description: 'Closed Date',
-    name: 'closed_date',
+    name: 'closed_at',
     sortable: true,
     showInfoIcon: false,
+    renderer: (val) => getDateText(val, 'MM/DD/YYYY'),
   },
   {
     description: 'Status',
-    name: 'status',
+    name: 'state',
     sortable: true,
     showInfoIcon: false,
+    renderer: (val) => capitalize(val),
   },
 
 ];
 
-const statuses = ['Completed', 'Pending', 'Failed'];
 
-const newData = mockData.map(x => {
-  return {
-    ...x,
-    status: statuses[Math.floor(Math.random() * 3)],
-  };
-});
+// const statuses = ['Completed', 'Pending', 'Failed'];
+
+// const newData = mockData.map(x => {
+//   return {
+//     ...x,
+//     status: statuses[Math.floor(Math.random() * 3)],
+//   };
+// });
 
 /**@function
  * @name MyTransfers
@@ -74,25 +81,29 @@ const newData = mockData.map(x => {
  * @returns {JSX.Element} - My Transfers page component
  * */
 const MyTransfers = () => {
-  // get pagination and filter from context
-  // const { pagination, filter } = useTransfersContext();
-
+  // get pagination, filter, and loader from context
+  const { pagination, filter, setIsLoading } = useTransfersContext();
   // error
   const [errorMessage, setErrorMessage] = useState('');
-  // const [data, setData] = useState([]);
+  // data to be displayed in the table
+  const [tableRows, setTableRows] = useState([]);
+
 
   // load data
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     const { page, rowsPerPage } = pagination;
-  //     const url = `https://dev-k8s.treetracker.org/query/v2/captures?limit=${rowsPerPage}&offset=${page * rowsPerPage}`;
-  //     const returnedData = await axios.get(url);
-  //     setData(returnedData.data);
-  //   };
-  //   loadData();
-  // }, [pagination]);
-  //
-  // console.log('DATA', data);
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        const data = await getTransfers({ pagination, filter });
+        setTableRows(await data.transfers ? data.transfers : data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setErrorMessage('An error occurred while fetching the table data');
+      }
+    };
+    loadData();
+  }, [pagination, filter]);
 
 
   return (
@@ -108,7 +119,7 @@ const MyTransfers = () => {
         <TransfersTable
           tableTitle={'My Transfers'}
           tableColumns={transferColumns}
-          tableRows={newData.slice(1, 25)}
+          tableRows={tableRows}
         />
       </Grid>
     </div>);

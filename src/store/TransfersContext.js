@@ -22,31 +22,34 @@ const TransfersProvider = ({ children }) => {
   });
   const [filter, setFilter] = useState(defaultFilter);
 
+  // Loader
+  const [isLoading, setIsLoading] = useState(false);
+
   // transfer statuses
   const statusList = [
     {
       label: 'Requested',
-      value: 'Requested',
+      value: 'requested',
       color: 'black',
     },
     {
       label: 'Pending',
-      value: 'Pending',
+      value: 'pending',
       color: 'black',
     },
     {
       label: 'Completed',
-      value: 'Completed',
+      value: 'completed',
       color: '#86C232',
     },
     {
       label: 'Cancelled',
-      value: 'Cancelled',
+      value: 'cancelled',
       color: 'red',
     },
     {
       label: 'Failed',
-      value: 'Failed',
+      value: 'failed',
       color: 'red',
     },
   ];
@@ -58,6 +61,8 @@ const TransfersProvider = ({ children }) => {
     filter,
     setFilter,
     statusList,
+    isLoading,
+    setIsLoading,
   };
 
   return (
