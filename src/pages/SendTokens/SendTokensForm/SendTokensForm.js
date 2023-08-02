@@ -1,9 +1,9 @@
 import React, { useCallback, useRef, useState } from 'react';
-import styled from '@emotion/styled';
-import { Box, Button, Grid, IconButton, TextField } from '@mui/material';
+import { Grid, IconButton, TextField } from '@mui/material';
 import SelectWallet from './SelectWallet';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
+import { StyledBox, StyledButton } from './SendTokensFormStyled';
 
 const SendTokensForm = (props) => {
   const {
@@ -76,16 +76,6 @@ const SendTokensForm = (props) => {
     // reset form
     tokensAmountRef.current.value = 1;
   };
-
-  const StyledBox = styled(Box)(() => ({
-    flexGrow: 1,
-    margin: '2rem',
-    maxWidth: '60rem',
-  }));
-
-  const StyledButton = styled(Button)`
-    width: fit-content; /* Adjust the width of the button based on content */
-  `;
 
   const isSubmitButtonDisabled = () => {
     return (
