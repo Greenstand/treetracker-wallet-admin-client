@@ -1,17 +1,15 @@
 import React from 'react';
-import ErrorMessage from './ErrorMessage';
+import Message from './Message';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-describe('ErrorMessage component', () => {
-
+describe('Message component', () => {
   it('renders correctly', () => {
     const mockOnClose = jest.fn();
 
-    render(<ErrorMessage message={'TEST MESSAGE'} onClose={mockOnClose} />);
+    render(<Message message={'TEST MESSAGE'} onClose={mockOnClose} />);
 
     expect(screen.getByRole('alert')).toBeInTheDocument();
     expect(screen.getByText(/TEST MESSAGE/)).toBeInTheDocument();
-
 
     //Close button
     expect(screen.getAllByRole('button')).toHaveLength(1);
