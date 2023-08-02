@@ -80,7 +80,7 @@ const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
               return (
                 <TableCellStyled key={`${rowIndex}-${colIndex}-${column.description}`}
                                  sx={{
-                                   color: column.name === 'state'
+                                   color: column.name === 'status'
                                      ? getStatusColor(row[column.name])
                                      : '',
                                  }}
@@ -114,12 +114,12 @@ const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
  */
 const TransfersTable = ({
                           tableTitle,
-                          tableColumns,
                           tableRows,
+                          totalRowCount,
                         }) => {
 
-  // get pagination object from context
-  const { pagination, setPagination, statusList } = useTransfersContext();
+  // get data from context
+  const { pagination, setPagination, statusList, tableColumns } = useTransfersContext();
 
   // pagination
   const [page, setPage] = useState(0);
@@ -178,7 +178,7 @@ const TransfersTable = ({
       <TablePagination
         rowsPerPageOptions={[10, 50]}
         component={'div'}
-        count={tableRows.length}
+        count={totalRowCount}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleRowsPerPageChange}
         page={page}

@@ -1,69 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { capitalize, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
 // import mockData from '../../mock_data.json';
 import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessage';
 import { getTransfers } from '../../api/transfers';
 import { useTransfersContext } from '../../store/TransfersContext';
-import { formatWithCommas, getDateText } from '../../utils/formatting';
-
-// columns of the transfers table
-const transferColumns = [
-  {
-    description: 'Transfer ID',
-    name: 'id',
-    sortable: true,
-    showInfoIcon: false,
-  },
-  {
-    description: 'Sender Wallet',
-    name: 'source_wallet',
-    sortable: true,
-    showInfoIcon: false,
-  },
-  {
-    description: 'Token Amount',
-    name: 'token_amount',
-    sortable: true,
-    showInfoIcon: false,
-    renderer: (val) => formatWithCommas(val),
-  },
-  {
-    description: 'Receiver Wallet',
-    name: 'destination_wallet',
-    sortable: true,
-    showInfoIcon: false,
-  },
-  {
-    description: 'Created Date',
-    name: 'created_at',
-    sortable: true,
-    showInfoIcon: false,
-    renderer: (val) => getDateText(val, 'MM/DD/YYYY'),
-  },
-  {
-    description: 'Initiated By',
-    name: 'originating_wallet',
-    sortable: true,
-    showInfoIcon: false,
-  },
-  {
-    description: 'Closed Date',
-    name: 'closed_at',
-    sortable: true,
-    showInfoIcon: false,
-    renderer: (val) => getDateText(val, 'MM/DD/YYYY'),
-  },
-  {
-    description: 'Status',
-    name: 'state',
-    sortable: true,
-    showInfoIcon: false,
-    renderer: (val) => capitalize(val),
-  },
-
-];
-
+// import { formatWithCommas, getDateText } from '../../utils/formatting';
 
 // const statuses = ['Completed', 'Pending', 'Failed'];
 
@@ -81,12 +23,14 @@ const transferColumns = [
  * @returns {JSX.Element} - My Transfers page component
  * */
 const MyTransfers = () => {
-  // get pagination, filter, and loader from context
-  const { pagination, filter, setIsLoading } = useTransfersContext();
+  // get data from context
+  const { pagination, filter, setIsLoading, prepareRows } = useTransfersContext();
   // error
   const [errorMessage, setErrorMessage] = useState('');
   // data to be displayed in the table
   const [tableRows, setTableRows] = useState([]);
+  // total rows count for pagination
+  const [totalRowCount, setTotalRowCount] = useState(null);
 
 
   // load data
@@ -95,7 +39,11 @@ const MyTransfers = () => {
       try {
         setIsLoading(true);
         const data = await getTransfers({ pagination, filter });
-        setTableRows(await data.transfers ? data.transfers : data);
+        const preparedRows = prepareRows(await data.transfers);
+
+        setTableRows(preparedRows);
+        setTotalRowCount(data.count);
+
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -118,8 +66,8 @@ const MyTransfers = () => {
 
         <TransfersTable
           tableTitle={'My Transfers'}
-          tableColumns={transferColumns}
           tableRows={tableRows}
+          totalRowCount={totalRowCount}
         />
       </Grid>
     </div>);

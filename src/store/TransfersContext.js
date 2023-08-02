@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import TransferFilter from '../models/TransferFilter';
+import { formatWithCommas, getDateText } from '../utils/formatting';
+import { capitalize } from '@mui/material';
 
 const TransfersContext = createContext();
 
@@ -54,6 +56,79 @@ const TransfersProvider = ({ children }) => {
     },
   ];
 
+  // transfers table columns
+  const transferColumns = [
+    {
+      description: 'Transfer ID',
+      name: 'transfer_id',
+      sortable: true,
+      showInfoIcon: false,
+    },
+    {
+      description: 'Sender Wallet',
+      name: 'sender_wallet',
+      sortable: true,
+      showInfoIcon: false,
+    },
+    {
+      description: 'Token Amount',
+      name: 'token_amount',
+      sortable: true,
+      showInfoIcon: false,
+      renderer: (val) => formatWithCommas(val),
+    },
+    {
+      description: 'Receiver Wallet',
+      name: 'receiver_wallet',
+      sortable: true,
+      showInfoIcon: false,
+    },
+    {
+      description: 'Created Date',
+      name: 'created_date',
+      sortable: true,
+      showInfoIcon: false,
+      renderer: (val) => getDateText(val, 'MM/DD/YYYY'),
+    },
+    {
+      description: 'Initiated By',
+      name: 'initiated_by',
+      sortable: true,
+      showInfoIcon: false,
+    },
+    {
+      description: 'Closed Date',
+      name: 'closed_date',
+      sortable: true,
+      showInfoIcon: false,
+      renderer: (val) => getDateText(val, 'MM/DD/YYYY'),
+    },
+    {
+      description: 'Status',
+      name: 'status',
+      sortable: true,
+      showInfoIcon: false,
+      renderer: (val) => capitalize(val),
+    },
+
+  ];
+
+  // transform API returned data into rows compatible with the transfers table
+  const prepareRows = (returnedRows) => {
+    return returnedRows.map(row => {
+      return {
+        transfer_id: row.id,
+        sender_wallet: row.source_wallet,
+        token_amount: row.parameters.bundle.bundleSize,
+        receiver_wallet: row.destination_wallet,
+        created_date: row.created_at,
+        initiated_by: row.originating_wallet,
+        closed_date: row.cloased_at,
+        status: row.state,
+      };
+    });
+  };
+
 
   const value = {
     pagination,
@@ -63,6 +138,8 @@ const TransfersProvider = ({ children }) => {
     statusList,
     isLoading,
     setIsLoading,
+    transferColumns,
+    prepareRows,
   };
 
   return (
