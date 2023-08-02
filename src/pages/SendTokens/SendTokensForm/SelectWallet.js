@@ -39,19 +39,19 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
 
   useEffect(() => {
     // If createdWalletName is not null, get wallets again by createdWalletName and set it as selected value
-    const getWallets = async () => {
+    const getWalletsData = async () => {
       if (!createdWalletName) return;
 
       setWalletSearchString(createdWalletName);
       onChangeWallet(createdWalletName);
     };
 
-    getWallets();
+    getWalletsData();
   }, [createdWalletName]);
 
   // Is called when user click 'Load More' button in Wallet autocomplete
   useEffect(() => {
-    const getWallets = async () => {
+    const getWalletsData = async () => {
       if (walletPage === 0) {
         return;
       }
@@ -74,7 +74,7 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
       }
     };
 
-    getWallets();
+    getWalletsData();
   }, [walletPage]);
 
   const addLoadMoreButtonToWallets = (data, addMoreData) => {

@@ -8,7 +8,7 @@ import Message, {
 } from '../../components/UI/components/Message/Message';
 import apiClient from '../../utils/apiClient';
 import { Loader } from '../../components/UI/components/Loader/Loader';
-import TokenInfoBlock from './TokenInfoBlock';
+import TokenInfoBlock from './TokenInfoBlock/TokenInfoBlock';
 import { formatWithCommas } from '../../utils/formatting';
 import AuthContext from '../../store/auth-context';
 
@@ -37,8 +37,7 @@ const SendTokens = () => {
       return;
     }
 
-    setIsLoading(true);
-
+    //setIsLoading(true);
     apiClient
       .get('/wallets/' + wallet.id)
       .then((response) => {
@@ -49,12 +48,13 @@ const SendTokens = () => {
         setErrorMessage('An error occurred while fetching wallet data.');
       })
       .finally(() => {
-        setIsLoading(false);
+        //setIsLoading(false);
       });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleSendTokenForm = (data) => {
-    setIsLoading(true);
+    //setIsLoading(true);
 
     apiClient
       .post('/transfers', {
@@ -68,6 +68,10 @@ const SendTokens = () => {
           'Tokens transfer completed. Response: ' + JSON.stringify(response)
         );
 
+        // update tokens amount: total and sender's wallet token
+        getTotalTokensAmount();
+        setSenderWalletTokens((prev) => prev - data.tokensAmount);
+
         setSuccessMessage(
           `${data.tokensAmount} tokens were successfully sent from '${data.senderWallet}' to '${data.receiverWallet}' wallet. Status of the transfer: '${response.data.state}'`
         );
@@ -78,7 +82,7 @@ const SendTokens = () => {
         setErrorMessage('An error occurred while fetching wallet data.');
       })
       .finally(() => {
-        setIsLoading(false);
+        //   setIsLoading(false);
       });
   };
 
