@@ -1,67 +1,67 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-debugger */
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { Autocomplete, Button, IconButton, TextField } from '@mui/material';
+import { Box, Button, Grid, IconButton, TextField } from '@mui/material';
 import SelectWallet from './SelectWallet';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
 
-const SendTokensForm = ({ onSubmit, onCreateWallet, createdWalletName }) => {
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  // });
+const SendTokensForm = (props) => {
+  const {
+    onSubmit,
+    onCreateWallet,
+    createdWalletName,
+    onSenderWalletSelected,
+  } = props;
 
-  // const [wallet, setWallet] = useState(null); //wallet && wallet !== filterOptionAll ? wallet.trim() : undefined,
-
-  // const handleChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
-  const [senderWallet, setSenderWallet] = useState(null); //wallet && wallet !== filterOptionAll ? wallet.trim() : undefined,
-  const [receiverWallet, setReceiverWallet] = useState(null); //wallet && wallet !== filterOptionAll ? wallet.trim() : undefined,
-  // const [tokensAmount, setTokensAmount] = useState(0);
+  // name of the wallet
+  const [senderWallet, setSenderWallet] = useState(null);
+  const [receiverWallet, setReceiverWallet] = useState(null);
   const tokensAmountRef = useRef(0);
   const createWalletNameRef = useRef(null);
   const [showCreateWallet, setShowCreateWallet] = useState(false);
 
-  const [senderWalletSearchString, setSenderWalletSearchString] = useState('');
-  const [receiverWalletSearchString, setReceiverWalletSearchString] =
-    useState('');
+  const [createWalletError, setCreateWalletError] = useState(false);
 
-  useEffect(() => {
-    console.log('SendTokensForm.js rendered');
+  const handleChangeSenderWallet = useCallback((wallet) => {
+    // sender wallet is not selected / was deselected
+    if (!wallet) {
+      setSenderWallet(null);
+      onSenderWalletSelected(null);
+      return;
+    }
+
+    setSenderWallet(wallet.name);
+    onSenderWalletSelected(wallet);
+
+    // it should not be possible to send more tokens than there are in the wallet
+    if (tokensAmountRef.current.value > wallet.tokensInWallet) {
+      tokensAmountRef.current.value = wallet.tokensInWallet;
+    }
+    tokensAmountRef.current.setAttribute('max', wallet.tokensInWallet);
   }, []);
 
-  const handleChangeSenderWallet = useCallback((value) => {
-    setSenderWallet(value);
-  }, []);
+  const handleChangeReceiverWallet = useCallback((wallet) => {
+    if (!wallet) {
+      setReceiverWallet(null);
+      return;
+    }
 
-  const handleChangeReceiverWallet = useCallback((value) => {
-    setReceiverWallet(value);
+    setReceiverWallet(wallet.name);
   }, []);
 
   const handleCreateWallet = () => {
-    onCreateWallet(createWalletNameRef.current.value);
+    if (!createWalletNameRef.current.value) {
+      setCreateWalletError(true);
+      return;
+    }
 
+    onCreateWallet(createWalletNameRef.current.value);
+    setCreateWalletError(false);
     setShowCreateWallet(false);
   };
 
   const handleSubmit = (e) => {
-    debugger;
     e.preventDefault();
-    // Do something with the form data
-    //console.log(formData);
 
     const tokensAmount = tokensAmountRef.current.value;
 
@@ -77,128 +77,121 @@ const SendTokensForm = ({ onSubmit, onCreateWallet, createdWalletName }) => {
     tokensAmountRef.current.value = 1;
   };
 
-  const StyledFormContainer = styled.form`
-    display: flex;
-    flex-direction: column;
-    width: 20rem;
-    margin: 2rem;
-  `;
-
-  const FormRow = styled.div`
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
-  `;
+  const StyledBox = styled(Box)(() => ({
+    flexGrow: 1,
+    margin: '2rem',
+    maxWidth: '60rem',
+  }));
 
   const StyledButton = styled(Button)`
     width: fit-content; /* Adjust the width of the button based on content */
   `;
 
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
-  ];
+  const isSubmitButtonDisabled = () => {
+    return (
+      !senderWallet ||
+      !receiverWallet ||
+      showCreateWallet ||
+      tokensAmountRef.current.value <= 0
+    );
+  };
 
   return (
-    <StyledFormContainer onSubmit={handleSubmit}>
-      senderWallet: {senderWallet}
-      receiverWallet: {receiverWallet}
-      tokensAmount: {tokensAmountRef.current?.value}
-      managedWallet: {createWalletNameRef.current?.value}
-      createdWalletName: {createdWalletName}
-      <FormRow>
-        <SelectWallet
-          // classes={classes}
-          wallet={senderWallet}
-          handleChangeWallet={handleChangeSenderWallet}
-          label={'Sender Wallet'}
-          // walletSearchString={senderWalletSearchString}
-          // handleChangeWalletSearchString={(value) => {
-          //   setSenderWalletSearchString(value);
-          // }}
-        />
-      </FormRow>
-      <FormRow style={{ display: 'flex' }}>
-        {/* <SelectWallet
-          // classes={classes}
+    <StyledBox>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={8}>
+          <Grid item xs={6}>
+            <SelectWallet
+              wallet={senderWallet}
+              onChangeWallet={handleChangeSenderWallet}
+              label={'Sender Wallet'}
+            />
+          </Grid>
+          <Grid item xs={6}></Grid>
+          <Grid item xs={6}>
+            <SelectWallet
+              wallet={receiverWallet}
+              onChangeWallet={handleChangeReceiverWallet}
+              label={'Receiver Wallet'}
+              createdWalletName={createdWalletName}
+            />
+          </Grid>
+          <Grid item xs={4} sx={{ display: 'flex', alignItems: 'center' }}>
+            <a
+              onClick={() => setShowCreateWallet(true)}
+              style={{ color: 'green', cursor: 'pointer', marginLeft: '1rem' }}
+            >
+              + Create Managed Wallet
+            </a>
+          </Grid>
+          <Grid item xs={2}></Grid>
 
-          wallet={receiverWallet}
-          handleChangeWallet={handleChangeReceiverWallet}
-          label={'Receiver Wallet'}
-          createdWalletName={createdWalletName}
-
-          // walletSearchString={receiverWalletSearchString}
-          // handleChangeWalletSearchString={(value) => {
-          //   setReceiverWallet(value);
-          // }}
-        /> */}
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={top100Films}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Movie" />}
-        />
-        <a
-          onClick={() => setShowCreateWallet(true)}
-          style={{ color: 'green', cursor: 'pointer', marginLeft: '1rem' }}
-        >
-          + Create Managed Wallet
-        </a>
-      </FormRow>
-      {showCreateWallet && (
-        <FormRow>
-          <TextField
-            id="outlined-text"
-            label="Managed Wallet Name"
-            type="text"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputRef={createWalletNameRef}
-          />
-          <IconButton
-            aria-label="delete"
-            color="primary"
-            onClick={handleCreateWallet}
-          >
-            <AddCircleIcon fontSize="large" />
-          </IconButton>
-          <IconButton
-            aria-label="delete"
-            color="primary"
-            onClick={() => setShowCreateWallet(false)}
-          >
-            <CloseIcon fontSize="large" />
-          </IconButton>
-        </FormRow>
-      )}
-      <FormRow>
-        <TextField
-          id="outlined-number"
-          label="Token Amount"
-          type="number"
-          InputProps={{ inputProps: { min: 1, max: 1000 } }}
-          defaultValue={1}
-          inputRef={tokensAmountRef}
-        />
-      </FormRow>
-      <FormRow>
-        <StyledButton
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={showCreateWallet}
-        >
-          Submit
-        </StyledButton>
-      </FormRow>
-    </StyledFormContainer>
+          {showCreateWallet && (
+            <>
+              <Grid item xs={4}>
+                <TextField
+                  id="outlined-text"
+                  label="Managed Wallet Name"
+                  type="text"
+                  required
+                  error={createWalletError}
+                  sx={{ width: '100%' }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(event) =>
+                    setCreateWalletError(!event.target.value)
+                  }
+                  inputRef={createWalletNameRef}
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <IconButton
+                  aria-label="delete"
+                  color="primary"
+                  onClick={handleCreateWallet}
+                >
+                  <AddCircleIcon fontSize="large" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={1}>
+                <IconButton
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => {
+                    setShowCreateWallet(false);
+                    setCreateWalletError(false);
+                  }}
+                >
+                  <CloseIcon fontSize="large" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={6}></Grid>
+            </>
+          )}
+          <Grid item xs={12}>
+            <TextField
+              id="outlined-number"
+              label="Token Amount"
+              type="number"
+              InputProps={{ inputProps: { min: 0, max: 1000 } }}
+              defaultValue={1}
+              inputRef={tokensAmountRef}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <StyledButton
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isSubmitButtonDisabled()}
+            >
+              Submit
+            </StyledButton>
+          </Grid>
+        </Grid>
+      </form>
+    </StyledBox>
   );
 };
 

@@ -1,51 +1,40 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-debugger */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Autocomplete, Button, TextField } from '@mui/material';
-import WalletContext from '../../../store/wallet-context';
-import apiClient from '../../../utils/apiClient';
+import { getWallets } from '../../../api/wallets';
 
-function SelectWallet({
-  wallet,
-  handleChangeWallet,
-  label,
-  createdWalletName,
-  // walletSearchString,
-  // handleChangeWalletSearchString,
-}) {
+function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
   const filterLoadMore = 'LOAD_MORE';
-  const walletContext = useContext(WalletContext);
 
   const [walletPage, setWalletPage] = useState(0);
   const [walletsLoadedData, setWalletsLoadedData] = useState([]);
+  // not only wallet names, but other info as well
+  const [walletsFullLoadedData, setWalletsFullLoadedData] = useState([]);
   const [walletSearchString, setWalletSearchString] = useState('');
-
-  useEffect(() => {
-    console.log('SelectWallet.js rendered' + wallet);
-    debugger;
-  }, []);
 
   // Is called when page loads and when user starts to type in a 'Wallet' filter
   useEffect(() => {
-    // TODO: if createdWalletName is not null, get wallets again by createdWalletName and set it as selected
-    const getWallets = async () => {
+    const getWalletsData = async () => {
       setWalletPage(0);
+      try {
+        let response = await getWallets(walletSearchString);
 
-      let response = await walletContext.getWallets(walletSearchString);
+        if (!response) {
+          console.log('No response from getWallets');
+          return;
+        }
 
-      if (!response) {
-        console.log('No response from getWallets');
-        return;
+        const total = response.total;
+        setWalletsFullLoadedData(response.wallets);
+        const wallets = response.wallets.map((wallet) => wallet.name);
+        const addLoadMoreButton = wallets.length < total;
+
+        addLoadMoreButtonToWallets([...wallets], addLoadMoreButton);
+      } catch (error) {
+        console.error(error);
       }
-
-      const total = response.total;
-      const wallets = response.wallets.map((wallet) => wallet.name);
-      const addLoadMoreButton = wallets.length < total;
-
-      addLoadMoreButtonToWallets([...wallets], addLoadMoreButton);
     };
 
-    getWallets();
+    getWalletsData();
   }, [walletSearchString]);
 
   useEffect(() => {
@@ -53,9 +42,8 @@ function SelectWallet({
     const getWallets = async () => {
       if (!createdWalletName) return;
 
-      // walletSearchString = createdWalletName;
       setWalletSearchString(createdWalletName);
-      handleChangeWallet(createdWalletName);
+      onChangeWallet(createdWalletName);
     };
 
     getWallets();
@@ -68,20 +56,22 @@ function SelectWallet({
         return;
       }
 
-      const response = await walletContext.getWallets(
-        walletSearchString,
-        walletPage
-      );
+      try {
+        const response = await getWallets(walletSearchString, walletPage);
 
-      const total = response.total;
-      const wallets = response.wallets;
-      const addLoadMoreButton =
-        wallets.length + walletsLoadedData.length < total;
+        const total = response.total;
+        setWalletsFullLoadedData(response.wallets);
+        const wallets = response.wallets.map((wallet) => wallet.name);
+        const addLoadMoreButton =
+          wallets.length + walletsLoadedData.length < total;
 
-      addLoadMoreButtonToWallets(
-        [...walletsLoadedData, ...wallets],
-        addLoadMoreButton
-      );
+        addLoadMoreButtonToWallets(
+          [...walletsLoadedData, ...wallets],
+          addLoadMoreButton
+        );
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     getWallets();
@@ -125,36 +115,16 @@ function SelectWallet({
     setWalletsLoadedData([...walletsLoadedData]);
   };
 
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
-  ];
-
-  // autocompleteInputRoot: {
-  //   padding: `${theme.spacing(0, 12, 0, 1)} !important`,
-  // },
-
   return (
     <>
-      createdWalletName 2: {createdWalletName}
       <Autocomplete
         data-testid="wallet-dropdown"
         label="wallet"
         htmlFor="wallet"
         id="wallet"
-        //   classes={{
-        //     inputRoot: classes.autocompleteInputRoot,
-        //   }}
-        sx={{ width: '100%' }}
+        sx={{ maxWidth: '30rem', minWidth: '15rem' }}
         options={[...walletsLoadedData]}
         value={wallet}
-        // todo: select current wallet?
-        // defaultValue={filterOptionSelect}
         getOptionLabel={(wallet) => {
           if (wallet === filterLoadMore) {
             return walletSearchString;
@@ -168,14 +138,18 @@ function SelectWallet({
           // event is triggered by onInputChange
           if (newVal === filterLoadMore) return;
 
-          handleChangeWallet(newVal);
+          const walletData = walletsFullLoadedData.find(
+            (wallet) => wallet.name === newVal
+          );
+
+          onChangeWallet(walletData);
         }}
         onInputChange={(event, newVal) => {
-          //   // Do not select 'LOAD_MORE' as an autocomplete value
-          //   if (newVal === filterLoadMore) {
-          //     handleChangeWalletSearchString(walletSearchString);
-          //     return;
-          //   }
+          // Do not select 'LOAD_MORE' as an autocomplete value
+          if (newVal === filterLoadMore) {
+            setWalletSearchString(walletSearchString);
+            return;
+          }
           setWalletSearchString(newVal);
         }}
         renderInput={(params) => {

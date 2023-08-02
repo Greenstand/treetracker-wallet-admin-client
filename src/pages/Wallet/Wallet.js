@@ -18,7 +18,6 @@ const mapWallet = (walletData) => {
 };
 
 const Wallet = () => {
-  // const [wallet, setWallet] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -36,7 +35,7 @@ const Wallet = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    // LocalStorage should have some wallet info after login
+    // LocalStorage should have some wallet info after the login
     const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
     if (!wallet || !wallet.id) {
       console.log('Wallet info not found in the localStorage');
