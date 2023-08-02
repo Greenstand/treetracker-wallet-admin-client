@@ -22,6 +22,20 @@ describe('Display available tokens v1', () => {
     },
   };
 
+  beforeEach(() => {
+    localStorage.setItem(
+      'wallet',
+      JSON.stringify({
+        id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
+        wallet: 'test wallet',
+      })
+    );
+  });
+
+  afterEach(() => {
+    localStorage.removeItem('wallet');
+  });
+
   it('display tokens_in_wallet for a wallet correctly', async () => {
     apiClient.get.mockResolvedValueOnce(mockData);
 
@@ -48,21 +62,23 @@ describe('Display available tokens v1', () => {
   });
 
   it('display sub wallet tokens correctly', async () => {
-
     const senderWalletData = {
       name: 'WalletA',
       tokensInWallet: '500',
     };
 
-    render(<TokenInfoBlock totalTokens={1000} senderWalletTokens={senderWalletData.tokensInWallet}
-                           senderWalletName={senderWalletData.name} />);
+    render(
+      <TokenInfoBlock
+        totalTokens={1000}
+        senderWalletTokens={senderWalletData.tokensInWallet}
+        senderWalletName={senderWalletData.name}
+      />
+    );
 
     await screen.findByText('Available Tokens');
 
     expect(screen.getByText('1000')).toBeInTheDocument();
     expect(screen.getByText('500')).toBeInTheDocument();
     expect(screen.getByText('WalletA Tokens')).toBeInTheDocument();
-
   });
 });
-
