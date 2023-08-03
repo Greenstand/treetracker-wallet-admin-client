@@ -57,7 +57,7 @@ const TransfersProvider = ({ children }) => {
   ];
 
   // transfers table columns
-  const transferColumns = [
+  const tableColumns = [
     {
       description: 'Transfer ID',
       name: 'transfer_id',
@@ -119,7 +119,7 @@ const TransfersProvider = ({ children }) => {
       return {
         transfer_id: row.id,
         sender_wallet: row.source_wallet,
-        token_amount: row.parameters.bundle.bundleSize,
+        token_amount: row.token_count,
         receiver_wallet: row.destination_wallet,
         created_date: row.created_at,
         initiated_by: row.originating_wallet,
@@ -138,7 +138,7 @@ const TransfersProvider = ({ children }) => {
     statusList,
     isLoading,
     setIsLoading,
-    transferColumns,
+    tableColumns,
     prepareRows,
   };
 

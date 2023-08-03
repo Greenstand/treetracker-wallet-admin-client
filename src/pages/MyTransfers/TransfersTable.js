@@ -6,10 +6,10 @@ import {
   TableCell,
   TableContainer,
   TableHead, TablePagination,
-  TableRow,
+  TableRow, Tooltip,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DateRangeFilter, TransferSelectFilter } from './TableFilters';
 import { TableCellStyled } from './TransfersTable.styled';
 import { useTransfersContext } from '../../store/TransfersContext';
@@ -49,6 +49,38 @@ const TransfersTableHeader = ({
 };
 
 
+const OverflownCell = ({ cellValue, cellColor, children }) => {
+  const [isOverflown, setIsOverflown] = useState(false);
+  const textElementRef = useRef();
+
+  useEffect(() => {
+    // if (textElementRef.current)
+    setIsOverflown(textElementRef.current.scrollWidth > textElementRef.current.clientWidth);
+  }, []);
+
+
+  return (
+    <Tooltip
+      title={cellValue}
+      disableHoverListener={!isOverflown}
+      // key={cellKey}
+    >
+      <TableCellStyled
+        ref={textElementRef}
+        sx={{
+          color: `${cellColor}`,
+        }}
+      >
+        {children}
+      </TableCellStyled>
+
+    </Tooltip>
+  );
+
+
+};
+
+
 /**@function
  * @name TransfersTableBody
  * @description Renders the table body (table rows) for the transfers table
@@ -59,6 +91,7 @@ const TransfersTableHeader = ({
  */
 const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
   const { isLoading } = useTransfersContext();
+
 
   if (isLoading)
     return (
@@ -77,21 +110,25 @@ const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
         return (
           <TableRow key={rowIndex}>
             {tableColumns.map((column, colIndex) => {
+              const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
+              const cellColor = column.name === 'status'
+                ? getStatusColor(row[column.name])
+                : '';
+              const cellValue = row[column.name]
+                ? (column.renderer
+                  ? column.renderer(row[column.name])
+                  : row[column.name])
+                : '--';
+
               return (
-                <TableCellStyled key={`${rowIndex}-${colIndex}-${column.description}`}
-                                 sx={{
-                                   color: column.name === 'status'
-                                     ? getStatusColor(row[column.name])
-                                     : '',
-                                 }}
+                <OverflownCell
+                  key={cellKey}
+                  cellValue={cellValue}
+                  cellColor={cellColor}
                 >
-                  {row[column.name]
-                    ? (column.renderer
-                      ? column.renderer(row[column.name])
-                      : row[column.name])
-                    : '--'
-                  }
-                </TableCellStyled>
+                  {cellValue}
+                </OverflownCell>
+
               );
             })}
           </TableRow>
