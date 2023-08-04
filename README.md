@@ -1,23 +1,34 @@
 # Greenstand Treetracker Wallet Admin Client 
 
-The admin panel for accessing wallets and execute all known API calls for the wallet API
+The admin panel for accessing wallets and executing all known API calls for the wallet API.
 
-# Context
+## Product Leadership:
+
+Product Engineering and Technical Lead: @OlhaD
+
+Project Manager: @Steve
+
+Repository wrangler: (add your name here)
+
+Core Contributors: (add your name here
 
 ## Background
 
-The wallet admin panel is used by wallet owners to display, transfer token and transactions, create sub wallets and configure their appearance. 
+The wallet admin panel is used by wallet owners to create wallets and sub-wallets, transfer tokens, see transactions, and configure the wallet displays. For more information on the overall Greenstand project design see [Welcome to Greenstand.](https://github.com/Greenstand#welcome-to-greenstand)
 
 ## Use case
 
-A green marketing company is utilizing the treetracker platform to plant/maintain one or more trees by attaching the impact donation in form of one or many tokens to a product. CompanyA is selling hand made leather boots and communicates to their clients that with every pair of boots sold the company is going to pay planters to grow trees. To manage the creation of wallets and adding tokens into the end consumer clients wallet the treetracker-wallet-admin-client is used to interact with the wallet-api.
+- A person wants to create and use a wallet on the greenstand system to manage Greenstand Impact Tokens.
+- A green marketing company is utilizing the treetracker platform to plant/maintain one or more trees by attaching one or many Greenstand Impact Tokens to a product or sale.
+- A company is selling hand-made boots and communicates to its clients that with every pair of boots sold the company is going to pay planters to grow trees; they need to manage the creation of wallets, and add tokens into the consumer/client's wallet.
 
-## UX / UI Design 
+## UX / UI Design
 
-can be found in thie figma file https://www.figma.com/file/kXhFReuUVcqQonIgl59On3/Wallet-admin-module-UX?node-id=4%3A21&t=rLUiYOgkuHix3Z5B-1
+[See the figma file](https://www.figma.com/file/kXhFReuUVcqQonIgl59On3/Wallet-admin-module-UX?node-id=4%3A21&t=rLUiYOgkuHix3Z5B-1)
 
 ## User Stories
-https://docs.google.com/document/d/1IF4fe4_BC319aoBKBW5LV2pypyDTy4K8qe1qqHexQ1Y/
+
+[See User Story Document](https://docs.google.com/document/d/1IF4fe4_BC319aoBKBW5LV2pypyDTy4K8qe1qqHexQ1Y/)
 
 ## Development Environment Setup
 
@@ -73,7 +84,7 @@ Visit http://localhost:3000
 ## Getting an Issue Assigned
 
 1. Look through the [open issues](https://github.com/Greenstand/treetracker-wallet-admin-client/issues) for one that looks interesting.
-   Use labels to look for [good first issues](https://github.com/Greenstand/treetracker-wallet-admin-client/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22). This lable indicates issues good to start with, but you are welcome to pick anything you like.
+   Use labels to look for [good first issues](https://github.com/Greenstand/treetracker-wallet-admin-client/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22). This label indicates issues good to start with, but you are welcome to pick anything you like.
 2. If you're not sure what to work on, ask in the #wallet-admin-client channel on Slack and we'll find a good issue for you.
 3. Add a comment to the selected issue to say you'd like to work on it, and ask for any clarification you need.
 4. When the issue is assigned to you, you are good to start.
@@ -90,13 +101,13 @@ There are lots of opportunities to offer ideas and take ownership of larger piec
 6. Make the requested changes, asking for clarification in the PR if necessary, and push the updated code
 7. After the code review and all code changes are done, the reviewer will approve and merge your changes
 
-You can work one more than one issue at a time, while you wait for your PR to be reviewed or questions to be answered, but remember to keep each issue on a separate branch.
+You can work on more than one issue at a time, while you wait for your PR to be reviewed or questions to be answered, but remember to keep each issue on a separate branch.
 
 ## Slack
 
-the corresponding channel #wallet-admin-client can be found in our slack community. Here there will be additional support for you.
+For additional support, the corresponding channel #wallet-admin-client can be found in our slack community which can be joined through the [Engineering Sign Up Form.](https://docs.google.com/forms/d/e/1FAIpQLSdyLUffLPZZlHR-qfMwch5HkWcZ3kxM6h-eMK5PfGKLD4t8iA/viewform)
 
 ## Note
 
-Contributing to this project can sometimes involve a steep learning curve. Please do not give up and come and find us on slack to get support setting you up. This is a fun project with an amazing potential to disrupt untransparent practices and open reforestation to the digital world. 
-
+Come have fun with a global team and a project that is disrupting opaque practices and creating open reforestation to the digital world.
+More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause)

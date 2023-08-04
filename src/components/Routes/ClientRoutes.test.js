@@ -6,34 +6,43 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../UI/theme';
 import AuthContext from '../../store/auth-context';
 
-
 describe('ClientRoutes component', () => {
-
   const TestWrapper = (props) => {
     const testContext = {
       isLoggedIn: true,
-      login: () => {
-      },
-      logout: () => {
-      },
+      login: () => {},
+      logout: () => {},
     };
-    return <ThemeProvider theme={theme}>
-      <Router>
-        <AuthContext.Provider value={testContext}>
-          {props.children}
-        </AuthContext.Provider>
-      </Router>
-    </ThemeProvider>
-      ;
+    return (
+      <ThemeProvider theme={theme}>
+        <Router>
+          <AuthContext.Provider value={testContext}>
+            {props.children}
+          </AuthContext.Provider>
+        </Router>
+      </ThemeProvider>
+    );
   };
 
+  beforeAll(() => {
+    localStorage.setItem(
+      'wallet',
+      JSON.stringify({
+        id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
+        wallet: 'test wallet',
+      })
+    );
+  });
+
+  afterAll(() => {
+    localStorage.removeItem('wallet');
+  });
 
   it('renders without crashing', async () => {
     render(
       <TestWrapper>
-        <ClientRoutes>
-        </ClientRoutes>
-      </TestWrapper>,
+        <ClientRoutes></ClientRoutes>
+      </TestWrapper>
     );
 
     //links have loaded
@@ -48,6 +57,5 @@ describe('ClientRoutes component', () => {
 
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
-
   });
 });
