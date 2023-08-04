@@ -1,7 +1,16 @@
-# Greenstand Treetracker Wallet Admin Client
+# Greenstand Treetracker Wallet Admin Client 
 
-The admin panel for accessing wallets and execute all known API calls for
-the [wallet API](https://github.com/Greenstand/treetracker-wallet-api)
+The admin panel for accessing wallets and executing all known API calls for the wallet API.
+
+## Product Leadership:
+
+Product Engineering and Technical Lead: @OlhaD
+
+Project Manager: @Steve
+
+Repository wrangler: (add your name here)
+
+Core Contributors: (add your name here
 
 ## Background
 
@@ -10,20 +19,17 @@ configure their appearance.
 
 ## Use case
 
-A green marketing company is utilizing the Treetracker platform to plant/maintain one or more trees by attaching the
-impact donation in form of one or many tokens to a product. CompanyA is selling hand made leather boots and communicates
-to their clients that with every pair of boots sold the company is going to pay planters to grow trees. To manage the
-creation of wallets and adding tokens into the end consumer clients wallet the `treetracker-wallet-admin-client` is used
-to interact with the `treetracker-wallet-api`.
+- A person wants to create and use a wallet on the greenstand system to manage Greenstand Impact Tokens.
+- A green marketing company is utilizing the treetracker platform to plant/maintain one or more trees by attaching one or many Greenstand Impact Tokens to a product or sale.
+- A company is selling hand-made boots and communicates to its clients that with every pair of boots sold the company is going to pay planters to grow trees; they need to manage the creation of wallets, and add tokens into the consumer/client's wallet.
 
 ## UX / UI Design
 
-Can be found in this figma
-file https://www.figma.com/file/kXhFReuUVcqQonIgl59On3/Wallet-admin-module-UX?node-id=4%3A21&t=rLUiYOgkuHix3Z5B-1
+[See the figma file](https://www.figma.com/file/kXhFReuUVcqQonIgl59On3/Wallet-admin-module-UX?node-id=4%3A21&t=rLUiYOgkuHix3Z5B-1)
 
 ## User Stories
 
-https://docs.google.com/document/d/1IF4fe4_BC319aoBKBW5LV2pypyDTy4K8qe1qqHexQ1Y/
+[See User Story Document](https://docs.google.com/document/d/1IF4fe4_BC319aoBKBW5LV2pypyDTy4K8qe1qqHexQ1Y/)
 
 ## Development Environment Setup
 
@@ -91,3 +97,5 @@ slack to get support setting you up. This is a fun project with an amazing poten
 practices
 and open reforestation to the digital world. 
 
+Come have fun with a global team and a project that is disrupting opaque practices and creating open reforestation to the digital world.
+More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause)
