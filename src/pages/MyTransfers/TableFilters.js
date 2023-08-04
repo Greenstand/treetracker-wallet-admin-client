@@ -34,7 +34,7 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
   };
 
   return (
-    <FormControl sx={{ width: '192px' }}>
+    <FormControl sx={{ width: '192px' }} data-testid='transfer-status-filter'>
       <FilterLabelText>Transfer Status</FilterLabelText>
 
       <SelectFilter
@@ -99,7 +99,7 @@ export const DateRangeFilter = () => {
   };
 
   return (
-    <FormControl sx={{ width: '192px' }}>
+    <FormControl sx={{ width: '192px' }} data-testid='date-range-filter'>
       <FilterLabelText>Created Date</FilterLabelText>
       <DateRangeButton onClick={handleClick} endIcon={<DateRangeFilterIcon />}>
         {startDate ? getDateText(startDate, dateFormat) : defaultDateText} - {endDate ? getDateText(endDate, dateFormat) : defaultDateText}

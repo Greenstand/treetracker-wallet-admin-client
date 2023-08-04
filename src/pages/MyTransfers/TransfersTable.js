@@ -94,7 +94,7 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
  */
 const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
   const { isLoading } = useTransfersContext();
-  
+
   if (isLoading)
     return (
       <TableBody>
@@ -194,7 +194,7 @@ const TransfersTable = ({
       />
 
       <TableContainer component={Paper} sx={{ height: '400px', width: '1000px' }}>
-        <Table stickyHeader sx={{ minWidth: 650 }} aria-label='transfers table'>
+        <Table stickyHeader sx={{ minWidth: 650 }} aria-label='transfers table' data-testid='transfers-table'>
           <TableHead>
             <TableRow>
               {tableColumns.map((column, id) => {
@@ -221,6 +221,7 @@ const TransfersTable = ({
         onRowsPerPageChange={handleRowsPerPageChange}
         page={page}
         onPageChange={(e, newPage) => handlePageChange(e, newPage)}
+        data-testid='table-pagination'
       />
     </Grid>);
 };
