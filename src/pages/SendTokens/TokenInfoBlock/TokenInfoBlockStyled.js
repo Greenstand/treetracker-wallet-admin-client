@@ -21,4 +21,3 @@ export const AmountText = styled(Typography)({
   paddingTop: '10px',
   paddingBottom: '10px',
 });
-
