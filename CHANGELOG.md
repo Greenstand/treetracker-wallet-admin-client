@@ -1,3 +1,10 @@
+# [1.0.0-v1.6](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.5...v1.0.0-v1.6) (2023-08-04)
+
+
+### Bug Fixes
+
+* minor change in README ([d59cc01](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d59cc010ce640727740489f941a4b92b21e24218))
+
 # [1.0.0-v1.5](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.4...v1.0.0-v1.5) (2023-08-02)
 
 
