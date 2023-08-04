@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
 // import mockData from '../../mock_data.json';
-import ErrorMessage from '../../components/UI/components/ErrorMessage/ErrorMessage';
+import Message from '../../components/UI/components/Message/Message';
 import { getTransfers } from '../../api/transfers';
 import { useTransfersContext } from '../../store/TransfersContext';
 // import { formatWithCommas, getDateText } from '../../utils/formatting';
@@ -26,7 +26,7 @@ const MyTransfers = () => {
   // get data from context
   const { pagination, filter, setIsLoading, prepareRows } = useTransfersContext();
   // error
-  const [errorMessage, setErrorMessage] = useState('');
+  const [message, setMessage] = useState('');
   // data to be displayed in the table
   const [tableRows, setTableRows] = useState([]);
   // total rows count for pagination
@@ -47,7 +47,7 @@ const MyTransfers = () => {
         setIsLoading(false);
       } catch (error) {
         console.error(error);
-        setErrorMessage('An error occurred while fetching the table data');
+        setMessage('An error occurred while fetching the table data');
       }
     };
     loadData();
@@ -56,14 +56,13 @@ const MyTransfers = () => {
 
   return (
     <div style={{ marginTop: '5rem', marginLeft: '1rem' }}>
-      {errorMessage && (
-        <ErrorMessage
-          message={errorMessage}
-          onClose={() => setErrorMessage('')}
+      {message && (
+        <Message
+          message={message}
+          onClose={() => setMessage('')}
         />
       )}
       <Grid container direction='column'>
-
         <TransfersTable
           tableTitle={'My Transfers'}
           tableRows={tableRows}
