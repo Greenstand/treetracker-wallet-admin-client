@@ -6,12 +6,12 @@ import {
   TableCell,
   TableContainer,
   TableHead, TablePagination,
-  TableRow, Tooltip,
+  TableRow,
   Typography,
 } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { DateRangeFilter, TransferSelectFilter } from './TableFilters';
-import { TableCellStyled } from './TransfersTable.styled';
+import { TableCellStyled, TooltipStyled } from './TransfersTable.styled';
 import { useTransfersContext } from '../../store/TransfersContext';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 
@@ -49,21 +49,27 @@ const TransfersTableHeader = ({
 };
 
 
+/**@function
+ * @description Renders a table cell with a tooltip that shows when the cell is overflowed
+ * @param {string} cellValue Value inside the cell and tooltip
+ * @param {string} cellColor Color of the cell value
+ * @param children
+ * @return {JSX.Element}
+ * @constructor
+ */
 const OverflownCell = ({ cellValue, cellColor, children }) => {
   const [isOverflown, setIsOverflown] = useState(false);
   const textElementRef = useRef();
 
   useEffect(() => {
-    // if (textElementRef.current)
     setIsOverflown(textElementRef.current.scrollWidth > textElementRef.current.clientWidth);
   }, []);
 
-
   return (
-    <Tooltip
-      title={cellValue}
+    <TooltipStyled
+      title={<p style={{ fontSize: '12px' }}>{cellValue}</p>}
       disableHoverListener={!isOverflown}
-      // key={cellKey}
+      arrow
     >
       <TableCellStyled
         ref={textElementRef}
@@ -73,11 +79,8 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
       >
         {children}
       </TableCellStyled>
-
-    </Tooltip>
+    </TooltipStyled>
   );
-
-
 };
 
 
@@ -91,8 +94,7 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
  */
 const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
   const { isLoading } = useTransfersContext();
-
-
+  
   if (isLoading)
     return (
       <TableBody>
@@ -128,7 +130,6 @@ const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
                 >
                   {cellValue}
                 </OverflownCell>
-
               );
             })}
           </TableRow>
