@@ -69,114 +69,140 @@ export default createTheme({
       white: COLORS.white,
     },
   },
-  overrides: {
+  components: {
     MuiButton: {
-      root: {
-        fontSize: ".785rem",
+      defaultProps: {
+        variant: "outlined",
       },
-      label: {
-        textTransform: "capitalize",
-      },
-    },
-    MuiOutlinedInput: {
-      input: {
-        padding: "10.5px 10px",
-      },
-    },
-    MuiInputLabel: {
-      outlined: {
-        transform: "translate(10px, 12px) scale(1)",
+      styleOverrides: {
+        root: {
+          fontSize: ".785rem",
+        },
+        label: {
+          textTransform: "capitalize",
+        },
       },
     },
     MuiListItem: {
-      root: {
-        "&.Mui-selected": {
-          color: colorPrimary,
-          backgroundColor: colorPrimarySelected,
-          "&:hover": {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            color: colorPrimary,
             backgroundColor: colorPrimarySelected,
+            "&:hover": {
+              backgroundColor: colorPrimarySelected,
+            },
           },
         },
-      },
-      button: {
-        "&:hover": {
-          color: colorPrimary,
-          backgroundColor: colorPrimaryHover,
+        button: {
+          "&:hover": {
+            color: colorPrimary,
+            backgroundColor: colorPrimaryHover,
+          },
         },
       },
     },
     MuiRadio: {
-      root: {
-        "&:hover": {
-          backgroundColor: "transparent",
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            backgroundColor: "transparent",
+          },
         },
       },
     },
     MuiSelect: {
-      select: {
-        "&:focus": {
-          color: colorPrimary,
-          backgroundColor: colorPrimaryHover,
+      styleOverrides: {
+        select: {
+          "&:focus": {
+            color: colorPrimary,
+            backgroundColor: colorPrimaryHover,
+          },
         },
       },
     },
     MuiToggleButton: {
-      root: {
-        border: `1px solid ${colorPrimarySelected}`,
-        color: "rgba(0,0,0,0.3)",
-        "&.Mui-selected": {
-          color: colorPrimary,
-        },
-      },
-    },
-    MuiTableRow: {
-      root: {
-        "&.MuiTableRow-hover": {
-          "&:hover": {
-            backgroundColor: colorPrimaryHover,
-          },
-          "&:hover .MuiTableCell-body": {
+      styleOverrides: {
+        root: {
+          border: `1px solid ${colorPrimarySelected}`,
+          color: "rgba(0,0,0,0.3)",
+          "&.Mui-selected": {
             color: colorPrimary,
           },
         },
       },
     },
-    MuiTableCell: {
-      head: {
-        fontSize: ".785rem",
-        fontWeight: 700,
-        color: "#494747",
-      },
-      body: {
-        fontSize: ".785rem",
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          "&.MuiTableRow-hover": {
+            "&:hover": {
+              backgroundColor: colorPrimaryHover,
+            },
+            "&:hover .MuiTableCell-body": {
+              color: colorPrimary,
+            },
+          },
+        },
       },
     },
-    /* No better way to adjust the table column width, so have to set css here*/
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          fontSize: ".785rem",
+          fontWeight: 700,
+          color: "#494747",
+        },
+        body: {
+          fontSize: ".785rem",
+        },
+      },
+    },
     MUIDataTableHeadCell: {
-      root: {
-        "&:nth-child(1)": {
-          width: 20,
+      styleOverrides: {
+        root: {
+          "&:nth-child(1)": {
+            width: 20,
+          },
+          "&:nth-child(2)": {
+            width: 30,
+          },
+          "&:nth-child(3)": {
+            width: 30,
+          },
+          "&:nth-child(4)": {
+            width: 30,
+          },
+          "&:nth-child(5)": {
+            width: 30,
+          },
+          "&:nth-child(6)": {
+            width: 30,
+          },
+          "&:nth-child(7)": {
+            width: 30,
+          },
+          "&:nth-child(8)": {
+            width: 200,
+          },
         },
-        "&:nth-child(2)": {
-          width: 30,
+      },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "rgba(118, 187, 35, 0.6)",
+          display: "flex",
+          alignItems: "center",
+          margin: "1.2rem 0",
         },
-        "&:nth-child(3)": {
-          width: 30,
+        standardError: {
+          // this targets "error" variant of Alert
+          backgroundColor: "rgb(252,209,209)",
+          fontWeight: 600,
         },
-        "&:nth-child(4)": {
-          width: 30,
-        },
-        "&:nth-child(5)": {
-          width: 30,
-        },
-        "&:nth-child(6)": {
-          width: 30,
-        },
-        "&:nth-child(7)": {
-          width: 30,
-        },
-        "&:nth-child(8)": {
-          width: 200,
+        message: {
+          padding: "0.5rem 0",
         },
       },
     },

@@ -1,22 +1,29 @@
+import { mount } from "enzyme";
 import React from "react";
-import { shallow } from "enzyme";
 import Layout from "./Layout";
-import SideMenu from "./SideMenu/SideMenu";
-import {
-  StyledContent,
-  StyledDrawer,
-  StyledDrawerPaper,
-  StyledRoot,
-} from "./LayoutStyled";
+import { StyledContent } from "./LayoutStyled";
+import Menu from "./Menu/Menu";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material";
+
+const theme = createTheme({
+  zIndex: {
+    drawer: 1200,
+  },
+});
 
 describe("Layout component", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(
-      <Layout>
-        <div>Test</div>
-      </Layout>
+    wrapper = mount(
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Layout>
+            <div>Test</div>
+          </Layout>
+        </Router>
+      </ThemeProvider>
     );
   });
 
@@ -24,20 +31,8 @@ describe("Layout component", () => {
     expect(wrapper).toBeTruthy();
   });
 
-  it("should render SideMenu component", () => {
-    expect(wrapper.find(SideMenu)).toHaveLength(1);
-  });
-
-  it("should render StyledRoot component", () => {
-    expect(wrapper.find(StyledRoot)).toHaveLength(1);
-  });
-
-  it("should render StyledDrawer component", () => {
-    expect(wrapper.find(StyledDrawer)).toHaveLength(1);
-  });
-
-  it("should render StyledDrawerPaper component", () => {
-    expect(wrapper.find(StyledDrawerPaper)).toHaveLength(1);
+  it("should render Menu component", () => {
+    expect(wrapper.find(Menu)).toHaveLength(1);
   });
 
   it("should render StyledContent component", () => {

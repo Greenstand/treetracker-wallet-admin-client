@@ -1,43 +1,52 @@
-import React, { useState } from "react";
-import SideMenu from "./SideMenu/SideMenu";
-import MenuContext from "../../store/menu-context";
-import {
-  StyledContent,
-  StyledDrawer,
-  StyledDrawerPaper,
-  StyledRoot,
-} from "./LayoutStyled";
+import { useMediaQuery } from "@mui/material";
+import Box from "@mui/material/Box";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { StyledContent } from "./LayoutStyled";
+import Menu from "./Menu/Menu";
 
 const Layout = ({ children }) => {
-  const [menuCollapsed, setMenuCollapsed] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const menuToggleHandler = () => {
-    setMenuCollapsed((value) => !value);
+  const handleDrawerOpen = () => {
+    setOpen(true);
   };
 
+  const mobile = useMediaQuery("(max-width:480px");
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+  const handleDrawerCloseAuto = () => {
+    if (mobile) {
+      setOpen(false);
+    }
+  };
+  const handleResponsiveDrawerClose = () => {
+    if (mobile) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  };
+
+  let location = useLocation();
+
+  useEffect(() => {
+    handleResponsiveDrawerClose();
+  }, [location]);
+
   return (
-    <StyledRoot>
-      <MenuContext.Provider
-        value={{
-          isMenuCollapsed: menuCollapsed,
-          onMenuToggle: menuToggleHandler,
-        }}
-      >
-        <StyledDrawer
-          variant="permanent"
-          open={true}
-          menuCollapsed={menuCollapsed}
-        >
-          <StyledDrawerPaper menuCollapsed={menuCollapsed}>
-            <SideMenu
-              onMenuToggle={menuToggleHandler}
-              isMenuCollapsed={menuCollapsed}
-            />
-          </StyledDrawerPaper>
-        </StyledDrawer>
-        <StyledContent container>{children}</StyledContent>
-      </MenuContext.Provider>
-    </StyledRoot>
+    <Box sx={{ display: "flex" }}>
+      <Menu
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+        handleDrawerOpen={handleDrawerOpen}
+      />
+      <StyledContent container onClick={handleDrawerCloseAuto}>
+        {children}
+      </StyledContent>
+    </Box>
   );
 };
 
