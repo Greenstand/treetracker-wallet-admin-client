@@ -42,3 +42,17 @@ export const getWallets = async (name = '', pageNumber = 1) => {
     wallets,
   };
 };
+
+export const getWalletById = async (id) => {
+  const walletData = await apiClient
+    .get('/wallets/' + id)
+    .then((response) => {
+      return mapWallet(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+      throw Error('An error occurred while fetching wallets data.');
+    });
+
+  return walletData;
+};
