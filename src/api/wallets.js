@@ -5,7 +5,7 @@ const mapWallet = (walletData) => {
     id: walletData.id,
     logoURL: walletData.logo_url,
     tokensInWallet: walletData.tokens_in_wallet,
-    name: walletData.name,
+    name: walletData.wallet,
   };
 };
 
