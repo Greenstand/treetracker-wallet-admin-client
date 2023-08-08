@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,13 +28,13 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    // if (!error || !error.response) return Promise.reject(error);
-    // if (error.response.status === 401) {
-    //   const navigate = useNavigate();
-    //   navigate('/login');
-    // } else {
-    //   return Promise.reject(error);
-    // }
+    if (!error || !error.response) return Promise.reject(error);
+    if (error.response.status === 401) {
+      const navigate = useNavigate();
+      navigate('/login');
+    } else {
+      return Promise.reject(error);
+    }
   }
 );
 
