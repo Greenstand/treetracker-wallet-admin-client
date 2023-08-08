@@ -57,7 +57,8 @@ There are lots of opportunities to offer ideas and take ownership of larger piec
 
 - Create a branch for the issue in your local repo
 - Make your changes and test everything works locally
-- Push your changes to your fork on GitHub and create a pull request into Greenstand/main
+- Push your changes to your fork on GitHub and create a pull request
+  into `treetracker-wallet-admin-client/<target_branch>`. The target branch is currently `v1`.
 - Fill in as much info as you can in the PR, including screenshots or videos of the change to help the reviewer
   understand what you've done
 - A member of the review team will review your changes and may request changes
@@ -73,9 +74,9 @@ Your forked repo won't automatically stay in sync with Greenstand, so you'll nee
 typically before starting work on a new feature).
 
 ```
-git checkout master
-git pull upstream master --rebase
-git push origin master
+git checkout <target_branch>
+git pull upstream <target_branch> --rebase
+git push origin <target_branch>
 ```
 
 If there are merge conflicts in your PR, you may need to rebase your branch. Ask a member of the team if you need help
@@ -83,7 +84,7 @@ with this.
 
 ```
 git checkout <feature_branch>
-git pull upstream master --rebase
+git pull upstream <target_branch> --rebase
 git push origin <feature_branch> --force
 ```
 
