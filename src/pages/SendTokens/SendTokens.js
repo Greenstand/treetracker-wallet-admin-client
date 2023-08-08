@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Paper } from '@mui/material';
-import { ContentContainer, StyledGrid } from './SendTokensStyled';
+import {
+  ContentContainer,
+  LoaderContainer,
+  StyledGrid,
+} from './SendTokensStyled';
 import PageHeader from '../../components/layout/PageHeader/PageHeader';
 import SendTokensForm from './SendTokensForm/SendTokensForm';
 import Message, {
@@ -74,6 +78,7 @@ const SendTokens = () => {
         // getTotalTokensAmount();
         setSenderWalletTokens((prev) => prev - data.tokensAmount);
 
+        setErrorMessage('');
         setSuccessMessage(
           `${data.tokensAmount} tokens were successfully sent from '${data.senderWallet}' to '${data.receiverWallet}' wallet. Status of the transfer: '${response.data.state}'`
         );
@@ -103,6 +108,7 @@ const SendTokens = () => {
         wallet: name,
       })
       .then(() => {
+        setErrorMessage('');
         setSuccessMessage(`Wallet ${name} created successfully!`);
         setCreatedWalletName(name);
       })
@@ -120,8 +126,6 @@ const SendTokens = () => {
         setIsLoading(false);
       });
   };
-
-  if (isLoading) return <Loader />;
 
   return (
     <StyledGrid>
@@ -153,6 +157,11 @@ const SendTokens = () => {
             justifyContent: 'space-between',
           }}
         >
+          {isLoading && (
+            <LoaderContainer>
+              <Loader />
+            </LoaderContainer>
+          )}
           <SendTokensForm
             onSubmit={handleSendTokenForm}
             onCreateWallet={handleCreateWalled}
