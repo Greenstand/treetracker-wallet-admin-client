@@ -66,12 +66,15 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
 export const DateRangeFilter = () => {
   // get filter from context
   const { filter, setFilter } = useTransfersContext();
-  // const { after, before } = filter;
 
   // start and end dates (for datepicker display)
   // they are dayjs date objects
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  // disable OK button on either datepicker error
+  const [isStartDateError, setIsStartDateError] = useState(false);
+  const [isEndDateError, setIsEndDateError] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const defaultDateText = 'mm/dd/yyyy';
@@ -126,6 +129,7 @@ export const DateRangeFilter = () => {
                   onChange={(date) => setStartDate(date)}
                   disableFuture
                   maxDate={endDate}
+                  onError={(error, value) => setIsStartDateError(!!value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -135,13 +139,14 @@ export const DateRangeFilter = () => {
                   onChange={(date) => setEndDate(date)}
                   disableFuture
                   minDate={startDate}
+                  onError={(error, value) => setIsEndDateError(!!value)}
                 />
               </Grid>
             </Grid>
           </CardContent>
           <CardActions sx={{ justifyContent: 'flex-end' }}>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleOK}>OK</Button>
+            <Button onClick={handleOK} disabled={isStartDateError || isEndDateError}>OK</Button>
           </CardActions>
         </Card>
       </Popover>

@@ -6,7 +6,8 @@ export const TableCellStyled = styled(TableCell)({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  maxWidth: '125px',
+  maxWidth: '170px',
+  width: '170px',
 });
 
 export const TooltipStyled = styled(Tooltip)({

@@ -73,6 +73,7 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
     >
       <TableCellStyled
         ref={textElementRef}
+        align={'center'}
         sx={{
           color: `${cellColor}`,
         }}
@@ -101,6 +102,17 @@ const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
         <TableRow>
           <TableCell colSpan={12}>
             <Loader />
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    );
+
+  if (tableRows.length === 0)
+    return (
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={12} sx={{ textAlign: 'center' }}>
+            No data available
           </TableCell>
         </TableRow>
       </TableBody>
@@ -187,20 +199,20 @@ const TransfersTable = ({
   };
 
   return (
-    <Grid container direction={'column'}>
+    <Grid container direction={'column'} sx={{ height: '100%' }}>
       <TransfersTableHeader
         tableTitle={tableTitle}
         getStatusColor={getStatusColor}
       />
 
-      <TableContainer component={Paper} sx={{ height: '400px', width: '1000px' }}>
+      <TableContainer component={Paper}>
         <Table stickyHeader sx={{ minWidth: 650 }} aria-label='transfers table' data-testid='transfers-table'>
           <TableHead>
             <TableRow>
               {tableColumns.map((column, id) => {
                 return (
-                  <TableCell key={`${id}-${column.description}`}
-                             sx={{ fontSize: '14px' }}>{column.description}</TableCell>
+                  <TableCellStyled key={`${id}-${column.description}`}
+                                   sx={{ fontSize: '14px' }} align={'center'}>{column.description}</TableCellStyled>
                 );
               })}
             </TableRow>

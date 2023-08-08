@@ -1,20 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
-// import mockData from '../../mock_data.json';
 import Message from '../../components/UI/components/Message/Message';
 import { getTransfers } from '../../api/transfers';
 import { useTransfersContext } from '../../store/TransfersContext';
-// import { formatWithCommas, getDateText } from '../../utils/formatting';
-
-// const statuses = ['Completed', 'Pending', 'Failed'];
-
-// const newData = mockData.map(x => {
-//   return {
-//     ...x,
-//     status: statuses[Math.floor(Math.random() * 3)],
-//   };
-// });
 
 /**@function
  * @name MyTransfers
@@ -43,11 +32,11 @@ const MyTransfers = () => {
 
         setTableRows(preparedRows);
         setTotalRowCount(data.count);
-
-        setIsLoading(false);
       } catch (error) {
         console.error(error);
         setMessage('An error occurred while fetching the table data');
+      } finally {
+        setIsLoading(false);
       }
     };
     loadData();
@@ -55,14 +44,21 @@ const MyTransfers = () => {
 
 
   return (
-    <div style={{ marginTop: '5rem', marginLeft: '1rem' }}>
+    <div
+      style={{
+        marginTop: '5rem',
+        marginLeft: '1rem',
+        display: 'flex',
+        flexDirection: 'column',
+        marginRight: '1rem',
+      }}>
       {message && (
         <Message
           message={message}
           onClose={() => setMessage('')}
         />
       )}
-      <Grid container direction='column'>
+      <Grid container direction='column' sx={{ flexGrow: '1' }}>
         <TransfersTable
           tableTitle={'My Transfers'}
           tableRows={tableRows}
