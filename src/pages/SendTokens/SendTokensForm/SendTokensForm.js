@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Grid, IconButton, TextField } from '@mui/material';
 import SelectWallet from './SelectWallet';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -21,6 +21,13 @@ const SendTokensForm = (props) => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
 
   const [createWalletError, setCreateWalletError] = useState(false);
+  const [createWalletErrorMessage, setCreateWalletErrorMessage] = useState('');
+
+  const [isSubmitBtnDisabled, setIsSubmitButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    isSubmitButtonDisabled();
+  }, [receiverWallet, senderWallet, showCreateWallet]);
 
   const handleChangeSenderWallet = useCallback((wallet) => {
     // sender wallet is not selected / was deselected
@@ -50,14 +57,32 @@ const SendTokensForm = (props) => {
   }, []);
 
   const handleCreateWallet = () => {
-    if (!createWalletNameRef.current.value) {
-      setCreateWalletError(true);
+    if (!validateCreateWallet(createWalletNameRef.current.value)) {
       return;
     }
 
     onCreateWallet(createWalletNameRef.current.value);
     setCreateWalletError(false);
     setShowCreateWallet(false);
+  };
+
+  const validateCreateWallet = (wallet) => {
+    if (!wallet) {
+      setCreateWalletError(true);
+      setCreateWalletErrorMessage('Wallet name is required');
+      return false;
+    }
+
+    const pattern = /^[a-zA-Z0-9\-.@]+$/;
+    if (!pattern.test(wallet)) {
+      setCreateWalletError(true);
+      setCreateWalletErrorMessage(
+        'Wallet can only contain numbers, letters and the - . @ symbols'
+      );
+      return false;
+    }
+
+    return true;
   };
 
   const handleSubmit = (e) => {
@@ -78,12 +103,12 @@ const SendTokensForm = (props) => {
   };
 
   const isSubmitButtonDisabled = () => {
-    return (
+    const isDisabled =
       !senderWallet ||
       !receiverWallet ||
       showCreateWallet ||
-      tokensAmountRef.current.value <= 0
-    );
+      tokensAmountRef.current.value <= 0;
+    setIsSubmitButtonDisabled(isDisabled);
   };
 
   return (
@@ -120,11 +145,12 @@ const SendTokensForm = (props) => {
             <>
               <Grid item xs={4}>
                 <TextField
-                  id="outlined-text"
+                  id="wallet-name"
                   label="Managed Wallet Name"
                   type="text"
                   required
                   error={createWalletError}
+                  helperText={createWalletErrorMessage}
                   sx={{ width: '100%' }}
                   InputLabelProps={{
                     shrink: true,
@@ -136,6 +162,7 @@ const SendTokensForm = (props) => {
                 />
               </Grid>
               <Grid item xs={1}>
+                {/* Create wallet */}
                 <IconButton
                   aria-label="delete"
                   color="primary"
@@ -145,6 +172,7 @@ const SendTokensForm = (props) => {
                 </IconButton>
               </Grid>
               <Grid item xs={1}>
+                {/* Cancel creating wallet */}
                 <IconButton
                   aria-label="delete"
                   color="primary"
@@ -161,12 +189,13 @@ const SendTokensForm = (props) => {
           )}
           <Grid item xs={12}>
             <TextField
-              id="outlined-number"
+              id="token-amount"
               label="Token Amount"
               type="number"
-              InputProps={{ inputProps: { min: 0, max: 1000 } }}
+              InputProps={{ inputProps: { min: 0, max: 10000 } }}
               defaultValue={1}
               inputRef={tokensAmountRef}
+              onChange={() => isSubmitButtonDisabled()}
             />
           </Grid>
           <Grid item xs={12}>
@@ -174,7 +203,7 @@ const SendTokensForm = (props) => {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={isSubmitButtonDisabled()}
+              disabled={isSubmitBtnDisabled}
             >
               Submit
             </StyledButton>
