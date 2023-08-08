@@ -1,3 +1,12 @@
+# [1.0.0-v1.7](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.6...v1.0.0-v1.7) (2023-08-08)
+
+
+### Bug Fixes
+
+* add wallet validation ([62bf9fd](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/62bf9fda7efc295af29ccaad82a26e509d4b1bfc))
+* loader and message display ([c0fe17d](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c0fe17d5efda0f8525fd0233dc1f746803941b18))
+* remove current wallet and total tokens amount ([0d58020](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0d58020172b361a53229016d4e401697fb7ec151))
+
 # [1.0.0-v1.6](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.5...v1.0.0-v1.6) (2023-08-04)
 
 
