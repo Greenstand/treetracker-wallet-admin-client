@@ -25,8 +25,20 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
 
         const total = response.total;
         setWalletsFullLoadedData(response.wallets);
-        const wallets = response.wallets.map((wallet) => wallet.name);
-        const addLoadMoreButton = wallets.length < total;
+
+        // filter wallets to remove the current wallet witch API always returns
+        const wallets = response.wallets
+          .filter((wallet) =>
+            wallet.name
+              .toLowerCase()
+              .includes(walletSearchString.toLocaleLowerCase())
+          )
+          .map((wallet) => wallet.name);
+
+        // remove when API returns sorted data
+        wallets.sort();
+
+        const addLoadMoreButton = response.wallets.length < total;
 
         addLoadMoreButtonToWallets([...wallets], addLoadMoreButton);
       } catch (error) {
@@ -61,9 +73,20 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
 
         const total = response.total;
         setWalletsFullLoadedData(response.wallets);
-        const wallets = response.wallets.map((wallet) => wallet.name);
+        // filter wallets to remove the current wallet witch API always returns
+        const wallets = response.wallets
+          .filter((wallet) =>
+            wallet.name
+              .toLowerCase()
+              .includes(walletSearchString.toLocaleLowerCase())
+          )
+          .map((wallet) => wallet.name);
+
+        // remove when API returns sorted data
+        wallets.sort();
+
         const addLoadMoreButton =
-          wallets.length + walletsLoadedData.length < total;
+          response.wallets.length + walletsLoadedData.length < total;
 
         addLoadMoreButtonToWallets(
           [...walletsLoadedData, ...wallets],
