@@ -1,3 +1,34 @@
+# [1.0.0-v1.9](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.8...v1.0.0-v1.9) (2023-08-14)
+
+
+### Bug Fixes
+
+* datepicker button, table sizing ([c6ebcb7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c6ebcb734cb07906abe32e0c7da3d957c1760ac8))
+* package-lock.json ([fc69360](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/fc69360deebe65aeaf347944cec4b35952e6a085))
+
+
+### Features
+
+* basic table structure ([ead90e2](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ead90e211074638a94425cc4bcaa3f5d64ffeac6))
+* date range functionality, styling ([2301162](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/2301162bf8907c3f81b88708d36f1ff1b17ba447))
+* fixed message ([07039b6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/07039b646a0b25926abdce5cdd5523e5e8cfcd12))
+* hide pagination before API is ready; fix issue with calendars ([bb7b18e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/bb7b18e029a911bc8c5192f3ca668256236446b1))
+* load data, formatting, refactoring ([d01db6c](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d01db6cc6bcd2ccd31ada3692397b9ce9a7f6219))
+* pagination, mock data ([6c18216](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/6c18216861dc5d8534c874abeeb495e21a6c4a53))
+* reafactoring, api work ([91610c0](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/91610c03b9e62433b8dcf75536772ff70bc02bd0))
+* refactoring and context ([e73c51d](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/e73c51d96c0f252d16f64277dade31a507e2eef1))
+* refactoring, api integration ([ad53d5d](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ad53d5d1a8670156b4735ad961cac4a6b0f65221))
+* styling, basic date picker ([6b13f28](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/6b13f28cf58a621e269e08562b56417cc30055f3))
+* table header styling ([84aa92c](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/84aa92cd2e862f51ed95b295a9f0886e11125d1f))
+* table styling ([8117992](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/811799230ee4f869917f7f2f4a87285ea9287dce))
+* tests for my transfers page ([36edcf6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/36edcf6890cadd928b4a63fc9398d86e40c62c49))
+* tooltip for table cell ([6680025](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/668002594370a92e36ab22859fb8f35d6456d0c5))
+* tooltip styling ([9c3d90e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9c3d90e15361a3047bbec0d8acaf93fa969697fe))
+* transfer status filter, styling ([4417d3f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/4417d3f4afa894c6c7cedca89f6782625ec446d3))
+* TransferFilter model ([640d228](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/640d228a3b2b49832dbace4aeaca9e45afe807d4))
+* transfers api get query ([6dc1195](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/6dc1195e79b24bcc64cf10f17f822016ee1ba76f))
+* update filter functions ([575887e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/575887e93156d6ba78d9d5dd6a698a6b25575ee5))
+
 # [1.0.0-v1.8](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.7...v1.0.0-v1.8) (2023-08-09)
 
 
