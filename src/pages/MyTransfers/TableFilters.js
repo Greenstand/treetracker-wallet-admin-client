@@ -1,11 +1,21 @@
-import { Button, Card, CardActions, CardContent, FormControl, Grid, Popover, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  FormControl,
+  Grid,
+  Popover,
+  Typography,
+} from '@mui/material';
 import {
   ArrowDropDownIcon,
   DateFilterTitle,
   FilterLabelText,
   SelectFilter,
   SelectMenuItem,
-  DateRangeButton, DateRangeFilterIcon,
+  DateRangeButton,
+  DateRangeFilterIcon,
 } from './TableFilters.styled';
 import React, { useState } from 'react';
 import { DatePicker, DateRangeIcon } from '@mui/x-date-pickers';
@@ -23,7 +33,6 @@ import TransferFilter from '../../models/TransferFilter';
  * @constructor
  */
 export const TransferSelectFilter = ({ getStatusColor }) => {
-
   // get filter from context
   const { filter, setFilter, statusList } = useTransfersContext();
   const { state } = filter;
@@ -34,7 +43,7 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
   };
 
   return (
-    <FormControl sx={{ width: '192px' }} data-testid='transfer-status-filter'>
+    <FormControl sx={{ width: '192px' }} data-testid="transfer-status-filter">
       <FilterLabelText>Transfer Status</FilterLabelText>
 
       <SelectFilter
@@ -49,11 +58,19 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
         <SelectMenuItem value={''}>None</SelectMenuItem>
 
         {statusList.map((state, index) => {
-          return (<SelectMenuItem key={index} value={state.value}
-                                  sx={{ color: state.color }}>{state.label}</SelectMenuItem>);
+          return (
+            <SelectMenuItem
+              key={index}
+              value={state.value}
+              sx={{ color: state.color }}
+            >
+              {state.label}
+            </SelectMenuItem>
+          );
         })}
       </SelectFilter>
-    </FormControl>);
+    </FormControl>
+  );
 };
 
 /**@function
@@ -95,17 +112,22 @@ export const DateRangeFilter = () => {
 
   // updates the filter object and closes the popver
   const handleOK = () => {
-    const newFilter = new TransferFilter({ ...filter, after: startDate, before: endDate });
+    const newFilter = new TransferFilter({
+      ...filter,
+      after: startDate,
+      before: endDate,
+    });
     setFilter(newFilter);
 
     setAnchorEl(null);
   };
 
   return (
-    <FormControl sx={{ width: '192px' }} data-testid='date-range-filter'>
+    <FormControl sx={{ width: '192px' }} data-testid="date-range-filter">
       <FilterLabelText>Created Date</FilterLabelText>
       <DateRangeButton onClick={handleClick} endIcon={<DateRangeFilterIcon />}>
-        {startDate ? getDateText(startDate, dateFormat) : defaultDateText} - {endDate ? getDateText(endDate, dateFormat) : defaultDateText}
+        {startDate ? getDateText(startDate, dateFormat) : defaultDateText} -{' '}
+        {endDate ? getDateText(endDate, dateFormat) : defaultDateText}
       </DateRangeButton>
       <Popover
         open={!!anchorEl}
@@ -114,39 +136,57 @@ export const DateRangeFilter = () => {
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'left',
-        }}>
+        }}
+      >
         <Card sx={{ maxWidth: '250px' }}>
           <CardContent>
             <Grid container rowGap={'18px'}>
               <DateFilterTitle item xs={12}>
-                <Typography sx={{ fontSize: '24px', fontWeight: '700' }}>Enter dates</Typography>
+                <Typography sx={{ fontSize: '24px', fontWeight: '700' }}>
+                  Enter dates
+                </Typography>
                 <DateRangeIcon sx={{ fontSize: '24px' }} />
               </DateFilterTitle>
               <Grid item xs={12}>
                 <DatePicker
                   label={'Start date'}
                   value={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  onChange={(date) => {
+                    setStartDate(date);
+                    setIsStartDateError(false);
+                  }}
                   disableFuture
                   maxDate={endDate}
-                  onError={(error, value) => setIsStartDateError(!!value)}
+                  onError={(error) => {
+                    setIsStartDateError(!!error);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <DatePicker
                   label={'End date'}
                   value={endDate}
-                  onChange={(date) => setEndDate(date)}
+                  onChange={(date) => {
+                    setEndDate(date);
+                    setIsEndDateError(false);
+                  }}
                   disableFuture
                   minDate={startDate}
-                  onError={(error, value) => setIsEndDateError(!!value)}
+                  onError={(error) => setIsEndDateError(!!error)}
                 />
               </Grid>
             </Grid>
           </CardContent>
           <CardActions sx={{ justifyContent: 'flex-end' }}>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleOK} disabled={isStartDateError || isEndDateError}>OK</Button>
+            <Button
+              onClick={handleOK}
+              disabled={
+                isStartDateError || isEndDateError || !startDate || !endDate
+              }
+            >
+              OK
+            </Button>
           </CardActions>
         </Card>
       </Popover>
