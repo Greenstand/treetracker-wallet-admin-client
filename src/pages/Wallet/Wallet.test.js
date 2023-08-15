@@ -12,69 +12,68 @@ jest.mock('../../api/transfers', () => ({
   getTransfers: jest.fn(),
 }));
 
-
 const mockPendingTransfers = {
   transfers: [
     {
-      'id': '903cf9eb-1d16-4831-9b5e-774136ad4539',
-      'type': 'send',
-      'parameters': {
-        'bundle': {
-          'bundleSize': '1',
+      id: '903cf9eb-1d16-4831-9b5e-774136ad4539',
+      type: 'send',
+      parameters: {
+        bundle: {
+          bundleSize: '1',
         },
       },
-      'state': 'pending',
-      'created_at': '2023-08-08T02:17:48.249Z',
-      'closed_at': '2023-08-08T02:17:48.249Z',
-      'active': true,
-      'claim': false,
-      'originating_wallet': 'testuser',
-      'source_wallet': 'fff',
-      'destination_wallet': 'testuser',
-      'token_count': 1,
+      state: 'pending',
+      created_at: '2023-08-08T02:17:48.249Z',
+      closed_at: '2023-08-08T02:17:48.249Z',
+      active: true,
+      claim: false,
+      originating_wallet: 'testuser',
+      source_wallet: 'fff',
+      destination_wallet: 'testuser',
+      token_count: 1,
     },
     {
-      'id': 'cf56cab1-15ed-4ddb-bbe2-e50157b52b5e',
-      'type': 'send',
-      'parameters': {
-        'bundle': {
-          'bundleSize': '2',
+      id: 'cf56cab1-15ed-4ddb-bbe2-e50157b52b5e',
+      type: 'send',
+      parameters: {
+        bundle: {
+          bundleSize: '2',
         },
       },
-      'state': 'pending',
-      'created_at': '2023-08-02T04:41:37.121Z',
-      'closed_at': '2023-08-02T04:41:37.121Z',
-      'active': true,
-      'claim': false,
-      'originating_wallet': 'testuser',
-      'source_wallet': 'fff',
-      'destination_wallet': 'testuser',
-      'token_count': 2,
+      state: 'pending',
+      created_at: '2023-08-02T04:41:37.121Z',
+      closed_at: '2023-08-02T04:41:37.121Z',
+      active: true,
+      claim: false,
+      originating_wallet: 'testuser',
+      source_wallet: 'fff',
+      destination_wallet: 'testuser',
+      token_count: 2,
     },
     {
-      'id': '4377c592-8ab0-4448-a3d3-ebf64f719a3b',
-      'type': 'send',
-      'parameters': {
-        'bundle': {
-          'bundleSize': '1',
+      id: '4377c592-8ab0-4448-a3d3-ebf64f719a3b',
+      type: 'send',
+      parameters: {
+        bundle: {
+          bundleSize: '1',
         },
       },
-      'state': 'pending',
-      'created_at': '2023-08-10T21:17:35.801Z',
-      'closed_at': '2023-08-10T21:17:35.801Z',
-      'active': true,
-      'claim': false,
-      'originating_wallet': 'testuser',
-      'source_wallet': 'test11',
-      'destination_wallet': 'testnewwallet',
-      'token_count': 1,
+      state: 'pending',
+      created_at: '2023-08-10T21:17:35.801Z',
+      closed_at: '2023-08-10T21:17:35.801Z',
+      active: true,
+      claim: false,
+      originating_wallet: 'testuser',
+      source_wallet: 'test11',
+      destination_wallet: 'testnewwallet',
+      token_count: 1,
     },
   ],
-  'query': {
-    'limit': 200,
-    'offset': 0,
+  query: {
+    limit: 200,
+    offset: 0,
   },
-  'total': 3,
+  total: 3,
 };
 
 describe('<Wallet />', () => {
@@ -83,8 +82,8 @@ describe('<Wallet />', () => {
       'wallet',
       JSON.stringify({
         id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
-        wallet: 'test wallet',
-      }),
+        name: 'test wallet',
+      })
     );
   });
 

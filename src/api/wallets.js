@@ -1,11 +1,12 @@
 import apiClient from '../utils/apiClient';
 
-const mapWallet = (walletData) => {
+// different API endpoints return different property for the 'name' field
+const mapWallet = (walletData, nameProp) => {
   return {
     id: walletData.id,
     logoURL: walletData.logo_url,
     tokensInWallet: walletData.tokens_in_wallet,
-    name: walletData.wallet,
+    name: walletData[nameProp],
   };
 };
 
@@ -26,7 +27,9 @@ export const getWallets = async (name = '', pageNumber = 1) => {
       },
     })
     .then((response) => {
-      const wallets = response.data.wallets.map((wallet) => mapWallet(wallet));
+      const wallets = response.data.wallets.map((wallet) =>
+        mapWallet(wallet, 'name')
+      );
       return {
         total: response.data.total,
         wallets,
@@ -47,7 +50,7 @@ export const getWalletById = async (id) => {
   const walletData = await apiClient
     .get('/wallets/' + id)
     .then((response) => {
-      return mapWallet(response.data);
+      return mapWallet(response.data, 'wallet');
     })
     .catch((error) => {
       console.error(error);
