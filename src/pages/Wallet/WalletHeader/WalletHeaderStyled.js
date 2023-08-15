@@ -1,10 +1,20 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 export const WalletLogo = styled('img')({
   height: '100px',
   width: '100px',
   borderRadius: '50%',
+});
+
+export const DefaultLogo = styled(AccountBalanceWalletIcon)({
+  height: '100px',
+  width: '100px',
+  borderRadius: '50%',
+  // border: '1px solid black',
+  color: 'rgb(193,198,201)',
+  backgroundColor: '#fff',
 });
 
 export const WalletTitle = styled(Typography)({

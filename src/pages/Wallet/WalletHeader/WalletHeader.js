@@ -1,16 +1,19 @@
 import { Grid } from '@mui/material';
-import { WalletLogo, WalletPendingTransfers, WalletTitle } from './WalletHeaderStyled';
+import { DefaultLogo, WalletLogo, WalletPendingTransfers, WalletTitle } from './WalletHeaderStyled';
 
-const defaultLogoURL = 'https://placehold.co/192x192';
+// const defaultLogoURL = 'https://placehold.co/192x192';
 
 const WalletHeader = ({ pendingTransfers, walletName, walletLogoURL }) => {
   return (
     <Grid container spacing={8} sx={{ marginBottom: '30px' }}>
       <Grid item xs={4}>
-        <WalletLogo
-          src={walletLogoURL ? walletLogoURL : defaultLogoURL}
-          alt={'Wallet Logo'}
-        />
+        {walletLogoURL ?
+          <WalletLogo
+            src={walletLogoURL}
+            alt={'Wallet Logo'}
+          /> :
+          <DefaultLogo />
+        }
       </Grid>
       <Grid item container xs={8} sx={{ display: 'flex', flexDirection: 'column' }}>
         <WalletTitle>{walletName}</WalletTitle>
