@@ -1,8 +1,3 @@
-{
-  /* TODO: Uncomment this to enable pagination when the API is ready:
-      https://github.com/Greenstand/treetracker-wallet-api/issues/385 */
-}
-/* eslint-disable no-unused-vars */
 import {
   Grid,
   Paper,
@@ -11,7 +6,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  // TablePagination,
+  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
@@ -229,9 +224,7 @@ const TransfersTable = ({ tableTitle, tableRows, totalRowCount }) => {
         </Table>
       </TableContainer>
 
-      {/* TODO: Uncomment this to enable pagination when the API is ready:
-      https://github.com/Greenstand/treetracker-wallet-api/issues/385 */}
-      {/* <TablePagination
+      <TablePagination
         rowsPerPageOptions={[10, 50]}
         component={'div'}
         count={totalRowCount}
@@ -239,8 +232,8 @@ const TransfersTable = ({ tableTitle, tableRows, totalRowCount }) => {
         onRowsPerPageChange={handleRowsPerPageChange}
         page={page}
         onPageChange={(e, newPage) => handlePageChange(e, newPage)}
-        data-testid='table-pagination'
-      /> */}
+        data-testid="table-pagination"
+      />
     </Grid>
   );
 };
