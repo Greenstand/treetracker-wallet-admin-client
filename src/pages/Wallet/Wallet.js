@@ -38,29 +38,26 @@ const Wallet = () => {
       return;
     }
 
-    getWalletById(wallet.id)
-      .then(walletData => {
-        console.log('WALLET', walletData);
-        setWallet(walletData);
-      })
-      .catch(error => {
-        console.error(error);
-        setErrorMessage('An error occurred while fetching wallet data.');
-      });
+    const fetchData = async () => {
+      try {
+        // get wallet data
+        const returnedWalletData = await getWalletById(wallet.id);
+        setWallet(returnedWalletData);
 
-    // get pending transfers
-    const pendingTransferFilter = new TransferFilter({ state: 'pending' });
-    getTransfers({ filter: pendingTransferFilter })
-      .then(pendingTransfersData => {
-        setPendingTransfers(pendingTransfersData.transfers);
-      })
-      .catch(error => {
+        // get pending transfers data
+        const pendingTransferFilter = new TransferFilter({ state: 'pending' });
+        const returnedTransferData = await getTransfers({ filter: pendingTransferFilter });
+        setPendingTransfers(returnedTransferData.transfers);
+      } catch (error) {
         console.error(error);
-        setErrorMessage('An error occurred while fetching transfers data.');
-      })
-      .finally(() => {
+        setErrorMessage('An error occurred while fetching the data.');
+      } finally {
         setIsLoading(false);
-      });
+      }
+    };
+
+    fetchData();
+
   }, []);
 
 
