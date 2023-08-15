@@ -1,3 +1,10 @@
+# [1.0.0-v1.12](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.11...v1.0.0-v1.12) (2023-08-15)
+
+
+### Bug Fixes
+
+* change size of the page content to 100% ([099bf6e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/099bf6e552f320ecf934f54adb07de7340de8b40))
+
 # [1.0.0-v1.11](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.10...v1.0.0-v1.11) (2023-08-15)
 
 
