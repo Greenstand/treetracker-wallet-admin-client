@@ -13,14 +13,14 @@ import { useTransfersContext } from '../../store/TransfersContext';
  * */
 const MyTransfers = () => {
   // get data from context
-  const { pagination, filter, setIsLoading, prepareRows } = useTransfersContext();
+  const { pagination, filter, setIsLoading, prepareRows } =
+    useTransfersContext();
   // error
   const [message, setMessage] = useState('');
   // data to be displayed in the table
   const [tableRows, setTableRows] = useState([]);
   // total rows count for pagination
   const [totalRowCount, setTotalRowCount] = useState(null);
-
 
   // load data
   useEffect(() => {
@@ -31,7 +31,7 @@ const MyTransfers = () => {
         const preparedRows = prepareRows(await data.transfers);
 
         setTableRows(preparedRows);
-        setTotalRowCount(data.count);
+        setTotalRowCount(data.total);
       } catch (error) {
         console.error(error);
         setMessage('An error occurred while fetching the table data');
@@ -42,7 +42,6 @@ const MyTransfers = () => {
     loadData();
   }, [pagination, filter]);
 
-
   return (
     <div
       style={{
@@ -51,21 +50,19 @@ const MyTransfers = () => {
         display: 'flex',
         flexDirection: 'column',
         marginRight: '1rem',
-      }}>
-      {message && (
-        <Message
-          message={message}
-          onClose={() => setMessage('')}
-        />
-      )}
-      <Grid container direction='column' sx={{ flexGrow: '1' }}>
+        width: '100%',
+      }}
+    >
+      {message && <Message message={message} onClose={() => setMessage('')} />}
+      <Grid container direction="column" sx={{ flexGrow: '1' }}>
         <TransfersTable
           tableTitle={'My Transfers'}
           tableRows={tableRows}
           totalRowCount={totalRowCount}
         />
       </Grid>
-    </div>);
+    </div>
+  );
 };
 
 export default MyTransfers;
