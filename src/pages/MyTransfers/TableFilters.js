@@ -43,7 +43,7 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
   };
 
   return (
-    <FormControl sx={{ width: '192px' }} data-testid="transfer-status-filter">
+    <FormControl sx={{ width: '192px' }} data-testid='transfer-status-filter'>
       <FilterLabelText>Transfer Status</FilterLabelText>
 
       <SelectFilter
@@ -55,7 +55,7 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
           color: state ? getStatusColor(state) : '#585B5D',
         }}
       >
-        <SelectMenuItem value={''}>None</SelectMenuItem>
+        <SelectMenuItem value={''}>All</SelectMenuItem>
 
         {statusList.map((state, index) => {
           return (
@@ -105,8 +105,8 @@ export const DateRangeFilter = () => {
 
   // resets dates to previously present values and closes the popover
   const handleClose = () => {
-    setStartDate(null);
-    setEndDate(null);
+    setStartDate(startDate);
+    setEndDate(endDate);
     setAnchorEl(null);
   };
 
@@ -123,7 +123,7 @@ export const DateRangeFilter = () => {
   };
 
   return (
-    <FormControl sx={{ width: '192px' }} data-testid="date-range-filter">
+    <FormControl sx={{ width: '192px' }} data-testid='date-range-filter'>
       <FilterLabelText>Created Date</FilterLabelText>
       <DateRangeButton onClick={handleClick} endIcon={<DateRangeFilterIcon />}>
         {startDate ? getDateText(startDate, dateFormat) : defaultDateText} -{' '}
