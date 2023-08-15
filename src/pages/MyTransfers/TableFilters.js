@@ -181,9 +181,7 @@ export const DateRangeFilter = () => {
             <Button onClick={handleClose}>Cancel</Button>
             <Button
               onClick={handleOK}
-              disabled={
-                isStartDateError || isEndDateError || !startDate || !endDate
-              }
+              disabled={isStartDateError || isEndDateError}
             >
               OK
             </Button>
