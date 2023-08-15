@@ -1,3 +1,10 @@
+# [1.0.0-v1.10](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.9...v1.0.0-v1.10) (2023-08-15)
+
+
+### Bug Fixes
+
+* uncomment pagination as API is ready ([27db765](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/27db765dce5d2ddcee955e37e80d55bdfa5c4b3d))
+
 # [1.0.0-v1.9](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.8...v1.0.0-v1.9) (2023-08-14)
 
 
