@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import { DateRangeFilter, TransferSelectFilter } from './TableFilters';
+import { DateRangeFilter, ResetButton, TransferSelectFilter } from './TableFilters';
 import { TableCellStyled, TooltipStyled } from './TransfersTable.styled';
 import { useTransfersContext } from '../../store/TransfersContext';
 import { Loader } from '../../components/UI/components/Loader/Loader';
@@ -25,17 +25,27 @@ import { Loader } from '../../components/UI/components/Loader/Loader';
  * @returns {JSX.Element} - Table header component
  */
 const TransfersTableHeader = ({ tableTitle, getStatusColor }) => {
+  const { filter, setFilter, statusList, defaultFilter } = useTransfersContext();
+  
   return (
     <Grid item container sx={{ paddingBottom: '15px' }}>
-      <Grid item xs={7} sx={{ display: 'flex', alignItems: 'end' }}>
+      <Grid item xs={4} sx={{ display: 'flex', alignItems: 'end' }}>
         <Typography variant={'h4'}>{tableTitle}</Typography>
       </Grid>
-      <Grid item container xs={5}>
-        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <TransferSelectFilter getStatusColor={getStatusColor} />
+      <Grid item container xs={8}>
+        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'end' }}>
+          <ResetButton setFilter={setFilter} defaultFilter={defaultFilter} />
         </Grid>
-        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DateRangeFilter />
+        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <TransferSelectFilter
+            filter={filter}
+            setFilter={setFilter}
+            statusList={statusList}
+            getStatusColor={getStatusColor}
+          />
+        </Grid>
+        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <DateRangeFilter filter={filter} setFilter={setFilter} />
         </Grid>
       </Grid>
     </Grid>
@@ -56,7 +66,7 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
 
   useEffect(() => {
     setIsOverflown(
-      textElementRef.current.scrollWidth > textElementRef.current.clientWidth
+      textElementRef.current.scrollWidth > textElementRef.current.clientWidth,
     );
   }, []);
 
@@ -198,8 +208,8 @@ const TransfersTable = ({ tableTitle, tableRows, totalRowCount }) => {
         <Table
           stickyHeader
           sx={{ minWidth: 650 }}
-          aria-label="transfers table"
-          data-testid="transfers-table"
+          aria-label='transfers table'
+          data-testid='transfers-table'
         >
           <TableHead>
             <TableRow>
@@ -232,7 +242,7 @@ const TransfersTable = ({ tableTitle, tableRows, totalRowCount }) => {
         onRowsPerPageChange={handleRowsPerPageChange}
         page={page}
         onPageChange={(e, newPage) => handlePageChange(e, newPage)}
-        data-testid="table-pagination"
+        data-testid='table-pagination'
       />
     </Grid>
   );

@@ -15,26 +15,27 @@ import {
   SelectFilter,
   SelectMenuItem,
   DateRangeButton,
-  DateRangeFilterIcon,
+  DateRangeFilterIcon, FilterResetButton,
 } from './TableFilters.styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DatePicker, DateRangeIcon } from '@mui/x-date-pickers';
 import { getDateText } from '../../utils/formatting';
-import { useTransfersContext } from '../../store/TransfersContext';
 import TransferFilter from '../../models/TransferFilter';
 
 /**@function
  * @name TransferFilter
  * @description Renders the transfer status filter
  *
+ * @param filter
+ * @param setFilter
+ * @param statusList
  * @param {function} getStatusColor returns color corresponding to transfer state value
  *
  * @return {JSX.Element} Transfer status filter component
  * @constructor
  */
-export const TransferSelectFilter = ({ getStatusColor }) => {
-  // get filter from context
-  const { filter, setFilter, statusList } = useTransfersContext();
+export const TransferSelectFilter = ({ filter, setFilter, statusList, getStatusColor }) => {
+  // get state from filter
   const { state } = filter;
 
   const handleSelectChange = (e) => {
@@ -80,14 +81,16 @@ export const TransferSelectFilter = ({ getStatusColor }) => {
  * @return {JSX.Element} Date range filter component
  * @constructor
  */
-export const DateRangeFilter = () => {
-  // get filter from context
-  const { filter, setFilter } = useTransfersContext();
+export const DateRangeFilter = ({ filter, setFilter }) => {
+
+  // start and end dates (from filter)
+  const { after, before } = filter;
 
   // start and end dates (for datepicker display)
   // they are dayjs date objects
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  // set as after and before in case there is default value
+  const [startDate, setStartDate] = useState(after);
+  const [endDate, setEndDate] = useState(before);
 
   // disable OK button on either datepicker error
   const [isStartDateError, setIsStartDateError] = useState(false);
@@ -98,6 +101,12 @@ export const DateRangeFilter = () => {
   // MM/DD/YYYY format is used to convert date object to text
   const dateFormat = defaultDateText.toUpperCase();
 
+  // update start and end dates when filter reset button is clicked
+  useEffect(() => {
+    setStartDate(after);
+    setEndDate(before);
+  }, [after, before]);
+
   // opens the popover
   const handleClick = (e) => {
     setAnchorEl(e.target);
@@ -105,12 +114,12 @@ export const DateRangeFilter = () => {
 
   // resets dates to previously present values and closes the popover
   const handleClose = () => {
-    setStartDate(startDate);
-    setEndDate(endDate);
+    setStartDate(after);
+    setEndDate(before);
     setAnchorEl(null);
   };
 
-  // updates the filter object and closes the popver
+  // updates the filter object and closes the popover
   const handleOK = () => {
     const newFilter = new TransferFilter({
       ...filter,
@@ -189,5 +198,19 @@ export const DateRangeFilter = () => {
         </Card>
       </Popover>
     </FormControl>
+  );
+};
+
+
+export const ResetButton = ({ setFilter, defaultFilter }) => {
+  return (
+    <FilterResetButton
+      onClick={() => setFilter(defaultFilter)}
+      type='submit'
+      variant='contained'
+      color='primary'
+    >
+      Reset
+    </FilterResetButton>
   );
 };

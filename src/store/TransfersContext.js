@@ -134,6 +134,7 @@ const TransfersProvider = ({ children }) => {
     pagination,
     setPagination,
     filter,
+    defaultFilter,
     setFilter,
     statusList,
     isLoading,
@@ -141,6 +142,8 @@ const TransfersProvider = ({ children }) => {
     tableColumns,
     prepareRows,
   };
+
+  console.log('filterss', filter);
 
   return (
     <TransfersContext.Provider value={value}>

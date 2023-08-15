@@ -72,3 +72,9 @@ export const DateRangeButton = styled(Button)({
 export const DateRangeFilterIcon = styled(DateRangeIcon)({
   color: '#86c232',
 });
+
+export const FilterResetButton = styled(Button)({
+  color: '#fff',
+  height: '40px',
+  padding: '8px 8px 8px 10px',
+});
