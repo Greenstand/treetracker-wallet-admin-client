@@ -1,21 +1,15 @@
 import { Grid } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
-import apiClient from '../../utils/apiClient';
 import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
 import { ContentContainer, ContentGrid } from './WalletStyled';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import Message from '../../components/UI/components/Message/Message';
 import { MessageType } from '../../components/UI/components/Message/Message';
 import AuthContext from '../../store/auth-context';
-
-const mapWallet = (walletData) => {
-  return {
-    id: walletData.id,
-    logoURL: walletData.logo_url,
-    tokensInWallet: walletData.tokens_in_wallet,
-    name: walletData.wallet,
-  };
-};
+import { getWalletById } from '../../api/wallets';
+import WalletHeader from './WalletHeader/WalletHeader';
+import { getTransfers } from '../../api/transfers';
+import TransferFilter from '../../models/TransferFilter';
 
 const Wallet = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +23,7 @@ const Wallet = () => {
   };
 
   const [wallet, setWallet] = useState(defaultWallet);
+  const [pendingTransfers, setPendingTransfers] = useState(null);
 
   const authContext = useContext(AuthContext);
 
@@ -43,19 +38,27 @@ const Wallet = () => {
       return;
     }
 
-    apiClient
-      .get('/wallets/' + wallet.id)
-      .then((response) => {
-        const wallet = mapWallet(response.data);
-        setWallet(wallet);
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        // get wallet data
+        const returnedWalletData = await getWalletById(wallet.id);
+        setWallet(returnedWalletData);
+
+        // get pending transfers data
+        const pendingTransferFilter = new TransferFilter({ state: 'pending' });
+        const returnedTransferData = await getTransfers({
+          filter: pendingTransferFilter,
+        });
+        setPendingTransfers(returnedTransferData.transfers);
+      } catch (error) {
         console.error(error);
-        setErrorMessage('An error occurred while fetching wallet data.');
-      })
-      .finally(() => {
+        setErrorMessage('An error occurred while fetching the data.');
+      } finally {
         setIsLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   if (isLoading) {
@@ -64,17 +67,19 @@ const Wallet = () => {
 
   return (
     <Grid>
-      <div>
-        <header style={{ marginTop: '9.4vh', height: '10vh' }}>Wallet</header>
-      </div>
-      {errorMessage && (
-        <Message
-          message={errorMessage}
-          onClose={() => setErrorMessage('')}
-          messageType={MessageType.Error}
+      <ContentContainer>
+        <WalletHeader
+          walletName={wallet.name}
+          walletLogoURL={wallet.logoURL}
+          pendingTransfers={pendingTransfers.length}
         />
-      )}
-      <ContentContainer maxWidth="false">
+        {errorMessage && (
+          <Message
+            message={errorMessage}
+            onClose={() => setErrorMessage('')}
+            messageType={MessageType.Error}
+          />
+        )}
         <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}
