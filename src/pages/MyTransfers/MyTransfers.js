@@ -31,7 +31,7 @@ const MyTransfers = () => {
         const preparedRows = prepareRows(await data.transfers);
 
         setTableRows(preparedRows);
-        setTotalRowCount(data.count);
+        setTotalRowCount(data.total);
       } catch (error) {
         console.error(error);
         setMessage('An error occurred while fetching the table data');
