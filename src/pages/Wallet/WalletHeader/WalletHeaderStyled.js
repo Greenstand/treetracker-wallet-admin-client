@@ -12,7 +12,6 @@ export const DefaultLogo = styled(AccountBalanceWalletIcon)({
   height: '100px',
   width: '100px',
   borderRadius: '50%',
-  // border: '1px solid black',
   color: 'rgb(134, 194, 50, 0.75)',
   backgroundColor: '#fff',
 });
