@@ -62,8 +62,7 @@ describe('Transfers Table', () => {
       </TestWrapper>
     );
 
-    // TODO: uncomment when the API is ready: github.com/Greenstand/treetracker-wallet-api/issues/385
-    // expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
+    expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
     https: expect(
       await screen.findByTestId('transfers-table')
     ).toBeInTheDocument();
@@ -78,16 +77,15 @@ describe('Transfers Table', () => {
       expect(screen.getAllByRole('cell')).toHaveLength(8 * 3);
     });
 
-    // TODO: uncomment when the API is ready: github.com/Greenstand/treetracker-wallet-api/issues/385
-    // expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
-    // expect(
-    //   screen.getByRole('button', { name: 'Rows per page: 10' })
-    // ).toBeInTheDocument();
-    // expect(
-    //   screen.getByRole('button', { name: 'Go to previous page' })
-    // ).toBeInTheDocument();
-    // expect(
-    //   screen.getByRole('button', { name: 'Go to next page' })
-    // ).toBeInTheDocument();
+    expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Rows per page: 10' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Go to previous page' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Go to next page' })
+    ).toBeInTheDocument();
   });
 });

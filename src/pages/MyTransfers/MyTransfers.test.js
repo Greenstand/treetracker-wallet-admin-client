@@ -106,8 +106,7 @@ describe('My Transfers page', function () {
       </TestWrapper>
     );
 
-    // TODO: uncomment when the API is ready: github.com/Greenstand/treetracker-wallet-api/issues/385
-    // expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
+    expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
     expect(await screen.findByTestId('transfers-table')).toBeInTheDocument();
     expect(await screen.findByTestId('date-range-filter')).toBeInTheDocument();
     expect(
