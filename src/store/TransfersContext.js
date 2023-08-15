@@ -123,7 +123,7 @@ const TransfersProvider = ({ children }) => {
         receiver_wallet: row.destination_wallet,
         created_date: row.created_at,
         initiated_by: row.originating_wallet,
-        closed_date: row.cloased_at,
+        closed_date: row.closed_at,
         status: row.state,
       };
     });
