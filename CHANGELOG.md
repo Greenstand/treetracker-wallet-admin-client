@@ -1,3 +1,10 @@
+# [1.0.0-v1.15](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.14...v1.0.0-v1.15) (2023-08-15)
+
+
+### Bug Fixes
+
+* datepicker validation ([0aafdc3](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0aafdc3b76064b8862ea9d8eed0608b32df8cb22))
+
 # [1.0.0-v1.14](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.13...v1.0.0-v1.14) (2023-08-15)
 
 
