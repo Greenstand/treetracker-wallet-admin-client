@@ -46,11 +46,7 @@ const Wallet = () => {
       .catch(error => {
         console.error(error);
         setErrorMessage('An error occurred while fetching wallet data.');
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
-
 
     // get pending transfers
     const pendingTransferFilter = new TransferFilter({ state: 'pending' });
