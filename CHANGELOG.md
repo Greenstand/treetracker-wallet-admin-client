@@ -1,3 +1,10 @@
+# [1.0.0-v1.11](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.10...v1.0.0-v1.11) (2023-08-15)
+
+
+### Features
+
+* update total rows ([44f41c7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/44f41c7e1c8d409debb2dc28c18502e7f0432590))
+
 # [1.0.0-v1.10](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.9...v1.0.0-v1.10) (2023-08-15)
 
 
