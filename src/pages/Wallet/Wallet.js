@@ -8,8 +8,8 @@ import { MessageType } from '../../components/UI/components/Message/Message';
 import AuthContext from '../../store/auth-context';
 import { getWalletById } from '../../api/wallets';
 import WalletHeader from './WalletHeader/WalletHeader';
-// import { getTransfers } from '../../api/transfers';
-// import TransferFilter from '../../models/TransferFilter';
+import { getTransfers } from '../../api/transfers';
+import TransferFilter from '../../models/TransferFilter';
 
 const Wallet = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +23,7 @@ const Wallet = () => {
   };
 
   const [wallet, setWallet] = useState(defaultWallet);
-  // const [pendingTransfers, setPendingTransfers] = useState(null);
+  const [pendingTransfers, setPendingTransfers] = useState(null);
 
   const authContext = useContext(AuthContext);
 
@@ -53,18 +53,18 @@ const Wallet = () => {
 
 
     // get pending transfers
-    // const pendingTransferFilter = new TransferFilter({ state: 'pending' });
-    // getTransfers({ filter: pendingTransferFilter })
-    //   .then(pendingTransfers => {
-    //     setPendingTransfers(pendingTransfers);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //     setErrorMessage('An error occurred while fetching transfers data.');
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    const pendingTransferFilter = new TransferFilter({ state: 'pending' });
+    getTransfers({ filter: pendingTransferFilter })
+      .then(pendingTransfersData => {
+        setPendingTransfers(pendingTransfersData.transfers);
+      })
+      .catch(error => {
+        console.error(error);
+        setErrorMessage('An error occurred while fetching transfers data.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
 
@@ -84,9 +84,9 @@ const Wallet = () => {
           messageType={MessageType.Error}
         />
       )}
-
       <ContentContainer>
-        <WalletHeader walletName={wallet.name} walletLogoURL={wallet.logoURL} pendingTransfers={12} />
+        <WalletHeader walletName={wallet.name} walletLogoURL={wallet.logoURL}
+                      pendingTransfers={pendingTransfers.length} />
         <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}
