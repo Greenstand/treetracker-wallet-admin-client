@@ -46,7 +46,9 @@ const Wallet = () => {
 
         // get pending transfers data
         const pendingTransferFilter = new TransferFilter({ state: 'pending' });
-        const returnedTransferData = await getTransfers({ filter: pendingTransferFilter });
+        const returnedTransferData = await getTransfers({
+          filter: pendingTransferFilter,
+        });
         setPendingTransfers(returnedTransferData.transfers);
       } catch (error) {
         console.error(error);
@@ -57,9 +59,7 @@ const Wallet = () => {
     };
 
     fetchData();
-
   }, []);
-
 
   if (isLoading) {
     return <Loader />;
@@ -67,24 +67,24 @@ const Wallet = () => {
 
   return (
     <Grid>
-      <div>
-        <header style={{ marginTop: '9.4vh', height: '10vh' }}>Wallet</header>
-      </div>
-      {errorMessage && (
-        <Message
-          message={errorMessage}
-          onClose={() => setErrorMessage('')}
-          messageType={MessageType.Error}
-        />
-      )}
       <ContentContainer>
-        <WalletHeader walletName={wallet.name} walletLogoURL={wallet.logoURL}
-                      pendingTransfers={pendingTransfers.length} />
+        <WalletHeader
+          walletName={wallet.name}
+          walletLogoURL={wallet.logoURL}
+          pendingTransfers={pendingTransfers.length}
+        />
+        {errorMessage && (
+          <Message
+            message={errorMessage}
+            onClose={() => setErrorMessage('')}
+            messageType={MessageType.Error}
+          />
+        )}
         <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}
             innerNumber={wallet.tokensInWallet}
-            innerText='tokens'
+            innerText="tokens"
           />
         </ContentGrid>
       </ContentContainer>
