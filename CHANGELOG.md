@@ -1,3 +1,23 @@
+# [1.0.0-v1.13](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.12...v1.0.0-v1.13) (2023-08-15)
+
+
+### Bug Fixes
+
+* loading state fix ([485baa4](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/485baa481e70285c759645f70c2a6b4f653909fd))
+* race condition b/w wallet and pending transfer data ([fa3e7e7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/fa3e7e736dc6a6be8a86977b5318d65078e3e3d3))
+
+
+### Features
+
+* change default wallet logo ([5f1831f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5f1831f1b0ee104be0faa69bb304d9b06af46b7c))
+* default wallet logo color ([20b2d9c](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/20b2d9ca81ca23c42a068825e6f131134742cc4e))
+* fix api calls, update test ([d43d914](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d43d914670578dc4f36426ed4978ad0c5caac1de))
+* remove comments ([dced0a5](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/dced0a52c7df8f10c7451f499a5fff5bfdd4325b))
+* remove header duplicate ([5068843](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5068843d7b41d65a863338c38a5a9d74c08bf590))
+* wallet api refactor ([d6f5d74](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d6f5d7499d2ab9f5c75614ba4556edd6b4a64b22))
+* wallet header ([e74d44c](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/e74d44c9187bd19196e0545e1ff5da31e8cdd4c1))
+* wallet header tests ([0af1746](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0af1746ad859c71c066e9b2f5fa04c2274c0a079))
+
 # [1.0.0-v1.12](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.11...v1.0.0-v1.12) (2023-08-15)
 
 
