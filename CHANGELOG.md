@@ -1,3 +1,10 @@
+# [1.0.0-v1.16](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.15...v1.0.0-v1.16) (2023-08-15)
+
+
+### Bug Fixes
+
+* closed date column shows correctly ([0410212](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0410212b2bfab87c51203b446835d1c46bbeda2c))
+
 # [1.0.0-v1.15](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.14...v1.0.0-v1.15) (2023-08-15)
 
 
