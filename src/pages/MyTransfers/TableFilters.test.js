@@ -51,7 +51,7 @@ describe('Transfers table header', () => {
     expect(screen.getByTestId('transfer-status-filter')).toBeInTheDocument();
     expect(screen.getByText('Transfer Status')).toBeInTheDocument();
 
-    expect(screen.getByText('None')).toBeInTheDocument();
+    expect(screen.getByText('All')).toBeInTheDocument();
     const select = screen.getByRole('button');
 
     // click select button to test if options render

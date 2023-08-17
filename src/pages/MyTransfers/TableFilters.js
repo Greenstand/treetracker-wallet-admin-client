@@ -56,7 +56,7 @@ export const TransferSelectFilter = ({ filter, setFilter, statusList, getStatusC
           color: state ? getStatusColor(state) : '#585B5D',
         }}
       >
-        <SelectMenuItem value={''}>None</SelectMenuItem>
+        <SelectMenuItem value={''}>All</SelectMenuItem>
 
         {statusList.map((state, index) => {
           return (
