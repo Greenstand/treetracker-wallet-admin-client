@@ -54,7 +54,7 @@ const MyTransfers = () => {
       }}
     >
       {message && <Message message={message} onClose={() => setMessage('')} />}
-      <Grid container direction="column" sx={{ flexGrow: '1' }}>
+      <Grid container direction='column' sx={{ flexGrow: '1' }}>
         <TransfersTable
           tableTitle={'My Transfers'}
           tableRows={tableRows}
