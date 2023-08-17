@@ -209,6 +209,7 @@ export const ResetButton = ({ setFilter, defaultFilter }) => {
       type='submit'
       variant='contained'
       color='primary'
+      data-testid='reset-filters'
     >
       Reset
     </FilterResetButton>

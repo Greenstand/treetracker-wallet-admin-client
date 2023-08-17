@@ -120,8 +120,48 @@ describe('Transfers table header', () => {
     await screen.findByRole('dialog', { hidden: true });
   });
 
+  it('Date range filter errors work correctly', async () => {
+    render(
+      <TestWrapper>
+        <DateRangeFilter filter={mockFilter} setFilter={setMockFilter} />
+      </TestWrapper>,
+    );
+
+    const button = screen.getByRole('button');
+    userEvent.click(button);
+
+    // test typing invalid date
+    const dateTextbox = screen.getByRole('textbox', { name: 'Start date' });
+    userEvent.type(dateTextbox, '08200003');
+    expect(dateTextbox.value).toBe('08/20/0003');
+
+    expect(screen.getByText(/Invalid Date/)).toBeInTheDocument();
+
+    const okButton = screen.getByRole('button', { name: 'OK' });
+    expect(okButton).toBeDisabled();
+
+    // entering valid date re-enables the OK button
+    userEvent.type(dateTextbox, '08201998');
+    expect(okButton).toBeEnabled();
+  });
+
   it('Reset filters button renders correctly', () => {
+
+    mockFilter = {
+      state: 'Requested',
+      wallet: 'testwallet',
+      before: '1993-08-10',
+      after: '1993-08-01',
+    };
+
     render(<ResetButton setFilter={setMockFilter} defaultFilter={mockDefaultFilter} />);
 
+    expect(screen.getAllByRole('button')).toHaveLength(1);
+    expect(screen.getByRole('button', { name: /Reset/ })).toBeInTheDocument();
+
+    const resetButton = screen.getByRole('button');
+    userEvent.click(resetButton);
+
+    expect(mockFilter).toEqual(mockDefaultFilter);
   });
 });

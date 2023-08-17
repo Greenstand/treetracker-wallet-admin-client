@@ -143,8 +143,6 @@ const TransfersProvider = ({ children }) => {
     prepareRows,
   };
 
-  console.log('filterss', filter);
-
   return (
     <TransfersContext.Provider value={value}>
       {children}
