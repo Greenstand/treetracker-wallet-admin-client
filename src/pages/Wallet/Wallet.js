@@ -1,7 +1,7 @@
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
-import { ContentContainer, ContentGrid } from './WalletStyled';
+import { ContentGrid, GridItem, WalletAbout } from './WalletStyled';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import Message from '../../components/UI/components/Message/Message';
 import { MessageType } from '../../components/UI/components/Message/Message';
@@ -66,13 +66,13 @@ const Wallet = () => {
   }
 
   return (
-    <Grid>
-      <ContentContainer>
-        <WalletHeader
-          walletName={wallet.name}
-          walletLogoURL={wallet.logoURL}
-          pendingTransfers={pendingTransfers.length}
-        />
+    <Grid sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      padding: '12px',
+    }}>
+      <GridItem item sx={{ width: '100%', marginTop: '4rem' }}>
         {errorMessage && (
           <Message
             message={errorMessage}
@@ -80,14 +80,35 @@ const Wallet = () => {
             messageType={MessageType.Error}
           />
         )}
+      </GridItem>
+
+      <GridItem item sx={{
+        width: 'fit-content',
+      }}>
+        <WalletHeader
+          walletName={wallet.name}
+          walletLogoURL={wallet.logoURL}
+          pendingTransfers={pendingTransfers.length}
+        />
+      </GridItem>
+
+      {wallet.about &&
+        (<GridItem item>
+          <WalletAbout elevation={0}>
+            <Typography sx={{ fontSize: '18px', fontWeight: '700' }}>About the wallet</Typography>
+            <Typography sx={{ fontSize: '14px' }}>{wallet.about}</Typography>
+          </WalletAbout>
+        </GridItem>)
+      }
+      <GridItem item>
         <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}
             innerNumber={wallet.tokensInWallet}
-            innerText="tokens"
+            innerText='tokens'
           />
         </ContentGrid>
-      </ContentContainer>
+      </GridItem>
     </Grid>
   );
 };
