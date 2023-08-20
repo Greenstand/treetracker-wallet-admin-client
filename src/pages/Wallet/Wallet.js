@@ -20,6 +20,7 @@ const Wallet = () => {
     logoURL: '',
     tokensInWallet: 0,
     name: '',
+    about: '',
   };
 
   const [wallet, setWallet] = useState(defaultWallet);

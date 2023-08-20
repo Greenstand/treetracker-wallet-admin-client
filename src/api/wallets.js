@@ -7,6 +7,7 @@ const mapWallet = (walletData, nameProp) => {
     logoURL: walletData.logo_url,
     tokensInWallet: walletData.tokens_in_wallet,
     name: walletData[nameProp],
+    about: walletData.about,
   };
 };
 
@@ -28,7 +29,7 @@ export const getWallets = async (name = '', pageNumber = 1) => {
     })
     .then((response) => {
       const wallets = response.data.wallets.map((wallet) =>
-        mapWallet(wallet, 'name')
+        mapWallet(wallet, 'name'),
       );
       return {
         total: response.data.total,
