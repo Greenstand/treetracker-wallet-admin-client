@@ -76,6 +76,14 @@ const mockPendingTransfers = {
   total: 3,
 };
 
+const mockWalletData = {
+  id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
+  logo_url: 'https://example.com/logo.png',
+  tokens_in_wallet: 100,
+  wallet: 'test wallet',
+  about: 'This is information about the test wallet',
+};
+
 describe('<Wallet />', () => {
   beforeEach(() => {
     localStorage.setItem(
@@ -83,7 +91,7 @@ describe('<Wallet />', () => {
       JSON.stringify({
         id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
         name: 'test wallet',
-      })
+      }),
     );
   });
 
@@ -93,12 +101,7 @@ describe('<Wallet />', () => {
 
   it('fetches and displays wallet data', async () => {
     apiClient.get.mockResolvedValueOnce({
-      data: {
-        id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
-        logo_url: 'https://example.com/logo.png',
-        tokens_in_wallet: 100,
-        wallet: 'test wallet',
-      },
+      data: mockWalletData,
     });
 
     getTransfers.mockResolvedValueOnce(mockPendingTransfers);
@@ -112,6 +115,22 @@ describe('<Wallet />', () => {
     expect(screen.getByText('Wallet test wallet')).toBeInTheDocument();
     expect(screen.getByText('100')).toBeInTheDocument();
     expect(screen.getByText('tokens')).toBeInTheDocument();
+
+    await screen.findByText(/About the wallet/);
+    expect(screen.getByText(/This is information about the test wallet/)).toBeInTheDocument();
+  });
+
+  it('does not display about component if there is no about', async () => {
+    apiClient.get.mockResolvedValueOnce({
+      data: { ...mockWalletData, about: null },
+    });
+
+    getTransfers.mockResolvedValueOnce(mockPendingTransfers);
+
+    render(<Wallet />);
+
+    await screen.findByText('Wallet test wallet');
+    expect(screen.queryByText(/About the wallet/)).toBeNull();
   });
 
   it('displays error message on fetch failure', async () => {
