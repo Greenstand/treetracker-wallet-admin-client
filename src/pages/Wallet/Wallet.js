@@ -41,12 +41,15 @@ const Wallet = () => {
     const fetchData = async () => {
       try {
         // get wallet data
-        const returnedWalletData = await getWalletById(wallet.id);
+        const returnedWalletData = await getWalletById(
+          authContext.token,
+          wallet.id
+        );
         setWallet(returnedWalletData);
 
         // get pending transfers data
         const pendingTransferFilter = new TransferFilter({ state: 'pending' });
-        const returnedTransferData = await getTransfers({
+        const returnedTransferData = await getTransfers(authContext.token, {
           filter: pendingTransferFilter,
         });
         setPendingTransfers(returnedTransferData.transfers);
@@ -59,7 +62,7 @@ const Wallet = () => {
     };
 
     fetchData();
-  }, []);
+  }, [authContext.token]);
 
   if (isLoading) {
     return <Loader />;
