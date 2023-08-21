@@ -1,6 +1,6 @@
 {
   "name": "treetracker-wallet-admin-client",
-  "version": "1.0.0-v1.18",
+  "version": "1.0.0-v1.19",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
