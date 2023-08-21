@@ -1,3 +1,10 @@
+# [1.0.0-v1.18](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.17...v1.0.0-v1.18) (2023-08-21)
+
+
+### Bug Fixes
+
+* wallet header: pending transfer is black when no transfers ([9f88d46](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9f88d46f559813170f90eac1c32944874d5b023a))
+
 # [1.0.0-v1.17](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.16...v1.0.0-v1.17) (2023-08-16)
 
 
