@@ -1,7 +1,7 @@
 import apiClient from '../utils/apiClient';
 import { makeQueryString } from '../utils/formatting';
 
-export const getTransfers = async ({ pagination, filter }) => {
+export const getTransfers = async (token, { pagination, filter }) => {
   try {
     const where = filter.getWhereObj();
     // pagination: limit, offset
@@ -13,7 +13,9 @@ export const getTransfers = async ({ pagination, filter }) => {
 
     const queryString = makeQueryString(transferFilter);
 
-    const response = await apiClient.get(`/transfers?${queryString}`);
+    const response = await apiClient
+      .setAuthHeader(token)
+      .get(`/transfers?${queryString}`);
     return response.data;
   } catch (error) {
     console.error(error);
