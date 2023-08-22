@@ -206,7 +206,7 @@ export const ResetButton = ({ setFilter, defaultFilter }) => {
   return (
     <FilterResetButton
       onClick={() => setFilter(defaultFilter)}
-      type='submit'
+      type='button'
       variant='contained'
       color='primary'
       data-testid='reset-filters'

@@ -26,17 +26,14 @@ import { Loader } from '../../components/UI/components/Loader/Loader';
  */
 const TransfersTableHeader = ({ tableTitle, getStatusColor }) => {
   const { filter, setFilter, statusList, defaultFilter } = useTransfersContext();
-  
+
   return (
     <Grid item container sx={{ paddingBottom: '15px' }}>
-      <Grid item xs={4} sx={{ display: 'flex', alignItems: 'end' }}>
+      <Grid item xs={6} sx={{ display: 'flex', alignItems: 'end' }}>
         <Typography variant={'h4'}>{tableTitle}</Typography>
       </Grid>
-      <Grid item container xs={8}>
-        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'end' }}>
-          <ResetButton setFilter={setFilter} defaultFilter={defaultFilter} />
-        </Grid>
-        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Grid item container xs={6}>
+        <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <TransferSelectFilter
             filter={filter}
             setFilter={setFilter}
@@ -44,8 +41,11 @@ const TransfersTableHeader = ({ tableTitle, getStatusColor }) => {
             getStatusColor={getStatusColor}
           />
         </Grid>
-        <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <DateRangeFilter filter={filter} setFilter={setFilter} />
+        </Grid>
+        <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'end' }}>
+          <ResetButton setFilter={setFilter} defaultFilter={defaultFilter} />
         </Grid>
       </Grid>
     </Grid>
