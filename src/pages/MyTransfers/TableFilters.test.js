@@ -1,26 +1,51 @@
-import { TransfersProvider } from '../../store/TransfersContext';
 import { render, screen } from '@testing-library/react';
-import { DateRangeFilter, TransferSelectFilter } from './TableFilters';
+import { DateRangeFilter, ResetButton, TransferSelectFilter } from './TableFilters';
 import userEvent from '@testing-library/user-event';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import TransferFilter from '../../models/TransferFilter';
 
 const TestWrapper = (props) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <TransfersProvider>
-        {props.children}
-      </TransfersProvider>
+      {props.children}
     </LocalizationProvider>
   );
 };
 
+const mockStatusList = [{
+  label: 'Requested',
+  value: 'requested',
+  color: 'black',
+},
+  {
+    label: 'Pending',
+    value: 'pending',
+    color: 'black',
+  }];
+
+const mockDefaultFilter = new TransferFilter({
+  state: '',
+  before: null,
+  after: null,
+  wallet: null,
+});
+
+let mockFilter = mockDefaultFilter;
+const setMockFilter = (newValue) => {
+  mockFilter = newValue;
+};
+
+beforeEach(() => {
+  setMockFilter(mockDefaultFilter);
+});
+
 describe('Transfers table header', () => {
+
   it('Transfer filter renders correctly', () => {
-    render(
-      <TestWrapper>
-        <TransferSelectFilter getStatusColor={() => ''} />
-      </TestWrapper>,
+    const { rerender } = render(
+      <TransferSelectFilter filter={mockFilter} setFilter={setMockFilter} statusList={mockStatusList}
+                            getStatusColor={() => ''} />,
     );
 
     expect(screen.getByTestId('transfer-status-filter')).toBeInTheDocument();
@@ -34,22 +59,26 @@ describe('Transfers table header', () => {
 
     expect(screen.getByRole('listbox')).toBeInTheDocument();
     expect(screen.getByRole('presentation')).toBeInTheDocument();
-    expect(screen.getAllByRole('option')).toHaveLength(6);
+    expect(screen.getAllByRole('option')).toHaveLength(3);
 
     // click an option to test select value changes
-    const option = screen.getByRole('option', { name: 'Completed' });
+    const option = screen.getByRole('option', { name: 'Pending' });
     userEvent.click(option);
+
+    // force re-render to update the select component, as we are using mocked state
+    rerender(<TransferSelectFilter filter={mockFilter} setFilter={setMockFilter} statusList={mockStatusList}
+                                   getStatusColor={() => ''} />);
 
     expect(screen.queryByRole('presentation')).toBeNull();
     expect(screen.queryByRole('listbox')).toBeNull();
     expect(screen.queryAllByRole('option')).toHaveLength(0);
-    expect(screen.getByRole('button', { name: 'Completed' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Pending' })).toBeInTheDocument();
   });
 
   it('Date range filter renders correctly', async () => {
     render(
       <TestWrapper>
-        <DateRangeFilter />
+        <DateRangeFilter filter={mockFilter} setFilter={setMockFilter} />
       </TestWrapper>,
     );
 
@@ -89,5 +118,50 @@ describe('Transfers table header', () => {
 
     expect(dateTextbox.value).toBe('08/10/1993');
     await screen.findByRole('dialog', { hidden: true });
+  });
+
+  it('Date range filter errors work correctly', async () => {
+    render(
+      <TestWrapper>
+        <DateRangeFilter filter={mockFilter} setFilter={setMockFilter} />
+      </TestWrapper>,
+    );
+
+    const button = screen.getByRole('button');
+    userEvent.click(button);
+
+    // test typing invalid date
+    const dateTextbox = screen.getByRole('textbox', { name: 'Start date' });
+    userEvent.type(dateTextbox, '08200003');
+    expect(dateTextbox.value).toBe('08/20/0003');
+
+    expect(screen.getByText(/Invalid Date/)).toBeInTheDocument();
+
+    const okButton = screen.getByRole('button', { name: 'OK' });
+    expect(okButton).toBeDisabled();
+
+    // entering valid date re-enables the OK button
+    userEvent.type(dateTextbox, '08201998');
+    expect(okButton).toBeEnabled();
+  });
+
+  it('Reset filters button renders correctly', () => {
+
+    mockFilter = {
+      state: 'Requested',
+      wallet: 'testwallet',
+      before: '1993-08-10',
+      after: '1993-08-01',
+    };
+
+    render(<ResetButton setFilter={setMockFilter} defaultFilter={mockDefaultFilter} />);
+
+    expect(screen.getAllByRole('button')).toHaveLength(1);
+    expect(screen.getByRole('button', { name: /Reset/ })).toBeInTheDocument();
+
+    const resetButton = screen.getByRole('button');
+    userEvent.click(resetButton);
+
+    expect(mockFilter).toEqual(mockDefaultFilter);
   });
 });

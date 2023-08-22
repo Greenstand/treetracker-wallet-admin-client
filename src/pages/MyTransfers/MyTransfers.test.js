@@ -68,6 +68,11 @@ const mockTransfersData = {
       token_count: 1,
     },
   ],
+  query: {
+    limit: 200,
+    offset: 0,
+  },
+  total: 3,
 };
 
 const TestWrapper = (props) => {
@@ -82,14 +87,14 @@ const TestWrapper = (props) => {
   );
 };
 
-describe('My Transfers page', function () {
+describe('My Transfers page', function() {
   beforeEach(() => {
     localStorage.setItem(
       'wallet',
       JSON.stringify({
         id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
         wallet: 'test wallet',
-      })
+      }),
     );
   });
 
@@ -102,16 +107,16 @@ describe('My Transfers page', function () {
     render(
       <TestWrapper>
         <MyTransfers />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
     expect(await screen.findByTestId('transfers-table')).toBeInTheDocument();
     expect(await screen.findByTestId('date-range-filter')).toBeInTheDocument();
     expect(
-      await screen.findByTestId('transfer-status-filter')
+      await screen.findByTestId('transfer-status-filter'),
     ).toBeInTheDocument();
     await waitFor(() => {
-      expect(screen.getAllByRole('row')).toHaveLength(3 + 1);
+      expect(screen.getAllByRole('row')).toHaveLength(mockTransfersData.total + 1);
     });
   });
 });

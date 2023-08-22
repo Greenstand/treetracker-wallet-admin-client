@@ -134,6 +134,7 @@ const TransfersProvider = ({ children }) => {
     pagination,
     setPagination,
     filter,
+    defaultFilter,
     setFilter,
     statusList,
     isLoading,
