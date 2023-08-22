@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import React, { useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import AuthContext from './auth-context';
@@ -23,12 +24,12 @@ const AuthProvider = (props) => {
     const wallet = newWallet ? newWallet : parseToken(newToken);
     setWallet(wallet);
 
+    localStorage.setItem(walletKey, JSON.stringify(wallet));
+
     if (rememberDetails) {
       localStorage.setItem(tokenKey, newToken);
-      localStorage.setItem(walletKey, JSON.stringify(wallet));
     } else {
       localStorage.removeItem(tokenKey);
-      localStorage.removeItem(walletKey);
     }
 
     setIsLoggedIn(true);

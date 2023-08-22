@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import apiClient from '../../utils/apiClient';
 import { getTransfers } from '../../api/transfers';
 import Wallet from './Wallet';
+import { getWalletById } from '../../api/wallets';
 
-jest.mock('../../utils/apiClient', () => ({
-  get: jest.fn(),
+jest.mock('../../api/wallets', () => ({
+  getWalletById: jest.fn(),
 }));
 
 jest.mock('../../api/transfers', () => ({
@@ -76,11 +76,11 @@ const mockPendingTransfers = {
   total: 3,
 };
 
-const mockWalletData = {
+const mockWallet = {
   id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
-  logo_url: 'https://example.com/logo.png',
-  tokens_in_wallet: 100,
-  wallet: 'test wallet',
+  logoUrl: 'https://example.com/logo.png',
+  tokensInWallet: 100,
+  name: 'test wallet',
   about: 'This is information about the test wallet',
 };
 
@@ -100,9 +100,7 @@ describe('<Wallet />', () => {
   });
 
   it('fetches and displays wallet data', async () => {
-    apiClient.get.mockResolvedValueOnce({
-      data: mockWalletData,
-    });
+    getWalletById.mockResolvedValueOnce(mockWallet);
 
     getTransfers.mockResolvedValueOnce(mockPendingTransfers);
 
@@ -121,9 +119,8 @@ describe('<Wallet />', () => {
   });
 
   it('does not display about component if there is no about', async () => {
-    apiClient.get.mockResolvedValueOnce({
-      data: { ...mockWalletData, about: null },
-    });
+    getWalletById.mockResolvedValueOnce({ ...mockWallet, about:null });
+
 
     getTransfers.mockResolvedValueOnce(mockPendingTransfers);
 
@@ -134,11 +131,9 @@ describe('<Wallet />', () => {
   });
 
   it('displays error message on fetch failure', async () => {
-    apiClient.get.mockImplementationOnce(() => Promise.reject('API error'));
+    getWalletById.mockImplementationOnce(() => Promise.reject('API error'));
     getTransfers.mockImplementation(() => Promise.reject('API error'));
-
     render(<Wallet />);
-
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
 
     // TODO: fix and uncomment

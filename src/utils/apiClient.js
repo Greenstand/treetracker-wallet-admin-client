@@ -8,18 +8,19 @@ const apiClient = axios.create({
   },
 });
 
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
+apiClient.setAuthToken = (token) => {
+  if (token) {
+    apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete apiClient.defaults.headers.common['Authorization'];
+  }
+};
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// Custom method to set auth header and make API call
+apiClient.setAuthHeader = (token) => {
+  apiClient.setAuthToken(token);
+  return apiClient;
+};
 
 // all unauthorized responses will be redirected to login
 apiClient.interceptors.response.use(

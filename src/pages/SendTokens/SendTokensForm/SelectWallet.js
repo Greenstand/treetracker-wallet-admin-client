@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Autocomplete, Button, TextField } from '@mui/material';
 import { getWallets } from '../../../api/wallets';
+import AuthContext from '../../../store/auth-context';
 
 function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
   const filterLoadMore = 'LOAD_MORE';
@@ -11,12 +12,14 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
   const [walletsFullLoadedData, setWalletsFullLoadedData] = useState([]);
   const [walletSearchString, setWalletSearchString] = useState('');
 
+  const authContext = useContext(AuthContext);
+
   // Is called when page loads and when user starts to type in a 'Wallet' filter
   useEffect(() => {
     const getWalletsData = async () => {
       setWalletPage(0);
       try {
-        let response = await getWallets(walletSearchString);
+        let response = await getWallets(authContext.token, walletSearchString);
 
         if (!response) {
           console.log('No response from getWallets');
@@ -69,7 +72,11 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
       }
 
       try {
-        const response = await getWallets(walletSearchString, walletPage);
+        const response = await getWallets(
+          authContext.token,
+          walletSearchString,
+          walletPage
+        );
 
         const total = response.total;
         setWalletsFullLoadedData(response.wallets);

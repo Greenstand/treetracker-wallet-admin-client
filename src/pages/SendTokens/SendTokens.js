@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Paper } from '@mui/material';
 import {
   ContentContainer,
@@ -14,7 +14,7 @@ import apiClient from '../../utils/apiClient';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import TokenInfoBlock from './TokenInfoBlock/TokenInfoBlock';
 import { formatWithCommas } from '../../utils/formatting';
-// import AuthContext from '../../store/auth-context';
+import AuthContext from '../../store/auth-context';
 
 const SendTokens = () => {
   const [createdWalletName, setCreatedWalletName] = useState();
@@ -24,6 +24,8 @@ const SendTokens = () => {
 
   const [senderWalletName, setSenderWalletName] = useState();
   const [senderWalletTokens, setSenderWalletTokens] = useState(0);
+
+  const authContext = useContext(AuthContext);
 
   // TODO: uncomment when API is ready: is should have a totalTokens value
   // const [totalTokensAmount, setTotalTokensAmount] = useState();
@@ -62,6 +64,7 @@ const SendTokens = () => {
     setIsLoading(true);
 
     apiClient
+      .setAuthHeader(authContext.token)
       .post('/transfers', {
         bundle: { bundle_size: data.tokensAmount },
         sender_wallet: data.senderWallet,
@@ -104,6 +107,7 @@ const SendTokens = () => {
     setIsLoading(true);
 
     apiClient
+      .setAuthHeader(authContext.token)
       .post('/wallets', {
         wallet: name,
       })
