@@ -1,7 +1,7 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
-import { ContentGrid, GridItem, WalletAbout } from './WalletStyled';
+import { ContentGrid, GridItem, WalletAbout, WalletAboutText, WalletAboutTitle } from './WalletStyled';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import Message from '../../components/UI/components/Message/Message';
 import { MessageType } from '../../components/UI/components/Message/Message';
@@ -96,8 +96,8 @@ const Wallet = () => {
       {wallet.about &&
         (<GridItem item>
           <WalletAbout elevation={0}>
-            <Typography sx={{ fontSize: '18px', fontWeight: '700' }}>About the wallet</Typography>
-            <Typography sx={{ fontSize: '14px' }}>{wallet.about}</Typography>
+            <WalletAboutTitle>About the wallet</WalletAboutTitle>
+            <WalletAboutText>{wallet.about}</WalletAboutText>
           </WalletAbout>
         </GridItem>)
       }
