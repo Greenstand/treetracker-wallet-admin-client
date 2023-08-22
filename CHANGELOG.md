@@ -1,3 +1,19 @@
+# [1.0.0-v1.20](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.19...v1.0.0-v1.20) (2023-08-22)
+
+
+### Bug Fixes
+
+* fix datepicker ([236e2af](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/236e2af7e3864eaf8222cdee0ffdaa22ed89c78d))
+
+
+### Features
+
+* added reset filters button ([6b711b8](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/6b711b8ff28986de047d62c167e912abc25a844c))
+* merged with v1 changes ([c1e2db1](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c1e2db14a3fe757f11cc50c3450b1910d49dfcae))
+* updated button styling, position ([37a5675](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/37a5675e45be75d47aaec83dce938f7077f1a527))
+* updated tests ([4d0a1a1](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/4d0a1a1a01b15f697990d2a38f26b60f4a0ba0af))
+* updated tests partially ([73e0d73](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/73e0d73c508c0a91183360bc3a328a7fa6c6571e))
+
 # [1.0.0-v1.19](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.18...v1.0.0-v1.19) (2023-08-21)
 
 
