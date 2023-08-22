@@ -10,7 +10,7 @@ const mapWallet = (walletData, nameProp) => {
   };
 };
 
-export const getWallets = async (name = '', pageNumber = 1) => {
+export const getWallets = async (token, name = '', pageNumber = 1) => {
   const params = {
     offset: pageNumber - 1,
   };
@@ -20,6 +20,7 @@ export const getWallets = async (name = '', pageNumber = 1) => {
   }
 
   const { total, wallets } = await apiClient
+    .setAuthHeader(token)
     .get('/wallets', {
       params: {
         name: name || undefined, // Pass 'name' if it exists, or pass 'undefined' to exclude it
@@ -46,8 +47,9 @@ export const getWallets = async (name = '', pageNumber = 1) => {
   };
 };
 
-export const getWalletById = async (id) => {
+export const getWalletById = async (token, id) => {
   const walletData = await apiClient
+    .setAuthHeader(token)
     .get('/wallets/' + id)
     .then((response) => {
       return mapWallet(response.data, 'wallet');

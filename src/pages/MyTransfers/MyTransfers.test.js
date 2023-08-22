@@ -5,10 +5,10 @@ import AuthProvider from '../../store/AuthProvider';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { TransfersProvider } from '../../store/TransfersContext';
 import MyTransfers from './MyTransfers';
-import apiClient from '../../utils/apiClient';
+import { getTransfers } from '../../api/transfers';
 
-jest.mock('../../utils/apiClient', () => ({
-  get: jest.fn(),
+jest.mock('../../api/transfers', () => ({
+  getTransfers: jest.fn(),
 }));
 
 const mockTransfersData = {
@@ -103,21 +103,18 @@ describe('My Transfers page', function() {
   });
 
   it('renders table pagination correctly', async () => {
-    apiClient.get.mockResolvedValueOnce({ data: mockTransfersData });
-
+    getTransfers.mockResolvedValueOnce(mockTransfersData);
     render(
       <TestWrapper>
         <MyTransfers />
       </TestWrapper>,
     );
-
     expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
     expect(await screen.findByTestId('transfers-table')).toBeInTheDocument();
     expect(await screen.findByTestId('date-range-filter')).toBeInTheDocument();
     expect(
       await screen.findByTestId('transfer-status-filter'),
     ).toBeInTheDocument();
-
     await waitFor(() => {
       expect(screen.getAllByRole('row')).toHaveLength(mockTransfersData.total + 1);
     });

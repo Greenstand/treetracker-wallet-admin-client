@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
 import Message from '../../components/UI/components/Message/Message';
 import { getTransfers } from '../../api/transfers';
 import { useTransfersContext } from '../../store/TransfersContext';
+import AuthContext from '../../store/auth-context';
 
 /**@function
  * @name MyTransfers
@@ -22,12 +23,17 @@ const MyTransfers = () => {
   // total rows count for pagination
   const [totalRowCount, setTotalRowCount] = useState(null);
 
+  const authContext = useContext(AuthContext);
+
   // load data
   useEffect(() => {
     const loadData = async () => {
       try {
         setIsLoading(true);
-        const data = await getTransfers({ pagination, filter });
+        const data = await getTransfers(authContext.token, {
+          pagination,
+          filter,
+        });
         const preparedRows = prepareRows(await data.transfers);
 
         setTableRows(preparedRows);

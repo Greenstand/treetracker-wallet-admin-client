@@ -27,7 +27,7 @@ const WalletHeader = ({ pendingTransfers, walletName, walletLogoURL }) => {
         sx={{ display: 'flex', flexDirection: 'column' }}
       >
         <WalletTitle>{walletName}</WalletTitle>
-        <WalletPendingTransfers>
+        <WalletPendingTransfers pendingtransfers={pendingTransfers}>
           Pending transfers - {pendingTransfers}
         </WalletPendingTransfers>
       </Grid>

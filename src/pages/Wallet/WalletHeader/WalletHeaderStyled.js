@@ -24,11 +24,11 @@ export const WalletTitle = styled(Typography)({
   lineHeight: '40px',
 });
 
-export const WalletPendingTransfers = styled(Typography)({
-  color: '#FF2B2B',
+export const WalletPendingTransfers = styled(Typography)(({ pendingtransfers }) => ({
+  color: pendingtransfers === 0 ? '#000000' : '#FF2B2B',
   fontSize: '16px',
   fontStyle: 'normal',
   fontWeight: '400',
   lineHeight: '24px',
   paddingTop: '15px',
-});
+}));
