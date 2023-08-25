@@ -1,3 +1,18 @@
+# [1.0.0-v1.22](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.21...v1.0.0-v1.22) (2023-08-25)
+
+
+### Bug Fixes
+
+* minor fix ([0956fe5](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0956fe53ebaf81143b9a5022e1a1af64c8e31503))
+
+
+### Features
+
+* added About info component, minor refactoring ([38705c9](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/38705c9e696afd649a2a5fcfae72ad3dae628642))
+* relative units ([2b24202](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/2b242025029f55275a96bdf3b4b4b709f60633db))
+* updated api/wallets ([156a5e1](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/156a5e10486bd89d9dcf832859d8ac774476c1d9))
+* updated tests ([0056bf4](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0056bf45391d68c708785d2bd3a8151f53a2750a))
+
 # [1.0.0-v1.21](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.20...v1.0.0-v1.21) (2023-08-25)
 
 
