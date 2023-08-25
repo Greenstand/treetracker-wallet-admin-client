@@ -1,7 +1,13 @@
-import { Grid } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
-import { ContentGrid, GridItem, WalletAbout, WalletAboutText, WalletAboutTitle } from './WalletStyled';
+import {
+  ContentGrid,
+  GridContainer,
+  GridItem,
+  WalletAbout,
+  WalletAboutText,
+  WalletAboutTitle,
+} from './WalletStyled';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import Message from '../../components/UI/components/Message/Message';
 import { MessageType } from '../../components/UI/components/Message/Message';
@@ -70,12 +76,7 @@ const Wallet = () => {
   }
 
   return (
-    <Grid sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      padding: '12px',
-    }}>
+    <GridContainer>
       <GridItem item sx={{ width: '100%', marginTop: '4rem' }}>
         {errorMessage && (
           <Message
@@ -86,9 +87,12 @@ const Wallet = () => {
         )}
       </GridItem>
 
-      <GridItem item sx={{
-        width: 'fit-content',
-      }}>
+      <GridItem
+        item
+        sx={{
+          width: 'fit-content',
+        }}
+      >
         <WalletHeader
           walletName={wallet.name}
           walletLogoURL={wallet.logoURL}
@@ -96,24 +100,24 @@ const Wallet = () => {
         />
       </GridItem>
 
-      {wallet.about &&
-        (<GridItem item>
+      {wallet.about && (
+        <GridItem item>
           <WalletAbout elevation={0}>
             <WalletAboutTitle>About the wallet</WalletAboutTitle>
             <WalletAboutText>{wallet.about}</WalletAboutText>
           </WalletAbout>
-        </GridItem>)
-      }
+        </GridItem>
+      )}
       <GridItem item>
         <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}
             innerNumber={wallet.tokensInWallet}
-            innerText='tokens'
+            innerText="tokens"
           />
         </ContentGrid>
       </GridItem>
-    </Grid>
+    </GridContainer>
   );
 };
 

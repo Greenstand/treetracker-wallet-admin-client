@@ -1,6 +1,13 @@
 import styled from '@emotion/styled';
 import { Grid, Paper, Typography } from '@mui/material';
 
+export const GridContainer = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  padding: '12px',
+});
+
 export const GridItem = styled(Grid)({
   display: 'flex',
   flexDirection: 'column',
