@@ -1,13 +1,35 @@
 import styled from '@emotion/styled';
-import { Container, Grid } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 
-export const ContentContainer = styled(Container)({
+export const GridContainer = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  padding: '12px',
+});
+
+export const GridItem = styled(Grid)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
   justifyContent: 'space-between',
   height: 'auto',
   maxWidth: 'false',
+});
+
+export const WalletAbout = styled(Paper)({
+  width: '100%',
+  marginBottom: '15px',
+  padding: '20px',
+});
+
+export const WalletAboutTitle = styled(Typography)({
+  fontSize: '1.125rem',
+  fontWeight: 700,
+});
+
+export const WalletAboutText = styled(Typography)({
+  fontSize: '0.875rem',
 });
 
 export const ContentGrid = styled(Grid)({

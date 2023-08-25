@@ -1,7 +1,13 @@
-import { Grid } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
-import { ContentContainer, ContentGrid } from './WalletStyled';
+import {
+  ContentGrid,
+  GridContainer,
+  GridItem,
+  WalletAbout,
+  WalletAboutText,
+  WalletAboutTitle,
+} from './WalletStyled';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import Message from '../../components/UI/components/Message/Message';
 import { MessageType } from '../../components/UI/components/Message/Message';
@@ -20,6 +26,7 @@ const Wallet = () => {
     logoURL: '',
     tokensInWallet: 0,
     name: '',
+    about: '',
   };
 
   const [wallet, setWallet] = useState(defaultWallet);
@@ -69,13 +76,8 @@ const Wallet = () => {
   }
 
   return (
-    <Grid>
-      <ContentContainer>
-        <WalletHeader
-          walletName={wallet.name}
-          walletLogoURL={wallet.logoURL}
-          pendingTransfers={pendingTransfers.length}
-        />
+    <GridContainer>
+      <GridItem item sx={{ width: '100%', marginTop: '4rem' }}>
         {errorMessage && (
           <Message
             message={errorMessage}
@@ -83,6 +85,30 @@ const Wallet = () => {
             messageType={MessageType.Error}
           />
         )}
+      </GridItem>
+
+      <GridItem
+        item
+        sx={{
+          width: 'fit-content',
+        }}
+      >
+        <WalletHeader
+          walletName={wallet.name}
+          walletLogoURL={wallet.logoURL}
+          pendingTransfers={pendingTransfers.length}
+        />
+      </GridItem>
+
+      {wallet.about && (
+        <GridItem item>
+          <WalletAbout elevation={0}>
+            <WalletAboutTitle>About the wallet</WalletAboutTitle>
+            <WalletAboutText>{wallet.about}</WalletAboutText>
+          </WalletAbout>
+        </GridItem>
+      )}
+      <GridItem item>
         <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}
@@ -90,8 +116,8 @@ const Wallet = () => {
             innerText="tokens"
           />
         </ContentGrid>
-      </ContentContainer>
-    </Grid>
+      </GridItem>
+    </GridContainer>
   );
 };
 

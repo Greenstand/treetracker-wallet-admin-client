@@ -11,7 +11,7 @@ const WalletHeader = ({ pendingTransfers, walletName, walletLogoURL }) => {
     <Grid
       container
       spacing={8}
-      sx={{ marginTop: '5rem', marginBottom: '2rem' }}
+      sx={{ marginTop: '0.4rem', marginBottom: '1rem' }}
     >
       <Grid item xs={4}>
         {walletLogoURL ? (
