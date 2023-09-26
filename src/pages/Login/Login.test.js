@@ -32,7 +32,7 @@ describe('Login component', () => {
     expect(screen.getByLabelText('Password *')).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: /Wallet/ })).toBeInTheDocument();
     expect(
-      screen.getByRole('textbox', { name: /api-key/ })
+      screen.getByRole('textbox', { name: /API Key/ })
     ).toBeInTheDocument();
 
     expect(screen.getAllByRole('button')).toHaveLength(2);

@@ -24,7 +24,7 @@ const validateAPIKey = (value) => {
   }
 
   return value.length > 50
-    ? 'Password cannot contain more than 50 characters.'
+    ? 'API Key cannot contain more than 50 characters.'
     : '';
 };
 
