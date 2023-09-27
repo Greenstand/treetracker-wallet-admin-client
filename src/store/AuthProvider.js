@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import AuthContext from './auth-context';
 import { useNavigate } from 'react-router-dom';
+import secureLocalStorage from 'react-secure-storage';
 
 const AuthProvider = (props) => {
   const tokenKey = 'token';
@@ -54,6 +55,7 @@ const AuthProvider = (props) => {
     setToken(undefined);
     localStorage.removeItem(tokenKey);
     localStorage.removeItem(walletKey);
+    secureLocalStorage.removeItem('api-key');
     navigate('/login');
   };
 

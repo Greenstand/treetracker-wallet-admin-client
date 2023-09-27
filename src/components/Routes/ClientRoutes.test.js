@@ -6,6 +6,13 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../UI/theme';
 import AuthContext from '../../store/auth-context';
 
+jest.mock('react-secure-storage', () => {
+  return {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+  };
+});
+
 describe('ClientRoutes component', () => {
   const TestWrapper = (props) => {
     const testContext = {

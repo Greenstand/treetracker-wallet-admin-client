@@ -20,23 +20,30 @@ import {
 import AuthContext from '../../store/auth-context';
 import apiClient from '../../utils/apiClient';
 import IconLogo from '../../components/UI/IconLogo';
-import { validatePassword, validateWallet } from './loginValidator';
+import {
+  validateWallet,
+  validatePassword,
+  validateAPIKey,
+} from './loginValidator';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FlexDiv } from '../../components/UI/styledComponents/CommonStyled';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import Message from '../../components/UI/components/Message/Message';
 import { MessageType } from '../../components/UI/components/Message/Message';
+import secureLocalStorage from 'react-secure-storage';
 
 const LOGIN_API = `${process.env.REACT_APP_WALLET_API_ROOT}/auth`;
 
 const Login = () => {
   const [wallet, setWallet] = useState('');
   const [password, setPassword] = useState('');
+  const [apiKey, setAPIKey] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isRemember, setRemember] = useState(true);
   const [walletError, setWalletError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [apiKeyError, setAPIKeyError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const authContext = useContext(AuthContext);
@@ -46,6 +53,9 @@ const Login = () => {
 
   const handlePasswordBlur = (value) =>
     value ? validatePasswordInput(password) : setPasswordError('');
+
+  const handleAPIKeyBlur = (value) =>
+    value ? validateAPIKeyInput(apiKey) : setAPIKeyError('');
 
   const validateWalletInput = (value) => {
     const error = validateWallet(value);
@@ -57,6 +67,11 @@ const Login = () => {
     setPasswordError(error);
   };
 
+  const validateAPIKeyInput = (value) => {
+    const error = validateAPIKey(value);
+    setAPIKeyError(error);
+  };
+
   const handleWalletChange = (event) => {
     setWallet(event.target.value);
     validateWalletInput(event.target.value);
@@ -65,6 +80,11 @@ const Login = () => {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     validatePasswordInput(event.target.value);
+  };
+
+  const handleAPIKeyChange = (event) => {
+    setAPIKey(event.target.value);
+    validateAPIKeyInput(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -80,7 +100,10 @@ const Login = () => {
   const login = () => {
     setIsLoading(true);
 
+    secureLocalStorage.setItem('api-key', apiKey);
+
     apiClient
+      .setAPIKeyHeader(apiKey)
       .post(LOGIN_API, {
         wallet,
         password,
@@ -95,9 +118,10 @@ const Login = () => {
       })
       .catch((error) => {
         console.error('Undefined Wallet error:', error);
+        secureLocalStorage.removeItem('api-key');
         setErrorMessage(
           error.response?.data?.errorMessage ||
-            'Could not log in. Please check your wallet and password or contact the admin.'
+            'Could not log in. Please check your wallet, password and API Key or contact the admin.'
         );
       })
       .finally(() => {
@@ -153,13 +177,29 @@ const Login = () => {
                   <IconButton
                     onClick={() => setShowPassword(!showPassword)}
                     onMouseDown={(event) => event.preventDefault()}
-                    name='password visibility'
+                    name="password visibility"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               ),
             }}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="api-key"
+            label="API Key"
+            name="api-key"
+            autoComplete="api-key"
+            onFocus={() => handleAPIKeyBlur(false)}
+            onBlur={() => handleAPIKeyBlur(true)}
+            helperText={apiKeyError}
+            error={!!apiKeyError}
+            onChange={handleAPIKeyChange}
+            value={apiKey}
           />
           <Grid container justifyContent="space-between">
             <Grid item>
