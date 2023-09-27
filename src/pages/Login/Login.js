@@ -30,6 +30,7 @@ import { FlexDiv } from '../../components/UI/styledComponents/CommonStyled';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import Message from '../../components/UI/components/Message/Message';
 import { MessageType } from '../../components/UI/components/Message/Message';
+import secureLocalStorage from 'react-secure-storage';
 
 const LOGIN_API = `${process.env.REACT_APP_WALLET_API_ROOT}/auth`;
 
@@ -99,7 +100,10 @@ const Login = () => {
   const login = () => {
     setIsLoading(true);
 
+    secureLocalStorage.setItem('api-key', apiKey);
+
     apiClient
+      .setAPIKeyHeader(apiKey)
       .post(LOGIN_API, {
         wallet,
         password,
@@ -114,9 +118,10 @@ const Login = () => {
       })
       .catch((error) => {
         console.error('Undefined Wallet error:', error);
+        secureLocalStorage.removeItem('api-key');
         setErrorMessage(
           error.response?.data?.errorMessage ||
-            'Could not log in. Please check your wallet and password or contact the admin.'
+            'Could not log in. Please check your wallet, password and API Key or contact the admin.'
         );
       })
       .finally(() => {

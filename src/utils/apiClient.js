@@ -1,12 +1,20 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import secureLocalStorage from 'react-secure-storage';
 
 const apiClient = axios.create({
   baseURL: `${process.env.REACT_APP_WALLET_API_ROOT}`,
   headers: {
-    'TREETRACKER-API-KEY': `${process.env.REACT_APP_WALLET_API_KEY}`,
+    'TREETRACKER-API-KEY': secureLocalStorage.getItem('api-key') || '',
   },
 });
+
+apiClient.setAPIKeyHeader = (apiKey) => {
+  apiClient.defaults.headers['TREETRACKER-API-KEY'] =
+    apiKey || secureLocalStorage.getItem('api-key');
+
+  return apiClient;
+};
 
 apiClient.setAuthToken = (token) => {
   if (token) {
