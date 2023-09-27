@@ -1,3 +1,10 @@
+# [1.0.0-v1.23](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.22...v1.0.0-v1.23) (2023-09-27)
+
+
+### Features
+
+* add API Key and fix tests ([9c43938](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9c43938ea4dff7ce17f514acd5fcd85a9b6bae16))
+
 # [1.0.0-v1.22](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.21...v1.0.0-v1.22) (2023-08-25)
 
 
