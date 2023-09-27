@@ -30,7 +30,7 @@ export const getWallets = async (token, name = '', pageNumber = 1) => {
     })
     .then((response) => {
       const wallets = response.data.wallets.map((wallet) =>
-        mapWallet(wallet, 'name'),
+        mapWallet(wallet, 'name')
       );
       return {
         total: response.data.total,

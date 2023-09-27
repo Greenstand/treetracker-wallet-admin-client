@@ -12,6 +12,13 @@ jest.mock('../../api/transfers', () => ({
   getTransfers: jest.fn(),
 }));
 
+jest.mock('react-secure-storage', () => {
+  return {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+  };
+});
+
 const mockPendingTransfers = {
   transfers: [
     {
@@ -91,7 +98,7 @@ describe('<Wallet />', () => {
       JSON.stringify({
         id: '9d6c674f-ae62-4fab-8d14-ae5de9f14ab8',
         name: 'test wallet',
-      }),
+      })
     );
   });
 
@@ -115,12 +122,13 @@ describe('<Wallet />', () => {
     expect(screen.getByText('tokens')).toBeInTheDocument();
 
     await screen.findByText(/About the wallet/);
-    expect(screen.getByText(/This is information about the test wallet/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/This is information about the test wallet/)
+    ).toBeInTheDocument();
   });
 
   it('does not display about component if there is no about', async () => {
-    getWalletById.mockResolvedValueOnce({ ...mockWallet, about:null });
-
+    getWalletById.mockResolvedValueOnce({ ...mockWallet, about: null });
 
     getTransfers.mockResolvedValueOnce(mockPendingTransfers);
 

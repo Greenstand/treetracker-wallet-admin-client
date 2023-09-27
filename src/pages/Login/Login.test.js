@@ -6,6 +6,13 @@ import { render, screen } from '@testing-library/react';
 import AuthProvider from '../../store/AuthProvider';
 import theme from '../../components/UI/theme';
 
+jest.mock('react-secure-storage', () => {
+  return {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+  };
+});
+
 const TestWrapper = (props) => {
   return (
     <ThemeProvider theme={theme}>
