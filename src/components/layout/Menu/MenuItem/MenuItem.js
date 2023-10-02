@@ -1,30 +1,38 @@
-import CompareIcon from '@mui/icons-material/Compare';
 import HomeIcon from '@mui/icons-material/Home';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
-import LinkItem from './LinkItem';
+import {
+  ItemButtonStyled,
+  ItemIconStyled,
+  LinkItemStyled,
+} from './MenuItemStyled';
 
 const MenuItem = ({ open }) => {
   return (
     <>
-      <LinkItem
-        itemPath={'/'}
-        itemName={'Home'}
-        itemIcon={<HomeIcon />}
-        open={open}
-      />
-      <LinkItem
-        itemPath={'/send-tokens'}
-        itemName={'Send Tokens'}
-        itemIcon={<ThumbsUpDownIcon />}
-        open={open}
-      />
-      <LinkItem
-        itemPath={'/my-transfers'}
-        itemName={'My Transfers'}
-        itemIcon={<CompareIcon />}
-        open={open}
-      />
+      <LinkItemStyled to="/">
+        <ItemButtonStyled open={open}>
+          <ItemIconStyled open={open}>
+            <HomeIcon />
+          </ItemIconStyled>
+          <ListItemText
+            primary={'Home'}
+            sx={{ opacity: open ? 1 : 0, marginLeft: open ? '1rem' : 0 }}
+          />
+        </ItemButtonStyled>
+      </LinkItemStyled>
+      <LinkItemStyled to="/send-tokens">
+        <ItemButtonStyled open={open}>
+          <ItemIconStyled open={open}>
+            <ThumbsUpDownIcon />
+          </ItemIconStyled>
+          <ListItemText
+            primary={'Send Tokens'}
+            sx={{ opacity: open ? 1 : 0, marginLeft: open ? '1rem' : 0 }}
+          />
+        </ItemButtonStyled>
+      </LinkItemStyled>
     </>
   );
 };

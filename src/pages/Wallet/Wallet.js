@@ -1,114 +1,68 @@
-import React, { useContext, useEffect, useState } from 'react';
-import WalletInfoBlock from './WalletInfoBlock/WalletInfoBlock';
-import {
-  ContentGrid,
-  GridContainer,
-  GridItem,
-  WalletAbout,
-  WalletAboutText,
-  WalletAboutTitle,
-} from './WalletStyled';
-import { Loader } from '../../components/UI/components/Loader/Loader';
-import Message from '../../components/UI/components/Message/Message';
-import { MessageType } from '../../components/UI/components/Message/Message';
-import AuthContext from '../../store/auth-context';
-import { getWalletById } from '../../api/wallets';
-import WalletHeader from './WalletHeader/WalletHeader';
-import { getTransfers } from '../../api/transfers';
-import TransferFilter from '../../models/TransferFilter';
+import { Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import apiClient from "../../utils/apiClient";
+import WalletInfoBlock from "./WalletInfoBlock/WalletInfoBlock";
+import { ContentContainer, ContentGrid } from "./WalletStyled";
+import { Loader } from "../../components/UI/components/Loader/Loader";
+import ErrorMessage from "../../components/UI/components/ErrorMessage/ErrorMessage";
+
+const mapWallet = (walletData) => {
+  return {
+    id: walletData.id,
+    logoURL: walletData.logo_url,
+    tokensInWallet: walletData.tokens_in_wallet,
+    name: walletData.wallet,
+  };
+};
 
 const Wallet = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const defaultWallet = {
-    id: '',
-    logoURL: '',
+    id: "",
+    logoURL: "",
     tokensInWallet: 0,
-    name: '',
-    about: '',
+    name: "",
   };
 
   const [wallet, setWallet] = useState(defaultWallet);
-  const [pendingTransfers, setPendingTransfers] = useState(null);
-
-  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     setIsLoading(true);
 
-    // LocalStorage should have some wallet info after the login
-    const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
-    if (!wallet || !wallet.id) {
-      console.log('Wallet info not found in the localStorage');
-      authContext.logout();
-      return;
-    }
-
-    const fetchData = async () => {
-      try {
-        // get wallet data
-        const returnedWalletData = await getWalletById(
-          authContext.token,
-          wallet.id
-        );
-        setWallet(returnedWalletData);
-
-        // get pending transfers data
-        const pendingTransferFilter = new TransferFilter({ state: 'pending' });
-        const returnedTransferData = await getTransfers(authContext.token, {
-          filter: pendingTransferFilter,
-        });
-        setPendingTransfers(returnedTransferData.transfers);
-      } catch (error) {
+    // TODO: get wallet id by decoding the token. We get the token after login, which is not implemented yet.
+    apiClient
+      .get("/wallets/9d6c674f-ae62-4fab-8d14-ae5de9f14ab8")
+      .then((response) => {
+        const wallet = mapWallet(response.data);
+        setWallet(wallet);
+      })
+      .catch((error) => {
         console.error(error);
-        setErrorMessage('An error occurred while fetching the data.');
-      } finally {
+        setErrorMessage("An error occurred while fetching wallet data.");
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [authContext.token]);
+      });
+  }, []);
 
   if (isLoading) {
     return <Loader />;
   }
 
   return (
-    <GridContainer>
-      <GridItem item sx={{ width: '100%', marginTop: '4rem' }}>
-        {errorMessage && (
-          <Message
-            message={errorMessage}
-            onClose={() => setErrorMessage('')}
-            messageType={MessageType.Error}
-          />
-        )}
-      </GridItem>
-
-      <GridItem
-        item
-        sx={{
-          width: 'fit-content',
-        }}
-      >
-        <WalletHeader
-          walletName={wallet.name}
-          walletLogoURL={wallet.logoURL}
-          pendingTransfers={pendingTransfers.length}
+    <Grid>
+      <div>
+        <header style={{ marginTop: "9.4vh", height: "10vh" }}>Wallet</header>
+      </div>
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage("")}
         />
-      </GridItem>
-
-      {wallet.about && (
-        <GridItem item>
-          <WalletAbout elevation={0}>
-            <WalletAboutTitle>About the wallet</WalletAboutTitle>
-            <WalletAboutText>{wallet.about}</WalletAboutText>
-          </WalletAbout>
-        </GridItem>
       )}
-      <GridItem item>
+      <ContentContainer maxWidth="false">
         <ContentGrid>
           <WalletInfoBlock
             title={`Wallet ${wallet.name}`}
@@ -116,8 +70,8 @@ const Wallet = () => {
             innerText="tokens"
           />
         </ContentGrid>
-      </GridItem>
-    </GridContainer>
+      </ContentContainer>
+    </Grid>
   );
 };
 

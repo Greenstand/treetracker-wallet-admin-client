@@ -1,15 +1,12 @@
-/* eslint-disable no-debugger */
-import React, { useState } from 'react';
-import jwt_decode from 'jwt-decode';
-import AuthContext from './auth-context';
-import { useNavigate } from 'react-router-dom';
-import secureLocalStorage from 'react-secure-storage';
+import React, { useState } from "react";
+import AuthContext from "./auth-context";
+import { useNavigate } from "react-router-dom";
 
 const AuthProvider = (props) => {
-  const tokenKey = 'token';
-  const walletKey = 'wallet';
+  const tokenKey = "token";
+  const walletKey = "wallet";
 
-  const retrieveToken = () => localStorage.getItem(tokenKey);
+  const retrieveToken = () => JSON.parse(localStorage.getItem(tokenKey));
   const retrieveWallet = () => JSON.parse(localStorage.getItem(walletKey));
 
   const [wallet, setWallet] = useState(retrieveWallet);
@@ -22,32 +19,21 @@ const AuthProvider = (props) => {
 
     setToken(newToken);
 
-    const wallet = newWallet ? newWallet : parseToken(newToken);
+    // wallet is taken from the token
+    // todo: decode token and get wallet from it
+    const wallet = newWallet ? newWallet : {};
     setWallet(wallet);
 
-    localStorage.setItem(walletKey, JSON.stringify(wallet));
-
     if (rememberDetails) {
-      localStorage.setItem(tokenKey, newToken);
+      localStorage.setItem(tokenKey, JSON.stringify(newToken));
+      localStorage.setItem(walletKey, JSON.stringify(wallet));
     } else {
       localStorage.removeItem(tokenKey);
+      localStorage.removeItem(walletKey);
     }
 
     setIsLoggedIn(true);
-    navigate('/');
-  };
-
-  const parseToken = (token) => {
-    var decodedWalletInfo = jwt_decode(token);
-
-    return {
-      id: decodedWalletInfo.id,
-      name: decodedWalletInfo.name,
-      logoURL: decodedWalletInfo.logo_url,
-      createdAt: decodedWalletInfo.created_at,
-      expiration: decodedWalletInfo.expiration,
-      about: decodedWalletInfo.about,
-    };
+    navigate("/");
   };
 
   const logout = () => {
@@ -55,14 +41,14 @@ const AuthProvider = (props) => {
     setToken(undefined);
     localStorage.removeItem(tokenKey);
     localStorage.removeItem(walletKey);
-    secureLocalStorage.removeItem('api-key');
-    navigate('/login');
+    navigate("/login");
   };
 
   const value = {
     isLoggedIn,
     login,
     logout,
+    // TODO: wallet info will be filled from Token (after token is decoded)
     wallet,
     token,
     ...props.value,
