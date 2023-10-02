@@ -1,29 +1,35 @@
-import React from "react";
-import { shallow } from "enzyme";
-import App from "./App";
+import React from 'react';
+import App from './App';
+import { render, screen } from '@testing-library/react';
 
-jest.mock("./utils/apiClient", () => ({
-  get: jest.fn(),
-}));
+jest.mock('react-secure-storage', () => {
+  return {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+  };
+});
 
-describe("App component", () => {
-  it("renders without crashing", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.exists()).toBe(true);
-  });
+describe('App component', () => {
+  it('should redirect to login', async () => {
+    render(<App />);
 
-  it("renders the Router component", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find("BrowserRouter")).toHaveLength(1);
-  });
+    //load data
+    await screen.findByAltText(/Greenstand logo/);
 
-  it("renders the Layout component", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find("Layout")).toHaveLength(1);
-  });
+    expect(screen.getAllByRole('heading')).toHaveLength(1);
+    expect(
+      screen.getByRole('heading', { name: /Wallet Admin Panel/ })
+    ).toBeInTheDocument();
 
-  it("renders the ClientRoutes component", () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find("ClientRoutes")).toHaveLength(1);
+    //type='password' doesn't have a role, so no getByRole
+    expect(screen.getByLabelText('Password *')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: /Wallet/ })).toBeInTheDocument();
+
+    expect(screen.getAllByRole('button')).toHaveLength(2);
+    expect(screen.getByRole('button', { name: /LOG IN/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '' })).toHaveAttribute(
+      'name',
+      'password visibility'
+    );
   });
 });

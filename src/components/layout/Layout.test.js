@@ -1,41 +1,35 @@
-import { mount } from "enzyme";
-import React from "react";
-import Layout from "./Layout";
-import { StyledContent } from "./LayoutStyled";
-import Menu from "./Menu/Menu";
-import { BrowserRouter as Router } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material";
+import React from 'react';
+import Layout from './Layout';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material';
+import { render, screen } from '@testing-library/react';
+import theme from '../UI/theme';
 
-const theme = createTheme({
-  zIndex: {
-    drawer: 1200,
-  },
-});
+describe('Layout component', () => {
 
-describe("Layout component", () => {
-  let wrapper;
+  const TestWrapper = (props) => {
+    return <ThemeProvider theme={theme}>
+      <Router>
+        {props.children}
+      </Router>
+    </ThemeProvider>;
+  };
 
-  beforeEach(() => {
-    wrapper = mount(
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Layout>
-            <div>Test</div>
-          </Layout>
-        </Router>
-      </ThemeProvider>
-    );
+
+  it('renders correctly', async () => {
+    render(<TestWrapper>
+      <Layout></Layout>
+    </TestWrapper>);
+
+    //load data
+    await screen.findByAltText(/Greenstand logo/);
+    await screen.findAllByRole('link');
+
+    expect(screen.getAllByRole('link')).toHaveLength(4);
+    expect(screen.getByText(/Home/)).toBeInTheDocument();
+    expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
+    expect(screen.getByText(/My Transfers/)).toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(4);
   });
 
-  it("should render Layout component", () => {
-    expect(wrapper).toBeTruthy();
-  });
-
-  it("should render Menu component", () => {
-    expect(wrapper.find(Menu)).toHaveLength(1);
-  });
-
-  it("should render StyledContent component", () => {
-    expect(wrapper.find(StyledContent)).toHaveLength(1);
-  });
 });
