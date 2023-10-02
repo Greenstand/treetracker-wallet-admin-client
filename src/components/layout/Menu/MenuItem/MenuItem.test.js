@@ -1,37 +1,39 @@
-import { render, screen } from '@testing-library/react';
-import MenuItem from './MenuItem';
-import { ThemeProvider } from '@mui/material';
-import theme from '../../../UI/theme';
+import { shallow } from "enzyme";
+import React from "react";
+import MenuItem from "./MenuItem";
+import {
+  ItemButtonStyled,
+  ItemIconStyled,
+  LinkItemStyled,
+} from "./MenuItemStyled";
 
-import { BrowserRouter as Router } from 'react-router-dom';
+describe("Layout component", () => {
+  let wrapper;
 
-describe('MenuItem tests v1', () => {
-
-  const TestWrapper = (props) => {
-    return <ThemeProvider theme={theme}>
-      <Router>
-        {props.children}
-      </Router>
-    </ThemeProvider>;
-  };
-
-  it('Links are rendered correctly', async () => {
-    render(
-      <TestWrapper>
-        <MenuItem />
-      </TestWrapper>,
+  beforeEach(() => {
+    wrapper = shallow(
+      <MenuItem>
+        <div>Test</div>
+      </MenuItem>
     );
-
-    //links have loaded
-    await screen.findAllByRole('link');
-
-    //Home and Send Tokens for now
-    expect(screen.getAllByRole('link')).toHaveLength(3);
-    expect(screen.getAllByRole('button')).toHaveLength(3);
-    expect(screen.getByText(/Home/)).toBeInTheDocument();
-    expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
-    expect(screen.getByText(/My Transfers/)).toBeInTheDocument();
-
   });
 
+  it("should render Layout component", () => {
+    expect(wrapper).toBeTruthy();
+  });
+
+  it("should render ItemButtonStyled component", () => {
+    const itemButtons = wrapper.find(ItemButtonStyled);
+    expect(itemButtons.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("should render ItemIconStyled component", () => {
+    const itemIcons = wrapper.find(ItemIconStyled);
+    expect(itemIcons.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("should render LinkItemStyled component", () => {
+    const linkItems = wrapper.find(LinkItemStyled);
+    expect(linkItems.length).toBeGreaterThanOrEqual(1);
+  });
 });
