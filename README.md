@@ -1,4 +1,4 @@
-# Greenstand Treetracker Wallet Admin Client 
+# Greenstand Treetracker Wallet Admin Client
 
 The admin panel for accessing wallets and executing all known API calls for the wallet API.
 
@@ -95,7 +95,7 @@ support and collaborate etc., please see our [Contribution Guidelines](./CONTRIB
 Contributing to this project can sometimes involve a steep learning curve. Please do not give up and come and find us on
 slack to get support setting you up. This is a fun project with an amazing potential to disrupt non-transparent
 practices
-and open reforestation to the digital world. 
+and open reforestation to the digital world.
 
 Come have fun with a global team and a project that is disrupting opaque practices and creating open reforestation to the digital world.
-More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause)
+More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause).
