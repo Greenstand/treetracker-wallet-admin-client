@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0...v1.0.1) (2023-10-17)
+
+
+### Bug Fixes
+
+* Add aws credential for live ([67e33c4](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/67e33c497e402326fa5dbecbf7e42b443e921c4c))
+
 # 1.0.0 (2023-10-10)
 
 
