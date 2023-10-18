@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.1...v1.0.2) (2023-10-18)
+
+
+### Bug Fixes
+
+* Correct codebase for prod ([1cd292a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/1cd292ac47ee871215c05e4f3bddc129a00758ea))
+* Correct codebase for production ([0e7b7be](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0e7b7becde498c83fb51fcc2135b24e597839d81))
+
 ## [1.0.1](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0...v1.0.1) (2023-10-17)
 
 
