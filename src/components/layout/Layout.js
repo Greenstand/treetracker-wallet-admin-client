@@ -12,8 +12,8 @@ const Layout = ({ children }) => {
     setOpen(true);
   };
 
-  const mobile = useMediaQuery("(max-width:480px");
-
+  const mobile = useMediaQuery("(max-width:480px)");
+  
   const handleDrawerClose = () => {
     setOpen(false);
   };

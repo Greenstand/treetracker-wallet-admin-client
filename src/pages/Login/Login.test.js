@@ -1,35 +1,52 @@
-import React, { useContext } from "react";
-import { shallow } from "enzyme";
-import { TextField } from "@mui/material";
-import Login from "./Login";
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material';
+import Login from './Login';
+import { render, screen } from '@testing-library/react';
+import AuthProvider from '../../store/AuthProvider';
+import theme from '../../components/UI/theme';
 
-jest.mock("../../utils/apiClient", () => ({
-  get: jest.fn(),
-}));
+jest.mock('react-secure-storage', () => {
+  return {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+  };
+});
 
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  useContext: jest.fn(),
-}));
+const TestWrapper = (props) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <Router>
+        <AuthProvider>{props.children}</AuthProvider>
+      </Router>
+    </ThemeProvider>
+  );
+};
 
-describe("Login component", () => {
-  beforeEach(() => {
-    useContext.mockReset();
+describe('Login component', () => {
+  it('should render correctly', async () => {
+    render(<Login />, { wrapper: TestWrapper });
 
-    useContext.mockReturnValueOnce({
-      isLoggedIn: false,
-    });
-  });
+    //load data
+    await screen.findByAltText(/Greenstand logo/);
 
-  it("renders without crashing", () => {
-    const wrapper = shallow(<Login />);
-    expect(wrapper.exists()).toBe(true);
-  });
+    expect(screen.getAllByRole('heading')).toHaveLength(1);
+    expect(
+      screen.getByRole('heading', { name: /Wallet Admin Panel/ })
+    ).toBeInTheDocument();
 
-  it("renders the wallet and password input fields", () => {
-    const wrapper = shallow(<Login />);
-    expect(wrapper.find(TextField).length).toBe(2);
-    expect(wrapper.find(TextField).at(0).props().name).toBe("wallet");
-    expect(wrapper.find(TextField).at(1).props().name).toBe("password");
+    //type='password' doesn't have a role, so no getByRole
+    expect(screen.getByLabelText('Password *')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: /Wallet/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole('textbox', { name: /API Key/ })
+    ).toBeInTheDocument();
+
+    expect(screen.getAllByRole('button')).toHaveLength(2);
+    expect(screen.getByRole('button', { name: /LOG IN/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '' })).toHaveAttribute(
+      'name',
+      'password visibility'
+    );
   });
 });
