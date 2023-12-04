@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
     Button,
     Card,
@@ -15,7 +16,7 @@ import {
     SelectFilter,
     SelectMenuItem,
     DateRangeButton,
-    DateRangeFilterIcon, FilterResetButton,
+    DateRangeFilterIcon,
   } from './TableFilters.styled';
   import React, { useEffect, useState } from 'react';
   import { DatePicker, DateRangeIcon } from '@mui/x-date-pickers';
@@ -54,6 +55,7 @@ import {
           IconComponent={ArrowDropDownIcon}
           sx={{
             color: state ? getStatusColor(state) : '#585B5D',
+            marginTop: '10px',
           }}
         >
           <SelectMenuItem value={''}>All</SelectMenuItem>
@@ -133,10 +135,10 @@ import {
   
     return (
       <FormControl sx={{ width: '192px' }} data-testid='date-range-filter'>
-        <FilterLabelText>Created Date</FilterLabelText>
-        <DateRangeButton onClick={handleClick} endIcon={<DateRangeFilterIcon />}>
-          {startDate ? getDateText(startDate, dateFormat) : defaultDateText} -{' '}
-          {endDate ? getDateText(endDate, dateFormat) : defaultDateText}
+        <FilterLabelText sx={{ paddingBottom: '10px', fontWeight: '100', }}>Created Date</FilterLabelText>
+        <DateRangeButton onClick={handleClick} startIcon={<DateRangeFilterIcon />} endIcon={<ArrowDropDownIcon />}>
+          {/* {startDate ? getDateText(startDate, dateFormat) : defaultDateText} -{' '}
+          {endDate ? getDateText(endDate, dateFormat) : defaultDateText} */}
         </DateRangeButton>
         <Popover
           open={!!anchorEl}
@@ -204,14 +206,18 @@ import {
   
   export const ResetButton = ({ setFilter, defaultFilter }) => {
     return (
-      <FilterResetButton
+      <button
         onClick={() => setFilter(defaultFilter)}
         type='button'
-        variant='contained'
-        color='primary'
+        style={{ 
+          color: 'rgb(255, 128, 0)',
+          border: 'none',
+          background: 'transparent',
+          fontWeight: '400', 
+         }}
         data-testid='reset-filters'
       >
-        Reset
-      </FilterResetButton>
+        <h4>Clear Filters</h4>
+      </button>
     );
   };

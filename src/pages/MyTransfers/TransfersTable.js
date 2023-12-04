@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import {
     Grid,
     Paper,
+    Button,
     Table,
     TableBody,
     TableCell,
@@ -10,11 +12,14 @@ import {
     TableRow,
     Typography,
   } from '@mui/material';
+  import IconFilter from "@mui/icons-material/FilterAlt";
+  import Menu from '@mui/material/Menu';
   import React, { useEffect, useRef, useState } from 'react';
   import { DateRangeFilter, ResetButton, TransferSelectFilter } from './TableFilters';
   import { TableCellStyled, TooltipStyled } from './TransfersTable.styled';
   import { useTransfersContext } from '../../store/TransfersContext';
   import { Loader } from '../../components/UI/components/Loader/Loader';
+// import { red } from '@mui/material/colors';
   
   /**@function
    * @name TableHeader
@@ -25,14 +30,84 @@ import {
    * @returns {JSX.Element} - Table header component
    */
   const TransfersTableHeader = ({ tableTitle, getStatusColor }) => {
+    // eslint-disable-next-line no-unused-vars
     const { filter, setFilter, statusList, defaultFilter } = useTransfersContext();
+
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl((prevAnchorEl) => (prevAnchorEl ? null : event.currentTarget));
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
   
     return (
       <Grid item container sx={{ paddingBottom: '15px' }}>
         <Grid item xs={6} sx={{ display: 'flex', alignItems: 'end' }}>
           <Typography variant={'h4'}>{tableTitle}</Typography>
         </Grid>
-        <Grid item container xs={6}>
+ 
+     <Grid item container sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleClick}
+            endIcon={<IconFilter />}
+            key={1}
+          >
+            Filter
+          </Button>
+
+          <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+             
+            >
+        <Grid container direction="column"  sx={{ padding: '20px', }}>
+        <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '20px' }}>
+            <TransferSelectFilter
+              filter={filter}
+              setFilter={setFilter}
+              statusList={statusList}
+              getStatusColor={getStatusColor}
+            />
+        </Grid>
+        <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '20px' }}>
+            <DateRangeFilter filter={filter} setFilter={setFilter} />
+          </Grid>
+          <Grid item xs={2} sx={{
+                                   display: 'flex', 
+                                   justifyContent: 'space-around', 
+                                   alignItems: 'center',
+                                   margin: '10px auto',
+                                   gap: '10px',
+
+                                   }}>
+            <ResetButton setFilter={setFilter} defaultFilter={defaultFilter} />
+            <button
+              style={{ 
+                color: 'black',
+                border: 'none',
+                backgroundColor: 'rgba(114, 185, 7, 0.192)',
+                padding: '8px 20px',
+                borderRadius: '2rem',
+            }}
+            >
+             <h4> Apply</h4>
+            </button>
+          </Grid>    
+        </Grid>
+      </Menu>
+       </Grid> 
+
+
+        {/* <Grid item container xs={6}>
           <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <TransferSelectFilter
               filter={filter}
@@ -47,7 +122,7 @@ import {
           <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'end' }}>
             <ResetButton setFilter={setFilter} defaultFilter={defaultFilter} />
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     );
   };
