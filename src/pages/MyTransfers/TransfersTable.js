@@ -174,7 +174,14 @@ import {
    * @return {JSX.Element} - Table body component
    */
   const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
+    const [selectedRow, setSelectedRow] = useState(null);
 
+    const handleRowClick = (rowIndex) => {
+      // Toggle the selected row
+      setSelectedRow((prevSelectedRow) =>
+        prevSelectedRow === rowIndex ? null : rowIndex
+      );
+    };
 
     const { isLoading } = useTransfersContext();
   
@@ -204,8 +211,14 @@ import {
       <TableBody>
         {tableRows &&
           tableRows.map((row, rowIndex) => {
+            const isRowSelected = selectedRow === rowIndex;
+            const rowClassName = isRowSelected ? 'selected-row' : '';   
             return (
-              <TableRow key={rowIndex}>
+              <TableRow 
+              key={rowIndex}
+              onClick={() => handleRowClick(rowIndex)}
+              className={rowClassName}
+              >
                 {tableColumns.map((column, colIndex) => {
                   const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
                   const cellColor =
