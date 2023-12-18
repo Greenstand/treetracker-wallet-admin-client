@@ -31,5 +31,4 @@ describe('Layout component', () => {
     expect(screen.getByText(/My Transfers/)).toBeInTheDocument();
     expect(screen.getAllByRole('button')).toHaveLength(4);
   });
-
 });

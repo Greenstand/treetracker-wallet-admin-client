@@ -19,7 +19,7 @@ const ProtectedRoute = ({ isLoggedIn, redirectPath = '/login' }) => {
 
 const ClientRoutes = () => {
   const authCtx = useContext(AuthContext);
-
+  
   return (
     <Routes>
       <Route element={<ProtectedRoute isLoggedIn={authCtx.isLoggedIn} />}>

@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
   };
 
   const mobile = useMediaQuery("(max-width:480px)");
-
+  
   const handleDrawerClose = () => {
     setOpen(false);
   };
