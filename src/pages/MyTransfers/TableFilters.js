@@ -204,10 +204,10 @@ import {
   };
   
   
-  export const ResetButton = ({ setFilter, defaultFilter }) => {
+  export const ResetButton = ({ setFilter, defaultFilter, close }) => {
     return (
       <button
-        onClick={() => setFilter(defaultFilter)}
+        onClick={() => {setFilter(defaultFilter); close()}}
         type='button'
         style={{ 
           color: 'rgb(255, 128, 0)',

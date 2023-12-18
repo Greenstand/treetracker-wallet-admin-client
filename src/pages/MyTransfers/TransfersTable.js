@@ -89,7 +89,7 @@ import {
                                    gap: '10px',
 
                                    }}>
-            <ResetButton setFilter={setFilter} defaultFilter={defaultFilter} />
+            <ResetButton close={handleClose} setFilter={setFilter} defaultFilter={defaultFilter} />
             <button
               style={{ 
                 color: 'black',
@@ -98,6 +98,7 @@ import {
                 padding: '8px 20px',
                 borderRadius: '2rem',
             }}
+            onClick={handleClose}
             >
              <h4> Apply</h4>
             </button>
@@ -173,6 +174,8 @@ import {
    * @return {JSX.Element} - Table body component
    */
   const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
+
+
     const { isLoading } = useTransfersContext();
   
     if (isLoading)
