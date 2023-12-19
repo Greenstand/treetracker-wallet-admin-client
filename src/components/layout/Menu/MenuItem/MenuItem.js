@@ -3,6 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 import * as React from 'react';
 import LinkItem from './LinkItem';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 const MenuItem = ({ open }) => {
   return (
@@ -23,6 +24,12 @@ const MenuItem = ({ open }) => {
         itemPath={'/my-transfers'}
         itemName={'My Transfers'}
         itemIcon={<CompareIcon />}
+        open={open}
+      />
+      <LinkItem
+        itemPath={'/managed-wallets'}
+        itemName={'Managed Wallets'}
+        itemIcon={<AccountBalanceWalletIcon />}
         open={open}
       />
     </>
