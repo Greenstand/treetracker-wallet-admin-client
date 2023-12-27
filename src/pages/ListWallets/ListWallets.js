@@ -13,7 +13,6 @@ import { useWalletsContext } from '../../store/WalletsContext';
  * @returns {JSX.Element} - List Wallets page component
  * */
 const ListWallets = () => {
-  // get data from context
   const { pagination, setIsLoading, prepareRows } = useWalletsContext();
   // error
   const [message, setMessage] = useState('');

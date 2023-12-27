@@ -12,11 +12,6 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  //DateRangeFilter,
-  ResetButton,
-  //WalletsSelectFilter,
-} from './TableFilters';
 import { TableCellStyled, TooltipStyled } from './WalletsTable.styled';
 import { useWalletsContext } from '../../store/WalletsContext';
 import { Loader } from '../../components/UI/components/Loader/Loader';
@@ -117,22 +112,15 @@ const WalletsTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
             <TableRow key={rowIndex}>
               {tableColumns.map((column, colIndex) => {
                 const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
-                const cellColor =
-                  column.name === 'status'
-                    ? getStatusColor(row[column.name])
-                    : '';
-                const cellValue = row[column.name]
-                  ? column.renderer
-                    ? column.renderer(row[column.name])
-                    : row[column.name]
-                  : '--';
+                const cellValue =
+                  row[column.name] || row[column.name] === 0
+                    ? column.renderer
+                      ? column.renderer(row[column.name])
+                      : row[column.name]
+                    : '--';
 
                 return (
-                  <OverflownCell
-                    key={cellKey}
-                    cellValue={cellValue}
-                    cellColor={cellColor}
-                  >
+                  <OverflownCell key={cellKey} cellValue={cellValue}>
                     {cellValue}
                   </OverflownCell>
                 );

@@ -33,6 +33,7 @@ export const getWallets = async (
       params: {
         name: name || undefined, // Pass 'name' if it exists, or pass 'undefined' to exclude it
         offset: pagination.offset, // pageNumber - 1,
+        limit: pagination.limit,
       },
     })
     .then((response) => {
