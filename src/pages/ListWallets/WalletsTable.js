@@ -76,10 +76,9 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
  * @description Renders the table body (table rows) for the wallets table
  * @param tableColumns
  * @param tableRows
- * @param getStatusColor
  * @return {JSX.Element} - Table body component
  */
-const WalletsTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
+const WalletsTableBody = ({ tableColumns, tableRows }) => {
   const { isLoading } = useWalletsContext();
 
   if (isLoading)
@@ -167,18 +166,9 @@ const WalletsTable = ({ tableTitle, tableRows, totalRowCount }) => {
     setPagination(newPagination);
   };
 
-  // get color corresponding to the status value, else default color
-  const getStatusColor = (status) => {
-    const color = statusList.find((x) => x.value === status).color;
-    return color ? color : '#585B5D';
-  };
-
   return (
     <Grid container direction={'column'} sx={{ height: '100%' }}>
-      <WalletsTableHeader
-        tableTitle={tableTitle}
-        getStatusColor={getStatusColor}
-      />
+      <WalletsTableHeader tableTitle={tableTitle} />
       <TableContainer component={Paper}>
         <Table
           stickyHeader
@@ -201,11 +191,7 @@ const WalletsTable = ({ tableTitle, tableRows, totalRowCount }) => {
               })}
             </TableRow>
           </TableHead>
-          <WalletsTableBody
-            tableColumns={tableColumns}
-            tableRows={tableRows}
-            getStatusColor={getStatusColor}
-          />
+          <WalletsTableBody tableColumns={tableColumns} tableRows={tableRows} />
         </Table>
       </TableContainer>
 

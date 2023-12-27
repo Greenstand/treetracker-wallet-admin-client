@@ -16,23 +16,14 @@ const mapWallet = (walletData, nameProp) => {
 export const getWallets = async (
   token,
   name = '',
-  //pageNumber = 1,
-  { pagination }
+  { pagination } = { pagination: { offset: 0, limit: 10 } }
 ) => {
-  // const params = {
-  //   offset: pagination.offset, // pageNumber - 1,
-  // };
-
-  // if (name) {
-  //   params.name = name;
-  // }
-
   const { total, wallets } = await apiClient
     .setAuthHeader(token)
     .get('/wallets', {
       params: {
         name: name || undefined, // Pass 'name' if it exists, or pass 'undefined' to exclude it
-        offset: pagination.offset, // pageNumber - 1,
+        offset: pagination.offset,
         limit: pagination.limit,
       },
     })
