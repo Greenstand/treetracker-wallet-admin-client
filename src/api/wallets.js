@@ -11,21 +11,26 @@ const mapWallet = (walletData, nameProp) => {
   };
 };
 
-export const getWallets = async (token, name = '', pageNumber = 1) => {
-  const params = {
-    offset: pageNumber - 1,
-  };
+export const getWallets = async (
+  token,
+  name = '',
+  //pageNumber = 1,
+  { pagination }
+) => {
+  // const params = {
+  //   offset: pagination.offset, // pageNumber - 1,
+  // };
 
-  if (name) {
-    params.name = name;
-  }
+  // if (name) {
+  //   params.name = name;
+  // }
 
   const { total, wallets } = await apiClient
     .setAuthHeader(token)
     .get('/wallets', {
       params: {
         name: name || undefined, // Pass 'name' if it exists, or pass 'undefined' to exclude it
-        offset: pageNumber - 1,
+        offset: pagination.offset, // pageNumber - 1,
       },
     })
     .then((response) => {
