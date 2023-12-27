@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import WalletsTable from './WalletsTable';
@@ -30,7 +29,6 @@ const ListWallets = () => {
     const loadData = async () => {
       try {
         setIsLoading(true);
-        debugger;
         const data = await getWallets(authContext.token, '', {
           pagination,
         });

@@ -8,6 +8,8 @@ const mapWallet = (walletData, nameProp) => {
     tokensInWallet: walletData.tokens_in_wallet,
     name: walletData[nameProp],
     about: walletData.about,
+    //createdDate: walletData.created_at,
+    created_at: walletData.created_at,
   };
 };
 

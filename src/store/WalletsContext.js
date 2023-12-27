@@ -1,7 +1,5 @@
-/* eslint-disable no-debugger */
 import { createContext, useContext, useState } from 'react';
 import { formatWithCommas, getDateText } from '../utils/formatting';
-//import { capitalize } from '@mui/material';
 
 const WalletsContext = createContext();
 
