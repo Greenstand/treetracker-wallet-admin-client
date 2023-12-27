@@ -1,3 +1,15 @@
+# [1.0.0-v1.24](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.23...v1.0.0-v1.24) (2023-12-27)
+
+
+### Bug Fixes
+
+* minor change for the deployment [skip ci] ([40a139e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/40a139e873a593b3567bdbbbfad7dfa0d0a5a97e))
+
+
+### Features
+
+* add confirmation popup ([40d7d6b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/40d7d6b40e0bb8628c6a478835ec2e2f0f1832af))
+
 # [1.0.0-v1.23](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.22...v1.0.0-v1.23) (2023-09-27)
 
 
