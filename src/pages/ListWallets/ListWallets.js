@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
-import WalletsTable from './WalletsTable';
+// import WalletsTable from './WalletsTable';
 import Message from '../../components/UI/components/Message/Message';
 import { getWallets } from '../../api/wallets';
 import AuthContext from '../../store/auth-context';
 import { useWalletsContext } from '../../store/WalletsContext';
+import Table from '../../components/UI/components/Table/Table';
 
 /**@function
  * @name ListWallets
@@ -13,7 +14,14 @@ import { useWalletsContext } from '../../store/WalletsContext';
  * @returns {JSX.Element} - List Wallets page component
  * */
 const ListWallets = () => {
-  const { pagination, setIsLoading, prepareRows } = useWalletsContext();
+  const {
+    pagination,
+    setIsLoading,
+    prepareRows,
+    setPagination,
+    tableColumns,
+    isLoading,
+  } = useWalletsContext();
   // error
   const [message, setMessage] = useState('');
   // data to be displayed in the table
@@ -58,10 +66,14 @@ const ListWallets = () => {
     >
       {message && <Message message={message} onClose={() => setMessage('')} />}
       <Grid container direction="column" sx={{ flexGrow: '1' }}>
-        <WalletsTable
+        <Table
           tableTitle={'Managed Wallets List'}
           tableRows={tableRows}
           totalRowCount={totalRowCount}
+          pagination={pagination}
+          setPagination={setPagination}
+          tableColumns={tableColumns}
+          isLoading={isLoading}
         />
       </Grid>
     </div>
