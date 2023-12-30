@@ -1,7 +1,5 @@
-/* eslint-disable no-debugger */
 import { createContext, useContext, useState } from 'react';
 import { formatWithCommas, getDateText } from '../utils/formatting';
-//import { capitalize } from '@mui/material';
 
 const WalletsContext = createContext();
 
@@ -20,9 +18,9 @@ const WalletsProvider = ({ children }) => {
   // wallets table columns
   const tableColumns = [
     {
-      description: 'Wallet uuid',
+      description: 'Wallet Id',
       name: 'wallet_id',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
@@ -32,16 +30,16 @@ const WalletsProvider = ({ children }) => {
       showInfoIcon: false,
     },
     {
-      description: 'Amount of Tokens',
+      description: 'Number of tokens in wallet',
       name: 'token_amount',
       sortable: true,
       showInfoIcon: false,
       renderer: (val) => formatWithCommas(val),
     },
     {
-      description: 'Created Date',
+      description: 'Created at date',
       name: 'created_date',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
       renderer: (val) => getDateText(val, 'MM/DD/YYYY'),
     },

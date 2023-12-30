@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import WalletsTable from './WalletsTable';
@@ -14,7 +13,6 @@ import { useWalletsContext } from '../../store/WalletsContext';
  * @returns {JSX.Element} - List Wallets page component
  * */
 const ListWallets = () => {
-  // get data from context
   const { pagination, setIsLoading, prepareRows } = useWalletsContext();
   // error
   const [message, setMessage] = useState('');
@@ -30,7 +28,6 @@ const ListWallets = () => {
     const loadData = async () => {
       try {
         setIsLoading(true);
-        debugger;
         const data = await getWallets(authContext.token, '', {
           pagination,
         });

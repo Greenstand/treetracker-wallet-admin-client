@@ -12,11 +12,6 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  //DateRangeFilter,
-  ResetButton,
-  //WalletsSelectFilter,
-} from './TableFilters';
 import { TableCellStyled, TooltipStyled } from './WalletsTable.styled';
 import { useWalletsContext } from '../../store/WalletsContext';
 import { Loader } from '../../components/UI/components/Loader/Loader';
@@ -81,10 +76,9 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
  * @description Renders the table body (table rows) for the wallets table
  * @param tableColumns
  * @param tableRows
- * @param getStatusColor
  * @return {JSX.Element} - Table body component
  */
-const WalletsTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
+const WalletsTableBody = ({ tableColumns, tableRows }) => {
   const { isLoading } = useWalletsContext();
 
   if (isLoading)
@@ -117,22 +111,15 @@ const WalletsTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
             <TableRow key={rowIndex}>
               {tableColumns.map((column, colIndex) => {
                 const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
-                const cellColor =
-                  column.name === 'status'
-                    ? getStatusColor(row[column.name])
-                    : '';
-                const cellValue = row[column.name]
-                  ? column.renderer
-                    ? column.renderer(row[column.name])
-                    : row[column.name]
-                  : '--';
+                const cellValue =
+                  row[column.name] || row[column.name] === 0
+                    ? column.renderer
+                      ? column.renderer(row[column.name])
+                      : row[column.name]
+                    : '--';
 
                 return (
-                  <OverflownCell
-                    key={cellKey}
-                    cellValue={cellValue}
-                    cellColor={cellColor}
-                  >
+                  <OverflownCell key={cellKey} cellValue={cellValue}>
                     {cellValue}
                   </OverflownCell>
                 );
@@ -179,18 +166,9 @@ const WalletsTable = ({ tableTitle, tableRows, totalRowCount }) => {
     setPagination(newPagination);
   };
 
-  // get color corresponding to the status value, else default color
-  const getStatusColor = (status) => {
-    const color = statusList.find((x) => x.value === status).color;
-    return color ? color : '#585B5D';
-  };
-
   return (
     <Grid container direction={'column'} sx={{ height: '100%' }}>
-      <WalletsTableHeader
-        tableTitle={tableTitle}
-        getStatusColor={getStatusColor}
-      />
+      <WalletsTableHeader tableTitle={tableTitle} />
       <TableContainer component={Paper}>
         <Table
           stickyHeader
@@ -213,11 +191,7 @@ const WalletsTable = ({ tableTitle, tableRows, totalRowCount }) => {
               })}
             </TableRow>
           </TableHead>
-          <WalletsTableBody
-            tableColumns={tableColumns}
-            tableRows={tableRows}
-            getStatusColor={getStatusColor}
-          />
+          <WalletsTableBody tableColumns={tableColumns} tableRows={tableRows} />
         </Table>
       </TableContainer>
 
