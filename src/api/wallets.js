@@ -37,7 +37,7 @@ export const getWallets = async (
       const wallets = response.data.wallets.map((wallet) =>
         mapWallet(wallet, 'name')
       );
-      return {
+      return { 
         total: response.data.total,
         wallets,
       };
