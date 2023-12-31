@@ -19,7 +19,7 @@ import { Loader } from '../Loader/Loader';
  * @name Header
  * @description Renders the table header (title, filters) for the table
  * @param {string} tableTitle Name of the table to be displayed
- * @param {function} getStatusColor returns color corresponding to wallets state value
+ * @param {function} getStatusColor returns color corresponding to state value
  *
  * @returns {JSX.Element} - Table header component
  */
@@ -35,7 +35,7 @@ const Header = ({ tableTitle }) => {
 
 /**@function
  * @name Body
- * @description Renders the table body (table rows) for the wallets table
+ * @description Renders the table body (table rows) for the table
  * @param tableColumns
  * @param tableRows
  * @return {JSX.Element} - Table body component
@@ -130,13 +130,13 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
 };
 
 /**@function
- * @name WalletsTable
- * @description Renders the wallets table
+ * @name Table
+ * @description Renders the table
  * @param {string} tableTitle Name of the table to be displayed
  * @param {object} tableColumns Array of table column objects to be displayed
  * @param {object} tableRows Array of table row objects to be displayed
  *
- * @returns {JSX.Element} - wallets table component
+ * @returns {JSX.Element} - table component
  */
 const Table = ({
   tableTitle,
@@ -175,8 +175,8 @@ const Table = ({
         <MuiTable
           stickyHeader
           sx={{ minWidth: 650 }}
-          aria-label="wallets table"
-          data-testid="wallets-table"
+          aria-label="table"
+          data-testid="table"
         >
           <TableHead>
             <TableRow>

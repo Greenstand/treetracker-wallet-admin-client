@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
-// import WalletsTable from './WalletsTable';
 import Message from '../../components/UI/components/Message/Message';
 import { getWallets } from '../../api/wallets';
 import AuthContext from '../../store/auth-context';
 import { useWalletsContext } from '../../store/WalletsContext';
 import Table from '../../components/UI/components/Table/Table';
+import { Container } from './ListWallets.style';
 
 /**@function
  * @name ListWallets
@@ -54,16 +54,7 @@ const ListWallets = () => {
   }, [pagination]);
 
   return (
-    <div
-      style={{
-        marginTop: '5rem',
-        marginLeft: '1rem',
-        display: 'flex',
-        flexDirection: 'column',
-        marginRight: '1rem',
-        width: '100%',
-      }}
-    >
+    <Container>
       {message && <Message message={message} onClose={() => setMessage('')} />}
       <Grid container direction="column" sx={{ flexGrow: '1' }}>
         <Table
@@ -76,7 +67,7 @@ const ListWallets = () => {
           isLoading={isLoading}
         />
       </Grid>
-    </div>
+    </Container>
   );
 };
 
