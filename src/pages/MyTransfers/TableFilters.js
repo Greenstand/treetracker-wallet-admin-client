@@ -15,7 +15,8 @@ import {
   SelectFilter,
   SelectMenuItem,
   DateRangeButton,
-  DateRangeFilterIcon, FilterResetButton,
+  DateRangeFilterIcon,
+  FilterResetButton,
 } from './TableFilters.styled';
 import React, { useEffect, useState } from 'react';
 import { DatePicker, DateRangeIcon } from '@mui/x-date-pickers';
@@ -34,7 +35,12 @@ import TransferFilter from '../../models/TransferFilter';
  * @return {JSX.Element} Transfer status filter component
  * @constructor
  */
-export const TransferSelectFilter = ({ filter, setFilter, statusList, getStatusColor }) => {
+export const TransferSelectFilter = ({
+  filter,
+  setFilter,
+  statusList,
+  getStatusColor,
+}) => {
   // get state from filter
   const { state } = filter;
 
@@ -44,7 +50,7 @@ export const TransferSelectFilter = ({ filter, setFilter, statusList, getStatusC
   };
 
   return (
-    <FormControl sx={{ width: '192px' }} data-testid='transfer-status-filter'>
+    <FormControl sx={{ width: '192px' }} data-testid="transfer-status-filter">
       <FilterLabelText>Transfer Status</FilterLabelText>
 
       <SelectFilter
@@ -82,7 +88,6 @@ export const TransferSelectFilter = ({ filter, setFilter, statusList, getStatusC
  * @constructor
  */
 export const DateRangeFilter = ({ filter, setFilter }) => {
-
   // start and end dates (from filter)
   const { after, before } = filter;
 
@@ -132,7 +137,7 @@ export const DateRangeFilter = ({ filter, setFilter }) => {
   };
 
   return (
-    <FormControl sx={{ width: '192px' }} data-testid='date-range-filter'>
+    <FormControl sx={{ width: '192px' }} data-testid="date-range-filter">
       <FilterLabelText>Created Date</FilterLabelText>
       <DateRangeButton onClick={handleClick} endIcon={<DateRangeFilterIcon />}>
         {startDate ? getDateText(startDate, dateFormat) : defaultDateText} -{' '}
@@ -201,15 +206,14 @@ export const DateRangeFilter = ({ filter, setFilter }) => {
   );
 };
 
-
 export const ResetButton = ({ setFilter, defaultFilter }) => {
   return (
     <FilterResetButton
       onClick={() => setFilter(defaultFilter)}
-      type='button'
-      variant='contained'
-      color='primary'
-      data-testid='reset-filters'
+      type="button"
+      variant="contained"
+      color="primary"
+      data-testid="reset-filters"
     >
       Reset
     </FilterResetButton>

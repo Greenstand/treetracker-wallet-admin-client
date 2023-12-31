@@ -8,31 +8,30 @@ const mapWallet = (walletData, nameProp) => {
     tokensInWallet: walletData.tokens_in_wallet,
     name: walletData[nameProp],
     about: walletData.about,
+    //createdDate: walletData.created_at,
+    created_at: walletData.created_at,
   };
 };
 
-export const getWallets = async (token, name = '', pageNumber = 1) => {
-  const params = {
-    offset: pageNumber - 1,
-  };
-
-  if (name) {
-    params.name = name;
-  }
-
+export const getWallets = async (
+  token,
+  name = '',
+  { pagination } = { pagination: { offset: 0, limit: 10 } }
+) => {
   const { total, wallets } = await apiClient
     .setAuthHeader(token)
     .get('/wallets', {
       params: {
         name: name || undefined, // Pass 'name' if it exists, or pass 'undefined' to exclude it
-        offset: pageNumber - 1,
+        offset: pagination.offset,
+        limit: pagination.limit,
       },
     })
     .then((response) => {
       const wallets = response.data.wallets.map((wallet) =>
         mapWallet(wallet, 'name')
       );
-      return {
+      return { 
         total: response.data.total,
         wallets,
       };
