@@ -10,7 +10,7 @@ Project Manager: @Steve
 
 Repository wrangler: (add your name here)
 
-Core Contributors: (add your name here
+Core Contributors: (add your name here)
 
 ## Background
 
