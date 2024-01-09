@@ -1,3 +1,10 @@
+# [1.0.0-v1.26](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.25...v1.0.0-v1.26) (2024-01-09)
+
+
+### Bug Fixes
+
+* initiate merge ([f892c88](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f892c88484d244b5f1e751aaa52f8aec919bf39d))
+
 # [1.0.0-v1.25](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.24...v1.0.0-v1.25) (2023-12-31)
 
 
