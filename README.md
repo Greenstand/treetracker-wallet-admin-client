@@ -2,7 +2,7 @@
 
 The admin panel for accessing wallets and executing all known API calls for the wallet API.
 
-## Product Leadership:
+## Product Leadership
 
 Product Engineering and Technical Lead: @OlhaD
 
@@ -10,7 +10,7 @@ Project Manager: @Steve
 
 Repository wrangler: (add your name here)
 
-Core Contributors: (add your name here
+Core Contributors: (add your name here)
 
 ## Background
 

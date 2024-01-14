@@ -1,5 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { DateRangeFilter, ResetButton, TransferSelectFilter } from './TableFilters';
+import {
+  DateRangeFilter,
+  ResetButton,
+  TransferSelectFilter,
+} from './TableFilters';
 import userEvent from '@testing-library/user-event';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -13,16 +17,18 @@ const TestWrapper = (props) => {
   );
 };
 
-const mockStatusList = [{
-  label: 'Requested',
-  value: 'requested',
-  color: 'black',
-},
+const mockStatusList = [
+  {
+    label: 'Requested',
+    value: 'requested',
+    color: 'black',
+  },
   {
     label: 'Pending',
     value: 'pending',
     color: 'black',
-  }];
+  },
+];
 
 const mockDefaultFilter = new TransferFilter({
   state: '',
@@ -41,11 +47,14 @@ beforeEach(() => {
 });
 
 describe('Transfers table header', () => {
-
   it('Transfer filter renders correctly', () => {
     const { rerender } = render(
-      <TransferSelectFilter filter={mockFilter} setFilter={setMockFilter} statusList={mockStatusList}
-                            getStatusColor={() => ''} />,
+      <TransferSelectFilter
+        filter={mockFilter}
+        setFilter={setMockFilter}
+        statusList={mockStatusList}
+        getStatusColor={() => ''}
+      />
     );
 
     expect(screen.getByTestId('transfer-status-filter')).toBeInTheDocument();
@@ -66,8 +75,14 @@ describe('Transfers table header', () => {
     userEvent.click(option);
 
     // force re-render to update the select component, as we are using mocked state
-    rerender(<TransferSelectFilter filter={mockFilter} setFilter={setMockFilter} statusList={mockStatusList}
-                                   getStatusColor={() => ''} />);
+    rerender(
+      <TransferSelectFilter
+        filter={mockFilter}
+        setFilter={setMockFilter}
+        statusList={mockStatusList}
+        getStatusColor={() => ''}
+      />
+    );
 
     expect(screen.queryByRole('presentation')).toBeNull();
     expect(screen.queryByRole('listbox')).toBeNull();
@@ -79,7 +94,7 @@ describe('Transfers table header', () => {
     render(
       <TestWrapper>
         <DateRangeFilter filter={mockFilter} setFilter={setMockFilter} />
-      </TestWrapper>,
+      </TestWrapper>
     );
 
     expect(screen.getByTestId('date-range-filter')).toBeInTheDocument();
@@ -94,23 +109,35 @@ describe('Transfers table header', () => {
     expect(screen.getByRole('presentation')).toBeInTheDocument();
 
     expect(screen.getAllByRole('textbox')).toHaveLength(2);
-    expect(screen.getByRole('textbox', { name: 'Start date' })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'End date' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('textbox', { name: 'Start date' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('textbox', { name: 'End date' })
+    ).toBeInTheDocument();
 
     expect(screen.getAllByRole('button')).toHaveLength(4);
-    expect(screen.getAllByRole('button', { name: 'Choose date' })).toHaveLength(2);
+    expect(screen.getAllByRole('button', { name: 'Choose date' })).toHaveLength(
+      2
+    );
 
     // test typing date
     const dateTextbox = screen.getByRole('textbox', { name: 'Start date' });
     userEvent.type(dateTextbox, '08201993');
     expect(dateTextbox.value).toBe('08/20/1993');
 
-    const dateButton = screen.getByRole('button', { name: 'Choose date, selected date is Aug 20, 1993' });
+    const dateButton = screen.getByRole('button', {
+      name: 'Choose date, selected date is Aug 20, 1993',
+    });
     userEvent.click(dateButton);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Previous month' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Next month' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Previous month' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Next month' })
+    ).toBeInTheDocument();
     expect(screen.getByRole('grid')).toBeInTheDocument();
 
     const newDate = screen.getByText('10');
@@ -124,7 +151,7 @@ describe('Transfers table header', () => {
     render(
       <TestWrapper>
         <DateRangeFilter filter={mockFilter} setFilter={setMockFilter} />
-      </TestWrapper>,
+      </TestWrapper>
     );
 
     const button = screen.getByRole('button');
@@ -146,7 +173,6 @@ describe('Transfers table header', () => {
   });
 
   it('Reset filters button renders correctly', () => {
-
     mockFilter = {
       state: 'Requested',
       wallet: 'testwallet',
@@ -154,7 +180,12 @@ describe('Transfers table header', () => {
       after: '1993-08-01',
     };
 
-    render(<ResetButton setFilter={setMockFilter} defaultFilter={mockDefaultFilter} />);
+    render(
+      <ResetButton
+        setFilter={setMockFilter}
+        defaultFilter={mockDefaultFilter}
+      />
+    );
 
     expect(screen.getAllByRole('button')).toHaveLength(1);
     expect(screen.getByRole('button', { name: /Reset/ })).toBeInTheDocument();

@@ -8,7 +8,8 @@ import NotFound from '../../pages/NotFound/NotFound';
 import { useContext } from 'react';
 import MyTransfers from '../../pages/MyTransfers/MyTransfers';
 import { TransfersProvider } from '../../store/TransfersContext';
-import ManagedWallets from '../../pages/ManagedWallets/ManagedWallets';
+import ListWallets from '../../pages/ListWallets/ListWallets';
+import { WalletsProvider } from '../../store/WalletsContext';
 
 const ProtectedRoute = ({ isLoggedIn, redirectPath = '/login' }) => {
   if (!isLoggedIn) {
@@ -54,6 +55,17 @@ const ClientRoutes = () => {
           }
         />
         <Route
+          path="/list-wallets"
+          exact
+          element={
+            <Layout>
+              <WalletsProvider>
+                <ListWallets />
+              </WalletsProvider>
+            </Layout>
+          }
+        />
+        <Route
           path="*"
           element={
             <Layout>
@@ -63,14 +75,6 @@ const ClientRoutes = () => {
         />
       </Route>
       <Route path="login" element={<Login />} />
-      <Route
-        path="/managed-wallets"
-        element={
-          <Layout>
-            <ManagedWallets />
-          </Layout>
-        }
-      />
     </Routes>
   );
 };

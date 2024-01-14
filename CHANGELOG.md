@@ -1,3 +1,45 @@
+# [1.0.0-v1.27](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.26...v1.0.0-v1.27) (2024-01-09)
+
+
+### Bug Fixes
+
+* test merge 2 ([f87471a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f87471a1ca7b00ba59ba7c98331d051aa26d139d))
+
+# [1.0.0-v1.26](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.25...v1.0.0-v1.26) (2024-01-09)
+
+
+### Bug Fixes
+
+* initiate merge ([f892c88](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f892c88484d244b5f1e751aaa52f8aec919bf39d))
+
+# [1.0.0-v1.25](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.24...v1.0.0-v1.25) (2023-12-31)
+
+
+### Bug Fixes
+
+* fix sorting ([aa6f1ec](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/aa6f1eca1cd96fd5a6517a62a781c6d3803878ba))
+* pagination ([22520a7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/22520a7dcda9dd38f834aa37d8690e7e1a6fb4d8))
+* show 'created date' column ([9aa0c4f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9aa0c4fbd8ede2a8b9a5182faf866c19c7d70451))
+
+
+### Features
+
+* add tests ([7636ffa](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/7636ffa0200152270b04bb7ab605a4ad48f31f23))
+* fix unit tests ([c04b87a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c04b87ab979eb30727ee4cbcc81687875385ca55))
+* List wallets ([1e19080](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/1e1908022f19c28b31a4240f81fc938de0cd4ad3))
+
+# [1.0.0-v1.24](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.23...v1.0.0-v1.24) (2023-12-27)
+
+
+### Bug Fixes
+
+* minor change for the deployment [skip ci] ([40a139e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/40a139e873a593b3567bdbbbfad7dfa0d0a5a97e))
+
+
+### Features
+
+* add confirmation popup ([40d7d6b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/40d7d6b40e0bb8628c6a478835ec2e2f0f1832af))
+
 # [1.0.0-v1.23](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.22...v1.0.0-v1.23) (2023-09-27)
 
 
