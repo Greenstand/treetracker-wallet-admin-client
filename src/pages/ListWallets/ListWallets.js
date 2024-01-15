@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import Message from '../../components/UI/components/Message/Message';
 import { getWallets } from '../../api/wallets';
 import AuthContext from '../../store/auth-context';
 import { useWalletsContext } from '../../store/WalletsContext';
 import Table from '../../components/UI/components/Table/Table';
 import { Container } from './ListWallets.style';
+import CreateManagedWallet from './CreateManagedWallet';
 
 /**@function
  * @name ListWallets
@@ -31,41 +32,51 @@ const ListWallets = () => {
 
   const authContext = useContext(AuthContext);
 
+  const loadData = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getWallets(authContext.token, '', {
+        pagination,
+      });
+      const preparedRows = prepareRows(await data.wallets);
+
+      setTableRows(preparedRows);
+      setTotalRowCount(data.total);
+    } catch (error) {
+      console.error(error);
+      setMessage('An error occurred while fetching the table data');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // load data
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getWallets(authContext.token, '', {
-          pagination,
-        });
-        const preparedRows = prepareRows(await data.wallets);
-
-        setTableRows(preparedRows);
-        setTotalRowCount(data.total);
-      } catch (error) {
-        console.error(error);
-        setMessage('An error occurred while fetching the table data');
-      } finally {
-        setIsLoading(false);
-      }
-    };
     loadData();
   }, [pagination]);
 
   return (
     <Container>
       {message && <Message message={message} onClose={() => setMessage('')} />}
-      <Grid container direction="column" sx={{ flexGrow: '1' }}>
-        <Table
-          tableTitle={'Managed Wallets List'}
-          tableRows={tableRows}
-          totalRowCount={totalRowCount}
-          pagination={pagination}
-          setPagination={setPagination}
-          tableColumns={tableColumns}
-          isLoading={isLoading}
-        />
+      <Grid
+        container
+        direction="column"
+        sx={{ flexGrow: '1', display: 'flex', flexDirection: 'column' }}
+      >
+        <Grid item>
+          <Typography variant={'h4'}>Managed Wallets List</Typography>
+          <CreateManagedWallet loadData={loadData} setMessage={setMessage} />
+        </Grid>
+        <Grid item>
+          <Table
+            tableRows={tableRows}
+            totalRowCount={totalRowCount}
+            pagination={pagination}
+            setPagination={setPagination}
+            tableColumns={tableColumns}
+            isLoading={isLoading}
+          />
+        </Grid>
       </Grid>
     </Container>
   );

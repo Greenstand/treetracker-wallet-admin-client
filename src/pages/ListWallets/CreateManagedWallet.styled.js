@@ -8,6 +8,11 @@ export const CreateNewWallet = styled(Button)({
   padding: '0.5rem 0.5rem 0.5rem 0.625rem',
 });
 
+export const CreateButton = styled(Button)({
+  color: '#fff',
+  boxShadow: 'none',
+});
+
 export const DialogText = styled(Typography)({
   fontSize: '16px',
   lineHeight: '24px',

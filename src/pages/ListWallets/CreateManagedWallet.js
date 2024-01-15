@@ -1,4 +1,8 @@
-import { CreateNewWallet, DialogText } from './CreateManagedWallet.styled';
+import {
+  CreateButton,
+  CreateNewWallet,
+  DialogText,
+} from './CreateManagedWallet.styled';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -12,7 +16,7 @@ import { Button, TextField } from '@mui/material';
 import { createWallet } from '../../api/wallets';
 import AuthContext from '../../store/auth-context';
 
-const CreateManagedWallet = () => {
+const CreateManagedWallet = ({ loadData, setMessage }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleDialogOpen = () => {
@@ -31,17 +35,19 @@ const CreateManagedWallet = () => {
         color="primary"
         onClick={handleDialogOpen}
       >
-        Create New
+        Create Managed Wallet
       </CreateNewWallet>
       <CreateNewWalletDialog
         open={dialogOpen}
         handleClose={handleDialogClose}
+        loadData={loadData}
+        setMessage={setMessage}
       />
     </>
   );
 };
 
-const CreateNewWalletDialog = ({ open, handleClose }) => {
+const CreateNewWalletDialog = ({ open, handleClose, loadData, setMessage }) => {
   const [walletName, setWalletName] = useState('');
   const [createWalletError, setCreateWalletError] = useState(false);
   const [createWalletErrorMessage, setCreateWalletErrorMessage] = useState('');
@@ -84,16 +90,16 @@ const CreateNewWalletDialog = ({ open, handleClose }) => {
     try {
       const createdWallet = await createWallet(authContext.token, walletName);
       console.log(createdWallet);
-      console.log(
+      setMessage(
         `Wallet with name ${createdWallet.wallet} successfully created`
       );
+      loadData();
     } catch (error) {
       console.error(error);
+      setMessage(error);
     }
 
-    console.log(createWalletError);
-    console.log(createWalletErrorMessage);
-
+    setWalletName('');
     closeDialog();
   };
 
@@ -134,9 +140,18 @@ const CreateNewWalletDialog = ({ open, handleClose }) => {
           helperText={createWalletErrorMessage}
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions
+        style={{ justifyContent: 'center', paddingBottom: '1.5em' }}
+      >
         <Button onClick={closeDialog}>Cancel</Button>
-        <Button onClick={handleCreateWallet}>Create</Button>
+        <CreateButton
+          type="button"
+          variant="contained"
+          color="primary"
+          onClick={handleCreateWallet}
+        >
+          Create
+        </CreateButton>
       </DialogActions>
     </Dialog>
   );
