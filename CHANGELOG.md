@@ -1,3 +1,18 @@
+# [1.0.0-v1.28](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.27...v1.0.0-v1.28) (2024-01-16)
+
+
+### Bug Fixes
+
+* Semantic release node version upgrade ([0caf7e6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0caf7e6af953ba992a1548f47851366371e1ed91))
+
+
+### Features
+
+* connected with api ([448dd4a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/448dd4a9741387e3f8e0f1dad5c9d8a83a77557f))
+* create managed wallet basic dialog ([b177abe](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/b177abe0af4aace3128067d5185e87237c566f36))
+* fixed functionality, added tests ([390f3ec](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/390f3ec0c8b9bfc4b0bd0145a48d05cd6efd072b))
+* refactor, remove unneeded text ([57fad61](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/57fad61777f64244c763b8548d00cd3d77f612c4))
+
 # [1.0.0-v1.27](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.26...v1.0.0-v1.27) (2024-01-09)
 
 
