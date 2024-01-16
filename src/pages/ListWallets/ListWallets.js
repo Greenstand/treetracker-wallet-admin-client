@@ -6,7 +6,7 @@ import AuthContext from '../../store/auth-context';
 import { useWalletsContext } from '../../store/WalletsContext';
 import Table from '../../components/UI/components/Table/Table';
 import { Container } from './ListWallets.style';
-import CreateManagedWallet from './CreateManagedWallet';
+import CreateManagedWallet from './CreateManagedWallet/CreateManagedWallet';
 
 /**@function
  * @name ListWallets

@@ -1,8 +1,8 @@
 import { ThemeProvider } from '@mui/material';
-import theme from '../../components/UI/theme';
+import theme from '../../../components/UI/theme';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AuthProvider from '../../store/AuthProvider';
-import { WalletsProvider } from '../../store/WalletsContext';
+import AuthProvider from '../../../store/AuthProvider';
+import { WalletsProvider } from '../../../store/WalletsContext';
 import {
   render,
   screen,

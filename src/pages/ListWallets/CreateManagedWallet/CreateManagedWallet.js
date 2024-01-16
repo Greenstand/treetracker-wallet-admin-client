@@ -1,20 +1,15 @@
-import {
-  CreateButton,
-  CreateNewWallet,
-  DialogText,
-} from './CreateManagedWallet.styled';
+import { CreateButton, CreateNewWallet } from './CreateManagedWallet.styled';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useContext, useState } from 'react';
 import { Button, TextField } from '@mui/material';
-import { createWallet } from '../../api/wallets';
-import AuthContext from '../../store/auth-context';
+import { createWallet } from '../../../api/wallets';
+import AuthContext from '../../../store/auth-context';
 
 const CreateManagedWallet = ({ loadData, setMessage }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -104,7 +99,7 @@ const CreateNewWalletDialog = ({ open, handleClose, loadData, setMessage }) => {
   };
 
   return (
-    <Dialog open={open} onClose={closeDialog}>
+    <Dialog open={open} onClose={closeDialog} fullWidth={true} maxWidth={'xs'}>
       <DialogTitle>
         Create Managed Wallet
         <IconButton
@@ -120,12 +115,6 @@ const CreateNewWalletDialog = ({ open, handleClose, loadData, setMessage }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          <DialogText>
-            Please enter the name of the managed wallet to be created. You will
-            have complete authority over this wallet.
-          </DialogText>
-        </DialogContentText>
         <TextField
           autoFocus
           margin="normal"
