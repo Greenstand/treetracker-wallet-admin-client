@@ -8,7 +8,7 @@ on:
 env:
   project-directory: ./
   repository: 'Greenstand/treetracker-wallet-admin-client'
-  node-version: '18'
+  node-version: '20'
 
 jobs:
   prepare:
@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: '18.x'
+          node-version: '20.x'
       - uses: actions/checkout@v2
       - run: |
           echo "::debug:: begin preparing...";
