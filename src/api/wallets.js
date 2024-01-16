@@ -61,3 +61,22 @@ export const getWalletById = async (token, id) => {
 
   return walletData;
 };
+
+export const createWallet = async (token, walletName) => {
+  const postRequest = {
+    wallet: walletName,
+  };
+
+  const createdWallet = await apiClient
+    .setAuthHeader(token)
+    .post('/wallets', postRequest)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw Error('An error occurred while creating the wallet.');
+    });
+
+  return createdWallet;
+};
