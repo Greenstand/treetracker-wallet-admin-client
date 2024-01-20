@@ -14,7 +14,7 @@ Core Contributors: (add your name here)
 
 ## Background
 
-The wallet admin panel is used by wallet owners to display, transfer token and transactions, create sub wallets and
+The wallet admin panel is used by wallet owners to display, transfer tokens and transactions, create sub wallets and
 configure their appearance.
 
 ## Use case
