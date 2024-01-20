@@ -1,8 +1,12 @@
-import { CreateButton, CreateNewWallet } from './CreateManagedWallet.styled';
+import {
+  CreateButton,
+  CreateNewWallet,
+  CreateSuccessIcon,
+  CreateSuccessText,
+} from './CreateManagedWallet.styled';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,7 +15,7 @@ import { Button, TextField } from '@mui/material';
 import { createWallet } from '../../../api/wallets';
 import AuthContext from '../../../store/auth-context';
 
-const CreateManagedWallet = ({ loadData, setMessage }) => {
+const CreateManagedWallet = ({ loadData }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleDialogOpen = () => {
@@ -36,40 +40,50 @@ const CreateManagedWallet = ({ loadData, setMessage }) => {
         open={dialogOpen}
         handleClose={handleDialogClose}
         loadData={loadData}
-        setMessage={setMessage}
       />
     </>
   );
 };
 
-const CreateNewWalletDialog = ({ open, handleClose, loadData, setMessage }) => {
+const CreateNewWalletDialog = ({ open, handleClose, loadData }) => {
   const [walletName, setWalletName] = useState('');
   const [createWalletError, setCreateWalletError] = useState(false);
   const [createWalletErrorMessage, setCreateWalletErrorMessage] = useState('');
+  const [createSuccess, setCreateSuccess] = useState(false);
 
   const authContext = useContext(AuthContext);
 
   const closeDialog = () => {
     setCreateWalletError(false);
     setCreateWalletErrorMessage('');
+    setWalletName('');
     handleClose();
+    setCreateSuccess(false);
   };
 
   const handleTextChange = (event) => {
     setWalletName(event.target.value);
   };
 
+  const setWalletError = (errorMessage) => {
+    setCreateWalletError(true);
+    setCreateWalletErrorMessage(errorMessage);
+  };
+
   const validateCreateWallet = (wallet) => {
     if (!wallet) {
-      setCreateWalletError(true);
-      setCreateWalletErrorMessage('Wallet name is required');
+      setWalletError('Wallet name is required');
+      return false;
+    }
+
+    if (wallet.length < 3) {
+      setWalletError('Wallet name must be at least 3 characters long');
       return false;
     }
 
     const pattern = /^[a-zA-Z0-9\-.@]+$/;
     if (!pattern.test(wallet)) {
-      setCreateWalletError(true);
-      setCreateWalletErrorMessage(
+      setWalletError(
         'Wallet can only contain numbers, letters and the - . @ symbols'
       );
       return false;
@@ -85,26 +99,23 @@ const CreateNewWalletDialog = ({ open, handleClose, loadData, setMessage }) => {
     try {
       const createdWallet = await createWallet(authContext.token, walletName);
       console.log(createdWallet);
-      setMessage(
-        `Wallet with name ${createdWallet.wallet} successfully created`
-      );
+      setCreateSuccess(true);
+      setWalletName('');
       loadData();
     } catch (error) {
       console.error(error);
-      setMessage(error);
+      setCreateWalletError(true);
+      setCreateWalletErrorMessage(error.message);
     }
-
-    setWalletName('');
-    closeDialog();
   };
 
   return (
     <Dialog open={open} onClose={closeDialog} fullWidth={true} maxWidth={'xs'}>
       <DialogTitle>
-        Create Managed Wallet
+        {!createSuccess && 'Create Managed Wallet'}
         <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={closeDialog}
           sx={{
             position: 'absolute',
             right: 8,
@@ -115,33 +126,49 @@ const CreateNewWalletDialog = ({ open, handleClose, loadData, setMessage }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <TextField
-          autoFocus
-          margin="normal"
-          id="managed-wallet-name"
-          label="Wallet Name"
-          fullWidth
-          variant="standard"
-          inputProps={{ style: { fontSize: 16 } }}
-          InputLabelProps={{ style: { fontSize: 16 } }}
-          onChange={handleTextChange}
-          error={createWalletError}
-          helperText={createWalletErrorMessage}
-        />
+        {!createSuccess ? (
+          <TextField
+            autoFocus
+            margin="normal"
+            id="managed-wallet-name"
+            label="Wallet Name"
+            fullWidth
+            variant="standard"
+            inputProps={{ style: { fontSize: 16 } }}
+            InputLabelProps={{ style: { fontSize: 16 } }}
+            onChange={handleTextChange}
+            error={createWalletError}
+            helperText={createWalletErrorMessage}
+            value={walletName}
+          />
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <CreateSuccessIcon />
+            <CreateSuccessText>Wallet created successfully</CreateSuccessText>
+          </div>
+        )}
       </DialogContent>
-      <DialogActions
-        style={{ justifyContent: 'center', paddingBottom: '1.5em' }}
-      >
-        <Button onClick={closeDialog}>Cancel</Button>
-        <CreateButton
-          type="button"
-          variant="contained"
-          color="primary"
-          onClick={handleCreateWallet}
+      {!createSuccess && (
+        <DialogActions
+          style={{ justifyContent: 'center', paddingBottom: '1.5em' }}
         >
-          Create
-        </CreateButton>
-      </DialogActions>
+          <Button onClick={closeDialog}>Cancel</Button>
+          <CreateButton
+            type="button"
+            variant="contained"
+            color="primary"
+            onClick={handleCreateWallet}
+          >
+            Create
+          </CreateButton>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

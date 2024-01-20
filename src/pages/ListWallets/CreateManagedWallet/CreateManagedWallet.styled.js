@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Button, Typography } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export const CreateNewWallet = styled(Button)({
   color: '#fff',
@@ -13,7 +14,15 @@ export const CreateButton = styled(Button)({
   boxShadow: 'none',
 });
 
-export const DialogText = styled(Typography)({
-  fontSize: '16px',
-  lineHeight: '24px',
+export const CreateSuccessIcon = styled(CheckCircleOutlineIcon)({
+  color: '#86c232',
+  height: '4.75rem',
+  width: '4.75rem',
+  marginBottom: '1.5rem',
+});
+
+export const CreateSuccessText = styled(Typography)({
+  color: '#86c232',
+  fontSize: '1.375rem',
+  marginBottom: '2rem',
 });
