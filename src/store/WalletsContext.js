@@ -12,6 +12,13 @@ const WalletsProvider = ({ children }) => {
   };
   const [pagination, setPagination] = useState(defaultPagination);
 
+  // sorting
+  const defaultSorting = {
+    sortBy: 'created_at',
+    order: 'desc',
+  };
+  const [sorting, setSorting] = useState(defaultSorting);
+
   // Loader
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,20 +33,20 @@ const WalletsProvider = ({ children }) => {
     {
       description: 'Name',
       name: 'wallet_name',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
       description: 'Number of tokens in wallet',
       name: 'token_amount',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
       renderer: (val) => formatWithCommas(val),
     },
     {
       description: 'Created at date',
       name: 'created_date',
-      sortable: false,
+      sortable: true,
       showInfoIcon: false,
       renderer: (val) => getDateText(val, 'MM/DD/YYYY'),
     },
@@ -60,6 +67,8 @@ const WalletsProvider = ({ children }) => {
   const value = {
     pagination,
     setPagination,
+    sorting,
+    setSorting,
     isLoading,
     setIsLoading,
     tableColumns,

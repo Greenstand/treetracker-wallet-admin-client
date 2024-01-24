@@ -16,7 +16,8 @@ const mapWallet = (walletData, nameProp) => {
 export const getWallets = async (
   token,
   name = '',
-  { pagination } = { pagination: { offset: 0, limit: 10 } }
+  { pagination } = { pagination: { offset: 0, limit: 10 } },
+  { sorting } = { sorting: { sortBy: 'created_at', order: 'desc' } }
 ) => {
   const { total, wallets } = await apiClient
     .setAuthHeader(token)
@@ -25,6 +26,8 @@ export const getWallets = async (
         name: name || undefined, // Pass 'name' if it exists, or pass 'undefined' to exclude it
         offset: pagination.offset,
         limit: pagination.limit,
+        sort_by: sorting.sortBy,
+        order: sorting.order,
       },
     })
     .then((response) => {

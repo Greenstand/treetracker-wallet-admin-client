@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import React, { useContext, useEffect, useState } from 'react';
 import { Autocomplete, Button, TextField } from '@mui/material';
 import { getWallets } from '../../../api/wallets';
@@ -18,12 +17,9 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
   // Is called when page loads and when user starts to type in a 'Wallet' filter
   useEffect(() => {
     const getWalletsData = async () => {
-      debugger;
       setWalletPage(0);
       try {
         let response = await getWallets(authContext.token, walletSearchString);
-        // eslint-disable-next-line no-debugger
-        debugger;
         if (!response) {
           console.log('No response from getWallets');
           return;
