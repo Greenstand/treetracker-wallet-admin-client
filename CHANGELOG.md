@@ -1,3 +1,15 @@
+# [1.0.0-v1.31](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.30...v1.0.0-v1.31) (2024-01-24)
+
+
+### Bug Fixes
+
+* Update README.md ([7003b68](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/7003b6890931c534b9d572e28e2be2d95d4f544e))
+
+
+### Features
+
+* add sorting in wallets table ([957e8a6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/957e8a65f63cd90e0f471936978b0a6c512e8a8b))
+
 # [1.0.0-v1.30](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.29...v1.0.0-v1.30) (2024-01-24)
 
 
