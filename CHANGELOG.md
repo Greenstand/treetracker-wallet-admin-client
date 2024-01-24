@@ -1,3 +1,10 @@
+# [1.0.0-v1.30](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.29...v1.0.0-v1.30) (2024-01-24)
+
+
+### Features
+
+* success message in dialog, updated tests ([d420f7a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d420f7a0a2837b52767251c0faa4a95003a3aa4f))
+
 # [1.0.0-v1.29](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.28...v1.0.0-v1.29) (2024-01-17)
 
 
