@@ -98,4 +98,4 @@ practices
 and open reforestation to the digital world.
 
 Come have fun with a global team and a project that is disrupting opaque practices and creating open reforestation to the digital world.
-More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause).
+More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause). 
