@@ -31,7 +31,7 @@ export const getWallets = async (
       const wallets = response.data.wallets.map((wallet) =>
         mapWallet(wallet, 'name')
       );
-      return { 
+      return {
         total: response.data.total,
         wallets,
       };
@@ -75,7 +75,7 @@ export const createWallet = async (token, walletName) => {
     })
     .catch((error) => {
       console.error(error);
-      throw Error('An error occurred while creating the wallet.');
+      throw Error(error.response.data.message);
     });
 
   return createdWallet;

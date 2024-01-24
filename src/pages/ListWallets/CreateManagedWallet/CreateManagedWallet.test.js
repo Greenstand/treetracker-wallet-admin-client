@@ -10,11 +10,19 @@ import {
 } from '@testing-library/react';
 import CreateManagedWallet from './CreateManagedWallet';
 import userEvent from '@testing-library/user-event';
+import { createWallet } from '../../../api/wallets';
+import { wait } from '@testing-library/user-event/dist/utils';
 
 jest.mock('react-secure-storage', () => {
   return {
     getItem: jest.fn(),
     setItem: jest.fn(),
+  };
+});
+
+jest.mock('../../../api/wallets', () => {
+  return {
+    createWallet: jest.fn(),
   };
 });
 
@@ -79,14 +87,23 @@ describe('Create managed wallet', function () {
 
     //creating wallet with no wallet text
     userEvent.click(createWalletButton);
-    expect(screen.queryByText(/Wallet name is required/));
+    expect(screen.queryByText(/Wallet name is required/)).toBeTruthy();
 
     //creating wallet with invalid wallet name
     const textbox = screen.getByRole('textbox');
     userEvent.type(textbox, 'testwallet!@;/');
     expect(textbox.value).toBe('testwallet!@;/');
     userEvent.click(createWalletButton);
-    expect(screen.queryByText(/Wallet can only contain numbers/));
+    expect(screen.queryByText(/Wallet can only contain numbers/)).toBeTruthy();
+
+    //creating wallet with less than 3 characters
+    userEvent.clear(textbox);
+    userEvent.type(textbox, 'te');
+    expect(textbox.value).toBe('te');
+    userEvent.click(createWalletButton);
+    expect(
+      screen.queryByText(/Wallet name must be at least 3 characters long/)
+    ).toBeTruthy();
   });
 
   it('close and cancel buttons work correctly', async () => {
@@ -126,5 +143,37 @@ describe('Create managed wallet', function () {
     expect(
       screen.queryByRole('dialog', { name: /Create Managed Wallet/ })
     ).toBeNull();
+  });
+
+  it('create valid wallet successfully', async () => {
+    createWallet.mockResolvedValueOnce('testwallet');
+
+    render(
+      <TestWrapper>
+        <CreateManagedWallet />
+      </TestWrapper>
+    );
+
+    //opening the modal
+    const createButton = screen.getByRole('button');
+    userEvent.click(createButton);
+
+    //create button
+    const createWalletButton = screen.getByRole('button', { name: /Create/ });
+
+    //creating wallet with no wallet text
+    const textbox = screen.getByRole('textbox');
+    userEvent.type(textbox, 'testwallet');
+    userEvent.click(createWalletButton);
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole('button', { name: /Create/ })
+    );
+
+    expect(
+      screen.queryByText(/Wallet created successfully/)
+    ).toBeInTheDocument();
+
+    // screen.getByRole('');
   });
 });

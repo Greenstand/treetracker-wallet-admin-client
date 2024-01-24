@@ -65,7 +65,7 @@ const ListWallets = () => {
       >
         <Grid item>
           <Typography variant={'h4'}>Managed Wallets List</Typography>
-          <CreateManagedWallet loadData={loadData} setMessage={setMessage} />
+          <CreateManagedWallet loadData={loadData} />
         </Grid>
         <Grid item>
           <Table
