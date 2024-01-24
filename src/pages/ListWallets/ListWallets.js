@@ -17,9 +17,11 @@ import CreateManagedWallet from './CreateManagedWallet/CreateManagedWallet';
 const ListWallets = () => {
   const {
     pagination,
+    sorting,
     setIsLoading,
     prepareRows,
     setPagination,
+    setSorting,
     tableColumns,
     isLoading,
   } = useWalletsContext();
@@ -35,9 +37,14 @@ const ListWallets = () => {
   const loadData = async () => {
     try {
       setIsLoading(true);
-      const data = await getWallets(authContext.token, '', {
-        pagination,
-      });
+      const data = await getWallets(
+        authContext.token,
+        '',
+        {
+          pagination,
+        },
+        { sorting }
+      );
       const preparedRows = prepareRows(await data.wallets);
 
       setTableRows(preparedRows);
@@ -53,7 +60,7 @@ const ListWallets = () => {
   // load data
   useEffect(() => {
     loadData();
-  }, [pagination]);
+  }, [pagination, sorting]);
 
   return (
     <Container>
@@ -73,6 +80,8 @@ const ListWallets = () => {
             totalRowCount={totalRowCount}
             pagination={pagination}
             setPagination={setPagination}
+            sorting={sorting}
+            setSorting={setSorting}
             tableColumns={tableColumns}
             isLoading={isLoading}
           />

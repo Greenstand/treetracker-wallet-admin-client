@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import {
   Grid,
   Paper,
@@ -144,12 +143,17 @@ const Table = ({
   totalRowCount,
   pagination,
   setPagination,
+  //sorting,
+  setSorting,
   tableColumns,
   isLoading,
 }) => {
   // pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [sortBy, setSortBy] = useState('created_at');
+  const [order, setOrder] = useState('desc');
+
   const handleRowsPerPageChange = (e) => {
     const newRowsPerPage = parseInt(e.target.value, 10);
     setRowsPerPage(newRowsPerPage);
@@ -166,6 +170,46 @@ const Table = ({
     setPage(newPage);
     const newPagination = { ...pagination, offset: newPage * rowsPerPage };
     setPagination(newPagination);
+  };
+
+  const mapSortBy = (columnName) => {
+    let newSortBy = columnName;
+    switch (columnName) {
+      case 'wallet_name':
+        newSortBy = 'name';
+        break;
+      case 'created_date':
+        newSortBy = 'created_at';
+        break;
+      default:
+        newSortBy = columnName;
+    }
+    setSortBy(newSortBy);
+
+    return newSortBy;
+  };
+
+  const handleSort = (column) => {
+    let newOrder = 'asc';
+
+    if (
+      (sortBy === column.name ||
+        (column.name === 'wallet_name' && sortBy === 'name') ||
+        (column.name === 'created_date' && sortBy === 'created_at')) &&
+      order === 'asc'
+    ) {
+      newOrder = 'desc';
+    }
+
+    setOrder(newOrder);
+
+    let newSortBy = mapSortBy(column.name);
+    setSortBy(newSortBy);
+
+    setSorting({
+      sortBy: newSortBy,
+      order: newOrder,
+    });
   };
 
   return (
@@ -186,6 +230,8 @@ const Table = ({
                     key={`${id}-${column.description}`}
                     sx={{ fontSize: '14px' }}
                     align={'center'}
+                    onClick={() => column.sortable && handleSort(column)}
+                    className={sortBy === column.name ? `sorted-${order}` : ''}
                   >
                     {column.description}
                   </TableCellStyled>
@@ -200,7 +246,6 @@ const Table = ({
           />
         </MuiTable>
       </TableContainer>
-
       <TablePagination
         rowsPerPageOptions={[10, 50]}
         component={'div'}
