@@ -28,7 +28,7 @@ const MenuItem = ({ open }) => {
       />
       <LinkItem
         itemPath={'/list-wallets'}
-        itemName={'List Wallets'}
+        itemName={'My Wallets'}
         itemIcon={<AccountBalanceWalletRoundedIcon />}
         open={open}
       />

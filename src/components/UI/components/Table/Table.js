@@ -10,6 +10,8 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import React, { useEffect, useRef, useState } from 'react';
 import { TableCellStyled, TooltipStyled } from './Table.styled';
 import { Loader } from '../Loader/Loader';
@@ -172,7 +174,7 @@ const Table = ({
     setPagination(newPagination);
   };
 
-  const mapSortBy = (columnName) => {
+  const getColumnNames = (columnName) => {
     let newSortBy = columnName;
     switch (columnName) {
       case 'wallet_name':
@@ -184,6 +186,12 @@ const Table = ({
       default:
         newSortBy = columnName;
     }
+
+    return newSortBy;
+  };
+
+  const mapSortBy = (columnName) => {
+    let newSortBy = getColumnNames(columnName);
     setSortBy(newSortBy);
 
     return newSortBy;
@@ -231,9 +239,27 @@ const Table = ({
                     sx={{ fontSize: '14px' }}
                     align={'center'}
                     onClick={() => column.sortable && handleSort(column)}
-                    className={sortBy === column.name ? `sorted-${order}` : ''}
+                    className={
+                      (sortBy === column.name ? `sort sorted-${order}` : '',
+                      column.sortable ? 'sort' : '')
+                    }
                   >
                     {column.description}
+                    {column.sortable &&
+                      sortBy === getColumnNames(column.name) && (
+                        <>
+                          {order === 'asc' && (
+                            <ArrowUpwardIcon
+                              style={{ verticalAlign: 'middle' }}
+                            />
+                          )}
+                          {order === 'desc' && (
+                            <ArrowDownwardIcon
+                              style={{ verticalAlign: 'middle' }}
+                            />
+                          )}
+                        </>
+                      )}
                   </TableCellStyled>
                 );
               })}

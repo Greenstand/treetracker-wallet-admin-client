@@ -8,6 +8,10 @@ export const TableCellStyled = styled(TableCell)({
   whiteSpace: 'nowrap',
   width: '170px',
   maxWidth: '170px',
+
+  '&.sort': {
+    cursor: 'pointer',
+  },
 });
 
 export const TooltipStyled = styled(Tooltip)({

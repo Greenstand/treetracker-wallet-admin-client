@@ -4,7 +4,7 @@ import theme from '../../components/UI/theme';
 import AuthProvider from '../../store/AuthProvider';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { WalletsProvider } from '../../store/WalletsContext';
-import ListWallets from './ListWallets';
+import MyWallets from './MyWallets';
 import { getWallets } from '../../api/wallets';
 
 jest.mock('../../api/wallets', () => ({
@@ -157,7 +157,7 @@ describe('Wallets List page', function () {
     getWallets.mockResolvedValueOnce(mockWalletsData);
     render(
       <TestWrapper>
-        <ListWallets />
+        <MyWallets />
       </TestWrapper>
     );
     expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();

@@ -5,16 +5,16 @@ import { getWallets } from '../../api/wallets';
 import AuthContext from '../../store/auth-context';
 import { useWalletsContext } from '../../store/WalletsContext';
 import Table from '../../components/UI/components/Table/Table';
-import { Container } from './ListWallets.style';
+import { Container } from './MyWallets.style';
 import CreateManagedWallet from './CreateManagedWallet/CreateManagedWallet';
 
 /**@function
- * @name ListWallets
- * @description Renders the List Wallets page
+ * @name MyWallets
+ * @description Renders the My Wallets page
  *
- * @returns {JSX.Element} - List Wallets page component
+ * @returns {JSX.Element} - My Wallets page component
  * */
-const ListWallets = () => {
+const MyWallets = () => {
   const {
     pagination,
     sorting,
@@ -71,7 +71,7 @@ const ListWallets = () => {
         sx={{ flexGrow: '1', display: 'flex', flexDirection: 'column' }}
       >
         <Grid item>
-          <Typography variant={'h4'}>Managed Wallets List</Typography>
+          <Typography variant={'h4'}>My Wallets</Typography>
           <CreateManagedWallet loadData={loadData} />
         </Grid>
         <Grid item>
@@ -91,4 +91,4 @@ const ListWallets = () => {
   );
 };
 
-export default ListWallets;
+export default MyWallets;
