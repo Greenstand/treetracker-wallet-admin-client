@@ -33,7 +33,7 @@ const WalletsProvider = ({ children }) => {
     {
       description: 'Name',
       name: 'wallet_name',
-      sortable: false,
+      sortable: true,
       showInfoIcon: false,
     },
     {
