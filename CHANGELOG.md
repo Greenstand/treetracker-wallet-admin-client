@@ -1,3 +1,10 @@
+# [1.0.0-v1.32](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.31...v1.0.0-v1.32) (2024-01-30)
+
+
+### Features
+
+* add sorting icons; rename MyWallets table ([032c0df](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/032c0df745bd9fb0d4839563925c5508811b91ed))
+
 # [1.0.0-v1.31](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.30...v1.0.0-v1.31) (2024-01-24)
 
 
