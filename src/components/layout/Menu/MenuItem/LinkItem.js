@@ -21,4 +21,4 @@ const LinkItem = ({ itemPath, itemName, itemIcon, open }) => {
   );
 };
 
-export default LinkItem;
+export default LinkItem; 

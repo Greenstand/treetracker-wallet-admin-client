@@ -15,7 +15,6 @@ const AuthProvider = (props) => {
   const [token, setToken] = useState(retrieveToken);
   const [isLoggedIn, setIsLoggedIn] = useState(wallet && token);
   const navigate = useNavigate();
-
   const login = (newToken, rememberDetails, newWallet) => {
     if (token === newToken) return;
 

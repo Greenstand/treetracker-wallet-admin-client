@@ -1,4 +1,4 @@
-# Greenstand Treetracker Wallet Admin Client
+# Greenstand Treetracker Wallet Admin Client 
 
 The admin panel for accessing wallets and executing all known API calls for the wallet API.
 
@@ -23,12 +23,11 @@ configure their appearance.
 - A green marketing company is utilizing the treetracker platform to plant/maintain one or more trees by attaching one or many Greenstand Impact Tokens to a product or sale.
 - A company is selling hand-made boots and communicates to its clients that with every pair of boots sold the company is going to pay planters to grow trees; they need to manage the creation of wallets, and add tokens into the consumer/client's wallet.
 
-## UX / UI Design
+## UX / UI Design 
 
 [See the figma file](https://www.figma.com/file/kXhFReuUVcqQonIgl59On3/Wallet-admin-module-UX?node-id=4%3A21&t=rLUiYOgkuHix3Z5B-1)
 
 ## User Stories
-
 [See User Story Document](https://docs.google.com/document/d/1IF4fe4_BC319aoBKBW5LV2pypyDTy4K8qe1qqHexQ1Y/)
 
 ## Development Environment Setup
@@ -36,6 +35,7 @@ configure their appearance.
 ### Step 1: Install git
 
 See https://git-scm.com/downloads for instructions.
+
 
 ### Step 2: Install Node.js
 
@@ -54,8 +54,8 @@ by [following John Papa's instructions](http://jpapa.me/nomoresudo)._
 ### Step 3: Fork and clone this repository
 
 1. Click _Fork_ on this GitHub repo and follow the steps to fork the repo to your account
-1. Open terminal
-1. Go to a folder where you would like to install the project. Then type the following, replacing `<username>` with your
+2. Open terminal
+3. Go to a folder where you would like to install the project. Then type the following, replacing `<username>` with your
    GitHub username:
 
 ```
@@ -85,17 +85,13 @@ npm start
 
 Visit http://localhost:3000
 
-## Contributing
-
-For details on how to contribute to the project, such as getting an issue assigned, working on an issue, where to get
-support and collaborate etc., please see our [Contribution Guidelines](./CONTRIBUTING.md).
-
 ## Note
 
 Contributing to this project can sometimes involve a steep learning curve. Please do not give up and come and find us on
 slack to get support setting you up. This is a fun project with an amazing potential to disrupt non-transparent
 practices
-and open reforestation to the digital world.
+and open reforestation to the digital world. 
 
 Come have fun with a global team and a project that is disrupting opaque practices and creating open reforestation to the digital world.
+
 More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause). 
