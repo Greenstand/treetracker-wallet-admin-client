@@ -96,7 +96,7 @@ const Wallet = () => {
         <WalletHeader
           walletName={wallet.name}
           walletLogoURL={wallet.logoURL}
-          pendingTransfers={pendingTransfers.length}
+          pendingTransfers={pendingTransfers?.length}
         />
       </GridItem>
 

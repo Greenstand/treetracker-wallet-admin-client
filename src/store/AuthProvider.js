@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import React, { useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import AuthContext from './auth-context';

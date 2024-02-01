@@ -2,7 +2,7 @@
 
 The admin panel for accessing wallets and executing all known API calls for the wallet API.
 
-## Product Leadership:
+## Product Leadership
 
 Product Engineering and Technical Lead: @OlhaD
 
@@ -10,11 +10,11 @@ Project Manager: @Steve
 
 Repository wrangler: (add your name here)
 
-Core Contributors: (add your name here
+Core Contributors: (add your name here)
 
 ## Background
 
-The wallet admin panel is used by wallet owners to display, transfer token and transactions, create sub wallets and
+The wallet admin panel is used by wallet owners to display, transfer tokens and transactions, create sub wallets and
 configure their appearance.
 
 ## Use case
@@ -93,4 +93,5 @@ practices
 and open reforestation to the digital world. 
 
 Come have fun with a global team and a project that is disrupting opaque practices and creating open reforestation to the digital world.
-More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause)
+
+More on getting started and [Contributing to the Cause](https://github.com/Greenstand/Greenstand-Overview#contributing-to-the-cause). 

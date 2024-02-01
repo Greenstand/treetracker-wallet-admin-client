@@ -20,7 +20,6 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
       setWalletPage(0);
       try {
         let response = await getWallets(authContext.token, walletSearchString);
-
         if (!response) {
           console.log('No response from getWallets');
           return;
@@ -75,7 +74,12 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
         const response = await getWallets(
           authContext.token,
           walletSearchString,
-          walletPage
+          {
+            pagination: {
+              offset: walletPage * 10,
+              limit: 10,
+            },
+          }
         );
 
         const total = response.total;

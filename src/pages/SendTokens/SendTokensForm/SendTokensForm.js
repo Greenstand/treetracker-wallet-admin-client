@@ -4,6 +4,7 @@ import SelectWallet from './SelectWallet';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { StyledBox, StyledButton } from './SendTokensFormStyled';
+import ConfirmDialog from './confirmDialog/ConfirmDialog';
 
 const SendTokensForm = (props) => {
   const {
@@ -24,10 +25,25 @@ const SendTokensForm = (props) => {
   const [createWalletErrorMessage, setCreateWalletErrorMessage] = useState('');
 
   const [isSubmitBtnDisabled, setIsSubmitButtonDisabled] = useState(true);
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
   useEffect(() => {
     isSubmitButtonDisabled();
   }, [receiverWallet, senderWallet, showCreateWallet]);
+
+  const handleConfirmationDialogOpen = e => {
+    e.preventDefault();
+    setShowConfirmationDialog(true);
+  };
+
+  const handleConfirmationDialogClose = () => {
+    setShowConfirmationDialog(false);
+  };
+
+  const handleConfirmSubmit = () => {
+    handleSubmit();
+    handleConfirmationDialogClose();
+  };
 
   const handleChangeSenderWallet = useCallback((wallet) => {
     // sender wallet is not selected / was deselected
@@ -85,8 +101,7 @@ const SendTokensForm = (props) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
 
     const tokensAmount = tokensAmountRef.current.value;
 
@@ -112,105 +127,120 @@ const SendTokensForm = (props) => {
   };
 
   return (
-    <StyledBox>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={8}>
-          <Grid item xs={6}>
-            <SelectWallet
-              wallet={senderWallet}
-              onChangeWallet={handleChangeSenderWallet}
-              label={'Sender Wallet'}
-            />
-          </Grid>
-          <Grid item xs={6}></Grid>
-          <Grid item xs={6}>
-            <SelectWallet
-              wallet={receiverWallet}
-              onChangeWallet={handleChangeReceiverWallet}
-              label={'Receiver Wallet'}
-              createdWalletName={createdWalletName}
-            />
-          </Grid>
-          <Grid item xs={4} sx={{ display: 'flex', alignItems: 'center' }}>
-            <a
-              onClick={() => setShowCreateWallet(true)}
-              style={{ color: 'green', cursor: 'pointer', marginLeft: '1rem' }}
-            >
-              + Create Managed Wallet
-            </a>
-          </Grid>
-          <Grid item xs={2}></Grid>
+    <>
+      <StyledBox>
+        <form onSubmit={handleConfirmationDialogOpen}>
+          <Grid container spacing={8}>
+            <Grid item xs={6}>
+              <SelectWallet
+                wallet={senderWallet}
+                onChangeWallet={handleChangeSenderWallet}
+                label={'Sender Wallet'}
+              />
+            </Grid>
+            <Grid item xs={6}></Grid>
+            <Grid item xs={6}>
+              <SelectWallet
+                wallet={receiverWallet}
+                onChangeWallet={handleChangeReceiverWallet}
+                label={'Receiver Wallet'}
+                createdWalletName={createdWalletName}
+              />
+            </Grid>
+            <Grid item xs={4} sx={{ display: 'flex', alignItems: 'center' }}>
+              <a
+                onClick={() => setShowCreateWallet(true)}
+                style={{
+                  color: 'green',
+                  cursor: 'pointer',
+                  marginLeft: '1rem',
+                }}
+              >
+                + Create Managed Wallet
+              </a>
+            </Grid>
+            <Grid item xs={2}></Grid>
 
-          {showCreateWallet && (
-            <>
-              <Grid item xs={4}>
-                <TextField
-                  id="wallet-name"
-                  label="Managed Wallet Name"
-                  type="text"
-                  required
-                  error={createWalletError}
-                  helperText={createWalletErrorMessage}
-                  sx={{ width: '100%' }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={(event) =>
-                    setCreateWalletError(!event.target.value)
-                  }
-                  inputRef={createWalletNameRef}
-                />
-              </Grid>
-              <Grid item xs={1}>
-                {/* Create wallet */}
-                <IconButton
-                  aria-label="delete"
-                  color="primary"
-                  onClick={handleCreateWallet}
-                >
-                  <AddCircleIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-              <Grid item xs={1}>
-                {/* Cancel creating wallet */}
-                <IconButton
-                  aria-label="delete"
-                  color="primary"
-                  onClick={() => {
-                    setShowCreateWallet(false);
-                    setCreateWalletError(false);
-                  }}
-                >
-                  <CloseIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-              <Grid item xs={6}></Grid>
-            </>
-          )}
-          <Grid item xs={12}>
-            <TextField
-              id="token-amount"
-              label="Token Amount"
-              type="number"
-              InputProps={{ inputProps: { min: 0, max: 10000 } }}
-              defaultValue={1}
-              inputRef={tokensAmountRef}
-              onChange={() => isSubmitButtonDisabled()}
-            />
+            {showCreateWallet && (
+              <>
+                <Grid item xs={4}>
+                  <TextField
+                    id="wallet-name"
+                    label="Managed Wallet Name"
+                    type="text"
+                    required
+                    error={createWalletError}
+                    helperText={createWalletErrorMessage}
+                    sx={{ width: '100%' }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={(event) =>
+                      setCreateWalletError(!event.target.value)
+                    }
+                    inputRef={createWalletNameRef}
+                  />
+                </Grid>
+                <Grid item xs={1}>
+                  {/* Create wallet */}
+                  <IconButton
+                    aria-label="delete"
+                    color="primary"
+                    onClick={handleCreateWallet}
+                  >
+                    <AddCircleIcon fontSize="large" />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={1}>
+                  {/* Cancel creating wallet */}
+                  <IconButton
+                    aria-label="delete"
+                    color="primary"
+                    onClick={() => {
+                      setShowCreateWallet(false);
+                      setCreateWalletError(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="large" />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={6}></Grid>
+              </>
+            )}
+            <Grid item xs={12}>
+              <TextField
+                id="token-amount"
+                label="Token Amount"
+                type="number"
+                InputProps={{ inputProps: { min: 0, max: 10000 } }}
+                defaultValue={1}
+                inputRef={tokensAmountRef}
+                onChange={() => isSubmitButtonDisabled()}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <StyledButton
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={isSubmitBtnDisabled}
+              >
+                Submit
+              </StyledButton>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <StyledButton
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={isSubmitBtnDisabled}
-            >
-              Submit
-            </StyledButton>
-          </Grid>
-        </Grid>
-      </form>
-    </StyledBox>
+        </form>
+      </StyledBox>
+      <ConfirmDialog
+        open={showConfirmationDialog}
+        onClose={handleConfirmationDialogClose}
+        onConfirm={handleConfirmSubmit}
+        senderWallet={senderWallet}
+        receiverWallet={receiverWallet}
+        tokensAmount={tokensAmountRef}
+
+      />
+    </>
   );
 };
 
