@@ -1,4 +1,130 @@
-## [1.0.2](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.1...v1.0.2) (2023-10-18)
+# [1.1.0-v1.1](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.2...v1.1.0-v1.1) (2024-02-01)
+
+
+### Bug Fixes
+
+* fix sorting ([aa6f1ec](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/aa6f1eca1cd96fd5a6517a62a781c6d3803878ba))
+* initiate merge ([f892c88](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f892c88484d244b5f1e751aaa52f8aec919bf39d))
+* pagination ([22520a7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/22520a7dcda9dd38f834aa37d8690e7e1a6fb4d8))
+* Semantic release node version upgrade ([0caf7e6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0caf7e6af953ba992a1548f47851366371e1ed91))
+* show 'created date' column ([9aa0c4f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9aa0c4fbd8ede2a8b9a5182faf866c19c7d70451))
+* test - Update README.md ([ed5ff74](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ed5ff74bb34757b8a0f3153d00ab3168df351cbc))
+* test merge 2 ([f87471a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f87471a1ca7b00ba59ba7c98331d051aa26d139d))
+* Update README.md ([7003b68](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/7003b6890931c534b9d572e28e2be2d95d4f544e))
+
+
+### Features
+
+* add confirmation popup ([40d7d6b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/40d7d6b40e0bb8628c6a478835ec2e2f0f1832af))
+* add sorting icons; rename MyWallets table ([032c0df](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/032c0df745bd9fb0d4839563925c5508811b91ed))
+* add sorting in wallets table ([957e8a6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/957e8a65f63cd90e0f471936978b0a6c512e8a8b))
+* add tests ([7636ffa](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/7636ffa0200152270b04bb7ab605a4ad48f31f23))
+* connected with api ([448dd4a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/448dd4a9741387e3f8e0f1dad5c9d8a83a77557f))
+* create managed wallet basic dialog ([b177abe](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/b177abe0af4aace3128067d5185e87237c566f36))
+* fix unit tests ([c04b87a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c04b87ab979eb30727ee4cbcc81687875385ca55))
+* fixed functionality, added tests ([390f3ec](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/390f3ec0c8b9bfc4b0bd0145a48d05cd6efd072b))
+* List wallets ([1e19080](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/1e1908022f19c28b31a4240f81fc938de0cd4ad3))
+* refactor, remove unneeded text ([57fad61](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/57fad61777f64244c763b8548d00cd3d77f612c4))
+* success message in dialog, updated tests ([d420f7a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d420f7a0a2837b52767251c0faa4a95003a3aa4f))
+
+# [1.0.0-v1.32](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.31...v1.0.0-v1.32) (2024-01-30)
+
+
+### Features
+
+* add sorting icons; rename MyWallets table ([032c0df](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/032c0df745bd9fb0d4839563925c5508811b91ed))
+
+# [1.0.0-v1.31](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.30...v1.0.0-v1.31) (2024-01-24)
+
+
+### Bug Fixes
+
+* Update README.md ([7003b68](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/7003b6890931c534b9d572e28e2be2d95d4f544e))
+
+
+### Features
+
+* add sorting in wallets table ([957e8a6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/957e8a65f63cd90e0f471936978b0a6c512e8a8b))
+
+# [1.0.0-v1.30](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.29...v1.0.0-v1.30) (2024-01-24)
+
+
+### Features
+
+* success message in dialog, updated tests ([d420f7a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d420f7a0a2837b52767251c0faa4a95003a3aa4f))
+
+# [1.0.0-v1.29](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.28...v1.0.0-v1.29) (2024-01-17)
+
+
+### Bug Fixes
+
+* test - Update README.md ([ed5ff74](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ed5ff74bb34757b8a0f3153d00ab3168df351cbc))
+
+# [1.0.0-v1.28](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.27...v1.0.0-v1.28) (2024-01-16)
+
+
+### Bug Fixes
+
+* Semantic release node version upgrade ([0caf7e6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0caf7e6af953ba992a1548f47851366371e1ed91))
+
+
+### Features
+
+* connected with api ([448dd4a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/448dd4a9741387e3f8e0f1dad5c9d8a83a77557f))
+* create managed wallet basic dialog ([b177abe](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/b177abe0af4aace3128067d5185e87237c566f36))
+* fixed functionality, added tests ([390f3ec](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/390f3ec0c8b9bfc4b0bd0145a48d05cd6efd072b))
+* refactor, remove unneeded text ([57fad61](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/57fad61777f64244c763b8548d00cd3d77f612c4))
+
+# [1.0.0-v1.27](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.26...v1.0.0-v1.27) (2024-01-09)
+
+
+### Bug Fixes
+
+* test merge 2 ([f87471a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f87471a1ca7b00ba59ba7c98331d051aa26d139d))
+
+# [1.0.0-v1.26](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.25...v1.0.0-v1.26) (2024-01-09)
+
+
+### Bug Fixes
+
+* initiate merge ([f892c88](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f892c88484d244b5f1e751aaa52f8aec919bf39d))
+
+# [1.0.0-v1.25](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.24...v1.0.0-v1.25) (2023-12-31)
+
+
+### Bug Fixes
+
+* fix sorting ([aa6f1ec](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/aa6f1eca1cd96fd5a6517a62a781c6d3803878ba))
+* pagination ([22520a7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/22520a7dcda9dd38f834aa37d8690e7e1a6fb4d8))
+* show 'created date' column ([9aa0c4f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9aa0c4fbd8ede2a8b9a5182faf866c19c7d70451))
+
+
+### Features
+
+* add tests ([7636ffa](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/7636ffa0200152270b04bb7ab605a4ad48f31f23))
+* fix unit tests ([c04b87a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c04b87ab979eb30727ee4cbcc81687875385ca55))
+* List wallets ([1e19080](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/1e1908022f19c28b31a4240f81fc938de0cd4ad3))
+
+# [1.0.0-v1.24](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.23...v1.0.0-v1.24) (2023-12-27)
+
+
+### Bug Fixes
+
+* minor change for the deployment [skip ci] ([40a139e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/40a139e873a593b3567bdbbbfad7dfa0d0a5a97e))
+
+
+### Features
+
+* add confirmation popup ([40d7d6b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/40d7d6b40e0bb8628c6a478835ec2e2f0f1832af))
+
+# [1.0.0-v1.23](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.22...v1.0.0-v1.23) (2023-09-27)
+
+
+### Features
+
+* add API Key and fix tests ([9c43938](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9c43938ea4dff7ce17f514acd5fcd85a9b6bae16))
+
+# [1.0.0-v1.22](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.0-v1.21...v1.0.0-v1.22) (2023-08-25)
 
 
 ### Bug Fixes

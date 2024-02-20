@@ -8,6 +8,8 @@ import NotFound from '../../pages/NotFound/NotFound';
 import { useContext } from 'react';
 import MyTransfers from '../../pages/MyTransfers/MyTransfers';
 import { TransfersProvider } from '../../store/TransfersContext';
+import MyWallets from '../../pages/MyWallets/MyWallets';
+import { WalletsProvider } from '../../store/WalletsContext';
 
 const ProtectedRoute = ({ isLoggedIn, redirectPath = '/login' }) => {
   if (!isLoggedIn) {
@@ -19,12 +21,12 @@ const ProtectedRoute = ({ isLoggedIn, redirectPath = '/login' }) => {
 
 const ClientRoutes = () => {
   const authCtx = useContext(AuthContext);
-  
+
   return (
     <Routes>
       <Route element={<ProtectedRoute isLoggedIn={authCtx.isLoggedIn} />}>
         <Route
-          path='/'
+          path="/"
           exact
           element={
             <Layout>
@@ -33,7 +35,7 @@ const ClientRoutes = () => {
           }
         />
         <Route
-          path='/my-transfers'
+          path="/my-transfers"
           exact
           element={
             <Layout>
@@ -44,7 +46,7 @@ const ClientRoutes = () => {
           }
         />
         <Route
-          path='/send-tokens'
+          path="/send-tokens"
           exact
           element={
             <Layout>
@@ -53,7 +55,18 @@ const ClientRoutes = () => {
           }
         />
         <Route
-          path='*'
+          path="/list-wallets"
+          exact
+          element={
+            <Layout>
+              <WalletsProvider>
+                <MyWallets />
+              </WalletsProvider>
+            </Layout>
+          }
+        />
+        <Route
+          path="*"
           element={
             <Layout>
               <NotFound />
@@ -61,7 +74,7 @@ const ClientRoutes = () => {
           }
         />
       </Route>
-      <Route path='login' element={<Login />} />
+      <Route path="login" element={<Login />} />
     </Routes>
   );
 };
