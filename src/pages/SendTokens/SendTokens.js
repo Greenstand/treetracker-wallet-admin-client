@@ -133,7 +133,7 @@ const SendTokens = () => {
 
   return (
     <StyledGrid>
-      <PageHeader title="Send tokens 4" />
+      <PageHeader title="Send tokens" />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {errorMessage && (
           <Message
