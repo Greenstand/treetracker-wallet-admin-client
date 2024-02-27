@@ -136,7 +136,7 @@ const Login = () => {
         <FlexDiv flexDirection="column">
           <IconLogo />
           <Box m={2} />
-          <Typography variant="h3">Wallet Admin Panel</Typography>
+          <Typography variant="h3">Wallet Admin Panel 1</Typography>
         </FlexDiv>
         <StyledForm onSubmit={handleSubmit} noValidate>
           <TextField
