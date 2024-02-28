@@ -32,11 +32,11 @@ jobs:
             const ref = process.env.GITHUB_REF_NAME
             const s3BucketSecretNames = {
               "main": "DEV_CDN_S3_BUCKET",
-              "beta": "DEV_STAGING_CDN_S3_BUCKET",
+              "alpha": "DEV_STAGING_CDN_S3_BUCKET",
             }
             const cdnIdSecretNames = {
               "main": "DEV_CDN_DISTRIBUTION_ID",
-              "beta": "DEV_STAGING_CDN_DISTRIBUTION_ID",
+              "alpha": "DEV_STAGING_CDN_DISTRIBUTION_ID",
             }
             const releaseJson = require("./.releaserc.json");        
             const branches = releaseJson.branches.map(e => e.name? e.name : e);

@@ -46,17 +46,17 @@ jobs:
               "main-dev": "DEV_CDN_S3_BUCKET",
               "main-test": "TEST_CDN_S3_BUCKET",
               "main-prod": "PROD_CDN_S3_BUCKET",
-              "beta-dev": "DEV_STAGING_CDN_S3_BUCKET",
-              "beta-test": "TEST_STAGING_CDN_S3_BUCKET",
-              "beta-prod": "STAGING_CDN_S3_BUCKET",
+              "alpha-dev": "DEV_STAGING_CDN_S3_BUCKET",
+              "alpha-test": "TEST_STAGING_CDN_S3_BUCKET",
+              "alpha-prod": "STAGING_CDN_S3_BUCKET",
             }
             const cdnIdSecretNames = {
               "main-dev": "DEV_CDN_DISTRIBUTION_ID",
               "main-test": "TEST_CDN_DISTRIBUTION_ID",
               "main-prod": "PROD_CDN_DISTRIBUTION_ID",
-              "beta-dev": "DEV_STAGING_CDN_DISTRIBUTION_ID",
-              "beta-test": "TEST_STAGING_CDN_DISTRIBUTION_ID",
-              "beta-prod": "STAGING_CDN_DISTRIBUTION_ID",
+              "alpha-dev": "DEV_STAGING_CDN_DISTRIBUTION_ID",
+              "alpha-test": "TEST_STAGING_CDN_DISTRIBUTION_ID",
+              "alpha-prod": "STAGING_CDN_DISTRIBUTION_ID",
             }
             const releaseJson = require("./.releaserc.json");        
             const version = process.env.VERSION_TO_DEPLOY
@@ -150,8 +150,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_KEY_ID_PROD }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_PROD }}
+          aws-access-key-id: ${{ secrets.AWS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_DEV }}
           aws-region: us-east-1
       - name: Copy front end resources to s3 bucket
         run: |
