@@ -1,3 +1,12 @@
+## [2.0.1-v2.1](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.0.0...v2.0.1-v2.1) (2024-02-28)
+
+
+### Bug Fixes
+
+* setup prerelease for v2 ([8dafb59](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/8dafb590f7a6b02e4ed339181589e321e70569c3))
+* Update Login.js ([b156005](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/b156005fc4af5a544a3433570276c0f84c9d04ab))
+* Update SendTokens.js ([4c7b1bb](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/4c7b1bbfc12e922b27159b33539fa6a7a8056dc1))
+
 # [1.1.0-v1.1](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v1.0.2...v1.1.0-v1.1) (2024-02-01)
 
 
