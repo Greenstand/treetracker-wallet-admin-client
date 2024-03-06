@@ -1,3 +1,10 @@
+## [2.0.1-v2.2](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.0.1-v2.1...v2.0.1-v2.2) (2024-03-06)
+
+
+### Bug Fixes
+
+* channel error ([a4bd1ab](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a4bd1ab2c37a27fb0339cfcd6a81451c212a389a))
+
 ## [2.0.1-v2.1](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.0.0...v2.0.1-v2.1) (2024-02-28)
 
 
