@@ -16,8 +16,6 @@ const TrustRelationshipsProvider = ({ children }) => {
   // Loader
   const [isLoading, setIsLoading] = useState(false);
 
-  /
-
   // trust relationships table columns
 
   const tableColumns = [
