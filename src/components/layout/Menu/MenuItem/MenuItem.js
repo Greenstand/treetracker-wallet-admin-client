@@ -13,30 +13,35 @@ const MenuItem = ({ open }) => {
         itemPath={'/'}
         itemName={'Home'}
         itemIcon={<HomeIcon />}
+        isActive={location.pathname === '/'}
         open={open}
       />
       <LinkItem
         itemPath={'/send-tokens'}
         itemName={'Send Tokens'}
         itemIcon={<ThumbsUpDownIcon />}
+        isActive={location.pathname === '/send-tokens'}
         open={open}
       />
       <LinkItem
         itemPath={'/my-transfers'}
         itemName={'My Transfers'}
         itemIcon={<CompareIcon />}
+        isActive={location.pathname === '/my-transfers'}
         open={open}
       />
       <LinkItem
         itemPath={'/list-wallets'}
         itemName={'My Wallets'}
         itemIcon={<AccountBalanceWalletRoundedIcon />}
+        isActive={location.pathname === '/list-wallets'}
         open={open}
       />
       <LinkItem
         itemPath={'/trust-relationship'}
         itemName={'Trust Relationship'}
         itemIcon={<HandshakeIcon />}
+        isActive={location.pathname === '/trust-relationship'}
         open={open}
       />
     </>

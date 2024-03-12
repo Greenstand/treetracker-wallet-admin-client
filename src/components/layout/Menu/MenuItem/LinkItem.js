@@ -3,10 +3,10 @@ import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
 
 
-const LinkItem = ({ itemPath, itemName, itemIcon, open }) => {
+const LinkItem = ({ itemPath, itemName, itemIcon, isActive, open }) => {
   return (
 
-    <LinkItemStyled to={itemPath}>
+    <LinkItemStyled to={itemPath} isActive={isActive}>
       <ItemButtonStyled open={open}>
         <ItemIconStyled open={open}>
           {itemIcon}
