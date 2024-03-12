@@ -1,5 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { getDateText } from '../utils/formatting';
+import AuthContext from './auth-context';
+import { getTrustRelationships } from '../api/trust_relationships';
 
 const TrustRelationshipsContext = createContext();
 
@@ -98,13 +100,52 @@ const TrustRelationshipsProvider = ({ children }) => {
   };
 
 
+
+   // error
+   const [message, setMessage] = useState('');
+   // data to be displayed in the table
+   const [tableRows, setTableRows] = useState([]);
+ 
+ 
+   // total rows count for pagination
+   const [totalRowCount, setTotalRowCount] = useState(null);
+ 
+   const authContext = useContext(AuthContext);
+ 
+ 
+   useEffect(() => {
+     const loadData = async () => {
+       try {
+         setIsLoading(true);
+         
+         const data = await getTrustRelationships(authContext.token, {pagination});
+ 
+         const preparedRows = prepareRows(await data.trust_relationships);
+         setTableRows(preparedRows);
+         setTotalRowCount(data.total);
+         
+       } catch (error) {
+         console.error(error);
+         setMessage('An error occurred while fetching the table data');
+       }finally {
+         setIsLoading(false);
+        }
+     };
+     loadData();
+   }, [pagination]);
+
+
+
   const value = {
     pagination,
     setPagination,
     isLoading,
     setIsLoading,
     tableColumns,
-    prepareRows,
+    message,
+    tableRows,
+    totalRowCount,
+    setMessage
   };
 
   return (
