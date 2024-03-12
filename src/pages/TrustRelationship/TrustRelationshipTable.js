@@ -27,46 +27,53 @@ import {
 
 const TrustRelationshipTableHeader = ({ tableTitle }) => {
   return (
-    <Grid item container sx={{ height: '5rem',marginBottom: '20px'}}>
-      <Grid item xs={6} sx={{ display: 'flex', alignItems: 'start'}}>
+    <Grid item container sx={{ height: '5rem', marginBottom: '20px' }}>
+      <Grid item xs={6} sx={{ display: 'flex', alignItems: 'start' }}>
         <Typography variant={'h3'}>{tableTitle}</Typography>
       </Grid>
       <Grid
         item
         xs={2}
-        sx={{ display: 'flex', justifyContent: 'end', alignItems: 'flex-end'}}
+        sx={{ display: 'flex', justifyContent: 'end', alignItems: 'flex-end' }}
       >
-        <CreateButton
-          type="button"
-          variant="contained"
-        >
+        <CreateButton type="button" variant="contained">
           + Create
         </CreateButton>
       </Grid>
       <Grid
         item
         xs={3}
-        sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end'}}
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+        }}
       >
         <SearchTextField
           variant="outlined"
           placeholder="Search by Wallet..."
           InputProps={{
             style: { fontSize: '14px' },
-            startAdornment: <SearchIcon style={{ color: 'gray',fontSize: '25px', marginRight: '10px' }} />,
+            startAdornment: (
+              <SearchIcon
+                style={{ color: 'gray', fontSize: '25px', marginRight: '10px' }}
+              />
+            ),
           }}
         />
       </Grid>
       <Grid
         item
         xs={1}
-        sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+        }}
       >
-        <FilterButton
-        type="button"
-        >
+        <FilterButton type="button">
           Filters
-          <FilterListIcon style={{color:'#86C232', marginLeft: '8px'}} />
+          <FilterListIcon style={{ color: '#86C232', marginLeft: '8px' }} />
         </FilterButton>
       </Grid>
     </Grid>
@@ -111,6 +118,24 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
 };
 
 const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
+  let sortedTableRows = [...tableRows].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+  sortedTableRows = [...sortedTableRows].sort(
+    (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+  );
+  sortedTableRows = [...sortedTableRows].sort((a, b) =>
+    b.state.localeCompare(a.state)
+  );
+
+  // State to track the index of the selected row
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+
+  // Function to handle row click
+  const handleRowClick = (rowIndex) => {
+    setSelectedRowIndex(rowIndex);
+  };
+
   const { isLoading } = useTrustRelationshipsContext();
   if (isLoading)
     return (
@@ -136,15 +161,30 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
 
   return (
     <TableBody>
-      {tableRows &&
-        tableRows.map((row, rowIndex) => {
+      {sortedTableRows &&
+        sortedTableRows.map((row, rowIndex) => {
+          const isSelected = rowIndex === selectedRowIndex;
           return (
-            <TableRow key={rowIndex}>
+            <TableRow
+              key={rowIndex}
+              onClick={() => handleRowClick(rowIndex)}
+              sx={{ transition: 'all 0.3s ease' }}
+              style={{
+                backgroundColor:
+                  isSelected && row.state == 'pending'
+                    ? 'rgba(135, 195, 46, .4)'
+                    : isSelected
+                    ? 'rgba(135, 195, 46, .4)'
+                    : row.state == 'pending'
+                    ? 'rgba(135, 195, 46, .1)'
+                    : null,
+              }}
+            >
               {tableColumns.map((column, colIndex) => {
                 const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
                 const cellColor =
                   column.name === 'state' ? row[column.name] : '';
-                  const cellValue =
+                const cellValue =
                   row[column.name] || row[column.name] === 0
                     ? column.renderer
                       ? column.renderer(row[column.name])
@@ -165,7 +205,6 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
         })}
     </TableBody>
   );
-  
 };
 
 function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
