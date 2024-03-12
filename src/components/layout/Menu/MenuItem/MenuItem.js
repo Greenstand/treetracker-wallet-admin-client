@@ -5,13 +5,9 @@ import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceW
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import * as React from 'react';
 import LinkItem from './LinkItem';
-import Badge from '@mui/material/Badge';
-import { styled } from '@mui/system';
 import { useTrustRelationshipsContext } from '../../../../store/TrustRelationshipsContext';
 import { useState, useEffect } from 'react';
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  marginLeft: theme.spacing(1),
-}));
+
 
 const MenuItem = ({ open }) => { 
   const [isHovered, setIsHovered] = useState(false);
@@ -74,16 +70,9 @@ const MenuItem = ({ open }) => {
         itemIcon={<HandshakeIcon />}
         isActive={location.pathname === '/trust-relationship'}
         open={open}
+        pendingCount={pendingCount}
       />
-    <StyledBadge
-      badgeContent={pendingCount}
-      color="error"
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-    > 
-    </StyledBadge>
+
     </div>
      :
      <LinkItem

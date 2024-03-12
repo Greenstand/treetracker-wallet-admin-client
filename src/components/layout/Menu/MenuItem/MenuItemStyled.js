@@ -8,7 +8,7 @@ const LinkItemStyled = styled(NavLink)(({ theme, isActive }) => ({
   backgroundColor: isActive ? theme.palette.action.active: null,
   borderTopRightRadius: isActive ? '25px': null,
   borderBottomRightRadius: isActive ? '25px': null,
-  width: isActive ? '14.5rem' : null,
+  width: '14.5rem'
 }));
 
 const ItemButtonStyled = styled(ListItemButton)(({ open }) => ({
