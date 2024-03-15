@@ -24,6 +24,7 @@ import {
   TableCellStyled,
   TooltipStyled,
 } from '../MyTransfers/TransfersTable.styled';
+import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
 
 const TrustRelationshipTableHeader = ({ tableTitle }) => {
   return (
@@ -131,9 +132,19 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
   // State to track the index of the selected row
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
-  // Function to handle row click
+  // state to track if side panel is open when you click the row on table 
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+
+  // Function to handle row click and open side panel
   const handleRowClick = (rowIndex) => {
     setSelectedRowIndex(rowIndex);
+    setIsSidePanelOpen(true);
+  };
+
+    //function to close side panel
+  const handleClosePanel = () => {
+    setIsSidePanelOpen(false);
+    setSelectedRowIndex(null);
   };
 
   const { isLoading } = useTrustRelationshipsContext();
@@ -160,6 +171,7 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
     );
 
   return (
+    <>
     <TableBody>
       {sortedTableRows &&
         sortedTableRows.map((row, rowIndex) => {
@@ -204,6 +216,14 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
           );
         })}
     </TableBody>
+    {isSidePanelOpen && (
+        <TrustRelationshipSidePanel
+          open={open}
+          onClose={handleClosePanel}
+        />
+      )}
+
+    </>
   );
 };
 
