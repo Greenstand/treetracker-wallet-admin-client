@@ -24,9 +24,40 @@ import {
   TableCellStyled,
   TooltipStyled,
 } from '../MyTransfers/TransfersTable.styled';
+'react';
+import Menu from '@mui/material/Menu';
+import { 
+        StateSelectFilter, 
+        TypeSelectFilter, 
+        RequestTypeSelectFilter, 
+        ResetButton 
+          } from './TrustRelationshipsFilters';
 import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
 
-const TrustRelationshipTableHeader = ({ tableTitle }) => {
+
+const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
+
+  const { filter, 
+    setFilter, 
+    statesList, 
+    requestTypeList, 
+    typeList, 
+    defaultFilter,
+
+  } = useTrustRelationshipsContext();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleFilterClick = (event) => {
+    setAnchorEl((prevAnchorEl) => (prevAnchorEl ? null : event.currentTarget));
+  };
+
+  const handleFilterClose = () => {
+    setAnchorEl(null);
+  };
+
+
+
   return (
     <Grid item container sx={{ height: '5rem', marginBottom: '20px' }}>
       <Grid item xs={6} sx={{ display: 'flex', alignItems: 'start' }}>
@@ -72,10 +103,65 @@ const TrustRelationshipTableHeader = ({ tableTitle }) => {
           alignItems: 'flex-end',
         }}
       >
-        <FilterButton type="button">
+        <FilterButton type="button" onclick={handleFilterClick}>
           Filters
           <FilterListIcon style={{ color: '#86C232', marginLeft: '8px' }} />
         </FilterButton>
+        <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleFilterClose}
+             
+            >
+        <Grid container direction="column"  sx={{ padding: '20px', }}>
+        <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', }}>
+            <StateSelectFilter
+              filter={filter}
+              setFilter={setFilter}
+              statesList={statesList}
+              getStatusColor={getStatusColor}
+            />
+             <RequestTypeSelectFilter
+              filter={filter}
+              setFilter={setFilter}
+              requestTypeList={requestTypeList}
+              getStatusColor={getStatusColor}
+            />
+               <TypeSelectFilter
+              filter={filter}
+              setFilter={setFilter}
+              typeList={typeList}
+              getStatusColor={getStatusColor}
+            />
+        </Grid>
+        <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '20px' }}>
+          </Grid>
+          <Grid item xs={2} sx={{
+                                   display: 'flex', 
+                                   justifyContent: 'space-around', 
+                                   alignItems: 'center',
+                                   margin: '10px auto',
+                                   gap: '10px',
+
+                                   }}>
+            <ResetButton close={handleFilterClose} setFilter={setFilter} defaultFilter={defaultFilter} />
+            <button
+              style={{ 
+                color: 'black',
+                border: 'none',
+                backgroundColor: 'rgba(114, 185, 7, 0.192)',
+                padding: '8px 20px',
+                borderRadius: '2rem',
+            }}
+            onClick={handleFilterClose}
+            >
+             <h4> Apply</h4>
+            </button>
+          </Grid>    
+        </Grid>
+      </Menu>
+
       </Grid>
     </Grid>
   );
