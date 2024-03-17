@@ -19,10 +19,13 @@ const TrustRelationshipsProvider = ({ children }) => {
     type: '',
     requestType: ''
   });
+
+  
   const [filter, setFilter] = useState(defaultFilter);
 
   const [pagination, setPagination] = useState(defaultPagination);
 
+  const [searchString, setSearchString] = useState('')
 
   // Loader
   const [isLoading, setIsLoading] = useState(false);
@@ -209,8 +212,8 @@ const TrustRelationshipsProvider = ({ children }) => {
        try {
          setIsLoading(true);
          
-         const data = await getTrustRelationships(authContext.token, {pagination});
- 
+         const data = await getTrustRelationships(authContext.token, {pagination, filter});
+        
          const preparedRows = prepareRows(await data.trust_relationships);
          setTableRows(preparedRows);
          setTotalRowCount(data.total);
@@ -223,7 +226,7 @@ const TrustRelationshipsProvider = ({ children }) => {
         }
      };
      loadData();
-   }, [pagination]);
+   }, [pagination, filter]);
 
 
 
@@ -241,7 +244,10 @@ const TrustRelationshipsProvider = ({ children }) => {
     requestTypeList,
     typeList,
     filter,
-    setFilter
+    setFilter,
+    defaultFilter,
+    searchString,
+    setSearchString
   };
 
   return (

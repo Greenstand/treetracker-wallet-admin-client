@@ -32,7 +32,7 @@ import {
         RequestTypeSelectFilter, 
         ResetButton 
           } from './TrustRelationshipsFilters';
-import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
+import TrustRelationshipSidePanel from './TrustRelationshipSidePanel';
 
 
 const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
@@ -43,7 +43,7 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
     requestTypeList, 
     typeList, 
     defaultFilter,
-
+    setSearchString
   } = useTrustRelationshipsContext();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -84,6 +84,7 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
         <SearchTextField
           variant="outlined"
           placeholder="Search by Wallet..."
+          onChange={(e) => setSearchString(e.target.value)}
           InputProps={{
             style: { fontSize: '14px' },
             startAdornment: (
@@ -103,7 +104,7 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
           alignItems: 'flex-end',
         }}
       >
-        <FilterButton type="button" onclick={handleFilterClick}>
+        <FilterButton type="button" onClick={handleFilterClick}>
           Filters
           <FilterListIcon style={{ color: '#86C232', marginLeft: '8px' }} />
         </FilterButton>
@@ -204,7 +205,11 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
   );
 };
 
-const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
+const TrustRelationshipTableBody = ({ tableColumns, tableRows, selectedRowIndex, setSelectedRowIndex }) => {
+
+    // state to track if side panel is open when you click the row on table 
+    const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+
   let sortedTableRows = [...tableRows].sort(
     (a, b) => new Date(b.created_at) - new Date(a.created_at)
   );
@@ -215,25 +220,23 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
     b.state.localeCompare(a.state)
   );
 
-  // State to track the index of the selected row
-  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+        //function to close side panel
+        const handleClosePanel = () => {
+          setIsSidePanelOpen(false);
+          setSelectedRowIndex(null);
+        };
 
-  // state to track if side panel is open when you click the row on table 
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
-
+const [rowInfo, setRowInfo] = useState(null);
   // Function to handle row click and open side panel
-  const handleRowClick = (rowIndex) => {
+  const handleRowClick = (rowIndex, row) => {
+    setRowInfo(row)
     setSelectedRowIndex(rowIndex);
     setIsSidePanelOpen(true);
   };
 
-    //function to close side panel
-  const handleClosePanel = () => {
-    setIsSidePanelOpen(false);
-    setSelectedRowIndex(null);
-  };
 
-  const { isLoading } = useTrustRelationshipsContext();
+
+  const { isLoading, searchString } = useTrustRelationshipsContext();
   if (isLoading)
     return (
       <TableBody>
@@ -260,12 +263,18 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
     <>
     <TableBody>
       {sortedTableRows &&
-        sortedTableRows.map((row, rowIndex) => {
+        sortedTableRows
+        .filter(
+          (row) =>
+            row.actor_wallet?.toLowerCase().includes(searchString.toLowerCase()) ||
+            row.target_wallet?.toLowerCase().includes(searchString.toLowerCase())
+        )
+        .map((row, rowIndex) => {
           const isSelected = rowIndex === selectedRowIndex;
           return (
             <TableRow
               key={rowIndex}
-              onClick={() => handleRowClick(rowIndex)}
+              onClick={() => handleRowClick(rowIndex, row)}
               sx={{ transition: 'all 0.3s ease' }}
               style={{
                 backgroundColor:
@@ -302,13 +311,13 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
           );
         })}
     </TableBody>
-    {isSidePanelOpen && (
+    {isSidePanelOpen && (   
         <TrustRelationshipSidePanel
           open={open}
+          rowInfo={rowInfo}
           onClose={handleClosePanel}
         />
       )}
-
     </>
   );
 };
@@ -316,6 +325,11 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows }) => {
 function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
   const { pagination, setPagination, tableColumns } =
     useTrustRelationshipsContext();
+
+
+
+    // State to track the index of the selected row
+    const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
   // pagination
   const [page, setPage] = useState(0);
@@ -339,7 +353,10 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
   };
 
   return (
-    <Grid container direction={'column'} sx={{ height: '100%' }}>
+    // <Grid container direction={'column'}>
+    <Grid container direction={'column'} sx={{ 
+      height: '100%'
+      }}>
       <TrustRelationshipTableHeader tableTitle={tableTitle} />
       <TableContainer component={Paper}>
         <Table
@@ -366,6 +383,8 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
           <TrustRelationshipTableBody
             tableColumns={tableColumns}
             tableRows={tableRows}
+            selectedRowIndex={selectedRowIndex}
+            setSelectedRowIndex={setSelectedRowIndex}
           />
         </Table>
       </TableContainer>
@@ -381,6 +400,8 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
         data-testid="table-pagination"
       />
     </Grid>
+
+  //  </Grid>
   );
 }
 
