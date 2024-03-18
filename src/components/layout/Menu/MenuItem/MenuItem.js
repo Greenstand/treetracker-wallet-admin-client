@@ -14,6 +14,8 @@ const MenuItem = ({ open }) => {
   const [pendingCount, setPendingCount] = useState(0);
   const { tableRows } = useTrustRelationshipsContext();
 
+  console.log("my data",tableRows);
+
   useEffect(() => {
       let count = 0;
 
