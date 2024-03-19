@@ -24,26 +24,25 @@ import {
   TableCellStyled,
   TooltipStyled,
 } from '../MyTransfers/TransfersTable.styled';
-'react';
+('react');
 import Menu from '@mui/material/Menu';
-import { 
-        StateSelectFilter, 
-        TypeSelectFilter, 
-        RequestTypeSelectFilter, 
-        ResetButton 
-          } from './TrustRelationshipsFilters';
-import TrustRelationshipSidePanel from './TrustRelationshipSidePanel';
-
+import {
+  StateSelectFilter,
+  TypeSelectFilter,
+  RequestTypeSelectFilter,
+  ResetButton,
+} from './TrustRelationshipsFilters';
+import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
 
 const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
-
-  const { filter, 
-    setFilter, 
-    statesList, 
-    requestTypeList, 
-    typeList, 
+  const {
+    filter,
+    setFilter,
+    statesList,
+    requestTypeList,
+    typeList,
     defaultFilter,
-    setSearchString
+    setSearchString,
   } = useTrustRelationshipsContext();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -55,8 +54,6 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
   const handleFilterClose = () => {
     setAnchorEl(null);
   };
-
-
 
   return (
     <Grid item container sx={{ height: '5rem', marginBottom: '20px' }}>
@@ -109,60 +106,80 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
           <FilterListIcon style={{ color: '#86C232', marginLeft: '8px' }} />
         </FilterButton>
         <Menu
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleFilterClose}
-             
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleFilterClose}
+        >
+          <Grid container direction="column" sx={{ padding: '20px' }}>
+            <Grid
+              item
+              xs={5}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
             >
-        <Grid container direction="column"  sx={{ padding: '20px', }}>
-        <Grid item xs={5} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', }}>
-            <StateSelectFilter
-              filter={filter}
-              setFilter={setFilter}
-              statesList={statesList}
-              getStatusColor={getStatusColor}
-            />
-             <RequestTypeSelectFilter
-              filter={filter}
-              setFilter={setFilter}
-              requestTypeList={requestTypeList}
-              getStatusColor={getStatusColor}
-            />
-               <TypeSelectFilter
-              filter={filter}
-              setFilter={setFilter}
-              typeList={typeList}
-              getStatusColor={getStatusColor}
-            />
-        </Grid>
-        <Grid item xs={5} sx={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '20px' }}>
+              <StateSelectFilter
+                filter={filter}
+                setFilter={setFilter}
+                statesList={statesList}
+                getStatusColor={getStatusColor}
+              />
+              <RequestTypeSelectFilter
+                filter={filter}
+                setFilter={setFilter}
+                requestTypeList={requestTypeList}
+                getStatusColor={getStatusColor}
+              />
+              <TypeSelectFilter
+                filter={filter}
+                setFilter={setFilter}
+                typeList={typeList}
+                getStatusColor={getStatusColor}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={5}
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                paddingBottom: '20px',
+              }}
+            ></Grid>
+            <Grid
+              item
+              xs={2}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                margin: '10px auto',
+                gap: '10px',
+              }}
+            >
+              <ResetButton
+                close={handleFilterClose}
+                setFilter={setFilter}
+                defaultFilter={defaultFilter}
+              />
+              <button
+                style={{
+                  color: 'black',
+                  border: 'none',
+                  backgroundColor: 'rgba(114, 185, 7, 0.192)',
+                  padding: '8px 20px',
+                  borderRadius: '2rem',
+                }}
+                onClick={handleFilterClose}
+              >
+                <h4> Apply</h4>
+              </button>
+            </Grid>
           </Grid>
-          <Grid item xs={2} sx={{
-                                   display: 'flex', 
-                                   justifyContent: 'space-around', 
-                                   alignItems: 'center',
-                                   margin: '10px auto',
-                                   gap: '10px',
-
-                                   }}>
-            <ResetButton close={handleFilterClose} setFilter={setFilter} defaultFilter={defaultFilter} />
-            <button
-              style={{ 
-                color: 'black',
-                border: 'none',
-                backgroundColor: 'rgba(114, 185, 7, 0.192)',
-                padding: '8px 20px',
-                borderRadius: '2rem',
-            }}
-            onClick={handleFilterClose}
-            >
-             <h4> Apply</h4>
-            </button>
-          </Grid>    
-        </Grid>
-      </Menu>
-
+        </Menu>
       </Grid>
     </Grid>
   );
@@ -205,10 +222,14 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
   );
 };
 
-const TrustRelationshipTableBody = ({ tableColumns, tableRows, selectedRowIndex, setSelectedRowIndex }) => {
-
-    // state to track if side panel is open when you click the row on table 
-    const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+const TrustRelationshipTableBody = ({
+  tableColumns,
+  tableRows,
+  selectedRowIndex,
+  setSelectedRowIndex,
+}) => {
+  // state to track if side panel is open when you click the row on table
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
   let sortedTableRows = [...tableRows].sort(
     (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -217,24 +238,21 @@ const TrustRelationshipTableBody = ({ tableColumns, tableRows, selectedRowIndex,
     (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
   );
   sortedTableRows = [...sortedTableRows].sort((a, b) =>
-    b.state.localeCompare(a.state)
+    a.state.localeCompare(b.state)
   );
+  //function to close side panel
+  const handleClosePanel = () => {
+    setIsSidePanelOpen(false);
+    setSelectedRowIndex(null);
+  };
 
-        //function to close side panel
-        const handleClosePanel = () => {
-          setIsSidePanelOpen(false);
-          setSelectedRowIndex(null);
-        };
-
-const [rowInfo, setRowInfo] = useState(null);
+  const [rowInfo, setRowInfo] = useState(null);
   // Function to handle row click and open side panel
   const handleRowClick = (rowIndex, row) => {
-    setRowInfo(row)
+    setRowInfo(row);
     setSelectedRowIndex(rowIndex);
     setIsSidePanelOpen(true);
   };
-
-
 
   const { isLoading, searchString } = useTrustRelationshipsContext();
   if (isLoading)
@@ -261,57 +279,61 @@ const [rowInfo, setRowInfo] = useState(null);
 
   return (
     <>
-    <TableBody>
-      {sortedTableRows &&
-        sortedTableRows
-        .filter(
-          (row) =>
-            row.actor_wallet?.toLowerCase().includes(searchString.toLowerCase()) ||
-            row.target_wallet?.toLowerCase().includes(searchString.toLowerCase())
-        )
-        .map((row, rowIndex) => {
-          const isSelected = rowIndex === selectedRowIndex;
-          return (
-            <TableRow
-              key={rowIndex}
-              onClick={() => handleRowClick(rowIndex, row)}
-              sx={{ transition: 'all 0.3s ease' }}
-              style={{
-                backgroundColor:
-                  isSelected && row.state == 'pending'
-                    ? 'rgba(135, 195, 46, .4)'
-                    : isSelected
-                    ? 'rgba(135, 195, 46, .4)'
-                    : row.state == 'pending'
-                    ? 'rgba(135, 195, 46, .1)'
-                    : null,
-              }}
-            >
-              {tableColumns.map((column, colIndex) => {
-                const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
-                const cellColor =
-                  column.name === 'state' ? row[column.name] : '';
-                const cellValue =
-                  row[column.name] || row[column.name] === 0
-                    ? column.renderer
-                      ? column.renderer(row[column.name])
-                      : row[column.name]
-                    : '--';
-                return (
-                  <OverflownCell
-                    key={cellKey}
-                    cellValue={cellValue}
-                    cellColor={cellColor}
-                  >
-                    {cellValue}
-                  </OverflownCell>
-                );
-              })}
-            </TableRow>
-          );
-        })}
-    </TableBody>
-    {isSidePanelOpen && (   
+      <TableBody>
+        {sortedTableRows &&
+          sortedTableRows
+            .filter(
+              (row) =>
+                row.actor_wallet
+                  ?.toLowerCase()
+                  .includes(searchString.toLowerCase()) ||
+                row.target_wallet
+                  ?.toLowerCase()
+                  .includes(searchString.toLowerCase())
+            )
+            .map((row, rowIndex) => {
+              const isSelected = rowIndex === selectedRowIndex;
+              return (
+                <TableRow
+                  key={rowIndex}
+                  onClick={() => handleRowClick(rowIndex, row)}
+                  sx={{ transition: 'all 0.3s ease' }}
+                  style={{
+                    backgroundColor:
+                      isSelected && row.state == 'requested'
+                        ? 'rgba(135, 195, 46, .4)'
+                        : isSelected
+                        ? 'rgba(135, 195, 46, .4)'
+                        : row.state == 'requested'
+                        ? 'rgba(135, 195, 46, .1)'
+                        : null,
+                  }}
+                >
+                  {tableColumns.map((column, colIndex) => {
+                    const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
+                    const cellColor =
+                      column.name === 'state' ? row[column.name] : '';
+                    const cellValue =
+                      row[column.name] || row[column.name] === 0
+                        ? column.renderer
+                          ? column.renderer(row[column.name])
+                          : row[column.name]
+                        : '--';
+                    return (
+                      <OverflownCell
+                        key={cellKey}
+                        cellValue={cellValue}
+                        cellColor={cellColor}
+                      >
+                        {cellValue}
+                      </OverflownCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+      </TableBody>
+      {isSidePanelOpen && (
         <TrustRelationshipSidePanel
           open={open}
           rowInfo={rowInfo}
@@ -326,10 +348,8 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
   const { pagination, setPagination, tableColumns } =
     useTrustRelationshipsContext();
 
-
-
-    // State to track the index of the selected row
-    const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  // State to track the index of the selected row
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
   // pagination
   const [page, setPage] = useState(0);
@@ -354,9 +374,13 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
 
   return (
     // <Grid container direction={'column'}>
-    <Grid container direction={'column'} sx={{ 
-      height: '100%'
-      }}>
+    <Grid
+      container
+      direction={'column'}
+      sx={{
+        height: '100%',
+      }}
+    >
       <TrustRelationshipTableHeader tableTitle={tableTitle} />
       <TableContainer component={Paper}>
         <Table
@@ -401,7 +425,7 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
       />
     </Grid>
 
-  //  </Grid>
+    //  </Grid>
   );
 }
 

@@ -27,6 +27,8 @@ const TrustRelationshipsProvider = ({ children }) => {
 
   const [searchString, setSearchString] = useState('')
 
+  const [refetch, setRefetch] = useState(false);
+
   // Loader
   const [isLoading, setIsLoading] = useState(false);
 
@@ -91,7 +93,7 @@ const TrustRelationshipsProvider = ({ children }) => {
     }
   ];
 
-  const randomStates = ['pending', 'decline', 'accepted','cancelled'];
+  // const randomStates = ['trusted', 'requested'];
 
   // transform API returned data into rows compatible with the trust relationship table
   const prepareRows = (returnedRows) => {
@@ -99,8 +101,8 @@ const TrustRelationshipsProvider = ({ children }) => {
       return {
         id: row.id,
         type: row.type,
-        // state: row.state,
-        state: randomStates[(Math.floor(Math.random() * randomStates.length))],
+        state: row.state,
+        // state: randomStates[(Math.floor(Math.random() * randomStates.length))],
         request_type: row.request_type,
         created_at: row.created_at,
         updated_at: row.updated_at,
@@ -123,22 +125,7 @@ const TrustRelationshipsProvider = ({ children }) => {
       label: 'Trusted',
       value: 'trusted',
       color: 'black',
-    },
-    {
-      label: 'CancelledByOriginator',
-      value: 'cancelled_by_originator',
-      color: '#86C232',
-    },
-    {
-      label: 'CancelledByActor',
-      value: 'cancelled_by_actor',
-      color: 'red',
-    },
-    {
-      label: 'CancelledByTarget',
-      value: 'cancelled_by_target',
-      color: 'red',
-    },
+    }
 
   ];
 
@@ -223,10 +210,11 @@ const TrustRelationshipsProvider = ({ children }) => {
          setMessage('An error occurred while fetching the table data');
        }finally {
          setIsLoading(false);
+         setRefetch(false);
         }
      };
      loadData();
-   }, [pagination, filter]);
+   }, [pagination, filter, refetch]);
 
 
 
@@ -247,7 +235,8 @@ const TrustRelationshipsProvider = ({ children }) => {
     setFilter,
     defaultFilter,
     searchString,
-    setSearchString
+    setSearchString,
+    setRefetch
   };
 
   return (

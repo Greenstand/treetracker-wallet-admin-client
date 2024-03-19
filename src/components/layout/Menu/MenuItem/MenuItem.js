@@ -8,24 +8,21 @@ import LinkItem from './LinkItem';
 import { useTrustRelationshipsContext } from '../../../../store/TrustRelationshipsContext';
 import { useState, useEffect } from 'react';
 
-
-const MenuItem = ({ open }) => { 
+const MenuItem = ({ open }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
   const { tableRows } = useTrustRelationshipsContext();
 
-  console.log("my data",tableRows);
-
   useEffect(() => {
-      let count = 0;
+    let count = 0;
 
-      for (let i = 0; i < tableRows.length; i++) {
-        if (tableRows[i].state === 'pending') {
-          count++;
-        }  
+    for (let i = 0; i < tableRows.length; i++) {
+      if (tableRows[i].state === 'requested') {
+        count++;
       }
-      setPendingCount(count);  
-    }, [tableRows]);
+    }
+    setPendingCount(count);
+  }, [tableRows]);
   return (
     <>
       <LinkItem
@@ -56,33 +53,34 @@ const MenuItem = ({ open }) => {
         isActive={location.pathname === '/list-wallets'}
         open={open}
       />
-       {
-        pendingCount > 0 && open ?
-      <div style={{ display: 'flex', 
-                    alignItems: 'center', 
-                    backgroundColor: isHovered ? '#E1F2E89C' : 'transparent',
-                    }}
+      {pendingCount > 0 && open ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: isHovered ? '#E1F2E89C' : 'transparent',
+          }}
           onMouseOver={() => setIsHovered(true)}
-          onMouseOut={() => setIsHovered(false)}          
-      >
-      <LinkItem
-        itemPath={'/trust-relationship'}
-        itemName={'Trust Relationship'}
-        itemIcon={<HandshakeIcon />}
-        isActive={location.pathname === '/trust-relationship'}
-        open={open}
-        pendingCount={pendingCount}
-      />
-
-    </div>
-     :
-     <LinkItem
-     itemPath={'/trust-relationship'}
-     itemName={'Trust Relationship'}
-     itemIcon={<HandshakeIcon />}
-     open={open}
-   />
-     }
+          onMouseOut={() => setIsHovered(false)}
+        >
+          <LinkItem
+            itemPath={'/trust-relationship'}
+            itemName={'Trust Relationship'}
+            itemIcon={<HandshakeIcon />}
+            isActive={location.pathname === '/trust-relationship'}
+            open={open}
+            pendingCount={pendingCount}
+          />
+        </div>
+      ) : (
+        <LinkItem
+          itemPath={'/trust-relationship'}
+          itemName={'Trust Relationship'}
+          itemIcon={<HandshakeIcon />}
+          isActive={location.pathname === '/trust-relationship'}
+          open={open}
+        />
+      )}
     </>
   );
 };
