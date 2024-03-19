@@ -26,7 +26,6 @@ const MenuItem = ({ open }) => {
       }
       setPendingCount(count);  
     }, [tableRows]);
-  console.log(tableRows);
   return (
     <>
       <LinkItem
