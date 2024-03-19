@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 // import { DrawerStyled, DrawerHeaderStyled } from '../../components/layout/Menu/MenuStyled.js';
 import CloseIcon from '@mui/icons-material/Close';
+import { useContext } from 'react';
 import {
   DrawerStyled,
   DrawerHeaderStyled,
@@ -25,8 +26,9 @@ import { useTrustRelationshipsContext } from '../../store/TrustRelationshipsCont
 function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
 
   const { setRefetch } = useTrustRelationshipsContext();
+  const authContext = useContext(AuthContext);
   
-  const token = AuthContext.token;
+  const token = authContext.token;
 
   const handleAccept = (id) => {
     const res = acceptTrustRelationship({ id, token });
@@ -35,7 +37,7 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
   };
 
   const handleDecline = (id) => {
-    const res = declineTrustRelationship(id, token);
+    const res = declineTrustRelationship({ id, token });
     onClose()
     setRefetch(true);
   };
