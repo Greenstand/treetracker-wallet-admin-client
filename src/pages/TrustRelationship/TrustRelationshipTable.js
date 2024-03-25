@@ -16,6 +16,8 @@ import {
   SearchTextField,
   FilterButton,
 } from './TrustRelationship.styled';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import { Loader } from '../../components/UI/components/Loader/Loader';
@@ -345,7 +347,7 @@ const TrustRelationshipTableBody = ({
 };
 
 function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
-  const { pagination, setPagination, tableColumns } =
+  const { pagination, setPagination, tableColumns, setSorting } =
     useTrustRelationshipsContext();
 
   // State to track the index of the selected row
@@ -370,6 +372,59 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
     setPage(newPage);
     const newPagination = { ...pagination, offset: newPage * rowsPerPage };
     setPagination(newPagination);
+  };
+
+  //sorting
+  const [sortBy, setSortBy] = useState('created_at');
+  const [order, setOrder] = useState('desc');
+
+  const getColumnNames = (columnName) => {
+    let newSortBy = columnName;
+    switch (columnName) {
+      case 'state':
+        newSortBy = 'State';
+        break;
+      case 'created_at':
+        newSortBy = 'Created_At';
+        break;
+        case 'updated_at':
+          newSortBy = 'Updated_At';
+          break;
+      default:
+        newSortBy = columnName;
+    }
+
+    return newSortBy;
+  };
+
+  const mapSortBy = (columnName) => {
+    let newSortBy = getColumnNames(columnName);
+    setSortBy(newSortBy);
+
+    return newSortBy;
+  };
+
+  const handleSort = (column) => {
+    let newOrder = 'asc';
+
+    if (
+      (sortBy === column.name ||
+        (column.name === 'wallet_name' && sortBy === 'name') ||
+        (column.name === 'created_date' && sortBy === 'created_at')) &&
+      order === 'asc'
+    ) {
+      newOrder = 'desc';
+    }
+
+    setOrder(newOrder);
+
+    let newSortBy = mapSortBy(column.name);
+    setSortBy(newSortBy);
+
+    setSorting({
+      sortBy: newSortBy,
+      order: newOrder,
+    });
   };
 
   return (
@@ -397,8 +452,24 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
                     key={`${id}-${column.description}`}
                     sx={{ fontSize: '14px' }}
                     align={'center'}
+                    onClick={() => column.sortable && handleSort(column)}
                   >
                     {column.description}
+                    {column.sortable &&
+                      sortBy === getColumnNames(column.name) && (
+                        <>
+                          {order === 'asc' && (
+                            <ArrowUpwardIcon
+                              style={{ verticalAlign: 'middle' }}
+                            />
+                          )}
+                          {order === 'desc' && (
+                            <ArrowDownwardIcon
+                              style={{ verticalAlign: 'middle' }}
+                            />
+                          )}
+                        </>
+                      )}
                   </TableCellStyled>
                 );
               })}

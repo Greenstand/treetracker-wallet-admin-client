@@ -6,7 +6,7 @@ import TrustRelationshipsFilter from '../models/TrustRelationShipFilter';
 
 const TrustRelationshipsContext = createContext();
 
-// transfers context provider
+// TrustRelationships context provider
 const TrustRelationshipsProvider = ({ children }) => {
   // pagination
   const defaultPagination = {
@@ -20,6 +20,13 @@ const TrustRelationshipsProvider = ({ children }) => {
     requestType: ''
   });
 
+  // sorting
+  const defaultSorting = {
+    sortBy: 'created_at',
+    order: 'desc',
+  };
+
+  const [sorting, setSorting] = useState(defaultSorting);
   
   const [filter, setFilter] = useState(defaultFilter);
 
@@ -38,13 +45,13 @@ const TrustRelationshipsProvider = ({ children }) => {
     {
       description: 'Id',
       name: 'id',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
       description: 'Type',
       name: 'type',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
@@ -56,7 +63,7 @@ const TrustRelationshipsProvider = ({ children }) => {
     {
       description: 'Request Type',
       name: 'request_type',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
@@ -76,24 +83,23 @@ const TrustRelationshipsProvider = ({ children }) => {
     {
       description: 'Originating Wallet',
       name: 'originating_wallet',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
       description: 'Source Wallet',
       name: 'actor_wallet',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
       description: 'Target Wallet',
       name: 'target_wallet',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     }
   ];
 
-  // const randomStates = ['trusted', 'requested'];
 
   // transform API returned data into rows compatible with the trust relationship table
   const prepareRows = (returnedRows) => {
@@ -102,7 +108,6 @@ const TrustRelationshipsProvider = ({ children }) => {
         id: row.id,
         type: row.type,
         state: row.state,
-        // state: randomStates[(Math.floor(Math.random() * randomStates.length))],
         request_type: row.request_type,
         created_at: row.created_at,
         updated_at: row.updated_at,
@@ -199,7 +204,7 @@ const TrustRelationshipsProvider = ({ children }) => {
        try {
          setIsLoading(true);
          
-         const data = await getTrustRelationships(authContext.token, {pagination, filter});
+         const data = await getTrustRelationships(authContext.token, {pagination, filter, sorting});
         
          const preparedRows = prepareRows(await data.trust_relationships);
          setTableRows(preparedRows);
@@ -214,7 +219,7 @@ const TrustRelationshipsProvider = ({ children }) => {
         }
      };
      loadData();
-   }, [pagination, filter, refetch]);
+   }, [pagination, filter,sorting, refetch]);
 
 
 
@@ -236,7 +241,9 @@ const TrustRelationshipsProvider = ({ children }) => {
     defaultFilter,
     searchString,
     setSearchString,
-    setRefetch
+    setRefetch,
+    sorting,
+    setSorting,
   };
 
   return (
