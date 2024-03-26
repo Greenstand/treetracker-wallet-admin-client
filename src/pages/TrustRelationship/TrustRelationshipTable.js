@@ -33,6 +33,7 @@ import {
   TypeSelectFilter,
   RequestTypeSelectFilter,
   ResetButton,
+  DateRangeFilter
 } from './TrustRelationshipsFilters';
 import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
 
@@ -141,6 +142,7 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
                 typeList={typeList}
                 getStatusColor={getStatusColor}
               />
+              <DateRangeFilter filter={filter} setFilter={setFilter} />
             </Grid>
             <Grid
               item
@@ -428,7 +430,6 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
   };
 
   return (
-    // <Grid container direction={'column'}>
     <Grid
       container
       direction={'column'}
@@ -495,8 +496,6 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
         data-testid="table-pagination"
       />
     </Grid>
-
-    //  </Grid>
   );
 }
 
