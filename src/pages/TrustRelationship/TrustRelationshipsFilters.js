@@ -17,7 +17,7 @@ import {
     SelectMenuItem,
     DateRangeButton,
     DateRangeFilterIcon,
-  } from './TrutrelationshipsFilter.styled';
+  } from './TrustRelationshipsFilters.styled';
   import { DateRangeIcon } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers';
 
@@ -36,7 +36,6 @@ import { DatePicker } from '@mui/x-date-pickers';
    * @return {JSX.Element} Transfer status filter component
    * @constructor
    */
-
 
 
 export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColor }) => {
@@ -80,12 +79,6 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
     );
   };
 
-
-
-
-
-
-
   export const RequestTypeSelectFilter = ({ filter, setFilter, requestTypeList, getStatusColor }) => {
     // get state from filter
     const { requestType } = filter;
@@ -126,17 +119,7 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
       </FormControl>
     );
   };
-  
 
-
-
-
-
-
-
-
-
-  
   export const TypeSelectFilter = ({ filter, setFilter, typeList, getStatusColor }) => {
     // get state from filter
     const { type } = filter;
@@ -196,11 +179,6 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
       </button>
     );
   };
-
-
-
-  
-
    
   /**@function
    * @name DateRangeFilter
