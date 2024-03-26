@@ -17,7 +17,9 @@ const TrustRelationshipsProvider = ({ children }) => {
   const defaultFilter = new TrustRelationshipsFilter({
     state: '',
     type: '',
-    requestType: ''
+    requestType: '',
+    before: null,
+    after: null,
   });
 
   
