@@ -2,14 +2,13 @@ import { ListItemButton, ListItemIcon } from '@mui/material';
 import { styled } from '@mui/system';
 import { NavLink } from 'react-router-dom';
 
-const LinkItemStyled = styled(NavLink)(({ theme }) => ({
+const LinkItemStyled = styled(NavLink)(({ theme, isActive }) => ({
   textDecoration: 'none',
-  color: theme.palette.primary.lightMain,
-  fontWeight: 'normal',
-  '&.active': {
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-  },
+  color: isActive ? theme.palette.primary.main : theme.palette.primary.lightMain,
+  backgroundColor: isActive ? theme.palette.action.active: null,
+  borderTopRightRadius: isActive ? '25px': null,
+  borderBottomRightRadius: isActive ? '25px': null,
+  width: '14.5rem'
 }));
 
 const ItemButtonStyled = styled(ListItemButton)(({ open }) => ({

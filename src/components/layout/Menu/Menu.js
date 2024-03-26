@@ -6,6 +6,7 @@ import * as React from 'react';
 import MenuItem from './MenuItem/MenuItem';
 import { DrawerHeaderStyled, DrawerStyled } from './MenuStyled';
 import TopMenu from './TopMenu/TopMenu';
+import { TrustRelationshipsProvider } from '../../../store/TrustRelationshipsContext';
 
 const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
   const theme = useTheme();
@@ -23,7 +24,9 @@ const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             )}
           </IconButton>
         </DrawerHeaderStyled>
+        <TrustRelationshipsProvider>
         <MenuItem open={open} />
+        </TrustRelationshipsProvider>
       </DrawerStyled>
     </>
   );
