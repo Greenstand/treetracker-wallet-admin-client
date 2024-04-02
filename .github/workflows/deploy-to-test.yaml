@@ -1,4 +1,4 @@
-name: Deploy alpha channel to test
+name: Build alpha to test
 
 on:
   workflow_dispatch:
@@ -8,13 +8,10 @@ on:
         required: true
         default: 'e.g. v1.20.1-beta.1'
 
-
-# env:
-  # repository: 'Greenstand/treetracker-wallet-admin-client'
 env:
   project-directory: ./
-
-
+  repository: 'Greenstand/treetracker-wallet-admin-client'
+  node-version: '20'
 
 jobs:
   prepare:
@@ -27,10 +24,10 @@ jobs:
       NO_NEED_TO_BUILD: ${{ steps.resolver.outputs.NO_NEED_TO_BUILD }}
 
     steps:
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v1
         with:
           node-version: '20.x'
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - run: |
           echo "::debug:: begin preparing...";
           echo "::debug:: branch to release: $GITHUB_REF_NAME"
@@ -72,68 +69,91 @@ jobs:
         env:
           VERSION_TO_DEPLOY: ${{ github.event.inputs.version }}
           ENV_TO_DEPLOY: ${{ github.event.inputs.env }}
-        shell: bash
       - run: |
           echo "channel: ${{ steps.resolver.outputs.CHANNEL}}"
           echo "s3: ${{ steps.resolver.outputs.S3_BUCKET_SECRET_NAME}}"
           echo "cdn: ${{ steps.resolver.outputs.CDN_ID_SECRET_NAME}}"
           echo "need to deploy: ${{ steps.resolver.outputs.NO_NEED_TO_BUILD}}"
         name: Print resolver
-        shell: bash
-
-  frontend:
-    name: Build Frontend Project
+  client:
+    name: Build Client Project
     runs-on: ubuntu-latest
     needs: prepare
     if: |
-      !contains(github.event.head_commit.message, 'skip-ci')
+      !contains(github.event.head_commit.message, 'skip-ci') && !contains(needs.prepare.outputs.NO_NEED_TO_BUILD, 'true')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v1
         with:
-          ref: ${{ github.event.inputs.version }}
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.x'
+          node-version: ${{ env.node-version }}
       - name: npm clean install
         run: npm ci --legacy-peer-deps
         working-directory: ${{ env.project-directory }}
-      #if input 'env' is 'prod' then run 'npm run build'
-      - name: build for test
-        if: "contains(github.event.inputs.env, 'test')"
-        run: cd green/front/ && npm run build:test
+      - name: run ESLint
+        run: npm run lint
         working-directory: ${{ env.project-directory }}
-      - uses: actions/upload-artifact@v3
+      - name: build client test project
+        if: github.repository == ${{ env.repository }}
+        run: npm run build:test
+        working-directory: ${{ env.project-directory }}
+      - uses: actions/upload-artifact@v2
+        if: github.repository == ${{ env.repository }}
         with:
-          name: frontend-bundle
-          path: ${{ env.project-directory }}/green/front/out
-
-  deploy:
-    name: Deploy to CDN
+          name: client-bundle
+          path: build-test
+      - name: build client project
+        run: npm run build
+        working-directory: ${{ env.project-directory }}
+      - name: run React tests
+        run: npm test
+        working-directory: ${{ env.project-directory }}
+  release:
+    name: Release semantic version
+    needs: [client, prepare]
     runs-on: ubuntu-latest
-    needs: [frontend, prepare]
     if: |
+      !contains(github.event.head_commit.message, 'skip-ci') &&
       github.repository == ${{ github.env.repository }}
     steps:
-      - name: Print vars
-        run: |
-          echo "channel: ${{ needs.prepare.outputs.CHANNEL }}"
-          echo "s3: ${{ needs.prepare.outputs.S3_BUCKET_SECRET_NAME }}"
-          echo "cdn: ${{ needs.prepare.outputs.CDN_ID_SECRET_NAME }}"
-      - name: Download bundled frontend resources
-        uses: actions/download-artifact@v3
+      - name: Check out repository code
+        uses: actions/checkout@v2
         with:
-          name: frontend-bundle
-          path: ${{ env.project-directory }}/green/front/out
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v3
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.node-version }}
+      # install dependencies and run semantic-release
+      - run: npm i -g semantic-release @semantic-release/{git,exec,changelog}
+      - run: semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  deploy:
+    name: Deploy to test CDN
+    runs-on: ubuntu-latest
+    needs: [release, prepare]
+    if: |
+      !contains(github.event.head_commit.message, 'skip-ci') &&
+      github.repository == ${{ github.env.repository }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download bundled client resources
+        uses: actions/download-artifact@v2
+        with:
+          name: client-bundle
+          path: build-test
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_KEY_ID_DEV }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_DEV }}
           aws-region: us-east-1
+      - name: install-aws-cli
+        uses: unfor19/install-aws-cli-action@v1
       - name: Copy front end resources to s3 bucket
         run: |
-          aws s3 sync build s3://${{secrets[needs.prepare.outputs.S3_BUCKET_SECRET_NAME]}} --delete
+          aws s3 sync build-test s3://${{secrets[needs.prepare.outputs.S3_BUCKET_SECRET_NAME]}} --delete
       - name: Invalidate cloudfront caches
         run: |
           aws cloudfront create-invalidation --distribution-id ${{ secrets[needs.prepare.outputs.CDN_ID_SECRET_NAME]}} --paths "/*"
