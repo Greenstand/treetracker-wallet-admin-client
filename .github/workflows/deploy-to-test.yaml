@@ -14,7 +14,8 @@ on:
 
 defaults:
   run:
-    working-directory: green
+    working-directory: ./green
+  shell: bash
 
 jobs:
   prepare:
@@ -72,12 +73,14 @@ jobs:
         env:
           VERSION_TO_DEPLOY: ${{ github.event.inputs.version }}
           ENV_TO_DEPLOY: ${{ github.event.inputs.env }}
+        shell: bash
       - run: |
           echo "channel: ${{ steps.resolver.outputs.CHANNEL}}"
           echo "s3: ${{ steps.resolver.outputs.S3_BUCKET_SECRET_NAME}}"
           echo "cdn: ${{ steps.resolver.outputs.CDN_ID_SECRET_NAME}}"
           echo "need to deploy: ${{ steps.resolver.outputs.NO_NEED_TO_BUILD}}"
         name: Print resolver
+        shell: bash
 
   frontend:
     name: Build Frontend Project
@@ -104,7 +107,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: frontend-bundle
-          path: green/build
+          path: ./green/build
 
   deploy:
     name: Deploy to CDN
@@ -122,7 +125,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: frontend-bundle
-          path: green/build
+          path: ./green/build
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
