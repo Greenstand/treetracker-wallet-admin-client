@@ -1,4 +1,4 @@
-name: Build alpha to test
+name: Deploy alpha channel to test
 
 on:
   workflow_dispatch:
@@ -81,6 +81,9 @@ jobs:
     needs: prepare
     if: |
       !contains(github.event.head_commit.message, 'skip-ci') && !contains(needs.prepare.outputs.NO_NEED_TO_BUILD, 'true')
+    defaults:
+      run:
+        working-directory: ./react
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ env.node-version }}
@@ -89,25 +92,25 @@ jobs:
           node-version: ${{ env.node-version }}
       - name: npm clean install
         run: npm ci --legacy-peer-deps
-        working-directory: ${{ env.project-directory }}
+        # working-directory: ${{ env.project-directory }}
       - name: run ESLint
         run: npm run lint
-        working-directory: ${{ env.project-directory }}
+        # working-directory: ${{ env.project-directory }}
       - name: build client test project
         if: github.repository == ${{ env.repository }}
         run: npm run build:test
-        working-directory: ${{ env.project-directory }}
+        # working-directory: ${{ env.project-directory }}
       - uses: actions/upload-artifact@v2
         if: github.repository == ${{ env.repository }}
         with:
-          name: client-bundle
-          path: build-test
+          name: react-bundle
+          path: react/react-bundle
       - name: build client project
         run: npm run build
-        working-directory: ${{ env.project-directory }}
+        # working-directory: ${{ env.project-directory }}
       - name: run React tests
         run: npm test
-        working-directory: ${{ env.project-directory }}
+        # working-directory: ${{ env.project-directory }}
   release:
     name: Release semantic version
     needs: [client, prepare]
@@ -136,13 +139,16 @@ jobs:
     if: |
       !contains(github.event.head_commit.message, 'skip-ci') &&
       github.repository == ${{ github.env.repository }}
+    defaults:
+      run:
+        working-directory: ./react
     steps:
       - uses: actions/checkout@v2
       - name: Download bundled client resources
         uses: actions/download-artifact@v2
         with:
-          name: client-bundle
-          path: build-test
+          name: react-bundle
+          path: react/react-bundle
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v1
         with:
