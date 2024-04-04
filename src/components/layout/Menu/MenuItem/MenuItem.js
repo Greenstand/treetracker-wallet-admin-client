@@ -32,6 +32,12 @@ const MenuItem = ({ open }) => {
         itemIcon={<AccountBalanceWalletRoundedIcon />}
         open={open}
       />
+      <LinkItem
+        itemPath={'/trust-relationships'}
+        itemName={'Trust Relationships'}
+        itemIcon={<AccountBalanceWalletRoundedIcon />}
+        open={open}
+      />
     </>
   );
 };
