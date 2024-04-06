@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           # have to checkout master, to read releaserc, which means we must update the rc file in master with the newest settings
-          ref: main
+          ref: v2
       - run: |
           echo "::debug:: begin preparing...";
           echo "::debug:: version to deploy: $VERSION_TO_DEPLOY";
