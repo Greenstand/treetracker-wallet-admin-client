@@ -11,7 +11,7 @@ import { TransfersProvider } from '../../store/TransfersContext';
 import MyWallets from '../../pages/MyWallets/MyWallets';
 import { WalletsProvider } from '../../store/WalletsContext';
 import TrustRelationship from '../../pages/TrustRelationship/TrustRelationship';
-import {TrustRelationshipsProvider} from '../../store/TrustRelationshipsContext';
+import { TrustRelationshipsProvider } from '../../store/TrustRelationshipsContext';
 
 const ProtectedRoute = ({ isLoggedIn, redirectPath = '/login' }) => {
   if (!isLoggedIn) {

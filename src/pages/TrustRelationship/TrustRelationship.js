@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import TrustRelationshipTable from './TrustRelationshipTable';
-import {useTrustRelationshipsContext} from '../../store/TrustRelationshipsContext';
+import { useTrustRelationshipsContext } from '../../store/TrustRelationshipsContext';
 import Message from '../../components/UI/components/Message/Message';
 
 function TrustRelationship() {

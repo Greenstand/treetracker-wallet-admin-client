@@ -261,15 +261,15 @@ const TrustRelationshipTableBody = ({
   // state to track if side panel is open when you click the row on table
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
-  let sortedTableRows = [...tableRows].sort(
-    (a, b) => new Date(b.created_at) - new Date(a.created_at)
-  );
-  sortedTableRows = [...sortedTableRows].sort(
-    (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-  );
-  sortedTableRows = [...sortedTableRows].sort((a, b) =>
-    a.state.localeCompare(b.state)
-  );
+  // let sortedTableRows = [...tableRows].sort(
+  //   (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  // );
+  // sortedTableRows = [...sortedTableRows].sort(
+  //   (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+  // );
+  // let sortedTableRows = [...tableRows].sort((a, b) =>
+  //   a.state.localeCompare(b.state)
+  // );
   //function to close side panel
   const handleClosePanel = () => {
     setIsSidePanelOpen(false);
@@ -310,8 +310,8 @@ const TrustRelationshipTableBody = ({
   return (
     <>
       <TableBody>
-        {sortedTableRows &&
-          sortedTableRows
+        {tableRows &&
+          tableRows
             .filter(
               (row) =>
                 row.actor_wallet
@@ -410,13 +410,13 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
     let newSortBy = columnName;
     switch (columnName) {
       case 'state':
-        newSortBy = 'State';
+        newSortBy = 'state';
         break;
       case 'created_at':
-        newSortBy = 'Created_At';
+        newSortBy = 'created_at';
         break;
         case 'updated_at':
-          newSortBy = 'Updated_At';
+          newSortBy = 'updated_at';
           break;
       default:
         newSortBy = columnName;
@@ -450,7 +450,7 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
     setSortBy(newSortBy);
 
     setSorting({
-      sortBy: newSortBy,
+      sort_by: newSortBy,
       order: newOrder,
     });
   };

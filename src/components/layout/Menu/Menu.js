@@ -25,7 +25,7 @@ const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
           </IconButton>
         </DrawerHeaderStyled>
         <TrustRelationshipsProvider>
-        <MenuItem open={open} />
+          <MenuItem open={open} />
         </TrustRelationshipsProvider>
       </DrawerStyled>
     </>

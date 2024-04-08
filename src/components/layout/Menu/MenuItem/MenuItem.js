@@ -23,7 +23,7 @@ const MenuItem = ({ open }) => {
     }
     setPendingCount(count);
   }, [tableRows]);
-  return (
+    return (
     <>
       <LinkItem
         itemPath={'/'}
