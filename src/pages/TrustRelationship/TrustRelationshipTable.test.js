@@ -88,7 +88,7 @@ const TestWrapper = (props) => {
         />
       </TestWrapper>,
     );
-  screen.debug()
+
     expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
     expect(
       await screen.findByTestId('trust-relationships-table'),
