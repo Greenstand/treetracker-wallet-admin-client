@@ -1,3 +1,39 @@
+# [2.1.0-v2.1](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.0.0...v2.1.0-v2.1) (2024-04-09)
+
+
+### Bug Fixes
+
+* channel error ([a4bd1ab](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a4bd1ab2c37a27fb0339cfcd6a81451c212a389a))
+* delete console log ([2a2bb47](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/2a2bb470ce718fbb1c638612bd24e1f3c4a49982))
+* delete unwanted character ([852ae91](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/852ae913e4bbf0b7148c67b28410d0995662230b))
+* enhancement of the row click side pannel ([d1cace1](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d1cace19273c5fe1a1216f4a12222d390943fa13))
+* fix typos ([9e0b97f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9e0b97fd7a47753e89b3793fe816ae3f778b296c))
+* implement sorting from api ([afd789b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/afd789b1ba1d70c000796a2c578b67a5ef9fa35b))
+* path of token to the accept and decline ([35bf05f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/35bf05fe2f542c337e2dfce651d02d2021366b51))
+* setup prerelease for v2 ([8dafb59](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/8dafb590f7a6b02e4ed339181589e321e70569c3))
+* Update Login.js ([b156005](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/b156005fc4af5a544a3433570276c0f84c9d04ab))
+* Update SendTokens.js ([4c7b1bb](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/4c7b1bbfc12e922b27159b33539fa6a7a8056dc1))
+
+
+### Features
+
+* Add active link on menu item ([27b0835](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/27b083506919e196e0e04f30511e7f85f8db154f))
+* Add link item of the trust relationship page ([a2c6eb7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a2c6eb7fe6dc9c62e392c8460c6f39ae79e710e5))
+* Add sorting in trust relationships table ([0ce04d5](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0ce04d51afca6165388e39e1b68c1cf3d69fa1e2))
+* Add trust relationship route ([87047f5](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/87047f5c40b78f9df4a6985a6971af7a0121a3bf))
+* Added the created date filter ([653497a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/653497a9bdea5634334f4c7a4365a3b183324b24))
+* Added trust relationships route ([3f727c0](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/3f727c01f978564f670adc8720c7ea3f9fda7dc4))
+* create apiClient for trust relationships ([8fbe4e0](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/8fbe4e06a415db78045104cc8e64d72879bb0732))
+* create context for trust relationships ([5e19aad](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5e19aad12c7d6e4ae12a95ce2a1cad4627268caf))
+* create listing table ([e1736c0](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/e1736c0eff443245250e9cc5e2cf26a1f1eee454))
+* making filter functionality ([2278320](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/2278320a6ee16422cf39da8d91a7a5f66e8b1d52))
+* making filter functionality ([85d3c6b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/85d3c6b7d86fe7f7f0c672f87caf17e12e662855))
+* making filter functionality ([689846e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/689846ee2ca14e4d41379e623daa53f3fe16a713))
+* making filter functionality ([27f2d94](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/27f2d9404ff717275813a68733765e6c9fea05f9))
+* style for trust relationship table ([c26c40b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c26c40bc3cd1f10883aae816874b3ffcfe981d17))
+* update number of length ([3910516](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/39105165f871c37446a7980c5bc519b6fab0dcb2))
+* when table row clicked right side panel appear ([1b6715a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/1b6715ae75f6358841cd5c88a9512baecaa4752e))
+
 ## [2.0.1-v2.2](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.0.1-v2.1...v2.0.1-v2.2) (2024-03-06)
 
 

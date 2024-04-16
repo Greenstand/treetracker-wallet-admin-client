@@ -10,7 +10,7 @@
       {
         "name": "v2",
         "prerelease": true,
-        "channel": "alpha"
+        "channel": "beta"
       }
     ],
     "plugins": [
