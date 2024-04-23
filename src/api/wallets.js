@@ -83,3 +83,24 @@ export const createWallet = async (token, walletName) => {
 
   return createdWallet;
 };
+
+export const updateWallet = async (token, wallet) => {
+  const patchRequest = {
+    about: wallet.about,
+    cover_image: wallet.coverImage,
+    logo_image: wallet.logoImage,
+  };
+
+  const updatedWallet = await apiClient
+    .setAuthHeader(token)
+    .patch('/wallets', patchRequest)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw Error(error.response.data.message);
+    });
+
+  return updatedWallet;
+};
