@@ -189,13 +189,10 @@ const TrustRelationshipsProvider = ({ children }) => {
 
 
 
-   // error
+
    const [message, setMessage] = useState('');
-   // data to be displayed in the table
    const [tableRows, setTableRows] = useState([]);
  
- 
-   // total rows count for pagination
    const [totalRowCount, setTotalRowCount] = useState(null);
  
    const authContext = useContext(AuthContext);
@@ -206,32 +203,11 @@ const TrustRelationshipsProvider = ({ children }) => {
        try {
          setIsLoading(true);
          
-         const data1 = await getTrustRelationships(authContext.token, {pagination, filter, sorting});
+         const data = await getTrustRelationships(authContext.token, {pagination, filter, sorting});
 
-
-        const randomizeTrustState = (dataArray) => {
-          // Directly manipulate only the trust_relationships part of dataArray
-          let manipulatedTrustRelationships = dataArray.trust_relationships.map(item => ({
-            ...item,
-            state: Math.random() < 0.5 ? 'trusted' : 'requested' // Randomly assign state
-          }));
-        
-          // Return the entire dataArray object with the updated trust_relationships
-          return {
-            ...dataArray,
-            trust_relationships: manipulatedTrustRelationships
-          };
-        };
-        
-      
-        const data = randomizeTrustState(data1);
-       
-        
          const preparedRows = prepareRows(await data.trust_relationships);
-        //  console.log(tableRows)
          setTableRows(preparedRows);
          setTotalRowCount(data.total);
-        //  console.log(data.trust_relationships)
          
        } catch (error) {
          console.error(error);
