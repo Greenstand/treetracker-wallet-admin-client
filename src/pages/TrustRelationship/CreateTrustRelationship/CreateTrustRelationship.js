@@ -26,7 +26,7 @@ import DialogActions from '@mui/material/DialogActions';
 import SelectWallet from '../../SendTokens/SendTokensForm/SelectWallet';
 import { ArrowDropDown } from '@mui/icons-material';
 import AuthContext from '../../../store/auth-context';
-import { requestTrustRelationship } from '../../../api/trustRelationships';
+import { requestTrustRelationship } from '../../../api/trust_relationships';
 import Message from '../../../components/UI/components/Message/Message';
 import { useTrustRelationshipsContext } from '../../../store/TrustRelationshipsContext';
 
