@@ -3,7 +3,14 @@ import { Autocomplete, Button, TextField } from '@mui/material';
 import { getWallets } from '../../../api/wallets';
 import AuthContext from '../../../store/auth-context';
 
-function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
+function SelectWallet({
+  wallet,
+  onChangeWallet,
+  label,
+  createdWalletName,
+  isError,
+  errorMessage,
+}) {
   const filterLoadMore = 'LOAD_MORE';
 
   const [walletPage, setWalletPage] = useState(0);
@@ -187,7 +194,14 @@ function SelectWallet({ wallet, onChangeWallet, label, createdWalletName }) {
           setWalletSearchString(newVal);
         }}
         renderInput={(params) => {
-          return <TextField {...params} label={label} />;
+          return (
+            <TextField
+              error={isError}
+              helperText={errorMessage}
+              {...params}
+              label={label}
+            />
+          );
         }}
         renderOption={handleWalletRenderOption}
       />

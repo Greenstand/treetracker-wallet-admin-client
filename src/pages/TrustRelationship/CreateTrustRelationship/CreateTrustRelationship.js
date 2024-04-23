@@ -28,6 +28,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import AuthContext from '../../../store/auth-context';
 import { requestTrustRelationship } from '../../../api/trustRelationships';
 import Message from '../../../components/UI/components/Message/Message';
+import { useTrustRelationshipsContext } from '../../../store/TrustRelationshipsContext';
 
 const trustRequestTypeList = [
   {
@@ -87,6 +88,7 @@ const CreateNewRelationshipDialog = ({ open, handleClose }) => {
   const [sendRequestError, setSendRequestError] = useState('');
 
   const authContext = useContext(AuthContext);
+  const { loadData } = useTrustRelationshipsContext();
 
   const closeDialog = () => {
     setRequestSuccess(false);
@@ -163,6 +165,7 @@ const CreateNewRelationshipDialog = ({ open, handleClose }) => {
       console.log(trustRelationshipRequest);
       setRequestSuccess(true);
       resetFields();
+      loadData();
     } catch (error) {
       console.log(error);
       setSendRequestError(error.message);
@@ -201,6 +204,7 @@ const CreateNewRelationshipDialog = ({ open, handleClose }) => {
                 </InputLabel>
                 <Select
                   displayEmpty
+                  labelId="trust-request-type"
                   value={formFields.requestType}
                   onChange={(event) =>
                     setFormFields((prevState) => ({
@@ -223,17 +227,13 @@ const CreateNewRelationshipDialog = ({ open, handleClose }) => {
               </FormControl>
             </Grid>
             <Grid item xs={8}>
-              {/*TODO refactor select wallet to display error outline*/}
-              <FormControl fullWidth error={!!formFieldErrors.requestingWallet}>
-                <SelectWallet
-                  wallet={formFields.requestingWallet}
-                  onChangeWallet={handleChangeRequestingWallet}
-                  label={'Requesting Wallet'}
-                />
-                <FormHelperText>
-                  {formFieldErrors.requestingWallet}
-                </FormHelperText>
-              </FormControl>
+              <SelectWallet
+                wallet={formFields.requestingWallet}
+                onChangeWallet={handleChangeRequestingWallet}
+                label={'Requesting Wallet'}
+                isError={!!formFieldErrors.requestingWallet}
+                errorMessage={formFieldErrors.requestingWallet}
+              />
             </Grid>
             <Grid item xs={8}>
               <TextField

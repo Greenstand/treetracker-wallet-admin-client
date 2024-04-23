@@ -11,11 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  CreateButton,
-  SearchTextField,
-  FilterButton,
-} from './TrustRelationship.styled';
+import { SearchTextField, FilterButton } from './TrustRelationship.styled';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -26,6 +22,7 @@ import {
   TableCellStyled,
   TooltipStyled,
 } from '../MyTransfers/TransfersTable.styled';
+
 ('react');
 import Menu from '@mui/material/Menu';
 import {
@@ -33,100 +30,101 @@ import {
   TypeSelectFilter,
   RequestTypeSelectFilter,
   ResetButton,
-  DateRangeFilter
+  DateRangeFilter,
 } from './TrustRelationshipsFilters';
 import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
+import CreateTrustRelationship from './CreateTrustRelationship/CreateTrustRelationship';
 
-
- const FilterDialog = ({anchorEl,
-                       handleFilterClose, 
-                       filter, 
-                       setFilter,
-                       statesList,
-                       requestTypeList,
-                       getStatusColor,
-                       typeList,
-                       defaultFilter
-                      }) => {
-   return (
+const FilterDialog = ({
+  anchorEl,
+  handleFilterClose,
+  filter,
+  setFilter,
+  statesList,
+  requestTypeList,
+  getStatusColor,
+  typeList,
+  defaultFilter,
+}) => {
+  return (
     <Menu
-    anchorEl={anchorEl}
-    keepMounted
-    open={Boolean(anchorEl)}
-    onClose={handleFilterClose}
-  >
-    <Grid container direction="column" sx={{ padding: '20px' }}>
-      <Grid
-        item
-        xs={5}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
-        <StateSelectFilter
-          filter={filter}
-          setFilter={setFilter}
-          statesList={statesList}
-          getStatusColor={getStatusColor}
-        />
-        <RequestTypeSelectFilter
-          filter={filter}
-          setFilter={setFilter}
-          requestTypeList={requestTypeList}
-          getStatusColor={getStatusColor}
-        />
-        <TypeSelectFilter
-          filter={filter}
-          setFilter={setFilter}
-          typeList={typeList}
-          getStatusColor={getStatusColor}
-        />
-        <DateRangeFilter filter={filter} setFilter={setFilter} />
-      </Grid>
-      <Grid
-        item
-        xs={5}
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          paddingBottom: '20px',
-        }}
-      ></Grid>
-      <Grid
-        item
-        xs={2}
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          margin: '10px auto',
-          gap: '10px',
-        }}
-      >
-        <ResetButton
-          close={handleFilterClose}
-          setFilter={setFilter}
-          defaultFilter={defaultFilter}
-        />
-        <button
-          style={{
-            color: 'black',
-            border: 'none',
-            backgroundColor: 'rgba(114, 185, 7, 0.192)',
-            padding: '8px 20px',
-            borderRadius: '2rem',
+      anchorEl={anchorEl}
+      keepMounted
+      open={Boolean(anchorEl)}
+      onClose={handleFilterClose}
+    >
+      <Grid container direction="column" sx={{ padding: '20px' }}>
+        <Grid
+          item
+          xs={5}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           }}
-          onClick={handleFilterClose}
         >
-          <h4> Apply</h4>
-        </button>
+          <StateSelectFilter
+            filter={filter}
+            setFilter={setFilter}
+            statesList={statesList}
+            getStatusColor={getStatusColor}
+          />
+          <RequestTypeSelectFilter
+            filter={filter}
+            setFilter={setFilter}
+            requestTypeList={requestTypeList}
+            getStatusColor={getStatusColor}
+          />
+          <TypeSelectFilter
+            filter={filter}
+            setFilter={setFilter}
+            typeList={typeList}
+            getStatusColor={getStatusColor}
+          />
+          <DateRangeFilter filter={filter} setFilter={setFilter} />
+        </Grid>
+        <Grid
+          item
+          xs={5}
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            paddingBottom: '20px',
+          }}
+        ></Grid>
+        <Grid
+          item
+          xs={2}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            margin: '10px auto',
+            gap: '10px',
+          }}
+        >
+          <ResetButton
+            close={handleFilterClose}
+            setFilter={setFilter}
+            defaultFilter={defaultFilter}
+          />
+          <button
+            style={{
+              color: 'black',
+              border: 'none',
+              backgroundColor: 'rgba(114, 185, 7, 0.192)',
+              padding: '8px 20px',
+              borderRadius: '2rem',
+            }}
+            onClick={handleFilterClose}
+          >
+            <h4> Apply</h4>
+          </button>
+        </Grid>
       </Grid>
-    </Grid>
-  </Menu>
-   )
-}
+    </Menu>
+  );
+};
 
 const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
   const {
@@ -157,11 +155,13 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
       <Grid
         item
         xs={2}
-        sx={{ display: 'flex', justifyContent: 'end', alignItems: 'flex-end' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        }}
       >
-        <CreateButton type="button" variant="contained">
-          + Create
-        </CreateButton>
+        <CreateTrustRelationship />
       </Grid>
       <Grid
         item
@@ -199,9 +199,9 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
           Filters
           <FilterListIcon style={{ color: '#86C232', marginLeft: '8px' }} />
         </FilterButton>
-        <FilterDialog 
+        <FilterDialog
           anchorEl={anchorEl}
-          handleFilterClose={handleFilterClose} 
+          handleFilterClose={handleFilterClose}
           filter={filter}
           setFilter={setFilter}
           statesList={statesList}
@@ -415,9 +415,9 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
       case 'created_at':
         newSortBy = 'created_at';
         break;
-        case 'updated_at':
-          newSortBy = 'updated_at';
-          break;
+      case 'updated_at':
+        newSortBy = 'updated_at';
+        break;
       default:
         newSortBy = columnName;
     }

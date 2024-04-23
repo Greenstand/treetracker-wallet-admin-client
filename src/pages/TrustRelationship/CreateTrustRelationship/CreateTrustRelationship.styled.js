@@ -7,7 +7,6 @@ export const CreateNewRelationship = styled(Button)({
   height: '2.5rem',
   boxShadow: 'none',
   padding: '0.5rem 0.5rem 0.5rem 0.625rem',
-  margin: '1rem 0rem',
 });
 
 export const CreateSuccessIcon = styled(CheckCircleOutlineIcon)({
