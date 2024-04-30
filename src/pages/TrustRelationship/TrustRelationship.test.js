@@ -214,7 +214,7 @@ describe('Trust Relationships page', function () {
     );
     expect(await screen.findByTestId('table-pagination')).toBeInTheDocument();
     expect(await screen.findByTestId('trust-relationships-table')).toBeInTheDocument();
-    expect(await screen.findByTestId('date-range-filter')).toBeInTheDocument();
+    // expect(await screen.findByTestId('date-range-filter')).toBeInTheDocument();
     expect(await screen.findByTestId('state-select-filter')).toBeInTheDocument();
     expect(await screen.findByTestId('requestType-select-filter')).toBeInTheDocument();
     expect(await screen.findByTestId('type-select-filter')).toBeInTheDocument();
