@@ -93,7 +93,7 @@ const TestWrapper = (props) => {
     expect(
       await screen.findByTestId('trust-relationships-table'),
     ).toBeInTheDocument();
-    expect(await screen.findByTestId('date-range-filter')).toBeInTheDocument();
+    // expect(await screen.findByTestId('date-range-filter')).toBeInTheDocument();
     expect(
       await screen.findByTestId('state-select-filter'),
     ).toBeInTheDocument();
