@@ -30,11 +30,23 @@ import {
   TypeSelectFilter,
   RequestTypeSelectFilter,
   ResetButton,
-  DateRangeFilter,
+  // DateRangeFilter
 } from './TrustRelationshipsFilters';
 import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
 import CreateTrustRelationship from './CreateTrustRelationship/CreateTrustRelationship';
 
+const FilterDialog = ({
+  anchorEl,
+  handleFilterClose,
+  filter,
+  setFilter,
+  statesList,
+  requestTypeList,
+  getStatusColor,
+  typeList,
+  defaultFilter,
+}) => {
+  return (
 const FilterDialog = ({
   anchorEl,
   handleFilterClose,
@@ -81,7 +93,7 @@ const FilterDialog = ({
             typeList={typeList}
             getStatusColor={getStatusColor}
           />
-          <DateRangeFilter filter={filter} setFilter={setFilter} />
+          {/* <DateRangeFilter filter={filter} setFilter={setFilter} /> */}
         </Grid>
         <Grid
           item
@@ -200,7 +212,9 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
           <FilterListIcon style={{ color: '#86C232', marginLeft: '8px' }} />
         </FilterButton>
         <FilterDialog
+        <FilterDialog
           anchorEl={anchorEl}
+          handleFilterClose={handleFilterClose}
           handleFilterClose={handleFilterClose}
           filter={filter}
           setFilter={setFilter}
@@ -414,6 +428,9 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
         break;
       case 'created_at':
         newSortBy = 'created_at';
+        break;
+      case 'updated_at':
+        newSortBy = 'updated_at';
         break;
       case 'updated_at':
         newSortBy = 'updated_at';
