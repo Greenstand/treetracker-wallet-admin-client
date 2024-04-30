@@ -420,9 +420,6 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
       case 'updated_at':
         newSortBy = 'updated_at';
         break;
-      case 'updated_at':
-        newSortBy = 'updated_at';
-        break;
       default:
         newSortBy = columnName;
     }
