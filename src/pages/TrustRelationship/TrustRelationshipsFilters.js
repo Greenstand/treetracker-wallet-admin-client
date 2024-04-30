@@ -22,7 +22,7 @@ import {
 import { DatePicker } from '@mui/x-date-pickers';
 
   import React, { useEffect, useState } from 'react';
-  import TransferFilter from '../../models/TransferFilter';
+  import TrustRelationshipsFilter from '../../models/TrustRelationShipFilter';
   
   /**@function
    * @name StateSelectFilter
@@ -43,7 +43,7 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
     const { state } = filter;
   
     const handleSelectChange = (e) => {
-      const newFilter = new TransferFilter({ ...filter, state: e.target.value });
+      const newFilter = new TrustRelationshipsFilter({ ...filter, state: e.target.value });
       setFilter(newFilter);
     };
   
@@ -81,10 +81,10 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
 
   export const RequestTypeSelectFilter = ({ filter, setFilter, requestTypeList, getStatusColor }) => {
     // get state from filter
-    const { requestType } = filter;
+    const { request_type } = filter;
   
     const handleSelectChange = (e) => {
-      const newFilter = new TransferFilter({ ...filter, requestType: e.target.value });
+      const newFilter = new TrustRelationshipsFilter({ ...filter, request_type: e.target.value });
       setFilter(newFilter);
     };
   
@@ -94,7 +94,7 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
   
         <SelectFilter
           displayEmpty
-          value={requestType}
+          value={request_type}
           onChange={handleSelectChange}
           IconComponent={ArrowDropDownIcon}
           sx={{
@@ -125,7 +125,7 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
     const { type } = filter;
   
     const handleSelectChange = (e) => {
-      const newFilter = new TransferFilter({ ...filter, type: e.target.value });
+      const newFilter = new TrustRelationshipsFilter({ ...filter, type: e.target.value });
       setFilter(newFilter);
     };
   
@@ -227,7 +227,7 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
   
     // updates the filter object and closes the popover
     const handleOK = () => {
-      const newFilter = new TransferFilter({
+      const newFilter = new TrustRelationshipsFilter({
         ...filter,
         after: startDate,
         before: endDate,

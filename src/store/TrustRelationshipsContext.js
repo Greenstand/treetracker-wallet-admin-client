@@ -17,7 +17,7 @@ const TrustRelationshipsProvider = ({ children }) => {
   const defaultFilter = new TrustRelationshipsFilter({
     state: '',
     type: '',
-    requestType: '',
+    request_type: '',
     before: null,
     after: null,
   });
@@ -166,25 +166,10 @@ const TrustRelationshipsProvider = ({ children }) => {
       color: 'black'
     },
     {
-      label: 'Receive',
-      value: 'receive',
-      color: 'black'
-    },
-    {
       label: 'Deduct',
       value: 'deduct',
       color: 'black'
     },
-    {
-      label: 'Release',
-      value: 'release',
-      color: 'black'
-    },
-    {
-      label: 'Yield',
-      value: 'yield',
-      color: 'black'
-    }
   ]
 
 

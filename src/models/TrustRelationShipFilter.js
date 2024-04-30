@@ -4,7 +4,7 @@ export default class TrustRelationshipsFilter {
     // possible query options
     state;
     type;
-    requestType;
+    request_type;
     before;
     after;
   
@@ -19,7 +19,7 @@ export default class TrustRelationshipsFilter {
   
       if (this.state) where.state = this.state.toLowerCase();
       if (this.type) where.type = this.type.toLowerCase();
-      if (this.requestType) where.requestType = this.requestType.toLowerCase();
+      if (this.request_type) where.request_type = this.request_type.toLowerCase();
       if (this.before) where.before = getDateText(this.before, 'YYYY-MM-DD');
       if (this.after) where.after = getDateText(this.after, 'YYYY-MM-DD');
   
