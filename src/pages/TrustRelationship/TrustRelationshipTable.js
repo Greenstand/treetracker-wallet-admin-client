@@ -35,18 +35,7 @@ import {
 import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
 import CreateTrustRelationship from './CreateTrustRelationship/CreateTrustRelationship';
 
-const FilterDialog = ({
-  anchorEl,
-  handleFilterClose,
-  filter,
-  setFilter,
-  statesList,
-  requestTypeList,
-  getStatusColor,
-  typeList,
-  defaultFilter,
-}) => {
-  return (
+
 const FilterDialog = ({
   anchorEl,
   handleFilterClose,
@@ -211,10 +200,9 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
           Filters
           <FilterListIcon style={{ color: '#86C232', marginLeft: '8px' }} />
         </FilterButton>
-        <FilterDialog
+        
         <FilterDialog
           anchorEl={anchorEl}
-          handleFilterClose={handleFilterClose}
           handleFilterClose={handleFilterClose}
           filter={filter}
           setFilter={setFilter}
