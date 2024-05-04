@@ -1,41 +1,41 @@
 /* eslint-disable no-unused-vars */
 import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    FormControl,
-    Grid,
-    Popover,
-    Typography,
-  } from '@mui/material';
-    import {
-    ArrowDropDownIcon,
-    DateFilterTitle,
-    FilterLabelText,
-    SelectFilter,
-    SelectMenuItem,
-    DateRangeButton,
-    DateRangeFilterIcon,
-  } from './TrustRelationshipsFilters.styled';
-  import { DateRangeIcon } from '@mui/x-date-pickers';
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  FormControl,
+  Grid,
+  Popover,
+  Typography,
+} from '@mui/material';
+import {
+  ArrowDropDownIcon,
+  DateFilterTitle,
+  FilterLabelText,
+  SelectFilter,
+  SelectMenuItem,
+  DateRangeButton,
+  DateRangeFilterIcon,
+} from './TrustRelationshipsFilters.styled';
+import { DateRangeIcon } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers';
 
-  import React, { useEffect, useState } from 'react';
-  import TrustRelationshipsFilter from '../../models/TrustRelationShipFilter';
-  
-  /**@function
-   * @name StateSelectFilter
-   * @description Renders the transfer status filter
-   *
-   * @param filter
-   * @param setFilter
-   * @param statusList
-   * @param {function} getStatusColor returns color corresponding to transfer state value
-   *
-   * @return {JSX.Element} Transfer status filter component
-   * @constructor
-   */
+import React, { useEffect, useState } from 'react';
+import TrustRelationshipsFilter from '../../models/TrustRelationShipFilter';
+
+/**@function
+ * @name StateSelectFilter
+ * @description Renders the transfer status filter
+ *
+ * @param filter
+ * @param setFilter
+ * @param statusList
+ * @param {function} getStatusColor returns color corresponding to transfer state value
+ *
+ * @return {JSX.Element} Transfer status filter component
+ * @constructor
+ */
 
 
 export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColor }) => {
@@ -81,10 +81,10 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
 
   export const RequestTypeSelectFilter = ({ filter, setFilter, requestTypeList, getStatusColor }) => {
     // get state from filter
-    const { request_type } = filter;
+    const { requestType } = filter;
   
     const handleSelectChange = (e) => {
-      const newFilter = new TrustRelationshipsFilter({ ...filter, request_type: e.target.value });
+      const newFilter = new TrustRelationshipsFilter({ ...filter, requestType: e.target.value });
       setFilter(newFilter);
     };
   
@@ -94,7 +94,7 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
   
         <SelectFilter
           displayEmpty
-          value={request_type}
+          value={requestType}
           onChange={handleSelectChange}
           IconComponent={ArrowDropDownIcon}
           sx={{
