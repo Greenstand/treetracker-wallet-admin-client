@@ -81,10 +81,10 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
 
   export const RequestTypeSelectFilter = ({ filter, setFilter, requestTypeList, getStatusColor }) => {
     // get state from filter
-    const { requestType } = filter;
+    const { request_type } = filter;
   
     const handleSelectChange = (e) => {
-      const newFilter = new TrustRelationshipsFilter({ ...filter, requestType: e.target.value });
+      const newFilter = new TrustRelationshipsFilter({ ...filter, request_type: e.target.value });
       setFilter(newFilter);
     };
   
@@ -94,7 +94,7 @@ export const StateSelectFilter = ({ filter, setFilter, statesList, getStatusColo
   
         <SelectFilter
           displayEmpty
-          value={requestType}
+          value={request_type}
           onChange={handleSelectChange}
           IconComponent={ArrowDropDownIcon}
           sx={{

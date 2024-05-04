@@ -24,7 +24,7 @@ const mockStateList = [
 const mockDefaultFilter = new TrustRelationshipsFilter({
   state: '',
   type: '',
-  requestType: '',
+  request_type: '',
   before: null,
   after: null,
 });
