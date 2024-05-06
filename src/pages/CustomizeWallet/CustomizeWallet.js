@@ -11,12 +11,17 @@ import AuthContext from '../../store/auth-context';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import { getWalletById, updateWallet } from '../../api/wallets';
 import ReactQuill from 'react-quill';
+import { Paper, Button } from '@mui/material';
 
 import 'react-quill/dist/quill.snow.css';
+import Message, {
+  MessageType,
+} from '../../components/UI/components/Message/Message';
 
 const CustomizeWallet = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState();
+  const [successMessage, setSuccessMessage] = useState();
 
   const defaultWallet = {
     id: '',
@@ -52,7 +57,7 @@ const CustomizeWallet = () => {
           wallet.id
         );
         setWallet(returnedWalletData);
-        setAbout(returnedWalletData.description);
+        setAbout(returnedWalletData.about);
       } catch (error) {
         console.error(error);
         setErrorMessage('An error occurred while fetching the data.');
@@ -71,10 +76,15 @@ const CustomizeWallet = () => {
   const saveAbout = async () => {
     try {
       let updatedWallet = { ...wallet, about };
-      await updateWallet(authContext.token, updatedWallet);
+      let updated = await updateWallet(authContext.token, updatedWallet);
+      if (updated) {
+        setSuccessMessage('About wallet text updated successfully.');
+      }
     } catch (error) {
       console.error(error);
-      setErrorMessage('An error occurred while updating the wallet.');
+      setErrorMessage(
+        'An error occurred while updating the about wallet text.'
+      );
     }
   };
 
@@ -163,8 +173,8 @@ const CustomizeWallet = () => {
 
   return (
     <StyledGrid>
-      <PageHeader title={wallet.name} />
-      {/* <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <PageHeader title={'Customize Wallet'} />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         {errorMessage && (
           <Message
             message={errorMessage}
@@ -179,34 +189,70 @@ const CustomizeWallet = () => {
             messageType={MessageType.Success}
           />
         )}
-      </div> */}
+      </div>
+      <h3
+        style={{ color: 'rgba(118, 187, 35, 1)', margin: '0 1rem 1rem 1rem' }}
+      >
+        {wallet.name}
+      </h3>
       <ContentContainer>
-        <div className="about">
-          <ReactQuill value={about} onChange={handleAboutChange} />
-          <button onClick={saveAbout}>Save</button>
-        </div>
+        <Paper
+          className="box"
+          elevation={3}
+          style={{
+            width: '100%',
+            height: '80vh',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6rem',
+            padding: '2rem',
+          }}
+        >
+          <div className="about" style={{}}>
+            <h5 style={{ marginBottom: '0.5rem' }}>About the Wallet</h5>
+            <ReactQuill
+              style={{ height: '5rem' }}
+              value={about}
+              onChange={handleAboutChange}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={false}
+              onClick={saveAbout}
+              style={{ marginTop: '3.5rem' }}
+            >
+              Save
+            </Button>
+          </div>
 
-        <div className="logo">
-          <input type="file" accept=".png" onChange={handleLogoChange} />
-          {logoPreview && (
-            <div>
-              <img
-                src={logoPreview}
-                alt="Logo Preview"
-                style={{ maxWidth: '300px', maxHeight: '300px' }}
-              />
-            </div>
-          )}
-          <input type="button" value="Upload Logo" onClick={handleLogoUpload} />
-        </div>
+          <div className="logo">
+            <input type="file" accept=".png" onChange={handleLogoChange} />
+            {logoPreview && (
+              <div>
+                <img
+                  src={logoPreview}
+                  alt="Logo Preview"
+                  style={{ maxWidth: '300px', maxHeight: '300px' }}
+                />
+              </div>
+            )}
+            <input
+              type="button"
+              value="Upload Logo"
+              onClick={handleLogoUpload}
+            />
+          </div>
 
-        {/* Upload Hero Image */}
-        <input
-          type="file"
-          accept=".jpeg,.png"
-          onChange={handleHeroImageUpload}
-        />
-        {heroImage && <img src={heroImage} alt="Wallet Hero" />}
+          {/* Upload Hero Image */}
+          <input
+            type="file"
+            accept=".jpeg,.png"
+            onChange={handleHeroImageUpload}
+          />
+          {heroImage && <img src={heroImage} alt="Wallet Hero" />}
+        </Paper>
       </ContentContainer>
     </StyledGrid>
   );

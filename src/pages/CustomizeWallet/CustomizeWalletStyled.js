@@ -7,7 +7,9 @@ export const StyledGrid = styled(Grid)({
 
 export const ContentContainer = styled(Container)({
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'flex-start',
+  gap: '5rem',
   justifyContent: 'space-between',
   height: 'auto',
   maxWidth: 'false',

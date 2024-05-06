@@ -93,7 +93,8 @@ export const updateWallet = async (token, wallet) => {
 
   const updatedWallet = await apiClient
     .setAuthHeader(token)
-    .patch('/wallets', patchRequest)
+    .addContentType('multipart/form-data')
+    .patch('/wallets/' + wallet.id, patchRequest)
     .then((response) => {
       return response.data;
     })
