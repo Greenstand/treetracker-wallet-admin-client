@@ -29,12 +29,12 @@ const TrustRelationshipsProvider = ({ children }) => {
   };
 
   const [sorting, setSorting] = useState(defaultSorting);
-  
+
   const [filter, setFilter] = useState(defaultFilter);
 
   const [pagination, setPagination] = useState(defaultPagination);
 
-  const [searchString, setSearchString] = useState('')
+  const [searchString, setSearchString] = useState('');
 
   const [refetch, setRefetch] = useState(false);
 
@@ -99,13 +99,12 @@ const TrustRelationshipsProvider = ({ children }) => {
       name: 'target_wallet',
       sortable: false,
       showInfoIcon: false,
-    }
+    },
   ];
-
 
   // transform API returned data into rows compatible with the trust relationship table
   const prepareRows = (returnedRows) => {
-    return returnedRows.map(row => {
+    return returnedRows.map((row) => {
       return {
         id: row.id,
         type: row.type,
@@ -120,8 +119,6 @@ const TrustRelationshipsProvider = ({ children }) => {
     });
   };
 
-
-
   const statesList = [
     {
       label: 'Requested',
@@ -132,80 +129,96 @@ const TrustRelationshipsProvider = ({ children }) => {
       label: 'Trusted',
       value: 'trusted',
       color: 'black',
-    }
-
+    },
   ];
 
   const requestTypeList = [
-      {
-        label: 'Manage',
-        value: 'manage',
-        color: 'black'
-      },
-      {
-        label: 'Send',
-        value: 'send',
-        color: 'black'
-      },
-      {
-        label: 'Deduct',
-        value: 'deduct',
-        color: 'black'
-      }
-  ]
+    {
+      label: 'Manage',
+      value: 'manage',
+      color: 'black',
+    },
+    {
+      label: 'Send',
+      value: 'send',
+      color: 'black',
+    },
+    {
+      label: 'Deduct',
+      value: 'deduct',
+      color: 'black',
+    },
+  ];
 
   const typeList = [
     {
       label: 'Manage',
       value: 'manage',
-      color: 'black'
+      color: 'black',
     },
     {
       label: 'Send',
       value: 'send',
+      color: 'black',
+    },
+    {
+      label: 'Receive',
+      value: 'receive',
       color: 'black'
     },
     {
       label: 'Deduct',
       value: 'deduct',
-      color: 'black'
+      color: 'black',
     },
-  ]
+    {
+      label: 'Release',
+      value: 'release',
+      color: 'black',
+    },
+    {
+      label: 'Yield',
+      value: 'yield',
+      color: 'black',
+    },
+  ];
 
+  // error
+  const [message, setMessage] = useState('');
+  // data to be displayed in the table
+  const [tableRows, setTableRows] = useState([]);
 
+  // total rows count for pagination
+  const [totalRowCount, setTotalRowCount] = useState(null);
 
+  const authContext = useContext(AuthContext);
 
-   const [message, setMessage] = useState('');
-   const [tableRows, setTableRows] = useState([]);
- 
-   const [totalRowCount, setTotalRowCount] = useState(null);
- 
-   const authContext = useContext(AuthContext);
- 
- 
-   useEffect(() => {
-     const loadData = async () => {
-       try {
-         setIsLoading(true);
-         
-         const data = await getTrustRelationships(authContext.token, {pagination, filter, sorting});
+  const loadData = async () => {
+    try {
+      setIsLoading(true);
 
-         const preparedRows = prepareRows(await data.trust_relationships);
-         setTableRows(preparedRows);
-         setTotalRowCount(data.total);
-         
-       } catch (error) {
-         console.error(error);
-         setMessage('An error occurred while fetching the table data');
-       }finally {
-         setIsLoading(false);
-         setRefetch(false);
-        }
-     };
-     loadData();
-   }, [pagination, filter, sorting, refetch]);
+      const data = await getTrustRelationships(authContext.token, {
+        pagination,
+        filter,
+        sorting,
+      });
 
+      const preparedRows = prepareRows(await data.trust_relationships);
+      
+      setTableRows(preparedRows);
+      setTotalRowCount(data.total);
+    } catch (error) {
+      console.error(error);
+      setMessage('An error occurred while fetching the table data');
+    } finally {
+      setIsLoading(false);
+      setRefetch(false);
+    }
+  };
 
+  useEffect(() => {
+    loadData();
+  }, [pagination, filter, sorting, refetch]);
 
   const value = {
     pagination,
@@ -228,6 +241,7 @@ const TrustRelationshipsProvider = ({ children }) => {
     setRefetch,
     sorting,
     setSorting,
+    loadData,
   };
 
   return (
@@ -240,7 +254,10 @@ const TrustRelationshipsProvider = ({ children }) => {
 // hook to return transfers context
 const useTrustRelationshipsContext = () => {
   const context = useContext(TrustRelationshipsContext);
-  if (!context) throw new Error('useTrustRelationshipsContext must be used within TrustRelationshipsProvider');
+  if (!context)
+    throw new Error(
+      'useTrustRelationshipsContext must be used within TrustRelationshipsProvider'
+    );
   return context;
 };
 
