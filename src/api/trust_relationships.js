@@ -1,9 +1,10 @@
 import apiClient from '../utils/apiClient';
 import { makeQueryString } from '../utils/formatting';
 
-export const getTrustRelationships = async (token, {pagination, filter, sorting}) => {
-
-
+export const getTrustRelationships = async (
+  token,
+  { pagination, filter, sorting }
+) => {
   const { sort_by, order } = sorting;
 
   try {
@@ -12,7 +13,7 @@ export const getTrustRelationships = async (token, {pagination, filter, sorting}
       ...pagination,
       ...where,
       sort_by,
-      order
+      order,
     };
 
     const queryString = makeQueryString(trustRelationshipsFilter);
@@ -25,8 +26,30 @@ export const getTrustRelationships = async (token, {pagination, filter, sorting}
   }
 };
 
+export const requestTrustRelationship = async (
+  token,
+  { requestType, requestingWallet, targetWallet }
+) => {
+  try {
+    const response = await apiClient
+      .setAuthHeader(token)
+      .post('/trust_relationships', {
+        trust_request_type: requestType,
+        requester_wallet: requestingWallet,
+        requestee_wallet: targetWallet,
+      });
 
-export const  acceptTrustRelationship = async ({id, token}) => {
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw Error(
+      'An error occurred while requesting the trust relationship: ' +
+        error.response.data.message
+    );
+  }
+};
+
+export const acceptTrustRelationship = async ({ id, token }) => {
   try {
     const response = await apiClient
       .setAuthHeader(token)
@@ -35,10 +58,9 @@ export const  acceptTrustRelationship = async ({id, token}) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
-
-export const  declineTrustRelationship = async ({id, token}) => {
+export const declineTrustRelationship = async ({ id, token }) => {
   try {
     const response = await apiClient
       .setAuthHeader(token)
@@ -47,4 +69,4 @@ export const  declineTrustRelationship = async ({id, token}) => {
   } catch (error) {
     console.error(error);
   }
-}
+};

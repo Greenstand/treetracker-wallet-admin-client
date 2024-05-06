@@ -11,11 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  CreateButton,
-  SearchTextField,
-  FilterButton,
-} from './TrustRelationship.styled';
+import { SearchTextField, FilterButton } from './TrustRelationship.styled';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -26,6 +22,7 @@ import {
   TableCellStyled,
   TooltipStyled,
 } from '../MyTransfers/TransfersTable.styled';
+
 ('react');
 import Menu from '@mui/material/Menu';
 import {
@@ -36,6 +33,8 @@ import {
   // DateRangeFilter
 } from './TrustRelationshipsFilters';
 import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
+import CreateTrustRelationship from './CreateTrustRelationship/CreateTrustRelationship';
+
 
 const FilterDialog = ({
   anchorEl,
@@ -157,11 +156,13 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
       <Grid
         item
         xs={2}
-        sx={{ display: 'flex', justifyContent: 'end', alignItems: 'flex-end' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        }}
       >
-        <CreateButton type="button" variant="contained">
-          + Create
-        </CreateButton>
+        <CreateTrustRelationship />
       </Grid>
       <Grid
         item
@@ -199,6 +200,7 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
           Filters
           <FilterListIcon style={{ color: '#86C232', marginLeft: '8px' }} />
         </FilterButton>
+        
         <FilterDialog
           anchorEl={anchorEl}
           handleFilterClose={handleFilterClose}

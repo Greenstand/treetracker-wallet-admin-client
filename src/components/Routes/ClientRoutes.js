@@ -75,7 +75,7 @@ const ClientRoutes = () => {
               <TrustRelationshipsProvider>
                 <TrustRelationship />
               </TrustRelationshipsProvider>
-                
+
             </Layout>
           }
         />
