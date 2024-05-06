@@ -10,6 +10,8 @@ import MyTransfers from '../../pages/MyTransfers/MyTransfers';
 import { TransfersProvider } from '../../store/TransfersContext';
 import MyWallets from '../../pages/MyWallets/MyWallets';
 import { WalletsProvider } from '../../store/WalletsContext';
+import TrustRelationship from '../../pages/TrustRelationship/TrustRelationship';
+import { TrustRelationshipsProvider } from '../../store/TrustRelationshipsContext';
 import CustomizeWallet from '../../pages/CustomizeWallet/CustomizeWallet';
 
 const ProtectedRoute = ({ isLoggedIn, redirectPath = '/login' }) => {
@@ -63,6 +65,18 @@ const ClientRoutes = () => {
               <WalletsProvider>
                 <MyWallets />
               </WalletsProvider>
+            </Layout>
+          }
+        />
+        <Route
+          path="/trust-relationship"
+          exact
+          element={
+            <Layout>
+              <TrustRelationshipsProvider>
+                <TrustRelationship />
+              </TrustRelationshipsProvider>
+
             </Layout>
           }
         />
