@@ -1,3 +1,18 @@
+# [2.1.0-v2.3](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.2...v2.1.0-v2.3) (2024-05-06)
+
+
+### Bug Fixes
+
+* broken test, minor refactor ([4977138](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/4977138e86789560b7e7e900f6e08a88b51d9f01))
+
+
+### Features
+
+* implement tests ([ebf0a16](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ebf0a16b1b9cf73029e9969edc32b745f65fa0fd))
+* integrate with trust relationships table,remove unneeded files ([ff8ed12](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ff8ed12ea05794fb3ab248fa85cf35282013ea83))
+* integrate with trust relationships table,remove unneeded files ([47c0627](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/47c062787b1d91a457bb9f2b42ac4987c6d83622))
+* request trust relationship functionality ([d8a3f9f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/d8a3f9f57e16493596c06ea1ef858a53651fb213))
+
 # [2.1.0-v2.2](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.1...v2.1.0-v2.2) (2024-04-30)
 
 
