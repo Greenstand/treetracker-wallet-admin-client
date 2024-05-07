@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ContentContainer, StyledGrid } from './CustomizeWalletStyled';
+import {
+  ContentContainer,
+  StyledGrid,
+  VisuallyHiddenInput,
+} from './CustomizeWalletStyled';
 import PageHeader from '../../components/layout/PageHeader/PageHeader';
 import AuthContext from '../../store/auth-context';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import { getWalletById, updateWallet } from '../../api/wallets';
 import ReactQuill from 'react-quill';
 import { Paper, Button, TextField } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 import 'react-quill/dist/quill.snow.css';
 import Message, {
@@ -38,6 +43,7 @@ const CustomizeWallet = () => {
   const [logoPreview, setLogoPreview] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [heroImage, setHeroImage] = useState(null);
+  const [heroImagePreview, setHeroImagePreview] = useState(null);
 
   const authContext = useContext(AuthContext);
 
@@ -161,27 +167,82 @@ const CustomizeWallet = () => {
   };
 
   const handleLogoUpload = async (e) => {
+    handleLogoChange(e);
+
+    // TOOD: Uncomment when API is ready
+    // const file = e.target.files[0];
+    // // Validate file size and dimensions...
+    // try {
+    //   let updatedWallet = { ...wallet, logoImage: file };
+    //   await updateWallet(authContext.token, updatedWallet);
+    // } catch (error) {
+    //   console.error(error);
+    //   setErrorMessage('An error occurred while updating the wallet.');
+    // }
+  };
+
+  const handleHeroImageChange = async (e) => {
+    const maxFileSize = 1024 * 1024 * 3; // Maximum file size of 3MB
+    const requiredDimensionWidth = 1680;
+    const requiredDimensionHeight = 660;
+
     const file = e.target.files[0];
-    // Validate file size and dimensions...
-    try {
-      let updatedWallet = { ...wallet, logoImage: file };
-      await updateWallet(authContext.token, updatedWallet);
-    } catch (error) {
-      console.error(error);
-      setErrorMessage('An error occurred while updating the wallet.');
+
+    if (!file) {
+      alert('Please select a file.');
+      return;
+    }
+    if (file.size > maxFileSize) {
+      alert('File is too large. Please select a file less than 3MB.');
+      return;
+    }
+    if (file.type !== 'image/png') {
+      alert('Invalid file type. Please select a PNG image.');
+      return;
+    }
+
+    setHeroImage(file);
+
+    if (file && file.type === 'image/png') {
+      const reader = new FileReader();
+
+      reader.onload = (f) => {
+        const image = new Image();
+        image.onload = () => {
+          // Check if the image is exactly 1680px by 660px
+          if (
+            image.width === requiredDimensionWidth &&
+            image.height === requiredDimensionHeight
+          ) {
+            setHeroImagePreview(reader.result);
+          } else {
+            alert(
+              `Please select an image exactly ${requiredDimensionWidth}px by ${requiredDimensionHeight}px.`
+            );
+          }
+        };
+        image.src = f.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      // Handle errors or unsupported file types
+      setHeroImagePreview('');
     }
   };
 
   const handleHeroImageUpload = async (e) => {
-    const file = e.target.files[0];
-    // Validate file size and dimensions...
-    try {
-      let updatedWallet = { ...wallet, coverImage: file };
-      await updateWallet(authContext.token, updatedWallet);
-    } catch (error) {
-      console.error(error);
-      setErrorMessage('An error occurred while updating the wallet.');
-    }
+    handleHeroImageChange(e);
+    // TOOD: Uncomment when API is ready
+    // const file = e.target.files[0];
+    // // Validate file size and dimensions...
+    // try {
+    //   let updatedWallet = { ...wallet, coverImage: file };
+    //   await updateWallet(authContext.token, updatedWallet);
+    // } catch (error) {
+    //   console.error(error);
+    //   setErrorMessage('An error occurred while updating the wallet.');
+    // }
   };
 
   if (isLoading) {
@@ -221,7 +282,7 @@ const CustomizeWallet = () => {
             height: '80vh',
             display: 'flex',
             flexDirection: 'column',
-            gap: '4rem',
+            gap: '1.5rem',
             padding: '2rem',
           }}
         >
@@ -287,30 +348,66 @@ const CustomizeWallet = () => {
           </div>
 
           <div className="logo">
-            <input type="file" accept=".png" onChange={handleLogoChange} />
+            <h5 style={{ marginBottom: '0.5rem' }}>Logo</h5>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload
+              <VisuallyHiddenInput
+                type="file"
+                accept=".png"
+                onChange={handleLogoUpload}
+              />
+            </Button>
             {logoPreview && (
               <div>
                 <img
                   src={logoPreview}
                   alt="Logo Preview"
-                  style={{ maxWidth: '300px', maxHeight: '300px' }}
+                  style={{
+                    maxWidth: '100px',
+                    maxHeight: '100px',
+                    margin: '1rem 0',
+                  }}
                 />
               </div>
             )}
-            <input
-              type="button"
-              value="Upload Logo"
-              onClick={handleLogoUpload}
-            />
           </div>
 
           {/* Upload Hero Image */}
-          <input
-            type="file"
-            accept=".jpeg,.png"
-            onChange={handleHeroImageUpload}
-          />
-          {heroImage && <img src={heroImage} alt="Wallet Hero" />}
+          <div className="hero">
+            <h5 style={{ marginBottom: '0.5rem' }}>Hero image</h5>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload
+              <VisuallyHiddenInput
+                type="file"
+                accept=".png"
+                onChange={handleHeroImageUpload}
+              />
+            </Button>
+            {heroImagePreview && (
+              <div>
+                <img
+                  src={heroImagePreview}
+                  alt="Hero Image Preview"
+                  style={{
+                    maxHeight: '100px',
+                    margin: '1rem 0',
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </Paper>
       </ContentContainer>
     </StyledGrid>

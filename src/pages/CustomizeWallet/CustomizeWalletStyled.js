@@ -43,3 +43,15 @@ export const LoaderContainer = styled('div')({
   transform: 'translate(-50%, -50%)',
   zIndex: 9999,
 });
+
+export const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
