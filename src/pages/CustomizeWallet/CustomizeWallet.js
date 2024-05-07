@@ -1,17 +1,11 @@
-/* eslint-disable no-debugger */
-/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  ContentContainer,
-  // LoaderContainer,
-  StyledGrid,
-} from './CustomizeWalletStyled';
+import { ContentContainer, StyledGrid } from './CustomizeWalletStyled';
 import PageHeader from '../../components/layout/PageHeader/PageHeader';
 import AuthContext from '../../store/auth-context';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import { getWalletById, updateWallet } from '../../api/wallets';
 import ReactQuill from 'react-quill';
-import { Paper, Button } from '@mui/material';
+import { Paper, Button, TextField } from '@mui/material';
 
 import 'react-quill/dist/quill.snow.css';
 import Message, {
@@ -32,9 +26,17 @@ const CustomizeWallet = () => {
   };
 
   const [wallet, setWallet] = useState(defaultWallet);
+
   const [about, setAbout] = useState('');
+  const [aboutError, setAboutError] = useState(false);
+
+  const [displayName, setDisplayName] = useState('');
+  const [displayNameError, setDisplayNameError] = useState(false);
+
+  // eslint-disable-next-line no-unused-vars
   const [logo, setLogo] = useState(null);
   const [logoPreview, setLogoPreview] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [heroImage, setHeroImage] = useState(null);
 
   const authContext = useContext(AuthContext);
@@ -58,6 +60,7 @@ const CustomizeWallet = () => {
         );
         setWallet(returnedWalletData);
         setAbout(returnedWalletData.about);
+        setDisplayName(returnedWalletData.displayName);
       } catch (error) {
         console.error(error);
         setErrorMessage('An error occurred while fetching the data.');
@@ -69,22 +72,38 @@ const CustomizeWallet = () => {
     fetchData();
   }, [authContext.token]);
 
-  const handleAboutChange = (content) => {
-    setAbout(content);
+  const handleAboutChange = (value) => {
+    setAbout(value);
+
+    const textOnly = value.replace(/<[^>]*>/g, ''); // Regex to remove HTML tags
+    if (textOnly.trim().length < 5) {
+      setAboutError('About text must be at least 5 characters long.');
+    } else {
+      setAboutError('');
+    }
   };
 
-  const saveAbout = async () => {
+  const handleDisplayNameChange = (event) => {
+    const value = event.target.value;
+    setDisplayName(value);
+
+    if (value.trim().length < 2) {
+      setDisplayNameError('Display name must be at least 2 characters long.');
+    } else {
+      setDisplayNameError('');
+    }
+  };
+
+  const saveWalletField = async (field, value, successMessage) => {
     try {
-      let updatedWallet = { ...wallet, about };
+      let updatedWallet = { ...wallet, [field]: value };
       let updated = await updateWallet(authContext.token, updatedWallet);
       if (updated) {
-        setSuccessMessage('About wallet text updated successfully.');
+        setSuccessMessage(successMessage);
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage(
-        'An error occurred while updating the about wallet text.'
-      );
+      setErrorMessage(`An error occurred while updating the ${field} field.`);
     }
   };
 
@@ -113,10 +132,8 @@ const CustomizeWallet = () => {
       const reader = new FileReader();
 
       reader.onload = (f) => {
-        debugger;
         const image = new Image();
         image.onload = () => {
-          debugger;
           // Check if the image is exactly 300px by 300px
           if (
             image.width === requiredDimension &&
@@ -204,24 +221,66 @@ const CustomizeWallet = () => {
             height: '80vh',
             display: 'flex',
             flexDirection: 'column',
-            gap: '6rem',
+            gap: '4rem',
             padding: '2rem',
           }}
         >
-          <div className="about" style={{}}>
-            <h5 style={{ marginBottom: '0.5rem' }}>About the Wallet</h5>
-            <ReactQuill
-              style={{ height: '5rem' }}
-              value={about}
-              onChange={handleAboutChange}
+          <div
+            className="about"
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            <h5 style={{ marginBottom: '0.5rem' }}>Display Name</h5>
+            <TextField
+              id="outlined-basic"
+              value={displayName}
+              onChange={handleDisplayNameChange}
+              style={{ width: '30rem' }}
             />
+            {displayNameError && (
+              <p style={{ color: 'red' }}>{displayNameError}</p>
+            )}
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              disabled={false}
-              onClick={saveAbout}
-              style={{ marginTop: '3.5rem' }}
+              disabled={displayNameError}
+              onClick={() =>
+                saveWalletField(
+                  'displayName',
+                  displayName,
+                  'Display name updated successfully.'
+                )
+              }
+              style={{ marginTop: '0.5rem', width: '5rem' }}
+            >
+              Save
+            </Button>
+          </div>
+
+          <div
+            className="about"
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            <h5 style={{ marginBottom: '0.5rem' }}>About the Wallet</h5>
+            <ReactQuill
+              style={{ height: '12rem', paddingBottom: '2.5rem' }}
+              value={about}
+              onChange={handleAboutChange}
+            />
+            {aboutError && <p style={{ color: 'red' }}>{aboutError}</p>}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={aboutError}
+              onClick={() =>
+                saveWalletField(
+                  'about',
+                  about,
+                  'About wallet text updated successfully.'
+                )
+              }
+              style={{ marginTop: '0.5rem', width: '5rem' }}
             >
               Save
             </Button>

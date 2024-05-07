@@ -8,7 +8,7 @@ const mapWallet = (walletData, nameProp) => {
     tokensInWallet: walletData.tokens_in_wallet,
     name: walletData[nameProp],
     about: walletData.about,
-    //createdDate: walletData.created_at,
+    displayName: walletData.display_name,
     created_at: walletData.created_at,
   };
 };
@@ -87,6 +87,7 @@ export const createWallet = async (token, walletName) => {
 export const updateWallet = async (token, wallet) => {
   const patchRequest = {
     about: wallet.about,
+    display_name: wallet.displayName,
     cover_image: wallet.coverImage,
     logo_image: wallet.logoImage,
   };
