@@ -1,3 +1,16 @@
+# [2.1.0-v2.6](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.5...v2.1.0-v2.6) (2024-05-07)
+
+
+### Bug Fixes
+
+* fix tests ([21ffd8b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/21ffd8bc4b6a8cf9a9feed74564609f9d282b677))
+* fix the number of requested trust relationships ([267930e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/267930eb26657748b81675812495f6317fa83b3e))
+
+
+### Features
+
+* implement accept, decline and delete in trusts ([c11c1d4](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c11c1d4f90516d0016ba4a90244a8819bea44c11))
+
 # [2.1.0-v2.5](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.4...v2.1.0-v2.5) (2024-05-07)
 
 
