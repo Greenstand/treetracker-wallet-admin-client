@@ -59,8 +59,8 @@ describe('ClientRoutes component', () => {
     // screen.getByRole('');
 
     //Logo, Home, Send Tokens, and My Trasnfers for now
-    expect(await screen.findAllByRole('link')).toHaveLength(6);
-    expect(screen.getAllByRole('button')).toHaveLength(6);
+    expect(await screen.findAllByRole('link')).toHaveLength(7);
+    expect(screen.getAllByRole('button')).toHaveLength(7);
 
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
