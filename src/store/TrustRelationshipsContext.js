@@ -37,6 +37,7 @@ const TrustRelationshipsProvider = ({ children }) => {
   const [searchString, setSearchString] = useState('');
 
   const [refetch, setRefetch] = useState(false);
+  const [count, setCount] = useState(0);
 
   // Loader
   const [isLoading, setIsLoading] = useState(false);
@@ -188,6 +189,13 @@ const TrustRelationshipsProvider = ({ children }) => {
         sorting,
       });
 
+      let local_count = 0;
+      for (const item of data.trust_relationships) {
+        if (item.state === 'requested') {
+          local_count++;
+        }
+      }
+      setCount(local_count);
       const preparedRows = prepareRows(await data.trust_relationships);
       
       setTableRows(preparedRows);
@@ -206,6 +214,7 @@ const TrustRelationshipsProvider = ({ children }) => {
   }, [pagination, filter, sorting, refetch]);
 
   const value = {
+    count,
     pagination,
     setPagination,
     isLoading,
