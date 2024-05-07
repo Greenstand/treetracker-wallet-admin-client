@@ -6,12 +6,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import apiClient from '../../../utils/apiClient';
 
-
 jest.mock('../../../utils/apiClient', () => ({
-  apiClient: jest.fn()
+  apiClient: jest.fn(),
 }));
-
-
 
 describe('Menu component', () => {
   const TestWrapper = (props) => {
@@ -34,8 +31,8 @@ describe('Menu component', () => {
     await screen.findByAltText(/Greenstand logo/);
 
     //Logo, Home,  Send Tokens, My Transfers for now
-    expect(screen.getAllByRole('link')).toHaveLength(6);
-    expect(screen.getAllByRole('button')).toHaveLength(7);
+    expect(screen.getAllByRole('link')).toHaveLength(7);
+    expect(screen.getAllByRole('button')).toHaveLength(8);
     expect(
       screen.getByRole('button', {
         name: /open drawer/,

@@ -7,19 +7,16 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import apiClient from '../../../../utils/apiClient';
 import { TrustRelationshipsProvider } from '../../../../store/TrustRelationshipsContext';
 
-
 jest.mock('../../../../utils/apiClient', () => ({
-  apiClient: jest.fn()
+  apiClient: jest.fn(),
 }));
-
-
 
 describe('MenuItem tests v1', () => {
   const TestWrapper = (props) => {
     return (
       <ThemeProvider theme={theme}>
         <TrustRelationshipsProvider>
-        <Router>{props.children}</Router>
+          <Router>{props.children}</Router>
         </TrustRelationshipsProvider>
       </ThemeProvider>
     );
@@ -35,8 +32,8 @@ describe('MenuItem tests v1', () => {
     //links have loaded
     await screen.findAllByRole('link');
 
-    expect(screen.getAllByRole('link')).toHaveLength(5);
-    expect(screen.getAllByRole('button')).toHaveLength(5);
+    expect(screen.getAllByRole('link')).toHaveLength(6);
+    expect(screen.getAllByRole('button')).toHaveLength(6);
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
     expect(screen.getByText(/My Transfers/)).toBeInTheDocument();
