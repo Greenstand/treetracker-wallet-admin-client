@@ -6,9 +6,13 @@ import theme from '../../../UI/theme';
 import { BrowserRouter as Router } from 'react-router-dom';
 import apiClient from '../../../../utils/apiClient';
 import { TrustRelationshipsProvider } from '../../../../store/TrustRelationshipsContext';
+import { acceptTrustRelationship } from '../../../../api/trust_relationships';
 
 jest.mock('../../../../utils/apiClient', () => ({
   apiClient: jest.fn(),
+}));
+jest.mock('../../../../api/trust_relationships', () => ({
+  acceptTrustRelationship : jest.fn(),
 }));
 
 describe('MenuItem tests v1', () => {

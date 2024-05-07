@@ -72,12 +72,11 @@ const ClientRoutes = () => {
           path="/trust-relationship"
           exact
           element={
+            <TrustRelationshipsProvider>
             <Layout>
-              <TrustRelationshipsProvider>
                 <TrustRelationship />
-              </TrustRelationshipsProvider>
-
             </Layout>
+            </TrustRelationshipsProvider>
           }
         />
         <Route
