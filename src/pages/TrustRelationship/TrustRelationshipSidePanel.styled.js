@@ -90,6 +90,19 @@ const DeclineButton = styled(Button)({
     border: 'none', 
   }
 });
+const DeleteButton = styled(Button)({
+  textTransform: 'none',
+  padding: 0,
+  minWidth: 0,
+  border: 'none',
+  fontWeight: 700,
+  fontSize: '1rem',
+  margin: '0 10px', 
+  color: 'white',
+  '&:hover': {
+    border: 'none', 
+  }
+});
 
 const AcceptButton = styled(Button)({
   textTransform: 'none',
@@ -102,4 +115,4 @@ const AcceptButton = styled(Button)({
 });
 
 
-export { DrawerHeaderStyled, DrawerStyled, BoldTypography, NormalTypography, TallTypography, DeclineButton, AcceptButton };
+export { DrawerHeaderStyled, DrawerStyled, BoldTypography, NormalTypography, TallTypography, DeclineButton, AcceptButton, DeleteButton };

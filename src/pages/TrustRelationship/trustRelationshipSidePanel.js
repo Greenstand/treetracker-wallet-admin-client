@@ -13,12 +13,14 @@ import {
   NormalTypography,
   TallTypography,
   DeclineButton,
-  AcceptButton
+  AcceptButton,
+  DeleteButton
 } from './TrustRelationshipSidePanel.styled.js';
 import AuthContext from '../../store/auth-context.js';
 import {
   acceptTrustRelationship,
   declineTrustRelationship,
+  deleteTrustRelationship
 } from '../../api/trust_relationships.js';
 import { useTrustRelationshipsContext } from '../../store/TrustRelationshipsContext.js';
 
@@ -32,11 +34,17 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
   const handleAccept = (id) => {
     const res = acceptTrustRelationship({ id, token });
     onClose()
-    setRefetch(true)
+        setRefetch(true)
   };
 
   const handleDecline = (id) => {
     const res = declineTrustRelationship({ id, token });
+    onClose()
+    setRefetch(true);
+  };
+
+  const handleDelete = (id) => {
+    const res = deleteTrustRelationship({ id, token });
     onClose()
     setRefetch(true);
   };
@@ -123,20 +131,27 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
             </TallTypography>
           </Grid>
         </Grid>
-       <Grid sx={3} style={{margin: '5rem 4rem',}}>
-       <AcceptButton
-          variant="contained"
-          color="primary"
-          onClick={() => handleAccept(rowInfo.id)}
-        >
-          Accept
-        </AcceptButton>
-        <DeclineButton
-        onClick={() => handleDecline(rowInfo.id)}
-        >
-          Decline
-        </DeclineButton>
-       </Grid>
+        {rowInfo.state === 'requested' && (
+          <Grid sx={3} style={{ margin: '5rem 4rem' }}>
+            <AcceptButton
+              variant="contained"
+              color="primary"
+              onClick={() => handleAccept(rowInfo.id)}
+            >
+              Accept
+            </AcceptButton>
+            <DeclineButton onClick={() => handleDecline(rowInfo.id)}>
+              Decline
+            </DeclineButton>
+          </Grid>
+      )}
+          {rowInfo.state === 'trusted' && (
+          <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
+            <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
+              Delete
+            </DeleteButton>
+          </Grid>
+         )}
       </div>
     </DrawerStyled>
   );
