@@ -12,7 +12,7 @@ import ReactQuill from 'react-quill';
 import { Paper, Button, TextField } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import 'react-quill/dist/quill.snow.css';
+import '../../components/UI/quill.snow.css';
 import Message, {
   MessageType,
 } from '../../components/UI/components/Message/Message';
