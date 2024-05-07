@@ -5,9 +5,13 @@ import theme from '../../UI/theme';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import apiClient from '../../../utils/apiClient';
+import { acceptTrustRelationship } from '../../../api/trust_relationships';
 
 jest.mock('../../../utils/apiClient', () => ({
   apiClient: jest.fn(),
+}));
+jest.mock('../../../api/trust_relationships', () => ({
+  acceptTrustRelationship : jest.fn(),
 }));
 
 describe('Menu component', () => {
