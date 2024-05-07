@@ -8,7 +8,7 @@ const mapWallet = (walletData, nameProp) => {
     tokensInWallet: walletData.tokens_in_wallet,
     name: walletData[nameProp],
     about: walletData.about,
-    //createdDate: walletData.created_at,
+    displayName: walletData.display_name,
     created_at: walletData.created_at,
   };
 };
@@ -82,4 +82,27 @@ export const createWallet = async (token, walletName) => {
     });
 
   return createdWallet;
+};
+
+export const updateWallet = async (token, wallet) => {
+  const patchRequest = {
+    about: wallet.about,
+    display_name: wallet.displayName,
+    cover_image: wallet.coverImage,
+    logo_image: wallet.logoImage,
+  };
+
+  const updatedWallet = await apiClient
+    .setAuthHeader(token)
+    .addContentType('multipart/form-data')
+    .patch('/wallets/' + wallet.id, patchRequest)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw Error(error.response.data.message);
+    });
+
+  return updatedWallet;
 };

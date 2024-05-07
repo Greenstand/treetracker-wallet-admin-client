@@ -12,6 +12,7 @@ import MyWallets from '../../pages/MyWallets/MyWallets';
 import { WalletsProvider } from '../../store/WalletsContext';
 import TrustRelationship from '../../pages/TrustRelationship/TrustRelationship';
 import { TrustRelationshipsProvider } from '../../store/TrustRelationshipsContext';
+import CustomizeWallet from '../../pages/CustomizeWallet/CustomizeWallet';
 
 const ProtectedRoute = ({ isLoggedIn, redirectPath = '/login' }) => {
   if (!isLoggedIn) {
@@ -76,6 +77,15 @@ const ClientRoutes = () => {
                 <TrustRelationship />
               </TrustRelationshipsProvider>
 
+            </Layout>
+          }
+        />
+        <Route
+          path="/customize-wallet"
+          exact
+          element={
+            <Layout>
+              <CustomizeWallet />
             </Layout>
           }
         />

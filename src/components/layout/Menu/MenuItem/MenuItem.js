@@ -3,6 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded';
 import HandshakeIcon from '@mui/icons-material/Handshake';
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import * as React from 'react';
 import LinkItem from './LinkItem';
 import { useTrustRelationshipsContext } from '../../../../store/TrustRelationshipsContext';
@@ -81,6 +82,12 @@ const MenuItem = ({ open }) => {
           open={open}
         />
       )}
+      <LinkItem
+        itemPath={'/customize-wallet'}
+        itemName={'Customize Wallet'}
+        itemIcon={<DriveFileMoveIcon />}
+        open={open}
+      />
     </>
   );
 };
