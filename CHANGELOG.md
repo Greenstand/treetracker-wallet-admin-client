@@ -1,3 +1,11 @@
+# [2.1.0-v2.4](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.3...v2.1.0-v2.4) (2024-05-06)
+
+
+### Bug Fixes
+
+* filter by request_type ([aa10e8b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/aa10e8b416a9714e0d8e4300b4eabbb5c50e40be))
+* remove unwanted filter by type ([ccae3b3](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ccae3b37a4c6488bd8d472cc1e50615405dd7fc3))
+
 # [2.1.0-v2.3](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.2...v2.1.0-v2.3) (2024-05-06)
 
 
