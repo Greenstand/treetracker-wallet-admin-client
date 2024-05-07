@@ -1,3 +1,10 @@
+# [2.1.0-v2.5](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.4...v2.1.0-v2.5) (2024-05-07)
+
+
+### Features
+
+* customize wallet (in progress) ([06f888b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/06f888bf6ef00708a69d53fee8b570112c55c330))
+
 # [2.1.0-v2.4](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.3...v2.1.0-v2.4) (2024-05-06)
 
 
