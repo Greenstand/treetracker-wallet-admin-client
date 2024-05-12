@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
 import theme from '../UI/theme';
 import AuthContext from '../../store/auth-context';
+import { TrustRelationshipsProvider } from '../../store/TrustRelationshipsContext';
 
 jest.mock('react-secure-storage', () => {
   return {
@@ -24,7 +25,9 @@ describe('ClientRoutes component', () => {
       <ThemeProvider theme={theme}>
         <Router>
           <AuthContext.Provider value={testContext}>
+            <TrustRelationshipsProvider>
             {props.children}
+            </TrustRelationshipsProvider>
           </AuthContext.Provider>
         </Router>
       </ThemeProvider>
