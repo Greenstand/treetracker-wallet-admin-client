@@ -6,12 +6,10 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import * as React from 'react';
 import LinkItem from './LinkItem';
-import { useTrustRelationshipsContext } from '../../../../store/TrustRelationshipsContext';
 import { useState } from 'react';
 
-const MenuItem = ({ open }) => {
+const MenuItem = ({ open, count }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { count } = useTrustRelationshipsContext();
 
     return (
     <>
