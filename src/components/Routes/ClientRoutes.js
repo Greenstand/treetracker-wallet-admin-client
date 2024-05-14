@@ -32,9 +32,11 @@ const ClientRoutes = () => {
           path="/"
           exact
           element={
+          <TrustRelationshipsProvider>
             <Layout>
               <Wallet />
             </Layout>
+          </TrustRelationshipsProvider>
           }
         />
         <Route
