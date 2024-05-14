@@ -1,3 +1,11 @@
+# [2.1.0-v2.7](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.6...v2.1.0-v2.7) (2024-05-14)
+
+
+### Bug Fixes
+
+* fix number in red dot of trusts ([5541f6c](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5541f6cb9fb7529282d3dc3d8a9514f73cf2b6c6))
+* fix tests ([6e06be8](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/6e06be87b98494c7c9467979723ea7bc36d41284))
+
 # [2.1.0-v2.6](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.5...v2.1.0-v2.6) (2024-05-07)
 
 
