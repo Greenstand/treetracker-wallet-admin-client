@@ -1,3 +1,10 @@
+# [2.1.0-v2.8](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.7...v2.1.0-v2.8) (2024-05-14)
+
+
+### Bug Fixes
+
+* fix context provider wrap in layout ([0d55646](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0d556460a8366f6b8cf195b31a80d6ec2a3fdb34))
+
 # [2.1.0-v2.7](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.6...v2.1.0-v2.7) (2024-05-14)
 
 
