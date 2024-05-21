@@ -109,7 +109,7 @@ const FilterDialog = ({
             setFilter={setFilter}
             defaultFilter={defaultFilter}
           />
-          <button
+          {/* <button
             style={{
               color: 'black',
               border: 'none',
@@ -120,7 +120,7 @@ const FilterDialog = ({
             onClick={handleFilterClose}
           >
             <h4> Apply</h4>
-          </button>
+          </button> */}
         </Grid>
       </Grid>
     </Menu>
@@ -262,16 +262,16 @@ const TrustRelationshipTableBody = ({
 }) => {
   // state to track if side panel is open when you click the row on table
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+  const [sortedTableRows, setSortedTableRows] = useState([]);
+  const stateOrder = ['requested', 'trusted', 'cancelled_by_originator', 'cancelled_by_target'];
+  useEffect(() => {
+    const sortData = (data) => {
+      return data.sort((a, b) => stateOrder.indexOf(a.state) - stateOrder.indexOf(b.state));
+    };
 
-  // let sortedTableRows = [...tableRows].sort(
-  //   (a, b) => new Date(b.created_at) - new Date(a.created_at)
-  // );
-  // sortedTableRows = [...sortedTableRows].sort(
-  //   (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-  // );
-  // let sortedTableRows = [...tableRows].sort((a, b) =>
-  //   a.state.localeCompare(b.state)
-  // );
+    setSortedTableRows(sortData([...tableRows])); 
+  }, [tableRows]);
+
   //function to close side panel
   const handleClosePanel = () => {
     setIsSidePanelOpen(false);
@@ -286,6 +286,7 @@ const TrustRelationshipTableBody = ({
     setIsSidePanelOpen(true);
   };
 
+  const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
   const { isLoading, searchString } = useTrustRelationshipsContext();
   if (isLoading)
     return (
@@ -312,8 +313,8 @@ const TrustRelationshipTableBody = ({
   return (
     <>
       <TableBody>
-        {tableRows &&
-          tableRows
+        {sortedTableRows &&
+          sortedTableRows
             .filter(
               (row) =>
                 row.actor_wallet
@@ -332,11 +333,11 @@ const TrustRelationshipTableBody = ({
                   sx={{ transition: 'all 0.3s ease' }}
                   style={{
                     backgroundColor:
-                      isSelected && row.state == 'requested'
+                      isSelected && row.state == 'requested' && wallet.name === row.target_wallet 
                         ? 'rgba(135, 195, 46, .4)'
                         : isSelected
                         ? 'rgba(135, 195, 46, .4)'
-                        : row.state == 'requested'
+                        : row.state == 'requested' && wallet.name === row.target_wallet
                         ? 'rgba(135, 195, 46, .1)'
                         : null,
                   }}
@@ -405,7 +406,7 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
   };
 
   //sorting
-  const [sortBy, setSortBy] = useState('created_at');
+  const [sortBy, setSortBy] = useState('updated_at');
   const [order, setOrder] = useState('desc');
 
   const getColumnNames = (columnName) => {

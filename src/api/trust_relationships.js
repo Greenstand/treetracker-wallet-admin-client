@@ -7,6 +7,7 @@ export const getTrustRelationships = async (
   { pagination, filter, sorting }
 ) => {
   const { sort_by, order } = sorting;
+  const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
 
   try {
     const where = filter.getWhereObj();
@@ -20,7 +21,7 @@ export const getTrustRelationships = async (
     const queryString = makeQueryString(trustRelationshipsFilter);
     const response = await apiClient
       .setAuthHeader(token)
-      .get(`/trust_relationships?${queryString}`);
+      .get(`/wallets/${wallet.id}/trust_relationships?${queryString}`);
     return response.data;
   } catch (error) {
     console.error(error);

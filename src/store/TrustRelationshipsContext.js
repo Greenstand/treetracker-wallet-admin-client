@@ -24,7 +24,7 @@ const TrustRelationshipsProvider = ({ children }) => {
 
   // sorting
   const defaultSorting = {
-    sort_by: 'created_at',
+    sort_by: 'updated_at',
     order: 'desc',
   };
 
@@ -42,6 +42,8 @@ const TrustRelationshipsProvider = ({ children }) => {
   // Loader
   const [isLoading, setIsLoading] = useState(false);
 
+  const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
+  console.log(wallet);
   // trust relationships table columns
 
   const tableColumns = [
@@ -131,6 +133,16 @@ const TrustRelationshipsProvider = ({ children }) => {
       value: 'trusted',
       color: 'black',
     },
+    {
+      label: 'Cancelled_by_originator',
+      value: 'cancelled_by_originator',
+      color: 'black',
+    },
+    {
+      label: 'Cancelled_by_target',
+      value: 'cancelled_by_target',
+      color: 'black',
+    },
   ];
 
   const requestTypeList = [
@@ -147,6 +159,21 @@ const TrustRelationshipsProvider = ({ children }) => {
     {
       label: 'Deduct',
       value: 'deduct',
+      color: 'black',
+    },
+    {
+      label: 'Receive',
+      value: 'receive',
+      color: 'black',
+    },
+    {
+      label: 'Release',
+      value: 'release',
+      color: 'black',
+    },
+    {
+      label: 'Yield',
+      value: 'yield',
       color: 'black',
     },
   ];
@@ -191,7 +218,7 @@ const TrustRelationshipsProvider = ({ children }) => {
 
       let local_count = 0;
       for (const item of data.trust_relationships) {
-        if (item.state === 'requested') {
+        if (item.state === 'requested' && wallet.name === item.target_wallet) {
           local_count++;
         }
       }

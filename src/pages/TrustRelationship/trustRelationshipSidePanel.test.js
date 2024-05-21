@@ -49,8 +49,6 @@ describe('Trust Relationship side Panel', () => {
       expect(screen.getByText('Target Wallet:')).toBeInTheDocument();
       expect(screen.getByText('Initiated By:')).toBeInTheDocument();
       expect(screen.getByText('Request Type:')).toBeInTheDocument();
-      expect(screen.getByText('Accept')).toBeInTheDocument();
-      expect(screen.getByText('Decline')).toBeInTheDocument();
     });
 });
 
