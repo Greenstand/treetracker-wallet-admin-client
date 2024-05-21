@@ -1,3 +1,12 @@
+# [2.1.0-v2.9](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.8...v2.1.0-v2.9) (2024-05-21)
+
+
+### Bug Fixes
+
+* changed the api endpoint ([9844373](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9844373127d2721eb183c9c6652afa468c3228e3))
+* fix appearance of buttons in panel ([6102d32](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/6102d32b668af952d965e0fbface0618e6ca4279))
+* fix trustrlationship context wrap error ([b37da9d](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/b37da9d2cbfbdc0ad113a38e1ab13fb27d2f9fcc))
+
 # [2.1.0-v2.8](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.7...v2.1.0-v2.8) (2024-05-14)
 
 
