@@ -131,7 +131,7 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
             </TallTypography>
           </Grid>
         </Grid>
-        {rowInfo.state === 'requested' && (
+        {rowInfo.state === 'requested' && rowInfo.originating_wallet === rowInfo.target_wallet && (
           <Grid sx={3} style={{ margin: '5rem 4rem' }}>
             <AcceptButton
               variant="contained"
@@ -145,7 +145,7 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
             </DeclineButton>
           </Grid>
       )}
-          {rowInfo.state === 'trusted' && (
+          {(rowInfo.state === 'trusted' || rowInfo.originating_wallet !== rowInfo.target_wallet) && (
           <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
             <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
               Delete
