@@ -149,6 +149,21 @@ const TrustRelationshipsProvider = ({ children }) => {
       value: 'deduct',
       color: 'black',
     },
+    {
+      label: 'Receive',
+      value: 'receive',
+      color: 'black',
+    },
+    {
+      label: 'Release',
+      value: 'release',
+      color: 'black',
+    },
+    {
+      label: 'Yield',
+      value: 'yield',
+      color: 'black',
+    },
   ];
 
   const typeList = [
@@ -197,7 +212,7 @@ const TrustRelationshipsProvider = ({ children }) => {
       }
       setCount(local_count);
       const preparedRows = prepareRows(await data.trust_relationships);
-      
+
       setTableRows(preparedRows);
       setTotalRowCount(data.total);
     } catch (error) {
