@@ -85,7 +85,7 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
           <Grid item xs={6}>
             <TallTypography elevation={3}>
               <NormalTypography variant="p" align="flex-start">
-                {rowInfo.originating_wallet}
+                {rowInfo.actor_wallet}
               </NormalTypography>
             </TallTypography>
           </Grid>
