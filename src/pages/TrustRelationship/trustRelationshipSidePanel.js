@@ -26,7 +26,7 @@ import { useTrustRelationshipsContext } from '../../store/TrustRelationshipsCont
 
 function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
 
-  const { setRefetch } = useTrustRelationshipsContext();
+  const { setRefetch, managedWallets } = useTrustRelationshipsContext();
   const authContext = useContext(AuthContext);
   const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
   
@@ -146,13 +146,52 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
             </DeclineButton>
           </Grid>
       )}
-          {(rowInfo.state === 'trusted' ||  wallet.name !== rowInfo.target_wallet) && (
-          <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
-            <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
-              Delete
-            </DeleteButton>
+
+        {rowInfo.state === 'requested' && managedWallets.wallets.some(wallet => wallet.name === rowInfo.target_wallet) && (
+          <Grid sx={3} style={{ margin: '5rem 4rem' }}>
+            <AcceptButton
+              variant="contained"
+              color="primary"
+              onClick={() => handleAccept(rowInfo.id)}
+            >
+              Accept
+            </AcceptButton>
+            <DeclineButton onClick={() => handleDecline(rowInfo.id)}>
+              Decline
+            </DeclineButton>
           </Grid>
-         )}
+      )}
+        {/* {rowInfo.state === 'trusted' && wallet.name !== rowInfo.target_wallet && managedWallets.wallets.some(wallet => wallet.name !== rowInfo.target_wallet) && (
+        <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
+          <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
+            Delete
+          </DeleteButton>
+        </Grid>
+      )}
+      {rowInfo.state === 'trusted' &&(
+        <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
+          <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
+            Delete
+          </DeleteButton>
+        </Grid>
+      )} */}
+
+{rowInfo.state === 'trusted' && (
+  <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
+    {wallet.name !== rowInfo.target_wallet && managedWallets.wallets.some(wallet => wallet.name !== rowInfo.target_wallet) ? (
+      <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
+        Delete
+      </DeleteButton>
+    ) : (
+      <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
+        Delete
+      </DeleteButton>
+    )}
+    
+  </Grid>
+)}
+
+
       </div>
     </DrawerStyled>
   );

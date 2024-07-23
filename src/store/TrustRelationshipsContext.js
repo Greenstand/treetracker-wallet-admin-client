@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getDateText } from '../utils/formatting';
 import AuthContext from './auth-context';
 import { getTrustRelationships } from '../api/trust_relationships';
 import TrustRelationshipsFilter from '../models/TrustRelationShipFilter';
+import { getWallets } from '../api/wallets';
 
 const TrustRelationshipsContext = createContext();
 
@@ -39,12 +41,12 @@ const TrustRelationshipsProvider = ({ children }) => {
   const [refetch, setRefetch] = useState(false);
   const [count, setCount] = useState(0);
 
+  const [managedWallets, setManagedWallets] = useState([]);
+
   // Loader
   const [isLoading, setIsLoading] = useState(false);
 
   const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
-  console.log(wallet);
-  // trust relationships table columns
 
   const tableColumns = [
     {
@@ -206,6 +208,7 @@ const TrustRelationshipsProvider = ({ children }) => {
 
   const authContext = useContext(AuthContext);
 
+
   const loadData = async () => {
     try {
       setIsLoading(true);
@@ -215,15 +218,27 @@ const TrustRelationshipsProvider = ({ children }) => {
         filter,
         sorting,
       });
-
+      console.log(data.trust_relationships.result)
+      const walletsData = await getWallets(
+        authContext.token,
+        '',
+        {
+          pagination,
+        },
+        { sorting }
+      );
+       setManagedWallets(walletsData);
       let local_count = 0;
-      for (const item of data.trust_relationships) {
+      for (const item of data.trust_relationships.result) {
         if (item.state === 'requested' && wallet.name === item.target_wallet) {
+          local_count++;
+        }
+        if (item.state === 'requested' && walletsData.wallets.some(wallet => wallet.name === item.target_wallet)) {
           local_count++;
         }
       }
       setCount(local_count);
-      const preparedRows = prepareRows(await data.trust_relationships);
+      const preparedRows = prepareRows(await data.trust_relationships.result);
       
       setTableRows(preparedRows);
       setTotalRowCount(data.total);
@@ -263,6 +278,8 @@ const TrustRelationshipsProvider = ({ children }) => {
     sorting,
     setSorting,
     loadData,
+    managedWallets,
+    setManagedWallets
   };
 
   return (

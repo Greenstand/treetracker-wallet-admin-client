@@ -285,6 +285,7 @@ const TrustRelationshipTableBody = ({
     setSelectedRowIndex(rowIndex);
     setIsSidePanelOpen(true);
   };
+  const { managedWallets } = useTrustRelationshipsContext();
 
   const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
   const { isLoading, searchString } = useTrustRelationshipsContext();
@@ -338,6 +339,8 @@ const TrustRelationshipTableBody = ({
                         : isSelected
                         ? 'rgba(135, 195, 46, .4)'
                         : row.state == 'requested' && wallet.name === row.target_wallet
+                        ? 'rgba(135, 195, 46, .1)'
+                         : row.state == 'requested' && managedWallets.wallets.some(wallet => wallet.name === row.target_wallet)
                         ? 'rgba(135, 195, 46, .1)'
                         : null,
                   }}
