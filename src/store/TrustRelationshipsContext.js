@@ -224,7 +224,7 @@ const TrustRelationshipsProvider = ({ children }) => {
       }
       setCount(local_count);
       const preparedRows = prepareRows(await data.trust_relationships);
-      
+
       setTableRows(preparedRows);
       setTotalRowCount(data.total);
     } catch (error) {

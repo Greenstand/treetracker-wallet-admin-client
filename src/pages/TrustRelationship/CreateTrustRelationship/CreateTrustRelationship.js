@@ -30,21 +30,6 @@ import { requestTrustRelationship } from '../../../api/trust_relationships';
 import Message from '../../../components/UI/components/Message/Message';
 import { useTrustRelationshipsContext } from '../../../store/TrustRelationshipsContext';
 
-const trustRequestTypeList = [
-  {
-    label: 'Send',
-    value: 'send',
-  },
-  {
-    label: 'Deduct',
-    value: 'deduct',
-  },
-  {
-    label: 'Manage',
-    value: 'manage',
-  },
-];
-
 const CreateTrustRelationship = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -88,7 +73,7 @@ const CreateNewRelationshipDialog = ({ open, handleClose }) => {
   const [sendRequestError, setSendRequestError] = useState('');
 
   const authContext = useContext(AuthContext);
-  const { loadData } = useTrustRelationshipsContext();
+  const { loadData, requestTypeList } = useTrustRelationshipsContext();
 
   const closeDialog = () => {
     setRequestSuccess(false);
@@ -164,6 +149,7 @@ const CreateNewRelationshipDialog = ({ open, handleClose }) => {
       );
       console.log(trustRelationshipRequest);
       setRequestSuccess(true);
+      setSendRequestError('');
       resetFields();
       loadData();
     } catch (error) {
@@ -215,7 +201,7 @@ const CreateNewRelationshipDialog = ({ open, handleClose }) => {
                   IconComponent={ArrowDropDown}
                   label={'Trust Request Type'}
                 >
-                  {trustRequestTypeList.map((type, index) => {
+                  {requestTypeList.map((type, index) => {
                     return (
                       <MenuItem key={index} value={type.value}>
                         {type.label}
