@@ -218,7 +218,6 @@ const TrustRelationshipsProvider = ({ children }) => {
         filter,
         sorting,
       });
-      console.log(data.trust_relationships.result)
       const walletsData = await getWallets(
         authContext.token,
         '',
@@ -229,7 +228,7 @@ const TrustRelationshipsProvider = ({ children }) => {
       );
        setManagedWallets(walletsData);
       let local_count = 0;
-      for (const item of data.trust_relationships.result) {
+      for (const item of data.trust_relationships) {
         if (item.state === 'requested' && wallet.name === item.target_wallet) {
           local_count++;
         }
@@ -238,7 +237,7 @@ const TrustRelationshipsProvider = ({ children }) => {
         }
       }
       setCount(local_count);
-      const preparedRows = prepareRows(await data.trust_relationships.result);
+      const preparedRows = prepareRows(await data.trust_relationships);
       
       setTableRows(preparedRows);
       setTotalRowCount(data.total);

@@ -25,32 +25,30 @@ import {
 import { useTrustRelationshipsContext } from '../../store/TrustRelationshipsContext.js';
 
 function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
-
-  const { setRefetch, managedWallets } = useTrustRelationshipsContext();
+  const { setRefetch, managedWallets = { wallets: [] } } = useTrustRelationshipsContext();
   const authContext = useContext(AuthContext);
   const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
-  
   const token = authContext.token;
 
   const handleAccept = (id) => {
-    const res = acceptTrustRelationship({ id, token });
-    onClose()
-        setRefetch(true)
+    acceptTrustRelationship({ id, token });
+    onClose();
+    setRefetch(true);
   };
 
   const handleDecline = (id) => {
-    const res = declineTrustRelationship({ id, token });
-    onClose()
+    declineTrustRelationship({ id, token });
+    onClose();
     setRefetch(true);
   };
 
   const handleDelete = (id) => {
-    const res = deleteTrustRelationship({ id, token });
-    onClose()
+    deleteTrustRelationship({ id, token });
+    onClose();
     setRefetch(true);
   };
 
-
+  const managedWalletsWithDefault = managedWallets.wallets ? managedWallets : { ...managedWallets, wallets: [] };
 
   return (
     <DrawerStyled variant="permanent" open={open} anchor="right">
@@ -113,7 +111,7 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
           <Grid item xs={6}>
             <TallTypography elevation={3}>
               <NormalTypography variant="p" align="flex-start">
-              {rowInfo.originating_wallet}
+                {rowInfo.originating_wallet}
               </NormalTypography>
             </TallTypography>
           </Grid>
@@ -145,9 +143,9 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
               Decline
             </DeclineButton>
           </Grid>
-      )}
+        )}
 
-        {rowInfo.state === 'requested' && managedWallets.wallets.some(wallet => wallet.name === rowInfo.target_wallet) && (
+        {rowInfo.state === 'requested' && managedWalletsWithDefault.wallets.some(wallet => wallet.name === rowInfo.target_wallet) && (
           <Grid sx={3} style={{ margin: '5rem 4rem' }}>
             <AcceptButton
               variant="contained"
@@ -160,38 +158,15 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
               Decline
             </DeclineButton>
           </Grid>
-      )}
-        {/* {rowInfo.state === 'trusted' && wallet.name !== rowInfo.target_wallet && managedWallets.wallets.some(wallet => wallet.name !== rowInfo.target_wallet) && (
-        <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
-          <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
-            Delete
-          </DeleteButton>
-        </Grid>
-      )}
-      {rowInfo.state === 'trusted' &&(
-        <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
-          <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
-            Delete
-          </DeleteButton>
-        </Grid>
-      )} */}
+        )}
 
-{rowInfo.state === 'trusted' && (
-  <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
-    {wallet.name !== rowInfo.target_wallet && managedWallets.wallets.some(wallet => wallet.name !== rowInfo.target_wallet) ? (
-      <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
-        Delete
-      </DeleteButton>
-    ) : (
-      <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
-        Delete
-      </DeleteButton>
-    )}
-    
-  </Grid>
-)}
-
-
+        {rowInfo.state === 'trusted' && (
+          <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
+            <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
+              Delete
+            </DeleteButton>
+          </Grid>
+        )}
       </div>
     </DrawerStyled>
   );
