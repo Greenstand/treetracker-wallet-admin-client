@@ -92,12 +92,13 @@ describe('Request trust relationship', function () {
       screen.getByRole('listbox', { name: /Trust Request Type/ })
     ).toBeInTheDocument();
 
-    expect(screen.getAllByRole('option')).toHaveLength(3);
+    expect(screen.getAllByRole('option')).toHaveLength(6);
     expect(screen.getByRole('option', { name: /Send/ })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /Deduct/ })).toBeInTheDocument();
     expect(screen.getByRole('option', { name: /Manage/ })).toBeInTheDocument();
-
-    // screen.getByRole('');
+    expect(screen.getByRole('option', { name: /Release/ })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /Receive/ })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /Yield/ })).toBeInTheDocument();
   });
 
   it('close and cancel buttons work correctly', async () => {

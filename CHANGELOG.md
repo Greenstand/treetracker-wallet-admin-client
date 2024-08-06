@@ -1,3 +1,18 @@
+# [2.1.0-v2.11](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.10...v2.1.0-v2.11) (2024-07-30)
+
+
+### Features
+
+* added trust request types ([a7634a4](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a7634a4c782cdb6e688e362e0bae7524522bcb93))
+* updated test ([e8c44fb](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/e8c44fb404853ddf1b484e5d6b325a56a8116eba))
+
+# [2.1.0-v2.10](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.9...v2.1.0-v2.10) (2024-06-25)
+
+
+### Bug Fixes
+
+* fix typos ([0dc1c24](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0dc1c24be298811047dd55101e2e33f188bc471f))
+
 # [2.1.0-v2.9](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.8...v2.1.0-v2.9) (2024-05-21)
 
 
