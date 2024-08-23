@@ -1,3 +1,11 @@
+# [2.1.0-v2.12](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.11...v2.1.0-v2.12) (2024-08-23)
+
+
+### Bug Fixes
+
+* fix tests to enable trusts for managed wallets ([09ff63b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/09ff63b1b2169250cd915bccf762b96c9543da67))
+* include get trusts for managed wallets ([c1c7430](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c1c743074e70bc559abeaa1201defb774fb29ba6))
+
 # [2.1.0-v2.11](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.10...v2.1.0-v2.11) (2024-07-30)
 
 
