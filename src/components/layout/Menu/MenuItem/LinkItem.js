@@ -1,4 +1,8 @@
-import { ItemButtonStyled, ItemIconStyled, LinkItemStyled } from './MenuItemStyled';
+import {
+  ItemButtonStyled,
+  ItemIconStyled,
+  LinkItemStyled,
+} from './MenuItemStyled';
 import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
 import Badge from '@mui/material/Badge';
@@ -7,34 +11,41 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   marginLeft: theme.spacing(1),
 }));
 
-
-const LinkItem = ({ itemPath, itemName, itemIcon, isActive, open, pendingCount }) => {
+const LinkItem = ({
+  itemPath,
+  itemName,
+  itemIcon,
+  isActive,
+  open,
+  pendingCount,
+}) => {
   return (
-
     <LinkItemStyled to={itemPath} isActive={isActive}>
       <ItemButtonStyled open={open}>
-        <ItemIconStyled open={open}>
+        <ItemIconStyled open={open} isActive={isActive}>
           {itemIcon}
         </ItemIconStyled>
         <ListItemText
           primary={itemName}
-          sx={{ opacity: open ? 1 : 0, marginLeft: open ? '1rem' : 0, fontWeight: 'bold' }}
+          sx={{
+            opacity: open ? 1 : 0,
+            marginLeft: open ? '1rem' : 0,
+            fontWeight: 'bold',
+          }}
         />
-      { pendingCount &&
-              <StyledBadge
-              badgeContent={pendingCount}
-              color="error"
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            > 
-            </StyledBadge>
-      }
+        {pendingCount && (
+          <StyledBadge
+            badgeContent={pendingCount}
+            color="error"
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          ></StyledBadge>
+        )}
       </ItemButtonStyled>
     </LinkItemStyled>
-
   );
 };
 
-export default LinkItem; 
+export default LinkItem;
