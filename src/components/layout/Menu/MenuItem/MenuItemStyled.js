@@ -4,11 +4,11 @@ import { NavLink } from 'react-router-dom';
 
 const LinkItemStyled = styled(NavLink)(({ theme, isActive }) => ({
   textDecoration: 'none',
-  color: isActive ? theme.palette.primary.main : theme.palette.primary.lightMain,
-  backgroundColor: isActive ? theme.palette.action.active: null,
-  borderTopRightRadius: isActive ? '25px': null,
-  borderBottomRightRadius: isActive ? '25px': null,
-  width: '14.5rem'
+  color: isActive
+    ? theme.palette.primary.main
+    : theme.palette.primary.lightMain,
+  backgroundColor: isActive ? theme.palette.action.active : null,
+  width: '14.5rem',
 }));
 
 const ItemButtonStyled = styled(ListItemButton)(({ open }) => ({

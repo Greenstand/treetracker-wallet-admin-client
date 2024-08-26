@@ -1,8 +1,8 @@
 import MuiDrawer from '@mui/material/Drawer';
 import { styled } from '@mui/system';
 
-const drawerWidth = 240;
-const mobileDrawerWidth = 140;
+const drawerWidth = 200;
+const mobileDrawerWidth = 200;
 
 const openedMixin = (theme) => ({
   width: mobileDrawerWidth,
