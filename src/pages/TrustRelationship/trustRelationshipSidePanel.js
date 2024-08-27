@@ -130,7 +130,16 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
             </TallTypography>
           </Grid>
         </Grid>
-        {rowInfo.state === 'requested' && wallet.name === rowInfo.target_wallet && (
+      {rowInfo.state === 'trusted' && (
+        <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
+          <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
+            Delete
+          </DeleteButton>
+        </Grid>
+      )}
+
+      {rowInfo.state === 'requested' && (
+        managedWalletsWithDefault.wallets.some(wallet => wallet.name === rowInfo.target_wallet) || wallet.name === rowInfo.target_wallet ? (
           <Grid sx={3} style={{ margin: '5rem 4rem' }}>
             <AcceptButton
               variant="contained"
@@ -143,30 +152,17 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
               Decline
             </DeclineButton>
           </Grid>
-        )}
-
-        {rowInfo.state === 'requested' && managedWalletsWithDefault.wallets.some(wallet => wallet.name === rowInfo.target_wallet) && (
-          <Grid sx={3} style={{ margin: '5rem 4rem' }}>
-            <AcceptButton
-              variant="contained"
-              color="primary"
-              onClick={() => handleAccept(rowInfo.id)}
-            >
-              Accept
-            </AcceptButton>
-            <DeclineButton onClick={() => handleDecline(rowInfo.id)}>
-              Decline
-            </DeclineButton>
-          </Grid>
-        )}
-
-        {rowInfo.state === 'trusted' && (
+        ) : (
           <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
             <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
               Delete
             </DeleteButton>
           </Grid>
-        )}
+        )
+      )}
+
+     {(rowInfo.state === 'cancelled_by_target' || rowInfo.state === 'cancelled_by_originator') && null}
+
       </div>
     </DrawerStyled>
   );
