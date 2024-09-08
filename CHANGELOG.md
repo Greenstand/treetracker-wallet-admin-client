@@ -1,3 +1,12 @@
+# [2.1.0-v2.14](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.13...v2.1.0-v2.14) (2024-09-08)
+
+
+### Bug Fixes
+
+* sidebar closed width ([f9753b2](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f9753b2312476e32d94511162f5942118ed69126))
+* sidebar text color ([eaf1b53](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/eaf1b532153a42265e2930fc23ee2e3662928fd8))
+* sidebar width changed ([03be1e3](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/03be1e303d2ddb66bfaa78ec8beabe7775a5a7df))
+
 # [2.1.0-v2.13](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.12...v2.1.0-v2.13) (2024-09-08)
 
 
