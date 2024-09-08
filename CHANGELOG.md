@@ -1,3 +1,10 @@
+# [2.1.0-v2.13](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.12...v2.1.0-v2.13) (2024-09-08)
+
+
+### Bug Fixes
+
+* fix button logic in trusts side panel ([ea0f717](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ea0f717929c69522a3622a72bea1456ba28dcd72))
+
 # [2.1.0-v2.12](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.11...v2.1.0-v2.12) (2024-08-23)
 
 
