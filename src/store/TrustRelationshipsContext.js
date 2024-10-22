@@ -2,7 +2,10 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getDateText } from '../utils/formatting';
 import AuthContext from './auth-context';
-import { getTrustRelationships } from '../api/trust_relationships';
+import {
+  getPendingTrustRelationships,
+  getTrustRelationships,
+} from '../api/trust_relationships';
 import TrustRelationshipsFilter from '../models/TrustRelationShipFilter';
 import { getWallets } from '../api/wallets';
 
@@ -195,7 +198,7 @@ const TrustRelationshipsProvider = ({ children }) => {
       label: 'Deduct',
       value: 'deduct',
       color: 'black',
-    }
+    },
   ];
 
   // error
@@ -207,7 +210,6 @@ const TrustRelationshipsProvider = ({ children }) => {
   const [totalRowCount, setTotalRowCount] = useState(null);
 
   const authContext = useContext(AuthContext);
-
 
   const loadData = async () => {
     try {
@@ -226,13 +228,23 @@ const TrustRelationshipsProvider = ({ children }) => {
         },
         { sorting }
       );
-       setManagedWallets(walletsData);
+      setManagedWallets(walletsData);
+
+      // count number of pending trust relationships
       let local_count = 0;
-      for (const item of data.trust_relationships) {
+      const pendingRelationships = await getPendingTrustRelationships(
+        authContext.token
+      );
+      for (const item of pendingRelationships.trust_relationships) {
         if (item.state === 'requested' && wallet.name === item.target_wallet) {
           local_count++;
         }
-        if (item.state === 'requested' && walletsData.wallets.some(wallet => wallet.name === item.target_wallet)) {
+        if (
+          item.state === 'requested' &&
+          walletsData.wallets.some(
+            (wallet) => wallet.name === item.target_wallet
+          )
+        ) {
           local_count++;
         }
       }
@@ -248,6 +260,7 @@ const TrustRelationshipsProvider = ({ children }) => {
       setIsLoading(false);
       setRefetch(false);
     }
+    7;
   };
 
   useEffect(() => {
@@ -278,7 +291,7 @@ const TrustRelationshipsProvider = ({ children }) => {
     setSorting,
     loadData,
     managedWallets,
-    setManagedWallets
+    setManagedWallets,
   };
 
   return (
