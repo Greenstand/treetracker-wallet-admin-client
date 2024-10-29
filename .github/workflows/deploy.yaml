@@ -124,7 +124,7 @@ jobs:
         if: "contains(github.event.inputs.env, 'dev')"
         run: npm run build:dev
         working-directory: ${{ env.project-directory }}
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: frontend-bundle
           path: build

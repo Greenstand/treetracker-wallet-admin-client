@@ -1,3 +1,10 @@
+# [2.1.0-v2.15](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.14...v2.1.0-v2.15) (2024-10-22)
+
+
+### Bug Fixes
+
+* upgrade actions/upload-artifact to v4 ([c4c8564](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c4c8564b16b26a86da1ee88290833964382815e6))
+
 # [2.1.0-v2.14](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.13...v2.1.0-v2.14) (2024-09-08)
 
 
