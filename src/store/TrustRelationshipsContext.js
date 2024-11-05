@@ -18,6 +18,7 @@ const TrustRelationshipsProvider = ({ children }) => {
 
   const defaultFilter = new TrustRelationshipsFilter({
     state: '',
+    search: '',
     type: '',
     request_type: '',
     before: null,
@@ -26,7 +27,7 @@ const TrustRelationshipsProvider = ({ children }) => {
 
   // sorting
   const defaultSorting = {
-    sort_by: 'updated_at',
+    sort_by: 'state',
     order: 'desc',
   };
 
