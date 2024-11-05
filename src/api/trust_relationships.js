@@ -28,6 +28,18 @@ export const getTrustRelationships = async (
   }
 };
 
+export const getPendingTrustRelationships = async (token) => {
+  const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
+  try {
+    const response = await apiClient
+      .setAuthHeader(token)
+      .get(`/wallets/${wallet.id}/trust_relationships?state=requested`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const requestTrustRelationship = async (
   token,
   { requestType, requestingWallet, targetWallet }
@@ -60,7 +72,7 @@ export const acceptTrustRelationship = async ({ id, token }) => {
         headers: {
           'Content-Type': 'application/json',
           'TREETRACKER-API-KEY': secureLocalStorage.getItem('api-key') || '',
-          'Authorization': token ? `Bearer ${token}` : ''
+          Authorization: token ? `Bearer ${token}` : '',
         },
       }
     );
@@ -79,7 +91,7 @@ export const declineTrustRelationship = async ({ id, token }) => {
         headers: {
           'Content-Type': 'application/json',
           'TREETRACKER-API-KEY': secureLocalStorage.getItem('api-key') || '',
-          'Authorization': token ? `Bearer ${token}` : ''
+          Authorization: token ? `Bearer ${token}` : '',
         },
       }
     );
@@ -88,9 +100,6 @@ export const declineTrustRelationship = async ({ id, token }) => {
     console.error(error);
   }
 };
-
-
-
 
 export const deleteTrustRelationship = async ({ id, token }) => {
   try {
@@ -101,7 +110,7 @@ export const deleteTrustRelationship = async ({ id, token }) => {
         headers: {
           'Content-Type': 'application/json',
           'TREETRACKER-API-KEY': secureLocalStorage.getItem('api-key') || '',
-          'Authorization': token ? `Bearer ${token}` : ''
+          Authorization: token ? `Bearer ${token}` : '',
         },
       }
     );
@@ -110,7 +119,7 @@ export const deleteTrustRelationship = async ({ id, token }) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    return response.json(); 
+    return response.json();
   } catch (error) {
     console.error(error);
   }
