@@ -1,3 +1,10 @@
+# [2.1.0-v2.17](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.16...v2.1.0-v2.17) (2024-11-05)
+
+
+### Bug Fixes
+
+* show correct number of trust relationships ([78043e3](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/78043e399ce52e8087a8bc2b09d35daf662dec50))
+
 # [2.1.0-v2.16](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.15...v2.1.0-v2.16) (2024-11-05)
 
 
