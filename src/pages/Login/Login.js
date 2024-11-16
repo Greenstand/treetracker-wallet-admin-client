@@ -211,6 +211,7 @@ const Login = () => {
                     onClick={() => setRemember(!isRemember)}
                     value="remember"
                     color="primary"
+                    id="remember"
                   />
                 }
                 label="Remember me"
@@ -224,6 +225,7 @@ const Login = () => {
             color="primary"
             //Disable button if sending request, wallet or password are empty
             disabled={isLoading || !wallet || !password}
+            id="submit"
           >
             <StyledTypography>LOG IN</StyledTypography>
           </StyledButton>
