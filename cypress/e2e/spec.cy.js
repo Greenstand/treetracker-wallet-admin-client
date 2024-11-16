@@ -22,13 +22,10 @@ describe('Login Page Test', () => {
     // Try to login
     cy.intercept({
       method: 'POST',
-      url: 'https://dev-k8s.treetracker.org/wallet/v2/auth',
+      url: `${process.env.REACT_APP_WALLET_API_ROOT}/auth`,
     }).as('loginRequest')
-
     cy.get('#submit').click()
-
     cy.wait('@loginRequest').its('response.statusCode').should('eq', 401)
-
     cy.get(".MuiAlert-message").should('be.visible')
 
   })
