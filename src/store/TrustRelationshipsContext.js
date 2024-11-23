@@ -45,6 +45,7 @@ const TrustRelationshipsProvider = ({ children }) => {
   const [refetch, setRefetch] = useState(false);
   const [count, setCount] = useState(0);
 
+  // used to store all managed wallets
   const [managedWallets, setManagedWallets] = useState([]);
 
   // Loader
@@ -221,35 +222,6 @@ const TrustRelationshipsProvider = ({ children }) => {
         filter,
         sorting,
       });
-      const walletsData = await getWallets(
-        authContext.token,
-        '',
-        {
-          pagination,
-        },
-        { sorting }
-      );
-      setManagedWallets(walletsData);
-
-      // count number of pending trust relationships
-      let local_count = 0;
-      const pendingRelationships = await getPendingTrustRelationships(
-        authContext.token
-      );
-      for (const item of pendingRelationships.trust_relationships) {
-        if (item.state === 'requested' && wallet.name === item.target_wallet) {
-          local_count++;
-        }
-        if (
-          item.state === 'requested' &&
-          walletsData.wallets.some(
-            (wallet) => wallet.name === item.target_wallet
-          )
-        ) {
-          local_count++;
-        }
-      }
-      setCount(local_count);
       const preparedRows = prepareRows(await data.trust_relationships);
 
       setTableRows(preparedRows);
@@ -261,8 +233,50 @@ const TrustRelationshipsProvider = ({ children }) => {
       setIsLoading(false);
       setRefetch(false);
     }
-    7;
   };
+
+  const loadPendingRelationshipsData = async () => {
+    try {
+      setIsLoading(true);
+
+      // get all managed wallets
+      const allWalletsData = await getWallets(authContext.token, '', {
+        pagination: { limit: 1000 },
+      });
+      setManagedWallets(allWalletsData);
+
+      // count number of pending trust relationships
+      let local_count = 0;
+      const pendingRelationships = await getPendingTrustRelationships(
+        authContext.token
+      );
+      for (const item of pendingRelationships.trust_relationships) {
+        if (wallet.name === item.target_wallet) {
+          local_count++;
+        } else if (
+          allWalletsData.wallets.some(
+            (wallet) => wallet.name === item.target_wallet
+          )
+        ) {
+          local_count++;
+        }
+      }
+      setCount(local_count);
+    } catch (error) {
+      console.error(
+        'An error occured fetching the managed wallets and/or pending trust relationships',
+        error
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // loading managed wallets and pending trust relationships data only on refetch
+  // refetch is set to true when a trust relationship has an action performed on it
+  useEffect(() => {
+    loadPendingRelationshipsData();
+  }, [refetch]);
 
   useEffect(() => {
     loadData();
