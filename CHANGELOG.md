@@ -1,3 +1,10 @@
+# [2.1.0-v2.19](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.18...v2.1.0-v2.19) (2024-11-23)
+
+
+### Bug Fixes
+
+* sidebar shows correct count ([89d2d3f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/89d2d3fb71d261356e7a8169b946be0cf4d45a75))
+
 # [2.1.0-v2.18](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.17...v2.1.0-v2.18) (2024-11-19)
 
 
