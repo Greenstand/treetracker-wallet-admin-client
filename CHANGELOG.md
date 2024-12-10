@@ -1,3 +1,121 @@
+# [2.1.0-v2.19](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.18...v2.1.0-v2.19) (2024-11-23)
+
+
+### Bug Fixes
+
+* sidebar shows correct count ([89d2d3f](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/89d2d3fb71d261356e7a8169b946be0cf4d45a75))
+
+# [2.1.0-v2.18](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.17...v2.1.0-v2.18) (2024-11-19)
+
+
+### Bug Fixes
+
+* upgrade actions/download-artifact to v4 ([20f7085](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/20f7085071282bed6f8d51d1d49b15d77029f870))
+
+# [2.1.0-v2.17](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.16...v2.1.0-v2.17) (2024-11-05)
+
+
+### Bug Fixes
+
+* show correct number of trust relationships ([78043e3](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/78043e399ce52e8087a8bc2b09d35daf662dec50))
+
+# [2.1.0-v2.16](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.15...v2.1.0-v2.16) (2024-11-05)
+
+
+### Bug Fixes
+
+* fix sorting order and search functionality ([fb2e0e3](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/fb2e0e362bf78be694a4e3570b7a896ee5d0d4a0))
+
+# [2.1.0-v2.15](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.14...v2.1.0-v2.15) (2024-10-22)
+
+
+### Bug Fixes
+
+* upgrade actions/upload-artifact to v4 ([c4c8564](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c4c8564b16b26a86da1ee88290833964382815e6))
+
+# [2.1.0-v2.14](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.13...v2.1.0-v2.14) (2024-09-08)
+
+
+### Bug Fixes
+
+* sidebar closed width ([f9753b2](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f9753b2312476e32d94511162f5942118ed69126))
+* sidebar text color ([eaf1b53](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/eaf1b532153a42265e2930fc23ee2e3662928fd8))
+* sidebar width changed ([03be1e3](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/03be1e303d2ddb66bfaa78ec8beabe7775a5a7df))
+
+# [2.1.0-v2.13](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.12...v2.1.0-v2.13) (2024-09-08)
+
+
+### Bug Fixes
+
+* fix button logic in trusts side panel ([ea0f717](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/ea0f717929c69522a3622a72bea1456ba28dcd72))
+
+# [2.1.0-v2.12](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.11...v2.1.0-v2.12) (2024-08-23)
+
+
+### Bug Fixes
+
+* fix tests to enable trusts for managed wallets ([09ff63b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/09ff63b1b2169250cd915bccf762b96c9543da67))
+* include get trusts for managed wallets ([c1c7430](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c1c743074e70bc559abeaa1201defb774fb29ba6))
+
+# [2.1.0-v2.11](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.10...v2.1.0-v2.11) (2024-07-30)
+
+
+### Features
+
+* added trust request types ([a7634a4](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a7634a4c782cdb6e688e362e0bae7524522bcb93))
+* updated test ([e8c44fb](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/e8c44fb404853ddf1b484e5d6b325a56a8116eba))
+
+# [2.1.0-v2.10](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.9...v2.1.0-v2.10) (2024-06-25)
+
+
+### Bug Fixes
+
+* fix typos ([0dc1c24](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0dc1c24be298811047dd55101e2e33f188bc471f))
+
+# [2.1.0-v2.9](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.8...v2.1.0-v2.9) (2024-05-21)
+
+
+### Bug Fixes
+
+* changed the api endpoint ([9844373](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/9844373127d2721eb183c9c6652afa468c3228e3))
+* fix appearance of buttons in panel ([6102d32](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/6102d32b668af952d965e0fbface0618e6ca4279))
+* fix trustrlationship context wrap error ([b37da9d](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/b37da9d2cbfbdc0ad113a38e1ab13fb27d2f9fcc))
+
+# [2.1.0-v2.8](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.7...v2.1.0-v2.8) (2024-05-14)
+
+
+### Bug Fixes
+
+* fix context provider wrap in layout ([0d55646](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0d556460a8366f6b8cf195b31a80d6ec2a3fdb34))
+
+# [2.1.0-v2.7](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.6...v2.1.0-v2.7) (2024-05-14)
+
+
+### Bug Fixes
+
+* fix number in red dot of trusts ([5541f6c](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5541f6cb9fb7529282d3dc3d8a9514f73cf2b6c6))
+* fix tests ([6e06be8](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/6e06be87b98494c7c9467979723ea7bc36d41284))
+
+# [2.1.0-v2.6](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.5...v2.1.0-v2.6) (2024-05-07)
+
+
+### Bug Fixes
+
+* fix tests ([21ffd8b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/21ffd8bc4b6a8cf9a9feed74564609f9d282b677))
+* fix the number of requested trust relationships ([267930e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/267930eb26657748b81675812495f6317fa83b3e))
+
+
+### Features
+
+* implement accept, decline and delete in trusts ([c11c1d4](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/c11c1d4f90516d0016ba4a90244a8819bea44c11))
+
+# [2.1.0-v2.5](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.4...v2.1.0-v2.5) (2024-05-07)
+
+
+### Features
+
+* customize wallet (in progress) ([06f888b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/06f888bf6ef00708a69d53fee8b570112c55c330))
+
 # [2.1.0-v2.4](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.3...v2.1.0-v2.4) (2024-05-06)
 
 

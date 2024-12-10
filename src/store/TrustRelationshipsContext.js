@@ -1,8 +1,13 @@
+/* eslint-disable no-unused-vars */
 import { createContext, useContext, useState, useEffect } from 'react';
 import { getDateText } from '../utils/formatting';
 import AuthContext from './auth-context';
-import { getTrustRelationships } from '../api/trust_relationships';
+import {
+  getPendingTrustRelationships,
+  getTrustRelationships,
+} from '../api/trust_relationships';
 import TrustRelationshipsFilter from '../models/TrustRelationShipFilter';
+import { getWallets } from '../api/wallets';
 
 const TrustRelationshipsContext = createContext();
 
@@ -16,6 +21,7 @@ const TrustRelationshipsProvider = ({ children }) => {
 
   const defaultFilter = new TrustRelationshipsFilter({
     state: '',
+    search: '',
     type: '',
     request_type: '',
     before: null,
@@ -24,7 +30,7 @@ const TrustRelationshipsProvider = ({ children }) => {
 
   // sorting
   const defaultSorting = {
-    sort_by: 'created_at',
+    sort_by: 'state',
     order: 'desc',
   };
 
@@ -37,11 +43,15 @@ const TrustRelationshipsProvider = ({ children }) => {
   const [searchString, setSearchString] = useState('');
 
   const [refetch, setRefetch] = useState(false);
+  const [count, setCount] = useState(0);
+
+  // used to store all managed wallets
+  const [managedWallets, setManagedWallets] = useState([]);
 
   // Loader
   const [isLoading, setIsLoading] = useState(false);
 
-  // trust relationships table columns
+  const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
 
   const tableColumns = [
     {
@@ -130,6 +140,16 @@ const TrustRelationshipsProvider = ({ children }) => {
       value: 'trusted',
       color: 'black',
     },
+    {
+      label: 'Cancelled_by_originator',
+      value: 'cancelled_by_originator',
+      color: 'black',
+    },
+    {
+      label: 'Cancelled_by_target',
+      value: 'cancelled_by_target',
+      color: 'black',
+    },
   ];
 
   const requestTypeList = [
@@ -146,6 +166,21 @@ const TrustRelationshipsProvider = ({ children }) => {
     {
       label: 'Deduct',
       value: 'deduct',
+      color: 'black',
+    },
+    {
+      label: 'Receive',
+      value: 'receive',
+      color: 'black',
+    },
+    {
+      label: 'Release',
+      value: 'release',
+      color: 'black',
+    },
+    {
+      label: 'Yield',
+      value: 'yield',
       color: 'black',
     },
   ];
@@ -165,7 +200,7 @@ const TrustRelationshipsProvider = ({ children }) => {
       label: 'Deduct',
       value: 'deduct',
       color: 'black',
-    }
+    },
   ];
 
   // error
@@ -187,9 +222,8 @@ const TrustRelationshipsProvider = ({ children }) => {
         filter,
         sorting,
       });
-
       const preparedRows = prepareRows(await data.trust_relationships);
-      
+
       setTableRows(preparedRows);
       setTotalRowCount(data.total);
     } catch (error) {
@@ -201,11 +235,55 @@ const TrustRelationshipsProvider = ({ children }) => {
     }
   };
 
+  const loadPendingRelationshipsData = async () => {
+    try {
+      setIsLoading(true);
+
+      // get all managed wallets
+      const allWalletsData = await getWallets(authContext.token, '', {
+        pagination: { limit: 1000 },
+      });
+      setManagedWallets(allWalletsData);
+
+      // count number of pending trust relationships
+      let local_count = 0;
+      const pendingRelationships = await getPendingTrustRelationships(
+        authContext.token
+      );
+      for (const item of pendingRelationships.trust_relationships) {
+        if (wallet.name === item.target_wallet) {
+          local_count++;
+        } else if (
+          allWalletsData.wallets.some(
+            (wallet) => wallet.name === item.target_wallet
+          )
+        ) {
+          local_count++;
+        }
+      }
+      setCount(local_count);
+    } catch (error) {
+      console.error(
+        'An error occured fetching the managed wallets and/or pending trust relationships',
+        error
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // loading managed wallets and pending trust relationships data only on refetch
+  // refetch is set to true when a trust relationship has an action performed on it
+  useEffect(() => {
+    loadPendingRelationshipsData();
+  }, [refetch]);
+
   useEffect(() => {
     loadData();
   }, [pagination, filter, sorting, refetch]);
 
   const value = {
+    count,
     pagination,
     setPagination,
     isLoading,
@@ -227,6 +305,8 @@ const TrustRelationshipsProvider = ({ children }) => {
     sorting,
     setSorting,
     loadData,
+    managedWallets,
+    setManagedWallets,
   };
 
   return (

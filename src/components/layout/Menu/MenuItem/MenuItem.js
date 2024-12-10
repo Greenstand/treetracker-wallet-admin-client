@@ -6,24 +6,11 @@ import HandshakeIcon from '@mui/icons-material/Handshake';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
 import * as React from 'react';
 import LinkItem from './LinkItem';
-import { useTrustRelationshipsContext } from '../../../../store/TrustRelationshipsContext';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-const MenuItem = ({ open }) => {
+const MenuItem = ({ open, count }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [pendingCount, setPendingCount] = useState(0);
-  const { tableRows } = useTrustRelationshipsContext();
 
-  useEffect(() => {
-    let count = 0;
-
-    for (let i = 0; i < tableRows.length; i++) {
-      if (tableRows[i].state === 'requested') {
-        count++;
-      }
-    }
-    setPendingCount(count);
-  }, [tableRows]);
     return (
     <>
       <LinkItem
@@ -54,7 +41,7 @@ const MenuItem = ({ open }) => {
         isActive={location.pathname === '/list-wallets'}
         open={open}
       />
-      {pendingCount > 0 && open ? (
+      {count > 0 && open ? (
         <div
           style={{
             display: 'flex',
@@ -70,7 +57,7 @@ const MenuItem = ({ open }) => {
             itemIcon={<HandshakeIcon />}
             isActive={location.pathname === '/trust-relationship'}
             open={open}
-            pendingCount={pendingCount}
+            pendingCount={count}
           />
         </div>
       ) : (

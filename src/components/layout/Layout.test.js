@@ -4,11 +4,14 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import theme from '../UI/theme';
-import apiClient from '../../utils/apiClient';
+import { acceptTrustRelationship } from '../../api/trust_relationships';
 
 
 jest.mock('../../utils/apiClient', () => ({
   apiClient: jest.fn()
+}));
+jest.mock('../../api/trust_relationships', () => ({
+  acceptTrustRelationship : jest.fn(),
 }));
 
 

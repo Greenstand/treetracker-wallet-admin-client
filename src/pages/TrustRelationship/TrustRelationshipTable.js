@@ -34,6 +34,7 @@ import {
 } from './TrustRelationshipsFilters';
 import TrustRelationshipSidePanel from './trustRelationshipSidePanel';
 import CreateTrustRelationship from './CreateTrustRelationship/CreateTrustRelationship';
+import TrustRelationshipsFilter from '../../models/TrustRelationShipFilter';
 
 
 const FilterDialog = ({
@@ -109,7 +110,7 @@ const FilterDialog = ({
             setFilter={setFilter}
             defaultFilter={defaultFilter}
           />
-          <button
+          {/* <button
             style={{
               color: 'black',
               border: 'none',
@@ -120,7 +121,7 @@ const FilterDialog = ({
             onClick={handleFilterClose}
           >
             <h4> Apply</h4>
-          </button>
+          </button> */}
         </Grid>
       </Grid>
     </Menu>
@@ -135,10 +136,15 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
     requestTypeList,
     typeList,
     defaultFilter,
-    setSearchString,
   } = useTrustRelationshipsContext();
 
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleSearch = (e) => {
+    const searchValue = e.target.value; 
+    const newFilter = new TrustRelationshipsFilter({ ...filter, search: searchValue });
+    setFilter(newFilter);
+  };
 
   const handleFilterClick = (event) => {
     setAnchorEl((prevAnchorEl) => (prevAnchorEl ? null : event.currentTarget));
@@ -176,7 +182,7 @@ const TrustRelationshipTableHeader = ({ tableTitle, getStatusColor }) => {
         <SearchTextField
           variant="outlined"
           placeholder="Search by Wallet..."
-          onChange={(e) => setSearchString(e.target.value)}
+          onChange={(e) => handleSearch(e)} 
           InputProps={{
             style: { fontSize: '14px' },
             startAdornment: (
@@ -255,65 +261,55 @@ const OverflownCell = ({ cellValue, cellColor, children }) => {
 };
 
 const TrustRelationshipTableBody = ({
-  tableColumns,
-  tableRows,
-  selectedRowIndex,
-  setSelectedRowIndex,
-}) => {
-  // state to track if side panel is open when you click the row on table
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+    tableColumns,
+    tableRows,
+    selectedRowIndex,
+    setSelectedRowIndex,
+  }) => {
+    const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+    const [rowInfo, setRowInfo] = useState(null);
 
-  // let sortedTableRows = [...tableRows].sort(
-  //   (a, b) => new Date(b.created_at) - new Date(a.created_at)
-  // );
-  // sortedTableRows = [...sortedTableRows].sort(
-  //   (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-  // );
-  // let sortedTableRows = [...tableRows].sort((a, b) =>
-  //   a.state.localeCompare(b.state)
-  // );
-  //function to close side panel
-  const handleClosePanel = () => {
-    setIsSidePanelOpen(false);
-    setSelectedRowIndex(null);
-  };
+    const handleClosePanel = () => {
+      setIsSidePanelOpen(false);
+      setSelectedRowIndex(null);
+    };
+    
+    const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
 
-  const [rowInfo, setRowInfo] = useState(null);
-  // Function to handle row click and open side panel
-  const handleRowClick = (rowIndex, row) => {
-    setRowInfo(row);
-    setSelectedRowIndex(rowIndex);
-    setIsSidePanelOpen(true);
-  };
+    const handleRowClick = (rowIndex, row) => {
+      setRowInfo(row);
+      setSelectedRowIndex(rowIndex);
+      setIsSidePanelOpen(true);
+    };
 
-  const { isLoading, searchString } = useTrustRelationshipsContext();
-  if (isLoading)
+    const { managedWallets, isLoading, searchString } = useTrustRelationshipsContext();
+    
+    if (isLoading)
+      return (
+        <TableBody>
+          <TableRow>
+            <TableCell colSpan={12}>
+              <Loader />
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      );
+
+    if (tableRows.length === 0)
+      return (
+        <TableBody>
+          <TableRow>
+            <TableCell colSpan={12} sx={{ textAlign: 'center' }}>
+              No data available
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      );
+
     return (
-      <TableBody>
-        <TableRow>
-          <TableCell colSpan={12}>
-            <Loader />
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    );
-
-  if (tableRows.length === 0)
-    return (
-      <TableBody>
-        <TableRow>
-          <TableCell colSpan={12} sx={{ textAlign: 'center' }}>
-            No data available
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    );
-
-  return (
-    <>
-      <TableBody>
-        {tableRows &&
-          tableRows
+      <>
+        <TableBody>
+          {tableRows
             .filter(
               (row) =>
                 row.actor_wallet
@@ -332,25 +328,25 @@ const TrustRelationshipTableBody = ({
                   sx={{ transition: 'all 0.3s ease' }}
                   style={{
                     backgroundColor:
-                      isSelected && row.state == 'requested'
+                      isSelected && row.state === 'requested' && wallet.name === row.target_wallet
                         ? 'rgba(135, 195, 46, .4)'
                         : isSelected
                         ? 'rgba(135, 195, 46, .4)'
-                        : row.state == 'requested'
+                        : row.state === 'requested' && wallet.name === row.target_wallet
+                        ? 'rgba(135, 195, 46, .1)'
+                        : row.state === 'requested' && managedWallets.wallets.some(wallet => wallet.name === row.target_wallet)
                         ? 'rgba(135, 195, 46, .1)'
                         : null,
                   }}
                 >
                   {tableColumns.map((column, colIndex) => {
                     const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
-                    const cellColor =
-                      column.name === 'state' ? row[column.name] : '';
-                    const cellValue =
-                      row[column.name] || row[column.name] === 0
-                        ? column.renderer
-                          ? column.renderer(row[column.name])
-                          : row[column.name]
-                        : '--';
+                    const cellColor = column.name === 'state' ? row[column.name] : '';
+                    const cellValue = row[column.name] || row[column.name] === 0
+                      ? column.renderer
+                        ? column.renderer(row[column.name])
+                        : row[column.name]
+                      : '--';
                     return (
                       <OverflownCell
                         key={cellKey}
@@ -364,17 +360,17 @@ const TrustRelationshipTableBody = ({
                 </TableRow>
               );
             })}
-      </TableBody>
-      {isSidePanelOpen && (
-        <TrustRelationshipSidePanel
-          open={open}
-          rowInfo={rowInfo}
-          onClose={handleClosePanel}
-        />
-      )}
-    </>
-  );
-};
+        </TableBody>
+        {isSidePanelOpen && (
+          <TrustRelationshipSidePanel
+            open={isSidePanelOpen}
+            rowInfo={rowInfo}
+            onClose={handleClosePanel}
+          />
+        )}
+      </>
+    );
+  };
 
 function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
   const { pagination, setPagination, tableColumns, setSorting } =
@@ -405,7 +401,7 @@ function TrustRelationshipTable({ tableTitle, tableRows, totalRowCount }) {
   };
 
   //sorting
-  const [sortBy, setSortBy] = useState('created_at');
+  const [sortBy, setSortBy] = useState('updated_at');
   const [order, setOrder] = useState('desc');
 
   const getColumnNames = (columnName) => {
