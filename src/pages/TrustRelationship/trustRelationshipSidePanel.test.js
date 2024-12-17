@@ -65,16 +65,16 @@ describe('Trust Relationship Side Panel', () => {
       );
     });
 
-    // Ensure the component renders correctly
     expect(screen.getByText('Source Wallet:')).toBeInTheDocument();
     expect(screen.getByText('Target Wallet:')).toBeInTheDocument();
     expect(screen.getByText('Initiated By:')).toBeInTheDocument();
     expect(screen.getByText('Request Type:')).toBeInTheDocument();
 
-    // Wait for the context to be updated
     await waitFor(() => {
-      const context = screen.getByText('sam-testwallet1');
-      expect(context).toBeInTheDocument();
+      const matches = screen.getAllByText((content) =>
+        content.includes(mockRowInfo.originating_wallet.slice(0, 10))
+      );
+      expect(matches).toHaveLength(2); 
     });
   });
 });
