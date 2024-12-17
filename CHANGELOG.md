@@ -1,3 +1,15 @@
+# [2.1.0-v2.20](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.19...v2.1.0-v2.20) (2024-12-17)
+
+
+### Bug Fixes
+
+* **trustRelationships:** add test for truncate text functionaslity ([2774892](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/277489275215a78136bae8ce6b7e322e00fda913))
+
+
+### Features
+
+* **trustRelationships:** add custom tooltip to enable highlighting of long texts ([0fd3250](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/0fd3250a45eadf0a07d5137375454d883bb0cd0b))
+
 # [2.1.0-v2.19](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.18...v2.1.0-v2.19) (2024-11-23)
 
 
