@@ -16,6 +16,7 @@ import {
   AcceptButton,
   DeleteButton
 } from './TrustRelationshipSidePanel.styled.js';
+import CustomTooltip from './CustomTooltip.js';
 import AuthContext from '../../store/auth-context.js';
 import {
   acceptTrustRelationship,
@@ -83,7 +84,10 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
           <Grid item xs={6}>
             <TallTypography elevation={3}>
               <NormalTypography variant="p" align="flex-start">
-                {rowInfo.actor_wallet}
+                <CustomTooltip
+                content={rowInfo.actor_wallet}
+                maxChars={10}
+              />
               </NormalTypography>
             </TallTypography>
           </Grid>
@@ -97,7 +101,10 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
           <Grid item xs={6}>
             <TallTypography elevation={3}>
               <NormalTypography variant="p" align="flex-start">
-                {rowInfo.target_wallet}
+              <CustomTooltip
+                content={rowInfo.target_wallet}
+                maxChars={10}
+              />
               </NormalTypography>
             </TallTypography>
           </Grid>
@@ -111,7 +118,10 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
           <Grid item xs={6}>
             <TallTypography elevation={3}>
               <NormalTypography variant="p" align="flex-start">
-                {rowInfo.originating_wallet}
+                <CustomTooltip
+                content={rowInfo.originating_wallet}
+                maxChars={10}
+              />
               </NormalTypography>
             </TallTypography>
           </Grid>
@@ -125,7 +135,10 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
           <Grid item xs={6}>
             <TallTypography elevation={3}>
               <NormalTypography variant="p" align="flex-start">
-                {rowInfo.request_type}
+                <CustomTooltip
+                content={rowInfo.request_type}
+                maxChars={10}
+              />
               </NormalTypography>
             </TallTypography>
           </Grid>
