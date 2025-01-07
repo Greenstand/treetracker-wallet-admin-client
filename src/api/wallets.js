@@ -5,6 +5,7 @@ const mapWallet = (walletData, nameProp) => {
   return {
     id: walletData.id,
     logoURL: walletData.logo_url,
+    coverURL: walletData.cover_url,
     tokensInWallet: walletData.tokens_in_wallet,
     name: walletData[nameProp],
     about: walletData.about,

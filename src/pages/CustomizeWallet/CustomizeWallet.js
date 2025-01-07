@@ -25,6 +25,7 @@ const CustomizeWallet = () => {
   const defaultWallet = {
     id: '',
     logoURL: '',
+    coverURL: '',
     tokensInWallet: 0,
     name: '',
     about: '',
@@ -45,7 +46,123 @@ const CustomizeWallet = () => {
   const [heroImage, setHeroImage] = useState(null);
   const [heroImagePreview, setHeroImagePreview] = useState(null);
 
+  // Add state for current logo URL
+  const [currentLogoUrl, setCurrentLogoUrl] = useState('');
+  const [currentCoverUrl, setCurrentCoverUrl] = useState('');
+
   const authContext = useContext(AuthContext);
+
+  // Add these utility functions at the top of the component
+  const imageValidations = {
+    logo: {
+      maxFileSize: 1024 * 1024, // 1MB
+      validateDimensions: (width, height) => width === height,
+      errorMessage: 'Please select a square image (width equals height)',
+      successMessage: 'Logo updated successfully.',
+      fieldName: 'logoImage',
+    },
+    hero: {
+      maxFileSize: 1024 * 1024, // 1MB
+      validateDimensions: (width, height) => width / height >= 2,
+      errorMessage:
+        'Please select a rectangular image where width is at least twice the height',
+      successMessage: 'Hero image updated successfully.',
+      fieldName: 'coverImage',
+    },
+  };
+
+  const validateImageFile = (file, maxFileSize) => {
+    if (!file) {
+      throw new Error('Please select a file.');
+    }
+    if (file.size > maxFileSize) {
+      throw new Error('File is too large. Please select a file less than 1MB.');
+    }
+    if (
+      file.type !== 'image/png' &&
+      file.type !== 'image/jpg' &&
+      file.type !== 'image/jpeg'
+    ) {
+      throw new Error('Invalid file type. Please select a PNG or JPG image.');
+    }
+  };
+
+  const handleImageChange = async (e, type, setPreview, setImage) => {
+    const file = e.target.files[0];
+    const validation = imageValidations[type];
+
+    try {
+      validateImageFile(file, validation.maxFileSize);
+
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (f) => {
+          const image = new Image();
+          image.onload = () => {
+            if (validation.validateDimensions(image.width, image.height)) {
+              setPreview(reader.result);
+              setImage(file);
+              resolve(true); // Validation passed
+            } else {
+              setErrorMessage(validation.errorMessage);
+              setPreview(null);
+              setImage(null);
+              resolve(false); // Validation failed
+            }
+          };
+          image.onerror = () => {
+            console.error('Failed to load the image.');
+            setPreview(null);
+            setImage(null);
+            reject(new Error('Failed to load the image.'));
+          };
+          image.src = f.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    } catch (error) {
+      setErrorMessage(error.message);
+      setPreview(null);
+      setImage(null);
+      return Promise.resolve(false); // Validation failed
+    }
+  };
+
+  const handleImageUpload = async (e, type, setPreview, setImage) => {
+    const validation = imageValidations[type];
+
+    const validationPassed = await handleImageChange(
+      e,
+      type,
+      setPreview,
+      setImage
+    );
+    if (!validationPassed) return; // Don't proceed with upload if validation failed
+
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      let updatedWallet = { ...wallet, [validation.fieldName]: file };
+      await updateWallet(authContext.token, updatedWallet);
+      setSuccessMessage(validation.successMessage);
+    } catch (error) {
+      console.error(error);
+      if (error?.message?.includes('File too large')) {
+        setErrorMessage(
+          'The file is too large. Please select a smaller file (maximum 1MB).'
+        );
+      } else {
+        setErrorMessage(`An error occurred while updating the ${type}.`);
+      }
+    }
+  };
+
+  // Replace the existing handlers with these simplified versions
+  const handleLogoUpload = (e) =>
+    handleImageUpload(e, 'logo', setLogoPreview, setLogo);
+  const handleHeroImageUpload = (e) =>
+    handleImageUpload(e, 'hero', setHeroImagePreview, setHeroImage);
 
   useEffect(() => {
     setIsLoading(true);
@@ -67,6 +184,14 @@ const CustomizeWallet = () => {
         setWallet(returnedWalletData);
         setAbout(returnedWalletData.about);
         setDisplayName(returnedWalletData.displayName);
+        // Set the current logo URL if it exists
+        if (returnedWalletData.logoURL) {
+          setCurrentLogoUrl(returnedWalletData.logoURL);
+        }
+        // Set the current cover URL if it exists
+        if (returnedWalletData.coverURL) {
+          setCurrentCoverUrl(returnedWalletData.coverURL);
+        }
       } catch (error) {
         console.error(error);
         setErrorMessage('An error occurred while fetching the data.');
@@ -113,137 +238,33 @@ const CustomizeWallet = () => {
     }
   };
 
-  const handleLogoChange = async (e) => {
-    const maxFileSize = 1024 * 1024; // Maximum file size of 1MB
-    const requiredDimension = 300; // Required dimensions (300px by 300px)
-
-    const file = e.target.files[0];
-
-    if (!file) {
-      alert('Please select a file.');
-      return;
+  useEffect(() => {
+    let timeoutId;
+    if (errorMessage) {
+      timeoutId = setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
     }
-    if (file.size > maxFileSize) {
-      alert('File is too large. Please select a file less than 1MB.');
-      return;
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [errorMessage]);
+
+  useEffect(() => {
+    let timeoutId;
+    if (successMessage) {
+      timeoutId = setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
     }
-    if (file.type !== 'image/png') {
-      alert('Invalid file type. Please select a PNG image.');
-      return;
-    }
-
-    setLogo(file);
-
-    if (file && file.type === 'image/png') {
-      const reader = new FileReader();
-
-      reader.onload = (f) => {
-        const image = new Image();
-        image.onload = () => {
-          // Check if the image is exactly 300px by 300px
-          if (
-            image.width === requiredDimension &&
-            image.height === requiredDimension
-          ) {
-            setLogoPreview(reader.result);
-          } else {
-            alert(
-              `Please select an image exactly ${requiredDimension}px by ${requiredDimension}px.`
-            );
-          }
-        };
-        // image.onerror = (e) => {
-        //   debugger;
-        //   console.error('Failed to load the image.');
-        // };
-        image.src = f.target.result;
-      };
-
-      reader.readAsDataURL(file);
-    } else {
-      // Handle errors or unsupported file types
-      setLogoPreview('');
-    }
-  };
-
-  const handleLogoUpload = async (e) => {
-    handleLogoChange(e);
-
-    // TOOD: Uncomment when API is ready
-    // const file = e.target.files[0];
-    // // Validate file size and dimensions...
-    // try {
-    //   let updatedWallet = { ...wallet, logoImage: file };
-    //   await updateWallet(authContext.token, updatedWallet);
-    // } catch (error) {
-    //   console.error(error);
-    //   setErrorMessage('An error occurred while updating the wallet.');
-    // }
-  };
-
-  const handleHeroImageChange = async (e) => {
-    const maxFileSize = 1024 * 1024 * 3; // Maximum file size of 3MB
-    const requiredDimensionWidth = 1680;
-    const requiredDimensionHeight = 660;
-
-    const file = e.target.files[0];
-
-    if (!file) {
-      alert('Please select a file.');
-      return;
-    }
-    if (file.size > maxFileSize) {
-      alert('File is too large. Please select a file less than 3MB.');
-      return;
-    }
-    if (file.type !== 'image/png') {
-      alert('Invalid file type. Please select a PNG image.');
-      return;
-    }
-
-    setHeroImage(file);
-
-    if (file && file.type === 'image/png') {
-      const reader = new FileReader();
-
-      reader.onload = (f) => {
-        const image = new Image();
-        image.onload = () => {
-          // Check if the image is exactly 1680px by 660px
-          if (
-            image.width === requiredDimensionWidth &&
-            image.height === requiredDimensionHeight
-          ) {
-            setHeroImagePreview(reader.result);
-          } else {
-            alert(
-              `Please select an image exactly ${requiredDimensionWidth}px by ${requiredDimensionHeight}px.`
-            );
-          }
-        };
-        image.src = f.target.result;
-      };
-
-      reader.readAsDataURL(file);
-    } else {
-      // Handle errors or unsupported file types
-      setHeroImagePreview('');
-    }
-  };
-
-  const handleHeroImageUpload = async (e) => {
-    handleHeroImageChange(e);
-    // TOOD: Uncomment when API is ready
-    // const file = e.target.files[0];
-    // // Validate file size and dimensions...
-    // try {
-    //   let updatedWallet = { ...wallet, coverImage: file };
-    //   await updateWallet(authContext.token, updatedWallet);
-    // } catch (error) {
-    //   console.error(error);
-    //   setErrorMessage('An error occurred while updating the wallet.');
-    // }
-  };
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [successMessage]);
 
   if (isLoading) {
     return <Loader />;
@@ -279,7 +300,7 @@ const CustomizeWallet = () => {
           elevation={3}
           style={{
             width: '100%',
-            height: '80vh',
+            //height: '80vh',
             display: 'flex',
             flexDirection: 'column',
             gap: '1.5rem',
@@ -349,64 +370,94 @@ const CustomizeWallet = () => {
 
           <div className="logo">
             <h5 style={{ marginBottom: '0.5rem' }}>Logo</h5>
-            <Button
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload
-              <VisuallyHiddenInput
-                type="file"
-                accept=".png"
-                onChange={handleLogoUpload}
-              />
-            </Button>
-            {logoPreview && (
-              <div>
-                <img
-                  src={logoPreview}
-                  alt="Logo Preview"
+            {(currentLogoUrl || logoPreview) && (
+              <div style={{ marginBottom: '1rem' }}>
+                <div
                   style={{
-                    maxWidth: '100px',
-                    maxHeight: '100px',
-                    margin: '1rem 0',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    padding: '4px',
+                    backgroundColor: '#f5f5f5',
+                    width: 'fit-content',
                   }}
-                />
+                >
+                  <img
+                    src={logoPreview || currentLogoUrl}
+                    alt={logoPreview ? 'Logo Preview' : 'Current Logo'}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      objectFit: 'contain',
+                      display: 'block',
+                    }}
+                  />
+                </div>
               </div>
             )}
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload
+                <VisuallyHiddenInput
+                  type="file"
+                  accept=".png,.jpg,.jpeg"
+                  onChange={handleLogoUpload}
+                />
+              </Button>
+            </div>
           </div>
 
           {/* Upload Hero Image */}
           <div className="hero">
-            <h5 style={{ marginBottom: '0.5rem' }}>Hero image</h5>
-            <Button
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload
-              <VisuallyHiddenInput
-                type="file"
-                accept=".png"
-                onChange={handleHeroImageUpload}
-              />
-            </Button>
-            {heroImagePreview && (
-              <div>
-                <img
-                  src={heroImagePreview}
-                  alt="Hero Image Preview"
+            <h5 style={{ marginBottom: '0.5rem' }}>
+              Hero image (Recommended Resolution 840 X 360)
+            </h5>
+            {(currentCoverUrl || heroImagePreview) && (
+              <div style={{ marginBottom: '1rem' }}>
+                <div
                   style={{
-                    maxHeight: '100px',
-                    margin: '1rem 0',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    padding: '4px',
+                    backgroundColor: '#f5f5f5',
+                    width: 'fit-content',
                   }}
-                />
+                >
+                  <img
+                    src={heroImagePreview || currentCoverUrl}
+                    alt={
+                      heroImagePreview ? 'Hero Image Preview' : 'Current Cover'
+                    }
+                    style={{
+                      height: '150px',
+                      objectFit: 'contain',
+                      display: 'block',
+                    }}
+                  />
+                </div>
               </div>
             )}
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload
+                <VisuallyHiddenInput
+                  type="file"
+                  accept=".png,.jpg,.jpeg"
+                  onChange={handleHeroImageUpload}
+                />
+              </Button>
+            </div>
           </div>
         </Paper>
       </ContentContainer>
