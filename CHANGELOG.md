@@ -1,3 +1,10 @@
+# [2.1.0-v2.21](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.20...v2.1.0-v2.21) (2025-01-07)
+
+
+### Features
+
+* customize wallet - logo, hero ([b0dd90a](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/b0dd90af192dbc8db9fcb5cba50593044a89d255))
+
 # [2.1.0-v2.20](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.19...v2.1.0-v2.20) (2024-12-17)
 
 
