@@ -1,3 +1,10 @@
+# [2.1.0-v2.22](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.21...v2.1.0-v2.22) (2025-01-14)
+
+
+### Bug Fixes
+
+* fix content spacing in trust relationships side panel ([49d6301](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/49d6301f095342fced1b68239bd5759db41fb930))
+
 # [2.1.0-v2.21](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.20...v2.1.0-v2.21) (2025-01-07)
 
 
