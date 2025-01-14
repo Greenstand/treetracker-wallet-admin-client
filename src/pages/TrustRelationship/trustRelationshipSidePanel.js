@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
 import {
   Typography,
   IconButton,
-  Grid,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useContext } from 'react';
@@ -11,7 +9,6 @@ import {
   DrawerHeaderStyled,
   BoldTypography,
   NormalTypography,
-  TallTypography,
   DeclineButton,
   AcceptButton,
   DeleteButton
@@ -72,110 +69,95 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
         >
           Relationship
         </Typography>
+        <div style={{ padding: '1rem 2rem', display: 'flex', margin: '1rem 1rem', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ display: 'flex', gap: '0.6rem' }}>
+            <BoldTypography style={{ minWidth: '100px' }}>Source Wallet:</BoldTypography>
+            <NormalTypography>
+              <CustomTooltip content={rowInfo.actor_wallet} maxChars={20} />
+            </NormalTypography>
+          </div>
 
-        <Grid container spacing={3} style={{ margin: '2rem 2.5rem' }}>
-          <Grid item xs={6}>
-            <TallTypography elevation={3}>
-              <BoldTypography variant="h6" align="flex-start">
-                Source Wallet:
-              </BoldTypography>
-            </TallTypography>
-          </Grid>
-          <Grid item xs={6}>
-            <TallTypography elevation={3}>
-              <NormalTypography variant="p" align="flex-start">
-                <CustomTooltip
-                content={rowInfo.actor_wallet}
-                maxChars={10}
-              />
-              </NormalTypography>
-            </TallTypography>
-          </Grid>
-          <Grid item xs={6}>
-            <TallTypography elevation={3}>
-              <BoldTypography variant="h6" align="flex-start">
-                Target Wallet:
-              </BoldTypography>
-            </TallTypography>
-          </Grid>
-          <Grid item xs={6}>
-            <TallTypography elevation={3}>
-              <NormalTypography variant="p" align="flex-start">
-              <CustomTooltip
-                content={rowInfo.target_wallet}
-                maxChars={10}
-              />
-              </NormalTypography>
-            </TallTypography>
-          </Grid>
-          <Grid item xs={6}>
-            <TallTypography elevation={3}>
-              <BoldTypography variant="h6" align="flex-start">
-                Initiated By:
-              </BoldTypography>
-            </TallTypography>
-          </Grid>
-          <Grid item xs={6}>
-            <TallTypography elevation={3}>
-              <NormalTypography variant="p" align="flex-start">
-                <CustomTooltip
-                content={rowInfo.originating_wallet}
-                maxChars={10}
-              />
-              </NormalTypography>
-            </TallTypography>
-          </Grid>
-          <Grid item xs={6}>
-            <TallTypography elevation={3}>
-              <BoldTypography variant="h6" align="flex-start">
-                Request Type:
-              </BoldTypography>
-            </TallTypography>
-          </Grid>
-          <Grid item xs={6}>
-            <TallTypography elevation={3}>
-              <NormalTypography variant="p" align="flex-start">
-                <CustomTooltip
-                content={rowInfo.request_type}
-                maxChars={10}
-              />
-              </NormalTypography>
-            </TallTypography>
-          </Grid>
-        </Grid>
-      {rowInfo.state === 'trusted' && (
-        <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
-          <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
-            Delete
-          </DeleteButton>
-        </Grid>
-      )}
+          <div style={{ display: 'flex', gap: '0.6rem' }}>
+            <BoldTypography style={{ minWidth: '100px' }}>Target Wallet:</BoldTypography>
+            <NormalTypography>
+              <CustomTooltip content={rowInfo.target_wallet} maxChars={20} />
+            </NormalTypography>
+          </div>
 
-      {rowInfo.state === 'requested' && (
-        managedWalletsWithDefault.wallets.some(wallet => wallet.name === rowInfo.target_wallet) || wallet.name === rowInfo.target_wallet ? (
-          <Grid sx={3} style={{ margin: '5rem 4rem' }}>
-            <AcceptButton
-              variant="contained"
-              color="primary"
-              onClick={() => handleAccept(rowInfo.id)}
-            >
-              Accept
-            </AcceptButton>
-            <DeclineButton onClick={() => handleDecline(rowInfo.id)}>
-              Decline
-            </DeclineButton>
-          </Grid>
-        ) : (
-          <Grid sx={3} style={{ margin: '5rem 7.2rem', backgroundColor: 'red', borderRadius: 8, padding: '10px' }}>
+          <div style={{ display: 'flex', gap: '0.6rem' }}>
+            <BoldTypography style={{ minWidth: '100px' }}>Initiated By:</BoldTypography>
+            <NormalTypography>
+              <CustomTooltip content={rowInfo.originating_wallet} maxChars={20} />
+            </NormalTypography>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.9rem' }}>
+            <BoldTypography style={{ minWidth: '100px' }}>Request Type:</BoldTypography>
+            <NormalTypography>
+              <CustomTooltip content={rowInfo.request_type} maxChars={20} />
+            </NormalTypography>
+          </div>
+        </div>
+
+
+        {rowInfo.state === 'trusted' && (
+          <div
+            style={{
+              margin: '2rem auto',
+              backgroundColor: 'red',
+              borderRadius: '8px',
+              padding: '10px',
+              textAlign: 'center',
+              width: 'fit-content',
+            }}
+          >
             <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
               Delete
             </DeleteButton>
-          </Grid>
-        )
-      )}
+          </div>
+        )}
 
-     {(rowInfo.state === 'cancelled_by_target' || rowInfo.state === 'cancelled_by_originator') && null}
+        {rowInfo.state === 'requested' && (
+          managedWalletsWithDefault.wallets.some(wallet => wallet.name === rowInfo.target_wallet) || wallet.name === rowInfo.target_wallet ? (
+            <div
+              style={{
+                margin: '2rem auto',
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: 'fit-content',
+                gap: '1rem',
+              }}
+            >
+              <AcceptButton
+                variant="contained"
+                color="primary"
+                onClick={() => handleAccept(rowInfo.id)}
+              >
+                Accept
+              </AcceptButton>
+              <DeclineButton onClick={() => handleDecline(rowInfo.id)}>
+                Decline
+              </DeclineButton>
+            </div>
+          ) : (
+            <div
+              style={{
+                margin: '2rem auto',
+                backgroundColor: 'red',
+                borderRadius: '8px',
+                padding: '10px',
+                textAlign: 'center',
+                width: 'fit-content',
+              }}
+            >
+              <DeleteButton onClick={() => handleDelete(rowInfo.id)}>
+                Delete
+              </DeleteButton>
+            </div>
+          )
+        )}
 
+        {(rowInfo.state === 'cancelled_by_target' || rowInfo.state === 'cancelled_by_originator') && null}
       </div>
     </DrawerStyled>
   );
