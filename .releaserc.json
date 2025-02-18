@@ -6,6 +6,11 @@
         "name": "v1",
         "prerelease": true,
         "channel": "beta"
+      },
+      {
+        "name": "v2",
+        "prerelease": true,
+        "channel": "beta"
       }
     ],
     "plugins": [
