@@ -71,6 +71,10 @@ const Wallet = () => {
     fetchData();
   }, [authContext.token]);
 
+  const createMarkup = (dirty) => {
+    return { __html: dirty };
+  };
+
   if (isLoading) {
     return <Loader />;
   }
@@ -94,7 +98,7 @@ const Wallet = () => {
         }}
       >
         <WalletHeader
-          walletName={wallet.name}
+          walletName={wallet.displayName ?? wallet.name}
           walletLogoURL={wallet.logoURL}
           pendingTransfers={pendingTransfers?.length}
         />
@@ -104,14 +108,16 @@ const Wallet = () => {
         <GridItem item>
           <WalletAbout elevation={0}>
             <WalletAboutTitle>About the wallet</WalletAboutTitle>
-            <WalletAboutText>{wallet.about}</WalletAboutText>
+            <WalletAboutText
+              dangerouslySetInnerHTML={createMarkup(wallet.about)}
+            ></WalletAboutText>
           </WalletAbout>
         </GridItem>
       )}
       <GridItem item>
         <ContentGrid>
           <WalletInfoBlock
-            title={`Wallet ${wallet.name}`}
+            title={`Wallet ${wallet.displayName ?? wallet.name}`}
             innerNumber={wallet.tokensInWallet}
             innerText="tokens"
           />
