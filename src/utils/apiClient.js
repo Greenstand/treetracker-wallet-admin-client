@@ -30,6 +30,14 @@ apiClient.setAuthHeader = (token) => {
   return apiClient;
 };
 
+apiClient.addContentType = (contentType) => {
+  if (contentType) {
+    apiClient.defaults.headers['Content-Type'] = contentType;
+  }
+
+  return apiClient;
+};
+
 // all unauthorized responses will be redirected to login
 apiClient.interceptors.response.use(
   (response) => {

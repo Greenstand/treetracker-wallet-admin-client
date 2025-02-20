@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
 import theme from '../UI/theme';
 import AuthContext from '../../store/auth-context';
+import { TrustRelationshipsProvider } from '../../store/TrustRelationshipsContext';
 
 jest.mock('react-secure-storage', () => {
   return {
@@ -24,7 +25,9 @@ describe('ClientRoutes component', () => {
       <ThemeProvider theme={theme}>
         <Router>
           <AuthContext.Provider value={testContext}>
+            <TrustRelationshipsProvider>
             {props.children}
+            </TrustRelationshipsProvider>
           </AuthContext.Provider>
         </Router>
       </ThemeProvider>
@@ -59,8 +62,8 @@ describe('ClientRoutes component', () => {
     // screen.getByRole('');
 
     //Logo, Home, Send Tokens, and My Trasnfers for now
-    expect(await screen.findAllByRole('link')).toHaveLength(5);
-    expect(screen.getAllByRole('button')).toHaveLength(5);
+    expect(await screen.findAllByRole('link')).toHaveLength(7);
+    expect(screen.getAllByRole('button')).toHaveLength(7);
 
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();

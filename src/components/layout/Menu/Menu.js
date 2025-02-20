@@ -7,7 +7,7 @@ import MenuItem from './MenuItem/MenuItem';
 import { DrawerHeaderStyled, DrawerStyled } from './MenuStyled';
 import TopMenu from './TopMenu/TopMenu';
 
-const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
+const Menu = ({ open, handleDrawerClose, handleDrawerOpen, count }) => {
   const theme = useTheme();
 
   return (
@@ -23,7 +23,7 @@ const Menu = ({ open, handleDrawerClose, handleDrawerOpen }) => {
             )}
           </IconButton>
         </DrawerHeaderStyled>
-        <MenuItem open={open} />
+          <MenuItem count={count} open={open} />
       </DrawerStyled>
     </>
   );

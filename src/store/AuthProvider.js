@@ -41,6 +41,7 @@ const AuthProvider = (props) => {
     return {
       id: decodedWalletInfo.id,
       name: decodedWalletInfo.name,
+      displayName: decodedWalletInfo.display_name,
       logoURL: decodedWalletInfo.logo_url,
       createdAt: decodedWalletInfo.created_at,
       expiration: decodedWalletInfo.expiration,

@@ -10,6 +10,9 @@ import MyTransfers from '../../pages/MyTransfers/MyTransfers';
 import { TransfersProvider } from '../../store/TransfersContext';
 import MyWallets from '../../pages/MyWallets/MyWallets';
 import { WalletsProvider } from '../../store/WalletsContext';
+import TrustRelationship from '../../pages/TrustRelationship/TrustRelationship';
+import { TrustRelationshipsProvider } from '../../store/TrustRelationshipsContext';
+import CustomizeWallet from '../../pages/CustomizeWallet/CustomizeWallet';
 
 const ProtectedRoute = ({ isLoggedIn, redirectPath = '/login' }) => {
   if (!isLoggedIn) {
@@ -29,48 +32,80 @@ const ClientRoutes = () => {
           path="/"
           exact
           element={
+          <TrustRelationshipsProvider>
             <Layout>
               <Wallet />
             </Layout>
+          </TrustRelationshipsProvider>
           }
         />
         <Route
           path="/my-transfers"
           exact
           element={
+            <TrustRelationshipsProvider>
             <Layout>
               <TransfersProvider>
                 <MyTransfers />
               </TransfersProvider>
             </Layout>
+            </TrustRelationshipsProvider>
           }
         />
         <Route
           path="/send-tokens"
           exact
           element={
+            <TrustRelationshipsProvider>
             <Layout>
               <SendTokens />
             </Layout>
+            </TrustRelationshipsProvider>
           }
         />
         <Route
           path="/list-wallets"
           exact
           element={
+            <TrustRelationshipsProvider>
             <Layout>
               <WalletsProvider>
                 <MyWallets />
               </WalletsProvider>
             </Layout>
+            </TrustRelationshipsProvider>
+          }
+        />
+        <Route
+          path="/trust-relationship"
+          exact
+          element={
+            <TrustRelationshipsProvider>
+            <Layout>
+                <TrustRelationship />
+            </Layout>
+            </TrustRelationshipsProvider>
+          }
+        />
+        <Route
+          path="/customize-wallet"
+          exact
+          element={
+            <TrustRelationshipsProvider>
+            <Layout>
+              <CustomizeWallet />
+            </Layout>
+            </TrustRelationshipsProvider>
           }
         />
         <Route
           path="*"
           element={
+            <TrustRelationshipsProvider>
             <Layout>
               <NotFound />
             </Layout>
+            </TrustRelationshipsProvider>
           }
         />
       </Route>

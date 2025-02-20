@@ -4,12 +4,24 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../../../UI/theme';
 
 import { BrowserRouter as Router } from 'react-router-dom';
+import apiClient from '../../../../utils/apiClient';
+import { TrustRelationshipsProvider } from '../../../../store/TrustRelationshipsContext';
+import { acceptTrustRelationship } from '../../../../api/trust_relationships';
+
+jest.mock('../../../../utils/apiClient', () => ({
+  apiClient: jest.fn(),
+}));
+jest.mock('../../../../api/trust_relationships', () => ({
+  acceptTrustRelationship : jest.fn(),
+}));
 
 describe('MenuItem tests v1', () => {
   const TestWrapper = (props) => {
     return (
       <ThemeProvider theme={theme}>
-        <Router>{props.children}</Router>
+        <TrustRelationshipsProvider>
+          <Router>{props.children}</Router>
+        </TrustRelationshipsProvider>
       </ThemeProvider>
     );
   };
@@ -24,8 +36,8 @@ describe('MenuItem tests v1', () => {
     //links have loaded
     await screen.findAllByRole('link');
 
-    expect(screen.getAllByRole('link')).toHaveLength(4);
-    expect(screen.getAllByRole('button')).toHaveLength(4);
+    expect(screen.getAllByRole('link')).toHaveLength(6);
+    expect(screen.getAllByRole('button')).toHaveLength(6);
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Send Tokens/)).toBeInTheDocument();
     expect(screen.getByText(/My Transfers/)).toBeInTheDocument();

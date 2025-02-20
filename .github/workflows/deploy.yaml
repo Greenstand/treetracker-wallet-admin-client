@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           # have to checkout master, to read releaserc, which means we must update the rc file in master with the newest settings
-          ref: main
+          ref: v2
       - run: |
           echo "::debug:: begin preparing...";
           echo "::debug:: version to deploy: $VERSION_TO_DEPLOY";
@@ -94,7 +94,6 @@ jobs:
           echo "resolver: ${{ steps.resolver.outputs.S3_BUCKET_SECRET_NAME}}"
           echo "resolver: ${{ steps.resolver.outputs.CDN_ID_SECRET_NAME}}"
         name: Print resolver
-
   frontend:
     name: Build Frontend Project
     runs-on: ubuntu-latest
@@ -125,7 +124,7 @@ jobs:
         if: "contains(github.event.inputs.env, 'dev')"
         run: npm run build:dev
         working-directory: ${{ env.project-directory }}
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: frontend-bundle
           path: build
@@ -143,7 +142,7 @@ jobs:
           echo "s3: ${{ needs.prepare.outputs.S3_BUCKET_SECRET_NAME }}"
           echo "cdn: ${{ needs.prepare.outputs.CDN_ID_SECRET_NAME }}"
       - name: Download bundled frontend resources
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: frontend-bundle
           path: build

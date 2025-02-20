@@ -1,11 +1,11 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import IconButton from "@mui/material/IconButton";
-import LogoutIcon from "@mui/icons-material/Logout";
-import * as React from "react";
-import { AppBarStyled, LogoStyled, ToolbarStyled } from "./TopMenuStyled";
-import AuthContext from "../../../../store/auth-context";
-import { FlexDiv } from "../../../UI/styledComponents/CommonStyled";
-import IconLogo from "../../../UI/IconLogo";
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+import LogoutIcon from '@mui/icons-material/Logout';
+import * as React from 'react';
+import { AppBarStyled, LogoStyled, ToolbarStyled } from './TopMenuStyled';
+import AuthContext from '../../../../store/auth-context';
+import { FlexDiv } from '../../../UI/styledComponents/CommonStyled';
+import IconLogo from '../../../UI/IconLogo';
 
 const TopMenu = ({ handleDrawerOpen, open }) => {
   const authContext = React.useContext(AuthContext);
@@ -23,7 +23,8 @@ const TopMenu = ({ handleDrawerOpen, open }) => {
             edge="start"
             sx={{
               marginRight: 5,
-              ...(open && { display: "none" }),
+              marginLeft: 0,
+              ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
@@ -35,7 +36,7 @@ const TopMenu = ({ handleDrawerOpen, open }) => {
         <div>
           <LogoutIcon
             color="inherit"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={logoutHandler}
           ></LogoutIcon>
         </div>
