@@ -15,6 +15,7 @@ import TokenInfoBlock from './TokenInfoBlock/TokenInfoBlock';
 import SendToUntrustedWalletsForm from './SendTokensForm/SendToUntrustedWallets';
 import AuthContext from '../../store/auth-context';
 import TabPanel from '../../components/UI/components/TabPanel'
+import { handleCreateWallet } from './helpers/walletHandlers';
 import { formatWithCommas } from '../../utils/formatting';
 import { handleSendToUntrustedWallets } from './helpers/sendTokenHandlers';
 import apiClient from '../../utils/apiClient';
@@ -113,35 +114,7 @@ const SendTokens = () => {
       });
   };
 
-  const handleCreateWalled = (name) => {
-    if (!name) return;
-
-    setIsLoading(true);
-
-    apiClient
-      .setAuthHeader(authContext.token)
-      .post('/wallets', {
-        wallet: name,
-      })
-      .then(() => {
-        setErrorMessage('');
-        setSuccessMessage(`Wallet ${name} created successfully!`);
-        setCreatedWalletName(name);
-      })
-      .catch((error) => {
-        console.error(error);
-        setSuccessMessage('');
-        const errorMessage =
-          error.response.status === 403 &&
-          error.response.data.message.includes('already exists')
-            ? 'Wallet with this name already exists.'
-            : 'An error occurred while creating a wallet.';
-        setErrorMessage(errorMessage);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+  
 
   const callbacks = {
     setIsLoading,
