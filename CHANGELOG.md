@@ -1,3 +1,11 @@
+# [2.1.0-v2.23](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.22...v2.1.0-v2.23) (2025-06-17)
+
+
+### Features
+
+* add tabs in send token page for trusted, untrusted and managed wallets ([5e7084e](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5e7084e375d64a80965953d7b006c538a6db5e1b))
+* add tabs in send token page for trusted, untrusted and managed wallets ([3db0555](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/3db0555175691cf12393bafb2b254251905686c3))
+
 # [2.1.0-v2.22](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.21...v2.1.0-v2.22) (2025-01-14)
 
 
