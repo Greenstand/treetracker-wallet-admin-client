@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Paper } from '@mui/material';
+import { useContext, useState } from 'react';
+import { Paper, Tab, Tabs  } from '@mui/material';
 import {
   ContentContainer,
   LoaderContainer,
@@ -10,22 +10,35 @@ import SendTokensForm from './SendTokensForm/SendTokensForm';
 import Message, {
   MessageType,
 } from '../../components/UI/components/Message/Message';
-import apiClient from '../../utils/apiClient';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import TokenInfoBlock from './TokenInfoBlock/TokenInfoBlock';
-import { formatWithCommas } from '../../utils/formatting';
+import SendToUntrustedWalletsForm from './SendTokensForm/SendToUntrustedWallets';
 import AuthContext from '../../store/auth-context';
+import TabPanel from '../../components/UI/components/TabPanel'
+import { handleCreateWallet } from './helpers/walletHandlers';
+import { formatWithCommas } from '../../utils/formatting';
+import { handleSendToUntrustedWallets } from './helpers/sendTokenHandlers';
+import apiClient from '../../utils/apiClient';
+
+
 
 const SendTokens = () => {
   const [createdWalletName, setCreatedWalletName] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [successMessage, setSuccessMessage] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
 
   const [senderWalletName, setSenderWalletName] = useState();
   const [senderWalletTokens, setSenderWalletTokens] = useState(0);
 
   const authContext = useContext(AuthContext);
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
+
 
   // TODO: uncomment when API is ready: is should have a totalTokens value
   // const [totalTokensAmount, setTotalTokensAmount] = useState();
@@ -101,34 +114,14 @@ const SendTokens = () => {
       });
   };
 
-  const handleCreateWalled = (name) => {
-    if (!name) return;
+  
 
-    setIsLoading(true);
-
-    apiClient
-      .setAuthHeader(authContext.token)
-      .post('/wallets', {
-        wallet: name,
-      })
-      .then(() => {
-        setErrorMessage('');
-        setSuccessMessage(`Wallet ${name} created successfully!`);
-        setCreatedWalletName(name);
-      })
-      .catch((error) => {
-        console.error(error);
-        setSuccessMessage('');
-        const errorMessage =
-          error.response.status === 403 &&
-          error.response.data.message.includes('already exists')
-            ? 'Wallet with this name already exists.'
-            : 'An error occurred while creating a wallet.';
-        setErrorMessage(errorMessage);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+  const callbacks = {
+    setIsLoading,
+    setErrorMessage,
+    setSuccessMessage,
+    setSenderWalletTokens,
+    setCreatedWalletName
   };
 
   return (
@@ -158,34 +151,71 @@ const SendTokens = () => {
             width: '100%',
             height: '60vh',
             display: 'flex',
-            justifyContent: 'space-between',
+            flexDirection: 'column',
           }}
         >
+          <Tabs value={tabValue} onChange={handleTabChange} aria-label="wallet tabs">
+            <Tab label="Managed Wallets" />
+            <Tab label="Trusted Wallets" />
+            <Tab label="Untrusted Wallets" />
+          </Tabs>
+
           {isLoading && (
             <LoaderContainer>
               <Loader />
             </LoaderContainer>
           )}
-          <SendTokensForm
-            onSubmit={handleSendTokenForm}
-            onCreateWallet={handleCreateWalled}
-            createdWalletName={createdWalletName}
-            onSenderWalletSelected={(wallet) => {
-              if (!wallet) {
-                setSenderWalletName(null);
-                setSenderWalletTokens(null);
-                return;
-              }
 
-              setSenderWalletName(wallet.name);
-              setSenderWalletTokens(wallet.tokensInWallet);
-            }}
-          />
-          <TokenInfoBlock
-            // totalTokens={formatWithCommas(totalTokensAmount)}
-            senderWalletName={senderWalletName}
-            senderWalletTokens={formatWithCommas(senderWalletTokens)}
-          />
+          <TabPanel value={tabValue} index={0} style={{ flex: 1 }}>
+            <div style={{ display: 'flex', height: '100%' }}>
+              <SendTokensForm
+                onSubmit={(data) => handleSendTokenForm(data, authContext, callbacks)}
+                createdWalletName={createdWalletName}
+                onCreateWallet={(name) => handleCreateWallet(name, authContext, callbacks)}
+                onSenderWalletSelected={(wallet) => {
+                  if (!wallet) {
+                    setSenderWalletName(null);
+                    setSenderWalletTokens(null);
+                    return;
+                  }
+                  setSenderWalletName(wallet.name);
+                  setSenderWalletTokens(wallet.tokensInWallet);
+                }}
+              />
+              <TokenInfoBlock
+                senderWalletName={senderWalletName}
+                senderWalletTokens={formatWithCommas(senderWalletTokens)}
+              />
+            </div>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={1} style={{ flex: 1 }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+              <h2>Under development</h2>
+              {/* To be implemented */}
+            </div>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={2} style={{ flex: 1 }}>
+            <div style={{ display: 'flex', height: '100%' }}>
+              <SendToUntrustedWalletsForm
+                onSubmit={(data) => handleSendToUntrustedWallets(data, authContext, callbacks)}
+                onSenderWalletSelected={(wallet) => {
+                  if (!wallet) {
+                    setSenderWalletName(null);
+                    setSenderWalletTokens(null);
+                    return;
+                  }
+                  setSenderWalletName(wallet?.name);
+                  setSenderWalletTokens(wallet?.tokensInWallet);
+                }}
+              />
+              <TokenInfoBlock
+                senderWalletName={senderWalletName}
+                senderWalletTokens={formatWithCommas(senderWalletTokens)}
+              />
+            </div>
+          </TabPanel>
         </Paper>
       </ContentContainer>
     </StyledGrid>
