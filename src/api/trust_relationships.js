@@ -124,3 +124,23 @@ export const deleteTrustRelationship = async ({ id, token }) => {
     console.error(error);
   }
 };
+
+export const getTrustedWallets = async (token) => {
+  const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
+  try {
+    const response = await apiClient
+      .setAuthHeader(token)
+      .get(`/wallets/${wallet.id}/trust_relationships?exclude_managed=true`);
+    
+    const trustedWallets = response.data.trust_relationships.map(relationship => ({
+      id: relationship.target_wallet_id,
+      name: relationship.target_wallet,
+      tokensInWallet: 0, 
+    }));
+    
+    return trustedWallets;
+  } catch (error) {
+    console.error(error);
+    throw Error('An error occurred while fetching trusted wallets.');
+  }
+};

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Paper, Tab, Tabs  } from '@mui/material';
 import {
   ContentContainer,
@@ -16,9 +16,11 @@ import SendToUntrustedWalletsForm from './SendTokensForm/SendToUntrustedWallets'
 import AuthContext from '../../store/auth-context';
 import TabPanel from '../../components/UI/components/TabPanel'
 import { handleCreateWallet } from './helpers/walletHandlers';
-import { formatWithCommas } from '../../utils/formatting';
+// import { formatWithCommas } from '../../utils/formatting';
 import { handleSendToUntrustedWallets } from './helpers/sendTokenHandlers';
 import apiClient from '../../utils/apiClient';
+import { getTrustedWallets } from '../../api/trust_relationships';
+import { getPendingTransfers } from '../../api/wallets';
 
 
 
@@ -31,6 +33,9 @@ const SendTokens = () => {
 
   const [senderWalletName, setSenderWalletName] = useState();
   const [senderWalletTokens, setSenderWalletTokens] = useState(0);
+  const [senderWalletId, setSenderWalletId] = useState(null);
+  const [pendingTransfers, setPendingTransfers] = useState(0);
+  const [trustedWallets, setTrustedWallets] = useState([]);
 
   const authContext = useContext(AuthContext);
 
@@ -38,7 +43,51 @@ const SendTokens = () => {
     setTabValue(newValue);
   };
 
+  useEffect(() => {
+    if (tabValue === 1) {
+      loadTrustedWallets();
+    }
+  }, [tabValue]);
 
+  const loadTrustedWallets = async () => {
+    try {
+      setIsLoading(true);
+      const wallets = await getTrustedWallets(authContext.token);
+      setTrustedWallets(wallets);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('An error occurred while fetching trusted wallets.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchPendingTransfers = async (walletId) => {
+    try {
+      const data = await getPendingTransfers(authContext.token, walletId);
+      return data.pending_outgoing.total_amount || 0;
+    } catch (error) {
+      console.error('Error fetching pending transfers:', error);
+      return 0; 
+    }
+  };
+
+  const handleWalletSelection = async (wallet) => {
+    if (!wallet) {
+      setSenderWalletName(null);
+      setSenderWalletTokens(null);
+      setSenderWalletId(null);
+      setPendingTransfers(0);
+      return;
+    }
+
+    setSenderWalletName(wallet.name);
+    setSenderWalletTokens(wallet.tokensInWallet);
+    setSenderWalletId(wallet.id);
+
+    const pendingAmount = await fetchPendingTransfers(wallet.id);
+    setPendingTransfers(pendingAmount);
+  };
 
   // TODO: uncomment when API is ready: is should have a totalTokens value
   // const [totalTokensAmount, setTotalTokensAmount] = useState();
@@ -93,6 +142,10 @@ const SendTokens = () => {
         // TODO: uncomment when API is ready: is should have a totalTokens value
         // getTotalTokensAmount();
         setSenderWalletTokens((prev) => prev - data.tokensAmount);
+        
+        if (senderWalletId) {
+          fetchPendingTransfers(senderWalletId).then(setPendingTransfers);
+        }
 
         setErrorMessage('');
         setSuccessMessage(
@@ -121,7 +174,9 @@ const SendTokens = () => {
     setErrorMessage,
     setSuccessMessage,
     setSenderWalletTokens,
-    setCreatedWalletName
+    setCreatedWalletName,
+    setPendingTransfers,
+    fetchPendingTransfers
   };
 
   return (
@@ -172,27 +227,34 @@ const SendTokens = () => {
                 onSubmit={(data) => handleSendTokenForm(data, authContext, callbacks)}
                 createdWalletName={createdWalletName}
                 onCreateWallet={(name) => handleCreateWallet(name, authContext, callbacks)}
-                onSenderWalletSelected={(wallet) => {
-                  if (!wallet) {
-                    setSenderWalletName(null);
-                    setSenderWalletTokens(null);
-                    return;
-                  }
-                  setSenderWalletName(wallet.name);
-                  setSenderWalletTokens(wallet.tokensInWallet);
-                }}
+                onSenderWalletSelected={handleWalletSelection}
+                walletType="managed"
+                availableTokens={(senderWalletTokens || 0) - pendingTransfers}
               />
               <TokenInfoBlock
+                inWallet={senderWalletTokens || 0}
+                pendingTransfer={pendingTransfers}
+                available={(senderWalletTokens || 0) - pendingTransfers}
                 senderWalletName={senderWalletName}
-                senderWalletTokens={formatWithCommas(senderWalletTokens)}
               />
             </div>
           </TabPanel>
 
           <TabPanel value={tabValue} index={1} style={{ flex: 1 }}>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-              <h2>Under development</h2>
-              {/* To be implemented */}
+            <div style={{ display: 'flex', height: '100%' }}>
+              <SendTokensForm
+                onSubmit={(data) => handleSendTokenForm(data)}
+                onSenderWalletSelected={handleWalletSelection}
+                walletType="trusted"
+                trustedWallets={trustedWallets}
+                availableTokens={(senderWalletTokens || 0) - pendingTransfers}
+              />
+              <TokenInfoBlock
+                inWallet={senderWalletTokens || 0}
+                pendingTransfer={pendingTransfers}
+                available={(senderWalletTokens || 0) - pendingTransfers}
+                senderWalletName={senderWalletName}
+              />
             </div>
           </TabPanel>
 
@@ -200,19 +262,14 @@ const SendTokens = () => {
             <div style={{ display: 'flex', height: '100%' }}>
               <SendToUntrustedWalletsForm
                 onSubmit={(data) => handleSendToUntrustedWallets(data, authContext, callbacks)}
-                onSenderWalletSelected={(wallet) => {
-                  if (!wallet) {
-                    setSenderWalletName(null);
-                    setSenderWalletTokens(null);
-                    return;
-                  }
-                  setSenderWalletName(wallet?.name);
-                  setSenderWalletTokens(wallet?.tokensInWallet);
-                }}
+                onSenderWalletSelected={handleWalletSelection}
+                availableTokens={(senderWalletTokens || 0) - pendingTransfers}
               />
               <TokenInfoBlock
+                inWallet={senderWalletTokens || 0}
+                pendingTransfer={pendingTransfers}
+                available={(senderWalletTokens || 0) - pendingTransfers}
                 senderWalletName={senderWalletName}
-                senderWalletTokens={formatWithCommas(senderWalletTokens)}
               />
             </div>
           </TabPanel>

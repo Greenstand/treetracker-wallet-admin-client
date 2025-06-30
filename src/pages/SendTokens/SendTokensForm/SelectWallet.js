@@ -10,6 +10,8 @@ function SelectWallet({
   createdWalletName,
   isError,
   errorMessage,
+  walletType = 'managed',
+  trustedWallets = [],
 }) {
   const filterLoadMore = 'LOAD_MORE';
 
@@ -25,6 +27,22 @@ function SelectWallet({
   useEffect(() => {
     const getWalletsData = async () => {
       setWalletPage(0);
+      
+      if (walletType === 'trusted') {
+        const wallets = trustedWallets
+          .filter((wallet) =>
+            wallet.name
+              .toLowerCase()
+              .includes(walletSearchString.toLocaleLowerCase())
+          )
+          .map((wallet) => wallet.name);
+
+        wallets.sort();
+        setWalletsFullLoadedData(trustedWallets);
+        setWalletsLoadedData(wallets);
+        return;
+      }
+
       try {
         let response = await getWallets(authContext.token, walletSearchString);
         if (!response) {
@@ -56,7 +74,7 @@ function SelectWallet({
     };
 
     getWalletsData();
-  }, [walletSearchString]);
+  }, [walletSearchString, trustedWallets, walletType]);
 
   useEffect(() => {
     // If createdWalletName is not null, get wallets again by createdWalletName and set it as selected value
@@ -73,7 +91,7 @@ function SelectWallet({
   // Is called when user click 'Load More' button in Wallet autocomplete
   useEffect(() => {
     const getWalletsData = async () => {
-      if (walletPage === 0) {
+      if (walletPage === 0 || walletType === 'trusted') {
         return;
       }
 

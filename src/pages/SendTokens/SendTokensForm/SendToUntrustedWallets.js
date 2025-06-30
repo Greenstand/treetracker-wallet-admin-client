@@ -8,6 +8,7 @@ const SendToUntrustedWalletsForm = (props) => {
   const {
     onSubmit,
     onSenderWalletSelected,
+    availableTokens = 0,
   } = props;
 
   const [senderWallet, setSenderWallet] = useState(null);
@@ -16,9 +17,19 @@ const SendToUntrustedWalletsForm = (props) => {
   const [isSubmitBtnDisabled, setIsSubmitButtonDisabled] = useState(true);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
+  const [tokenAmountError, setTokenAmountError] = useState(false);
+  const [tokenAmountErrorMessage, setTokenAmountErrorMessage] = useState('');
+
   useEffect(() => {
     isSubmitButtonDisabled();
-  }, [receiverWallet, senderWallet]);
+  }, [receiverWallet, senderWallet, tokenAmountError]);
+
+  // Re-validate token amount when available tokens change
+  useEffect(() => {
+    if (tokensAmountRef.current && tokensAmountRef.current.value > 0) {
+      validateTokenAmount(tokensAmountRef.current.value);
+    }
+  }, [availableTokens]);
 
   const handleConfirmationDialogOpen = e => {
     e.preventDefault();
@@ -34,21 +45,57 @@ const SendToUntrustedWalletsForm = (props) => {
     handleConfirmationDialogClose();
   };
 
+  const validateTokenAmount = (amount) => {
+    const numAmount = parseFloat(amount);
+    
+    if (!senderWallet) {
+      setTokenAmountError(false);
+      setTokenAmountErrorMessage('');
+      return true;
+    }
+
+    if (numAmount <= 0) {
+      setTokenAmountError(true);
+      setTokenAmountErrorMessage('Token amount must be greater than 0');
+      return false;
+    }
+
+    if (numAmount > availableTokens) {
+      setTokenAmountError(true);
+      setTokenAmountErrorMessage(
+        `Cannot send ${numAmount.toLocaleString()} tokens. Available: ${availableTokens.toLocaleString()}`
+      );
+      return false;
+    }
+
+    setTokenAmountError(false);
+    setTokenAmountErrorMessage('');
+    return true;
+  };
+
+  const handleTokenAmountChange = () => {
+    const amount = tokensAmountRef.current.value;
+    validateTokenAmount(amount);
+    isSubmitButtonDisabled();
+  };
+
   const handleChangeSenderWallet = useCallback((wallet) => {
     if (!wallet) {
       setSenderWallet(null);
       onSenderWalletSelected(null);
+      setTokenAmountError(false);
+      setTokenAmountErrorMessage('');
       return;
     }
 
     setSenderWallet(wallet.name);
     onSenderWalletSelected(wallet);
 
-    if (tokensAmountRef.current.value > wallet.tokensInWallet) {
-      tokensAmountRef.current.value = wallet.tokensInWallet;
+    // Validate current token amount against available tokens
+    if (tokensAmountRef.current.value > 0) {
+      validateTokenAmount(tokensAmountRef.current.value);
     }
-    tokensAmountRef.current.setAttribute('max', wallet.tokensInWallet);
-  }, []);
+  }, [availableTokens]);
 
   const handleReceiverWalletChange = (e) => {
     setReceiverWallet(e.target.value);
@@ -71,7 +118,8 @@ const SendToUntrustedWalletsForm = (props) => {
     const isDisabled =
       !senderWallet ||
       !receiverWallet ||
-      tokensAmountRef.current.value <= 0;
+      tokensAmountRef.current.value <= 0 ||
+      tokenAmountError;
     setIsSubmitButtonDisabled(isDisabled);
   };
 
@@ -103,10 +151,19 @@ const SendToUntrustedWalletsForm = (props) => {
                 id="token-amount"
                 label="Token Amount"
                 type="number"
-                InputProps={{ inputProps: { min: 0, max: 10000 } }}
+                InputProps={{ 
+                  inputProps: { 
+                    min: 0, 
+                    max: Math.max(availableTokens, 0),
+                    step: 1
+                  } 
+                }}
                 defaultValue={1}
                 inputRef={tokensAmountRef}
-                onChange={() => isSubmitButtonDisabled()}
+                onChange={handleTokenAmountChange}
+                error={tokenAmountError}
+                helperText={tokenAmountError ? tokenAmountErrorMessage : `Available: ${availableTokens.toLocaleString()} tokens`}
+                disabled={!senderWallet}
               />
             </Grid>
             <Grid item xs={12}>
