@@ -1,3 +1,10 @@
+# [2.1.0-v2.24](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.23...v2.1.0-v2.24) (2025-07-15)
+
+
+### Features
+
+* **send-tokens:** implement trusted wallets and pending transfers tracking ([a105806](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a1058068988fe6433bf66ee2a98c0c125081c832))
+
 # [2.1.0-v2.23](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.22...v2.1.0-v2.23) (2025-06-17)
 
 
