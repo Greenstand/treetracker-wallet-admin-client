@@ -41,6 +41,10 @@ const SendTokens = () => {
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+    setSenderWalletName(null);
+    setSenderWalletTokens(null);
+    setSenderWalletId(null);
+    setPendingTransfers(0);
   };
 
   useEffect(() => {
@@ -53,7 +57,10 @@ const SendTokens = () => {
     try {
       setIsLoading(true);
       const wallets = await getTrustedWallets(authContext.token);
-      setTrustedWallets(wallets);
+      const uniqueWallets = wallets.filter((wallet, index, self) =>
+        index === self.findIndex((w) => w.id === wallet.id)
+      );
+      setTrustedWallets(uniqueWallets);
     } catch (error) {
       console.error(error);
       setErrorMessage('An error occurred while fetching trusted wallets.');
@@ -231,12 +238,14 @@ const SendTokens = () => {
                 walletType="managed"
                 availableTokens={(senderWalletTokens || 0) - pendingTransfers}
               />
-              <TokenInfoBlock
-                inWallet={senderWalletTokens || 0}
-                pendingTransfer={pendingTransfers}
-                available={(senderWalletTokens || 0) - pendingTransfers}
-                senderWalletName={senderWalletName}
-              />
+              {senderWalletName && (
+                <TokenInfoBlock
+                  inWallet={senderWalletTokens || 0}
+                  pendingTransfer={pendingTransfers}
+                  available={(senderWalletTokens || 0) - pendingTransfers}
+                  senderWalletName={senderWalletName}
+                />
+              )}
             </div>
           </TabPanel>
 
@@ -249,12 +258,14 @@ const SendTokens = () => {
                 trustedWallets={trustedWallets}
                 availableTokens={(senderWalletTokens || 0) - pendingTransfers}
               />
-              <TokenInfoBlock
-                inWallet={senderWalletTokens || 0}
-                pendingTransfer={pendingTransfers}
-                available={(senderWalletTokens || 0) - pendingTransfers}
-                senderWalletName={senderWalletName}
-              />
+              {senderWalletName && (
+                <TokenInfoBlock
+                  inWallet={senderWalletTokens || 0}
+                  pendingTransfer={pendingTransfers}
+                  available={(senderWalletTokens || 0) - pendingTransfers}
+                  senderWalletName={senderWalletName}
+                />
+              )}
             </div>
           </TabPanel>
 
@@ -265,12 +276,14 @@ const SendTokens = () => {
                 onSenderWalletSelected={handleWalletSelection}
                 availableTokens={(senderWalletTokens || 0) - pendingTransfers}
               />
-              <TokenInfoBlock
-                inWallet={senderWalletTokens || 0}
-                pendingTransfer={pendingTransfers}
-                available={(senderWalletTokens || 0) - pendingTransfers}
-                senderWalletName={senderWalletName}
-              />
+              {senderWalletName && (
+                <TokenInfoBlock
+                  inWallet={senderWalletTokens || 0}
+                  pendingTransfer={pendingTransfers}
+                  available={(senderWalletTokens || 0) - pendingTransfers}
+                  senderWalletName={senderWalletName}
+                />
+              )}
             </div>
           </TabPanel>
         </Paper>
