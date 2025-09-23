@@ -20,7 +20,7 @@ import { handleCreateWallet } from './helpers/walletHandlers';
 import { handleSendToUntrustedWallets } from './helpers/sendTokenHandlers';
 import apiClient from '../../utils/apiClient';
 import { getTrustedWallets } from '../../api/trust_relationships';
-import { getPendingTransfers } from '../../api/wallets';
+import { getPendingTransfers, getWalletById } from '../../api/wallets';
 
 
 
@@ -76,6 +76,21 @@ const SendTokens = () => {
     } catch (error) {
       console.error('Error fetching pending transfers:', error);
       return 0; 
+    }
+  };
+
+  const refreshWalletData = async (walletId) => {
+    try {
+      const walletData = await getWalletById(authContext.token, walletId);
+      const pendingAmount = await fetchPendingTransfers(walletId);
+      
+      setSenderWalletTokens(walletData.tokensInWallet);
+      setPendingTransfers(pendingAmount);
+      
+      return walletData;
+    } catch (error) {
+      console.error('Error refreshing wallet data:', error);
+      setErrorMessage('An error occurred while refreshing wallet data.');
     }
   };
 
@@ -140,18 +155,14 @@ const SendTokens = () => {
         receiver_wallet: data.receiverWallet,
         claim: false,
       })
-      .then((response) => {
+      .then(async (response) => {
         console.log(
           'Tokens transfer completed. Response: ' + JSON.stringify(response)
         );
 
-        // update tokens amount: total and sender's wallet token
-        // TODO: uncomment when API is ready: is should have a totalTokens value
-        // getTotalTokensAmount();
-        setSenderWalletTokens((prev) => prev - data.tokensAmount);
-        
+        // Refresh wallet data from backend to get accurate token information
         if (senderWalletId) {
-          fetchPendingTransfers(senderWalletId).then(setPendingTransfers);
+          await refreshWalletData(senderWalletId);
         }
 
         setErrorMessage('');
@@ -183,7 +194,9 @@ const SendTokens = () => {
     setSenderWalletTokens,
     setCreatedWalletName,
     setPendingTransfers,
-    fetchPendingTransfers
+    fetchPendingTransfers,
+    refreshWalletData,
+    senderWalletId
   };
 
   return (
