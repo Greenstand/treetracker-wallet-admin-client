@@ -1,3 +1,10 @@
+# [2.1.0-v2.25](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.24...v2.1.0-v2.25) (2025-10-21)
+
+
+### Bug Fixes
+
+* resolve trusted wallet selection issues in SendTokens component ([a07a491](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/a07a4919fece1fc2eee73e77f42efd47de0b79dc))
+
 # [2.1.0-v2.24](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.23...v2.1.0-v2.24) (2025-07-15)
 
 
