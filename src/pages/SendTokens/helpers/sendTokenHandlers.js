@@ -3,7 +3,7 @@ import apiClient from "../../../utils/apiClient";
 
 
 export const handleSendTokenForm = async (data, authContext, callbacks) => {
-  const { setIsLoading, setErrorMessage, setSuccessMessage, setSenderWalletTokens } = callbacks;
+  const { setIsLoading, setErrorMessage, setSuccessMessage, setSenderWalletTokens, refreshWalletData, senderWalletId } = callbacks;
 
   setIsLoading(true);
 
@@ -21,7 +21,12 @@ export const handleSendTokenForm = async (data, authContext, callbacks) => {
       'Tokens transfer completed. Response: ' + JSON.stringify(response)
     );
 
-    setSenderWalletTokens((prev) => prev - data.tokensAmount);
+    if (senderWalletId && refreshWalletData) {
+      await refreshWalletData(senderWalletId);
+    } else {
+      setSenderWalletTokens((prev) => prev - data.tokensAmount);
+    }
+
     setErrorMessage('');
     setSuccessMessage(
       `${data.tokensAmount} tokens were successfully sent from '${data.senderWallet}' to '${data.receiverWallet}' wallet. Status of the transfer: '${response.data.state}'`
@@ -41,7 +46,7 @@ export const handleSendTokenForm = async (data, authContext, callbacks) => {
 };
 
 export const handleSendToUntrustedWallets = async (data, authContext, callbacks) => {
-  const { setIsLoading, setErrorMessage, setSuccessMessage, setSenderWalletTokens } = callbacks;
+  const { setIsLoading, setErrorMessage, setSuccessMessage, setSenderWalletTokens, refreshWalletData, senderWalletId } = callbacks;
 
   setIsLoading(true);
 
@@ -59,7 +64,12 @@ export const handleSendToUntrustedWallets = async (data, authContext, callbacks)
       'Tokens transfer to untrusted wallet completed. Response: ' + JSON.stringify(response)
     );
 
-    setSenderWalletTokens((prev) => prev - data.tokensAmount);
+    if (senderWalletId && refreshWalletData) {
+      await refreshWalletData(senderWalletId);
+    } else {
+      setSenderWalletTokens((prev) => prev - data.tokensAmount);
+    }
+
     setErrorMessage('');
     setSuccessMessage(
       `${data.tokensAmount} tokens were successfully sent to untrusted wallet '${data.receiverWallet}'. ` +

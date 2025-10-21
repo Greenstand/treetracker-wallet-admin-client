@@ -45,7 +45,7 @@ const TokenInfoBlock = ({
           <AmountText>{inWallet?.toLocaleString() || '0'}</AmountText>
         </Grid>
         <Grid item xs={4}>
-          <SubText>In Wallet</SubText>
+          <SubText>Tokens In Wallet</SubText>
         </Grid>
 
         <Grid item xs={3}></Grid>
@@ -58,7 +58,7 @@ const TokenInfoBlock = ({
           </AmountText>
         </Grid>
         <Grid item xs={4}>
-          <SubText>Pending Transfer</SubText>
+          <SubText>Tokens Pending Transfer</SubText>
         </Grid>
 
         <Grid item xs={3}></Grid>
@@ -69,7 +69,7 @@ const TokenInfoBlock = ({
           <AmountText>{calculatedAvailable?.toLocaleString() || '0'}</AmountText>
         </Grid>
         <Grid item xs={4}>
-          <SubText>Available</SubText>
+          <SubText>Tokens Available</SubText>
         </Grid>
       </Grid>
     </Paper>

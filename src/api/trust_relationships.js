@@ -133,8 +133,8 @@ export const getTrustedWallets = async (token) => {
       .get(`/wallets/${wallet.id}/trust_relationships?exclude_managed=true`);
     
     const trustedWallets = response.data.trust_relationships.map(relationship => ({
-      id: relationship.target_wallet_id,
-      name: relationship.target_wallet,
+      id: relationship.actor_wallet_id,
+      name: relationship.actor_wallet,
       tokensInWallet: 0, 
     }));
     
