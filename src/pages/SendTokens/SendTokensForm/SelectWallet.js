@@ -74,7 +74,7 @@ function SelectWallet({
     };
 
     getWalletsData();
-  }, [walletSearchString, walletType]);
+  }, [walletSearchString]);
 
   useEffect(() => {
     // If createdWalletName is not null, get wallets again by createdWalletName and set it as selected value
