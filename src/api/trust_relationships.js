@@ -131,10 +131,24 @@ export const getTrustedWallets = async (token) => {
     const response = await apiClient
       .setAuthHeader(token)
       .get(`/wallets/${wallet.id}/trust_relationships?exclude_managed=true`);
+
+      const checkLoggedInWalletId = (relationship) => {
+        if (wallet.id === relationship.target_wallet_id) {
+          return relationship.originator_wallet_id;
+        }
+        return relationship.target_wallet_id;
+      }
+      
+      const checkLoggedInWalletName = (relationship) => {
+        if (wallet.id === relationship.target_wallet_id) {
+          return relationship.originating_wallet;
+        }
+        return relationship.target_wallet;
+      }
     
     const trustedWallets = response.data.trust_relationships.map(relationship => ({
-      id: relationship.actor_wallet_id,
-      name: relationship.actor_wallet,
+      id: checkLoggedInWalletId(relationship),
+      name: checkLoggedInWalletName(relationship),
       tokensInWallet: 0, 
     }));
     
