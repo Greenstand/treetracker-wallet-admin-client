@@ -1,3 +1,10 @@
+# [2.1.0-v2.27](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.26...v2.1.0-v2.27) (2025-11-16)
+
+
+### Bug Fixes
+
+* prevent self-referencing in trusted wallets list ([5cd9db7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5cd9db79c012fef17878e0a7399a74a16e65cb6c))
+
 # [2.1.0-v2.26](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.25...v2.1.0-v2.26) (2025-10-28)
 
 
