@@ -1,3 +1,17 @@
+# [2.1.0-v2.27](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.26...v2.1.0-v2.27) (2025-11-16)
+
+
+### Bug Fixes
+
+* prevent self-referencing in trusted wallets list ([5cd9db7](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/5cd9db79c012fef17878e0a7399a74a16e65cb6c))
+
+# [2.1.0-v2.26](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.25...v2.1.0-v2.26) (2025-10-28)
+
+
+### Bug Fixes
+
+* **SelectWallet:** remove walletType dependency from useEffect to optimize wallet fetching ([51aa190](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/51aa190e860d720ef6d2880082f3c12dc1fa51a3))
+
 # [2.1.0-v2.25](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.24...v2.1.0-v2.25) (2025-10-21)
 
 
