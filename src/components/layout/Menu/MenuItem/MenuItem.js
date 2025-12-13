@@ -8,7 +8,7 @@ import * as React from 'react';
 import LinkItem from './LinkItem';
 import { useState } from 'react';
 
-const MenuItem = ({ open, count }) => {
+const MenuItem = ({ open, trustRelationshipCount, transfersCount }) => {
   const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -27,13 +27,34 @@ const MenuItem = ({ open, count }) => {
         isActive={location.pathname === '/send-tokens'}
         open={open}
       />
-      <LinkItem
-        itemPath={'/my-transfers'}
-        itemName={'My Transfers'}
-        itemIcon={<CompareIcon />}
-        isActive={location.pathname === '/my-transfers'}
-        open={open}
-      />
+      {transfersCount > 0 && open ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: isHovered ? '#E1F2E89C' : 'transparent',
+          }}
+          onMouseOver={() => setIsHovered(true)}
+          onMouseOut={() => setIsHovered(false)}
+        >
+          <LinkItem
+            itemPath={'/my-transfers'}
+            itemName={'My Transfers'}
+            itemIcon={<CompareIcon />}
+            isActive={location.pathname === '/my-transfers'}
+            open={open}
+            pendingCount={transfersCount}
+          />
+        </div>
+      ) : (
+        <LinkItem
+          itemPath={'/my-transfers'}
+          itemName={'My Transfers'}
+          itemIcon={<CompareIcon />}
+          isActive={location.pathname === '/my-transfers'}
+          open={open}
+        />
+      )}
       <LinkItem
         itemPath={'/list-wallets'}
         itemName={'My Wallets'}
@@ -41,7 +62,7 @@ const MenuItem = ({ open, count }) => {
         isActive={location.pathname === '/list-wallets'}
         open={open}
       />
-      {count > 0 && open ? (
+      {trustRelationshipCount > 0 && open ? (
         <div
           style={{
             display: 'flex',
@@ -57,7 +78,7 @@ const MenuItem = ({ open, count }) => {
             itemIcon={<HandshakeIcon />}
             isActive={location.pathname === '/trust-relationship'}
             open={open}
-            pendingCount={count}
+            pendingCount={trustRelationshipCount}
           />
         </div>
       ) : (

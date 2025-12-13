@@ -11,10 +11,13 @@ import {
     Typography,
   } from '@mui/material';
   import React, { useEffect, useRef, useState } from 'react';
+  import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+  import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
   import { DateRangeFilter, ResetButton, TransferSelectFilter } from './TableFilters';
   import { TableCellStyled, TooltipStyled } from './TransfersTable.styled';
   import { useTransfersContext } from '../../store/TransfersContext';
   import { Loader } from '../../components/UI/components/Loader/Loader';
+  import TransferSidePanel from './TransferSidePanel';
   
   /**@function
    * @name TableHeader
@@ -95,10 +98,47 @@ import {
    * @param tableColumns
    * @param tableRows
    * @param getStatusColor
+   * @param selectedRowIndex
+   * @param setSelectedRowIndex
    * @return {JSX.Element} - Table body component
    */
-  const TransfersTableBody = ({ tableColumns, tableRows, getStatusColor }) => {
-    const { isLoading } = useTransfersContext();
+  const TransfersTableBody = ({ 
+    tableColumns, 
+    tableRows, 
+    getStatusColor,
+    selectedRowIndex,
+    setSelectedRowIndex,
+  }) => {
+    const { isLoading, managedWallets } = useTransfersContext();
+    const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+    const [rowInfo, setRowInfo] = useState(null);
+    const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
+
+    const handleClosePanel = () => {
+      setIsSidePanelOpen(false);
+      setSelectedRowIndex(null);
+    };
+
+    const handleRowClick = (rowIndex, row) => {
+      setRowInfo(row);
+      setSelectedRowIndex(rowIndex);
+      // Only open side panel for pending transfers
+      if (row.status === 'pending') {
+        setIsSidePanelOpen(true);
+      }
+    };
+
+    // Check if a row requires user action (pending transfer where user can accept/decline)
+    const requiresAction = (row) => {
+      if (row.status !== 'pending') return false;
+      const managedWalletsWithDefault = managedWallets.wallets ? managedWallets : { ...managedWallets, wallets: [] };
+      const receiverWallet = row.receiver_wallet || row.destination_wallet;
+      return (
+        receiverWallet &&
+        (wallet.name === receiverWallet ||
+        managedWalletsWithDefault.wallets.some(w => w.name === receiverWallet))
+      );
+    };
   
     if (isLoading)
       return (
@@ -123,37 +163,66 @@ import {
       );
   
     return (
-      <TableBody>
-        {tableRows &&
-          tableRows.map((row, rowIndex) => {
-            return (
-              <TableRow key={rowIndex}>
-                {tableColumns.map((column, colIndex) => {
-                  const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
-                  const cellColor =
-                    column.name === 'status'
-                      ? getStatusColor(row[column.name])
-                      : '';
-                  const cellValue = row[column.name]
-                    ? column.renderer
-                      ? column.renderer(row[column.name])
-                      : row[column.name]
-                    : '--';
+      <>
+        <TableBody>
+          {tableRows &&
+            tableRows.map((row, rowIndex) => {
+              const isSelected = rowIndex === selectedRowIndex;
+              const needsAction = requiresAction(row);
+              return (
+                <TableRow 
+                  key={rowIndex}
+                  onClick={() => handleRowClick(rowIndex, row)}
+                  sx={{ 
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                  }}
+                  style={{
+                    backgroundColor:
+                      isSelected && needsAction
+                        ? 'rgba(135, 195, 46, .4)'
+                        : isSelected
+                        ? 'rgba(135, 195, 46, .4)'
+                        : needsAction
+                        ? 'rgba(255, 122, 0, .1)'
+                        : null,
+                    border: needsAction ? '2px solid rgba(255, 122, 0, .5)' : 'none',
+                  }}
+                >
+                  {tableColumns.map((column, colIndex) => {
+                    const cellKey = `${rowIndex}-${colIndex}-${column.description}`;
+                    const cellColor =
+                      column.name === 'status'
+                        ? getStatusColor(row[column.name])
+                        : '';
+                    const cellValue = row[column.name] || row[column.name] === 0
+                      ? column.renderer
+                        ? column.renderer(row[column.name])
+                        : row[column.name]
+                      : '--';
   
-                  return (
-                    <OverflownCell
-                      key={cellKey}
-                      cellValue={cellValue}
-                      cellColor={cellColor}
-                    >
-                      {cellValue}
-                    </OverflownCell>
-                  );
-                })}
-              </TableRow>
-            );
-          })}
-      </TableBody>
+                    return (
+                      <OverflownCell
+                        key={cellKey}
+                        cellValue={cellValue}
+                        cellColor={cellColor}
+                      >
+                        {cellValue}
+                      </OverflownCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+        </TableBody>
+        {isSidePanelOpen && (
+          <TransferSidePanel
+            open={isSidePanelOpen}
+            rowInfo={rowInfo}
+            onClose={handleClosePanel}
+          />
+        )}
+      </>
     );
   };
   
@@ -168,9 +237,12 @@ import {
    */
   const TransfersTable = ({ tableTitle, tableRows, totalRowCount }) => {
     // get data from context
-    const { pagination, setPagination, statusList, tableColumns } =
+    const { pagination, setPagination, statusList, tableColumns, sorting, setSorting } =
       useTransfersContext();
   
+    // State to track the index of the selected row
+    const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+
     // pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -191,10 +263,72 @@ import {
       const newPagination = { ...pagination, offset: newPage * rowsPerPage };
       setPagination(newPagination);
     };
+
+    // Sorting - initialize from context
+    const [sortBy, setSortBy] = useState(sorting?.sort_by || 'state');
+    const [order, setOrder] = useState(sorting?.order || 'desc');
+
+    // Sync local sorting state with context
+    useEffect(() => {
+      if (sorting) {
+        setSortBy(sorting.sort_by);
+        setOrder(sorting.order);
+      }
+    }, [sorting]);
+
+    const getColumnNames = (columnName) => {
+      let newSortBy = columnName;
+      switch (columnName) {
+        case 'created_date':
+          newSortBy = 'created_at';
+          break;
+        case 'closed_date':
+          newSortBy = 'closed_at';
+          break;
+        case 'status':
+          newSortBy = 'state';
+          break;
+        default:
+          newSortBy = columnName;
+      }
+      return newSortBy;
+    };
+
+    const mapSortBy = (columnName) => {
+      let newSortBy = getColumnNames(columnName);
+      setSortBy(newSortBy);
+      return newSortBy;
+    };
+
+    const handleSort = (column) => {
+      if (!column.sortable) return;
+
+      let newOrder = 'asc';
+
+      if (
+        (sortBy === getColumnNames(column.name) ||
+          (column.name === 'created_date' && sortBy === 'created_at') ||
+          (column.name === 'closed_date' && sortBy === 'closed_at') ||
+          (column.name === 'status' && sortBy === 'state')) &&
+        order === 'asc'
+      ) {
+        newOrder = 'desc';
+      }
+
+      setOrder(newOrder);
+
+      let newSortBy = mapSortBy(column.name);
+      setSortBy(newSortBy);
+
+      setSorting({
+        sort_by: newSortBy,
+        order: newOrder,
+      });
+    };
   
     // get color corresponding to the status value, else default color
     const getStatusColor = (status) => {
-      const color = statusList.find((x) => x.value === status).color;
+      const color = statusList.find((x) => x.value === status)?.color;
       return color ? color : '#585B5D';
     };
   
@@ -217,10 +351,26 @@ import {
                   return (
                     <TableCellStyled
                       key={`${id}-${column.description}`}
-                      sx={{ fontSize: '14px' }}
+                      sx={{ fontSize: '14px', cursor: column.sortable ? 'pointer' : 'default' }}
                       align={'center'}
+                      onClick={() => column.sortable && handleSort(column)}
                     >
                       {column.description}
+                      {column.sortable &&
+                        sortBy === getColumnNames(column.name) && (
+                          <>
+                            {order === 'asc' && (
+                              <ArrowUpwardIcon
+                                style={{ verticalAlign: 'middle', marginLeft: '4px' }}
+                              />
+                            )}
+                            {order === 'desc' && (
+                              <ArrowDownwardIcon
+                                style={{ verticalAlign: 'middle', marginLeft: '4px' }}
+                              />
+                            )}
+                          </>
+                        )}
                     </TableCellStyled>
                   );
                 })}
@@ -230,6 +380,8 @@ import {
               tableColumns={tableColumns}
               tableRows={tableRows}
               getStatusColor={getStatusColor}
+              selectedRowIndex={selectedRowIndex}
+              setSelectedRowIndex={setSelectedRowIndex}
             />
           </Table>
         </TableContainer>
