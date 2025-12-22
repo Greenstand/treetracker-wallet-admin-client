@@ -28,7 +28,9 @@ jobs:
       - name: Query Specific CloudFront Distributions
         run: |
           echo "Checking status of DEV_CDN_DISTRIBUTION_ID..."
-          aws cloudfront get-distribution --id ${{ secrets.DEV_CDN_DISTRIBUTION_ID }} --query "Distribution.Status" --output text || echo "Failed or Not Found"
+          command='aws cloudfront get-distribution --id ${{ secrets.DEV_CDN_DISTRIBUTION_ID }}'
+          echo $command
           
           echo "Checking status of DEV_STAGING_CDN_DISTRIBUTION_ID..."
-          aws cloudfront get-distribution --id ${{ secrets.DEV_STAGING_CDN_DISTRIBUTION_ID }} --query "Distribution.Status" --output text || echo "Failed or Not Found"
+          command='aws cloudfront get-distribution --id ${{ secrets.DEV_STAGING_CDN_DISTRIBUTION_ID }}'
+          echo $command
