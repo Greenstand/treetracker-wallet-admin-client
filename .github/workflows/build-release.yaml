@@ -25,9 +25,8 @@ jobs:
         run: |
         
           echo "Querying DEV_CDN_S3_BUCKET..."
-          command_dev=$(aws s3api head-bucket --bucket $S3_BUCKET || echo "Failed or Not Found")
-          echo $command_dev
+          aws s3api get-bucket-policy --bucket $S3_BUCKET || echo "Failed or Not Found"
           
           echo "Querying DEV_STAGING_CDN_S3_BUCKET..."
-          command_staging=$(aws s3api head-bucket --bucket $S3_BUCKET_STAGING || echo "Failed or Not Found")
-          echo $command_staging
+          aws s3api get-bucket-policy --bucket $S3_BUCKET_STAGING || echo "Failed or Not Found"
+        
