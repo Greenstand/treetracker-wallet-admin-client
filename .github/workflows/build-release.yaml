@@ -19,18 +19,15 @@ jobs:
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
       - name: Query Specific S3 Buckets
+        env: 
+          S3_BUCKET: ${{ secrets.DEV_CDN_S3_BUCKET }}
+          S3_BUCKET_STAGING: ${{ secrets.DEV_STAGING_CDN_S3_BUCKET }}
         run: |
+        
           echo "Querying DEV_CDN_S3_BUCKET..."
-          aws s3api head-bucket --bucket ${{ secrets.DEV_CDN_S3_BUCKET }} || echo "Failed or Not Found"
+          command_dev=$(aws s3api head-bucket --bucket $S3_BUCKET || echo "Failed or Not Found")
+          echo $command_dev
           
           echo "Querying DEV_STAGING_CDN_S3_BUCKET..."
-          aws s3api head-bucket --bucket ${{ secrets.DEV_STAGING_CDN_S3_BUCKET }} || echo "Failed or Not Found"
-      - name: Query Specific CloudFront Distributions
-        run: |
-          echo "Checking status of DEV_CDN_DISTRIBUTION_ID..."
-          command='aws cloudfront get-distribution --id ${{ secrets.DEV_CDN_DISTRIBUTION_ID }}'
-          echo $command
-          
-          echo "Checking status of DEV_STAGING_CDN_DISTRIBUTION_ID..."
-          command='aws cloudfront get-distribution --id ${{ secrets.DEV_STAGING_CDN_DISTRIBUTION_ID }}'
-          echo $command
+          command_staging=$(aws s3api head-bucket --bucket $S3_BUCKET_STAGING || echo "Failed or Not Found")
+          echo $command_staging
