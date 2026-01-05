@@ -265,7 +265,7 @@ import {
     };
 
     // Sorting - initialize from context
-    const [sortBy, setSortBy] = useState(sorting?.sort_by || 'state');
+    const [sortBy, setSortBy] = useState(sorting?.sort_by || 'created_at');
     const [order, setOrder] = useState(sorting?.order || 'desc');
 
     // Sync local sorting state with context

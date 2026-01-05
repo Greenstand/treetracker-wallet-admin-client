@@ -28,7 +28,7 @@ const TransfersProvider = ({ children }) => {
   const [filter, setFilter] = useState(defaultFilter);
 
   const defaultSorting = {
-    sort_by: 'state',
+    sort_by: 'created_at',
     order: 'desc',
   };
   const [sorting, setSorting] = useState(defaultSorting);
@@ -50,11 +50,11 @@ const TransfersProvider = ({ children }) => {
 
   // transfer statuses
   const statusList = [
-    {
-      label: 'Requested',
-      value: 'requested',
-      color: 'black',
-    },
+    // {
+    //   label: 'Requested',
+    //   value: 'requested',
+    //   color: 'black',
+    // },
     {
       label: 'Pending',
       value: 'pending',
@@ -70,11 +70,11 @@ const TransfersProvider = ({ children }) => {
       value: 'cancelled',
       color: 'red',
     },
-    {
-      label: 'Failed',
-      value: 'failed',
-      color: 'red',
-    },
+    // {
+    //   label: 'Failed',
+    //   value: 'failed',
+    //   color: 'red',
+    // },
   ];
 
   // transfers table columns
@@ -82,26 +82,26 @@ const TransfersProvider = ({ children }) => {
     {
       description: 'Transfer ID',
       name: 'transfer_id',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
       description: 'Sender Wallet',
       name: 'sender_wallet',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
       description: 'Token Amount',
       name: 'token_amount',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
       renderer: (val) => formatWithCommas(val),
     },
     {
       description: 'Receiver Wallet',
       name: 'receiver_wallet',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
@@ -114,7 +114,7 @@ const TransfersProvider = ({ children }) => {
     {
       description: 'Initiated By',
       name: 'initiated_by',
-      sortable: true,
+      sortable: false,
       showInfoIcon: false,
     },
     {
@@ -158,6 +158,34 @@ const TransfersProvider = ({ children }) => {
     });
   };
 
+  const getStatusPriority = (status) => {
+    switch (status) {
+      case 'pending':
+        return 1;
+      case 'completed':
+        return 2;
+      case 'cancelled':
+        return 3;
+      default:
+        return 4;
+    }
+  };
+
+  const sortRowsByDefaultOrder = (rows) => {
+    return [...rows].sort((a, b) => {
+      const statusPriorityA = getStatusPriority(a.status);
+      const statusPriorityB = getStatusPriority(b.status);
+      
+      if (statusPriorityA !== statusPriorityB) {
+        return statusPriorityA - statusPriorityB;
+      }
+      
+      const dateA = new Date(a.created_at || a.created_date || 0);
+      const dateB = new Date(b.created_at || b.created_date || 0);
+      return dateB - dateA;
+    });
+  };
+
   const loadData = async () => {
     try {
       setIsLoading(true);
@@ -167,7 +195,15 @@ const TransfersProvider = ({ children }) => {
         filter,
         sorting,
       });
-      const preparedRows = prepareRows(await data.transfers);
+      let preparedRows = prepareRows(await data.transfers);
+
+      const isDefaultSort = 
+        sorting.sort_by === defaultSorting.sort_by && 
+        sorting.order === defaultSorting.order;
+      
+      if (isDefaultSort) {
+        preparedRows = sortRowsByDefaultOrder(preparedRows);
+      }
 
       setTableRows(preparedRows);
       setTotalRowCount(data.total);
