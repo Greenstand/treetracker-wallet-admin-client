@@ -33,9 +33,11 @@ const ClientRoutes = () => {
           exact
           element={
           <TrustRelationshipsProvider>
-            <Layout>
-              <Wallet />
-            </Layout>
+            <TransfersProvider>
+              <Layout>
+                <Wallet />
+              </Layout>
+            </TransfersProvider>
           </TrustRelationshipsProvider>
           }
         />
@@ -44,11 +46,11 @@ const ClientRoutes = () => {
           exact
           element={
             <TrustRelationshipsProvider>
-            <Layout>
-              <TransfersProvider>
+            <TransfersProvider>
+              <Layout>
                 <MyTransfers />
-              </TransfersProvider>
-            </Layout>
+              </Layout>
+            </TransfersProvider>
             </TrustRelationshipsProvider>
           }
         />
@@ -57,9 +59,11 @@ const ClientRoutes = () => {
           exact
           element={
             <TrustRelationshipsProvider>
-            <Layout>
-              <SendTokens />
-            </Layout>
+            <TransfersProvider>
+              <Layout>
+                <SendTokens />
+              </Layout>
+            </TransfersProvider>
             </TrustRelationshipsProvider>
           }
         />
@@ -68,11 +72,13 @@ const ClientRoutes = () => {
           exact
           element={
             <TrustRelationshipsProvider>
-            <Layout>
-              <WalletsProvider>
-                <MyWallets />
-              </WalletsProvider>
-            </Layout>
+            <TransfersProvider>
+              <Layout>
+                <WalletsProvider>
+                  <MyWallets />
+                </WalletsProvider>
+              </Layout>
+            </TransfersProvider>
             </TrustRelationshipsProvider>
           }
         />
@@ -81,9 +87,11 @@ const ClientRoutes = () => {
           exact
           element={
             <TrustRelationshipsProvider>
-            <Layout>
+            <TransfersProvider>
+              <Layout>
                 <TrustRelationship />
-            </Layout>
+              </Layout>
+            </TransfersProvider>
             </TrustRelationshipsProvider>
           }
         />
@@ -92,9 +100,11 @@ const ClientRoutes = () => {
           exact
           element={
             <TrustRelationshipsProvider>
-            <Layout>
-              <CustomizeWallet />
-            </Layout>
+            <TransfersProvider>
+              <Layout>
+                <CustomizeWallet />
+              </Layout>
+            </TransfersProvider>
             </TrustRelationshipsProvider>
           }
         />
@@ -102,9 +112,11 @@ const ClientRoutes = () => {
           path="*"
           element={
             <TrustRelationshipsProvider>
-            <Layout>
-              <NotFound />
-            </Layout>
+            <TransfersProvider>
+              <Layout>
+                <NotFound />
+              </Layout>
+            </TransfersProvider>
             </TrustRelationshipsProvider>
           }
         />
