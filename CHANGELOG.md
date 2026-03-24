@@ -1,3 +1,15 @@
+# [2.1.0-v2.28](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.27...v2.1.0-v2.28) (2026-01-05)
+
+
+### Bug Fixes
+
+* **Transfers:** update default sorting and enhance row sorting logic ([35a1c26](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/35a1c265a909e7bc12e1f661c4163ce8b92cf91e))
+
+
+### Features
+
+* **Transfers:** enhance transfer management with new functionalities ([42d97b0](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/42d97b00cda32e0400eeb77f091a1a4aabbac71d))
+
 # [2.1.0-v2.27](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.26...v2.1.0-v2.27) (2025-11-16)
 
 
