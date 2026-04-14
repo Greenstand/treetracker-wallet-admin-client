@@ -158,34 +158,6 @@ const TransfersProvider = ({ children }) => {
     });
   };
 
-  const getStatusPriority = (status) => {
-    switch (status) {
-      case 'pending':
-        return 1;
-      case 'completed':
-        return 2;
-      case 'cancelled':
-        return 3;
-      default:
-        return 4;
-    }
-  };
-
-  const sortRowsByDefaultOrder = (rows) => {
-    return [...rows].sort((a, b) => {
-      const statusPriorityA = getStatusPriority(a.status);
-      const statusPriorityB = getStatusPriority(b.status);
-      
-      if (statusPriorityA !== statusPriorityB) {
-        return statusPriorityA - statusPriorityB;
-      }
-      
-      const dateA = new Date(a.created_at || a.created_date || 0);
-      const dateB = new Date(b.created_at || b.created_date || 0);
-      return dateB - dateA;
-    });
-  };
-
   const loadData = async () => {
     try {
       setIsLoading(true);
@@ -195,16 +167,7 @@ const TransfersProvider = ({ children }) => {
         filter,
         sorting,
       });
-      let preparedRows = prepareRows(await data.transfers);
-
-      const isDefaultSort = 
-        sorting.sort_by === defaultSorting.sort_by && 
-        sorting.order === defaultSorting.order;
-      
-      if (isDefaultSort) {
-        preparedRows = sortRowsByDefaultOrder(preparedRows);
-      }
-
+      const preparedRows = prepareRows(await data.transfers);
       setTableRows(preparedRows);
       setTotalRowCount(data.total);
     } catch (error) {
