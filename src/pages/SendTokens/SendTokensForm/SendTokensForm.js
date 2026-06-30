@@ -183,6 +183,8 @@ const SendTokensForm = (props) => {
                 wallet={senderWallet}
                 onChangeWallet={handleChangeSenderWallet}
                 label={'Sender Wallet'}
+                walletScope="child"
+                includeCurrentWallet
               />
             </Grid>
             <Grid item xs={6}></Grid>
@@ -194,6 +196,7 @@ const SendTokensForm = (props) => {
                 createdWalletName={createdWalletName}
                 walletType={walletType}
                 trustedWallets={trustedWallets}
+                walletScope={walletType === 'managed' ? 'child' : undefined}
               />
             </Grid>
             

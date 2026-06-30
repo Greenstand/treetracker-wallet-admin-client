@@ -18,7 +18,8 @@ export const getWallets = async (
   token,
   name = '',
   { pagination } = { pagination: { offset: 0, limit: 10 } },
-  { sorting } = { sorting: { sortBy: 'created_at', order: 'desc' } }
+  { sorting } = { sorting: { sortBy: 'created_at', order: 'desc' } },
+  { scope } = {}
 ) => {
   const { total, wallets } = await apiClient
     .setAuthHeader(token)
@@ -29,6 +30,7 @@ export const getWallets = async (
         limit: pagination.limit,
         sort_by: sorting.sortBy,
         order: sorting.order,
+        scope,
       },
     })
     .then((response) => {
