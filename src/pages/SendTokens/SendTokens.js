@@ -22,7 +22,11 @@ import apiClient from '../../utils/apiClient';
 import { getTrustedWallets } from '../../api/trust_relationships';
 import { getPendingTransfers, getWalletById } from '../../api/wallets';
 
-
+const TAB_HELPER_TEXT = [
+  'Send tokens to your managed wallets.',
+  'Send tokens to a trusted wallet with Send or Receive trust relationship.',
+  'Send tokens to any untrusted or trusted wallet.',
+];
 
 const SendTokens = () => {
   const [createdWalletName, setCreatedWalletName] = useState();
@@ -234,6 +238,9 @@ const SendTokens = () => {
             <Tab label="Trusted Wallets" />
             <Tab label="Untrusted Wallets" />
           </Tabs>
+          <div style={{ padding: '0.75rem 1rem 0', color: '#5d6b5d', fontSize: '0.95rem' }}>
+            {TAB_HELPER_TEXT[tabValue]}
+          </div>
 
           {isLoading && (
             <LoaderContainer>

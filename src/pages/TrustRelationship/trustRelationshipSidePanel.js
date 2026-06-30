@@ -23,7 +23,11 @@ import {
 import { useTrustRelationshipsContext } from '../../store/TrustRelationshipsContext.js';
 
 function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
-  const { setRefetch, managedWallets = { wallets: [] } } = useTrustRelationshipsContext();
+  const {
+    setRefetch,
+    managedWallets = { wallets: [] },
+    setMessage,
+  } = useTrustRelationshipsContext();
   const authContext = useContext(AuthContext);
   const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
   const token = authContext.token;
@@ -40,10 +44,17 @@ function TrustRelationshipSidePanel({ open, onClose, rowInfo }) {
     setRefetch(true);
   };
 
-  const handleDelete = (id) => {
-    deleteTrustRelationship({ id, token });
-    onClose();
-    setRefetch(true);
+  const handleDelete = async (id) => {
+    try {
+      await deleteTrustRelationship({ id, token });
+      onClose();
+      setRefetch(true);
+    } catch (error) {
+      console.error('Error deleting trust relationship:', error);
+      setMessage(
+        error.message || 'An error occurred while deleting the trust relationship.'
+      );
+    }
   };
 
   const managedWalletsWithDefault = managedWallets.wallets ? managedWallets : { ...managedWallets, wallets: [] };

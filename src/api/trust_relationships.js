@@ -115,13 +115,18 @@ export const deleteTrustRelationship = async ({ id, token }) => {
       }
     );
 
+    const responseBody = await response.json().catch(() => null);
+
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(
+        responseBody?.message || `HTTP error! Status: ${response.status}`
+      );
     }
 
-    return response.json();
+    return responseBody;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
