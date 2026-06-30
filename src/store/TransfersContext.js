@@ -39,7 +39,7 @@ const TransfersProvider = ({ children }) => {
 
   const [refetch, setRefetch] = useState(false);
 
-  const [managedWallets, setManagedWallets] = useState([]);
+  const [managedWallets, setManagedWallets] = useState({ wallets: [] });
 
   const [tableRows, setTableRows] = useState([]);
   const [totalRowCount, setTotalRowCount] = useState(null);
@@ -185,6 +185,8 @@ const TransfersProvider = ({ children }) => {
 
       const allWalletsData = await getWallets(authContext.token, '', {
         pagination: { limit: 1000 },
+      }, undefined, {
+        scope: 'child',
       });
       setManagedWallets(allWalletsData);
 
