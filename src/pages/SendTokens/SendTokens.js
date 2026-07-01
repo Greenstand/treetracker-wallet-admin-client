@@ -108,11 +108,8 @@ const SendTokens = () => {
     }
 
     setSenderWalletName(wallet.name);
-    setSenderWalletTokens(wallet.tokensInWallet);
     setSenderWalletId(wallet.id);
-
-    const pendingAmount = await fetchPendingTransfers(wallet.id);
-    setPendingTransfers(pendingAmount);
+    await refreshWalletData(wallet.id);
   };
 
   // TODO: uncomment when API is ready: is should have a totalTokens value
