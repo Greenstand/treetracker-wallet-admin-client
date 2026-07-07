@@ -140,9 +140,7 @@ export const getTrustedWallets = async (token) => {
       );
 
     const trustedWallets = response.data.trust_relationships
-      .filter((relationship) =>
-        ['send', 'receive'].includes(relationship.request_type)
-      )
+      .filter((relationship) => relationship.request_type === 'send')
       .map((relationship) => {
         const isLoggedInWalletTarget = wallet.id === relationship.target_wallet_id;
 

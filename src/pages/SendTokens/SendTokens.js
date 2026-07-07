@@ -24,7 +24,7 @@ import { getPendingTransfers, getWalletById } from '../../api/wallets';
 
 const TAB_HELPER_TEXT = [
   'Send tokens to your managed wallets.',
-  'Send tokens to a trusted wallet with Send or Receive trust relationship.',
+  'Send tokens to a trusted wallet with Send trust relationship',
   'Send tokens to any untrusted or trusted wallet.',
 ];
 
