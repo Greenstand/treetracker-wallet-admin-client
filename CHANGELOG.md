@@ -1,3 +1,18 @@
+# [2.1.0-v2.29](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.28...v2.1.0-v2.29) (2026-07-15)
+
+
+### Bug Fixes
+
+* refresh send token wallet balances on selection ([16a92d6](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/16a92d6297ae716f8aa88e8c3c9e4b5a19a16241))
+* **trust_relationships:** refine trusted wallet filtering to only include 'send' relationships on send token to trusted wallets ([f551fe5](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/f551fe5d6aedf9a11a8694a61a48651dd3bf7fe5))
+* **wallet-admin:** improve trust relationship UX and wallet flow guidance ([1d27349](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/1d27349f909de23a2ae39a3e37d0aef155943d27))
+* **wallet-admin:** update transfer and trusted wallet flow visibility ([857cedd](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/857cedd8d500bcd15520d9d4c90a47a19c53bf13))
+
+
+### Features
+
+* **wallet-admin:** add managed wallet filtering and wallet list scope controls ([2baca60](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/2baca60e04453059dc969081a66996549da45bc8))
+
 # [2.1.0-v2.28](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.27...v2.1.0-v2.28) (2026-01-05)
 
 
