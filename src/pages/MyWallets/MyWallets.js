@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Grid, Typography } from '@mui/material';
+import {
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import Message from '../../components/UI/components/Message/Message';
 import { getWallets } from '../../api/wallets';
 import AuthContext from '../../store/auth-context';
@@ -31,6 +38,7 @@ const MyWallets = () => {
   const [tableRows, setTableRows] = useState([]);
   // total rows count for pagination
   const [totalRowCount, setTotalRowCount] = useState(null);
+  const [walletScope, setWalletScope] = useState('child');
 
   const authContext = useContext(AuthContext);
 
@@ -43,7 +51,10 @@ const MyWallets = () => {
         {
           pagination,
         },
-        { sorting }
+        { sorting },
+        {
+          scope: walletScope,
+        }
       );
       const preparedRows = prepareRows(await data.wallets);
 
@@ -60,7 +71,7 @@ const MyWallets = () => {
   // load data
   useEffect(() => {
     loadData();
-  }, [pagination, sorting]);
+  }, [pagination, sorting, walletScope]);
 
   return (
     <Container>
@@ -71,8 +82,42 @@ const MyWallets = () => {
         sx={{ flexGrow: '1', display: 'flex', flexDirection: 'column' }}
       >
         <Grid item>
-          <Typography variant={'h4'}>My Wallets</Typography>
-          <CreateManagedWallet loadData={loadData} />
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="space-between"
+            spacing={2}
+          >
+            <Grid item>
+              <Grid container alignItems="center" spacing={2}>
+                <Grid item>
+                  <Typography variant={'h4'}>My Wallets</Typography>
+                </Grid>
+                <Grid item>
+                  <CreateManagedWallet loadData={loadData} />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <FormControl size="medium" sx={{ minWidth: 220 }}>
+                    <InputLabel id="wallet-scope-label">Wallet Scope</InputLabel>
+                    <Select
+                      labelId="wallet-scope-label"
+                      id="wallet-scope"
+                      value={walletScope}
+                      label="Wallet Scope"
+                      onChange={(event) => {
+                        setWalletScope(event.target.value);
+                        setPagination({ limit: pagination.limit, offset: 0 });
+                      }}
+                    >
+                      <MenuItem value="all">All Wallets</MenuItem>
+                      <MenuItem value="child">Child Wallets</MenuItem>
+                      <MenuItem value="managed">Managed Wallets</MenuItem>
+                    </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item>
           <Table

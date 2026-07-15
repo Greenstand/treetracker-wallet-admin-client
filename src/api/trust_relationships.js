@@ -115,13 +115,18 @@ export const deleteTrustRelationship = async ({ id, token }) => {
       }
     );
 
+    const responseBody = await response.json().catch(() => null);
+
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(
+        responseBody?.message || `HTTP error! Status: ${response.status}`
+      );
     }
 
-    return response.json();
+    return responseBody;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -130,29 +135,32 @@ export const getTrustedWallets = async (token) => {
   try {
     const response = await apiClient
       .setAuthHeader(token)
-      .get(`/wallets/${wallet.id}/trust_relationships?exclude_managed=true`);
+      .get(
+        `/wallets/${wallet.id}/trust_relationships?exclude_managed=true&state=trusted`
+      );
 
-      const checkLoggedInWalletId = (relationship) => {
-        if (wallet.id === relationship.target_wallet_id) {
-          return relationship.originator_wallet_id;
-        }
-        return relationship.target_wallet_id;
-      }
-      
-      const checkLoggedInWalletName = (relationship) => {
-        if (wallet.id === relationship.target_wallet_id) {
-          return relationship.originating_wallet;
-        }
-        return relationship.target_wallet;
-      }
-    
-    const trustedWallets = response.data.trust_relationships.map(relationship => ({
-      id: checkLoggedInWalletId(relationship),
-      name: checkLoggedInWalletName(relationship),
-      tokensInWallet: 0, 
-    }));
-    
-    return trustedWallets;
+    const trustedWallets = response.data.trust_relationships
+      .filter((relationship) => relationship.request_type === 'send')
+      .map((relationship) => {
+        const isLoggedInWalletTarget = wallet.id === relationship.target_wallet_id;
+
+        return {
+          id: isLoggedInWalletTarget
+            ? relationship.originator_wallet_id
+            : relationship.target_wallet_id,
+          name: isLoggedInWalletTarget
+            ? relationship.originating_wallet
+            : relationship.target_wallet,
+          tokensInWallet: 0,
+        };
+      });
+
+    return trustedWallets.filter(
+      (trustedWallet, index, array) =>
+        trustedWallet.name &&
+        trustedWallet.name !== wallet.name &&
+        index === array.findIndex((item) => item.id === trustedWallet.id)
+    );
   } catch (error) {
     console.error(error);
     throw Error('An error occurred while fetching trusted wallets.');
