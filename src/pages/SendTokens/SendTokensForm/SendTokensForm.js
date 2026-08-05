@@ -58,6 +58,8 @@ const SendTokensForm = (props) => {
   };
 
   const handleChangeSenderWallet = useCallback((wallet) => {
+    setReceiverWallet(null);
+
     // sender wallet is not selected / was deselected
     if (!wallet) {
       setSenderWallet(null);

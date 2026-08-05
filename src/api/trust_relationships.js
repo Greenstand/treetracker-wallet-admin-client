@@ -130,35 +130,49 @@ export const deleteTrustRelationship = async ({ id, token }) => {
   }
 };
 
-export const getTrustedWallets = async (token) => {
-  const wallet = JSON.parse(localStorage.getItem('wallet') || '{}');
+export const getTrustedWallets = async (token, senderWalletId) => {
+  if (!senderWalletId) return [];
+
   try {
-    const response = await apiClient
-      .setAuthHeader(token)
-      .get(
-        `/wallets/${wallet.id}/trust_relationships?exclude_managed=true&state=trusted`
-      );
+    const limit = 500;
+    let offset = 0;
+    let relationships = [];
+    let hasMore = true;
 
-    const trustedWallets = response.data.trust_relationships
-      .filter((relationship) => relationship.request_type === 'send')
-      .map((relationship) => {
-        const isLoggedInWalletTarget = wallet.id === relationship.target_wallet_id;
+    while (hasMore) {
+      const response = await apiClient
+        .setAuthHeader(token)
+        .get(
+          `/wallets/${senderWalletId}/trust_relationships?state=trusted&limit=${limit}&offset=${offset}`
+        );
+      const page = response.data.trust_relationships || [];
+      const total = Number(response.data.total);
 
-        return {
-          id: isLoggedInWalletTarget
-            ? relationship.originator_wallet_id
-            : relationship.target_wallet_id,
-          name: isLoggedInWalletTarget
-            ? relationship.originating_wallet
-            : relationship.target_wallet,
-          tokensInWallet: 0,
-        };
-      });
+      relationships = [...relationships, ...page];
+      offset += page.length;
+
+      hasMore =
+        page.length > 0 &&
+        ((Number.isFinite(total) && relationships.length < total) ||
+          (!Number.isFinite(total) && page.length === limit));
+    }
+
+    const trustedWallets = relationships
+      .filter(
+        (relationship) =>
+          relationship.state === 'trusted' &&
+          relationship.request_type === 'send' &&
+          relationship.actor_wallet_id === senderWalletId
+      )
+      .map((relationship) => ({
+        id: relationship.target_wallet_id,
+        name: relationship.target_wallet,
+        tokensInWallet: 0,
+      }));
 
     return trustedWallets.filter(
       (trustedWallet, index, array) =>
         trustedWallet.name &&
-        trustedWallet.name !== wallet.name &&
         index === array.findIndex((item) => item.id === trustedWallet.id)
     );
   } catch (error) {
