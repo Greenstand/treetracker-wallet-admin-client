@@ -52,15 +52,18 @@ const SendTokens = () => {
   };
 
   useEffect(() => {
-    if (tabValue === 1) {
-      loadTrustedWallets();
+    if (tabValue !== 1 || !senderWalletId) {
+      setTrustedWallets([]);
+      return;
     }
-  }, [tabValue]);
 
-  const loadTrustedWallets = async () => {
+    loadTrustedWallets(senderWalletId);
+  }, [tabValue, senderWalletId]);
+
+  const loadTrustedWallets = async (walletId) => {
     try {
       setIsLoading(true);
-      const wallets = await getTrustedWallets(authContext.token);
+      const wallets = await getTrustedWallets(authContext.token, walletId);
       const uniqueWallets = wallets.filter((wallet, index, self) =>
         index === self.findIndex((w) => w.id === wallet.id)
       );
