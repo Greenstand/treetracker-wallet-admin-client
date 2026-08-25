@@ -25,7 +25,7 @@ import { getPendingTransfers, getWalletById } from '../../api/wallets';
 const TAB_HELPER_TEXT = [
   'Send tokens to your managed wallets.',
   'Send tokens to a trusted wallet with Send trust relationship',
-  'Send tokens to any untrusted or trusted wallet.',
+  'Send tokens to all wallets.',
 ];
 
 const SendTokens = () => {
@@ -236,7 +236,7 @@ const SendTokens = () => {
           <Tabs value={tabValue} onChange={handleTabChange} aria-label="wallet tabs">
             <Tab label="Managed Wallets" />
             <Tab label="Trusted Wallets" />
-            <Tab label="Untrusted Wallets" />
+            <Tab label="All Wallets" />
           </Tabs>
           <div style={{ padding: '0.75rem 1rem 0', color: '#5d6b5d', fontSize: '0.95rem' }}>
             {TAB_HELPER_TEXT[tabValue]}
