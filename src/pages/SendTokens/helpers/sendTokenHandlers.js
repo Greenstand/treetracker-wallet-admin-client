@@ -36,7 +36,7 @@ export const handleSendTokenForm = async (data, authContext, callbacks) => {
     setSuccessMessage('');
     const errorMessage =
       error.response?.data?.message ===
-      'Cannot transfer to the same wallet as the originating one!'
+        'Cannot transfer to the same wallet as the originating one!'
         ? error.response.data.message
         : 'An error occurred while sending tokens.';
     setErrorMessage(errorMessage);
@@ -80,12 +80,12 @@ export const handleSendToUntrustedWallets = async (data, authContext, callbacks)
     console.error('Error sending to untrusted wallet:', error);
     setSuccessMessage('');
 
-    let errorMessage = 'An error occurred while sending tokens to untrusted wallet.';
+    let errorMessage = error.response?.data?.message || 'An error occurred while sending tokens to untrusted wallet.';
 
     if (error.response) {
-      if (error.response.data.message === 'Cannot transfer to the same wallet as the originating one!') {
+      if (error.response.data?.message === 'Cannot transfer to the same wallet as the originating one!') {
         errorMessage = error.response.data.message;
-      } else if (error.response.data.message.includes('invalid wallet address')) {
+      } else if (error.response.data?.message?.includes('invalid wallet address')) {
         errorMessage = 'Invalid wallet address format. Please check the receiver wallet address.';
       } else if (error.response.status === 403) {
         errorMessage = 'You are not authorized to send to this wallet.';
