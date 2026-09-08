@@ -19,7 +19,7 @@ import { handleCreateWallet } from './helpers/walletHandlers';
 // import { formatWithCommas } from '../../utils/formatting';
 import { handleSendToUntrustedWallets } from './helpers/sendTokenHandlers';
 import apiClient from '../../utils/apiClient';
-import { getTrustedWallets } from '../../api/trust_relationships';
+import { getTrustedWallets, getAllTrustedWallets } from '../../api/trust_relationships';
 import { getPendingTransfers, getWalletById } from '../../api/wallets';
 
 const TAB_HELPER_TEXT = [
@@ -40,6 +40,7 @@ const SendTokens = () => {
   const [senderWalletId, setSenderWalletId] = useState(null);
   const [pendingTransfers, setPendingTransfers] = useState(0);
   const [trustedWallets, setTrustedWallets] = useState([]);
+  const [allTrustedWallets, setAllTrustedWallets] = useState([]);
 
   const authContext = useContext(AuthContext);
 
@@ -52,12 +53,17 @@ const SendTokens = () => {
   };
 
   useEffect(() => {
-    if (tabValue !== 1 || !senderWalletId) {
+    if (tabValue === 1 && senderWalletId) {
+      loadTrustedWallets(senderWalletId);
+    } else {
       setTrustedWallets([]);
-      return;
     }
 
-    loadTrustedWallets(senderWalletId);
+    if (tabValue === 2) {
+      loadAllTrustedWallets();
+    } else {
+      setAllTrustedWallets([]);
+    }
   }, [tabValue, senderWalletId]);
 
   const loadTrustedWallets = async (walletId) => {
@@ -75,6 +81,20 @@ const SendTokens = () => {
       setIsLoading(false);
     }
   };
+
+  const loadAllTrustedWallets = async () => {
+    try {
+      setIsLoading(true);
+      const wallets = await getAllTrustedWallets(authContext.token);
+      setAllTrustedWallets(wallets);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('An error occurred while fetching all trusted wallets.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   const fetchPendingTransfers = async (walletId) => {
     try {
@@ -295,6 +315,7 @@ const SendTokens = () => {
                 onSubmit={(data) => handleSendToUntrustedWallets(data, authContext, callbacks)}
                 onSenderWalletSelected={handleWalletSelection}
                 availableTokens={(senderWalletTokens || 0) - pendingTransfers}
+                allTrustedWallets={allTrustedWallets}
               />
               {senderWalletName && (
                 <TokenInfoBlock

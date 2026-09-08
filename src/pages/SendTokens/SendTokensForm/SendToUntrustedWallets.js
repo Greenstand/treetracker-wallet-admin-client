@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Grid, TextField } from '@mui/material';
+import { Autocomplete, Grid, TextField } from '@mui/material';
 import SelectWallet from './SelectWallet';
 import { StyledBox, StyledButton } from './SendTokensFormStyled';
 import ConfirmDialog from './confirmDialog/ConfirmDialog';
@@ -9,6 +9,7 @@ const SendToUntrustedWalletsForm = (props) => {
     onSubmit,
     onSenderWalletSelected,
     availableTokens = 0,
+    allTrustedWallets = [],
   } = props;
 
   const [senderWallet, setSenderWallet] = useState(null);
@@ -97,10 +98,6 @@ const SendToUntrustedWalletsForm = (props) => {
     }
   }, [availableTokens]);
 
-  const handleReceiverWalletChange = (e) => {
-    setReceiverWallet(e.target.value);
-  };
-
   const handleSubmit = () => {
     const tokensAmount = tokensAmountRef.current.value;
 
@@ -139,14 +136,28 @@ const SendToUntrustedWalletsForm = (props) => {
             </Grid>
             <Grid item xs={6}></Grid>
             <Grid item xs={6}>
-              <TextField
-                label="Receiver Wallet Address"
-                value={receiverWallet}
-                onChange={handleReceiverWalletChange}
-                fullWidth
-                required
+              <Autocomplete
+                freeSolo
+                id="receiver-wallet-autocomplete"
+                options={allTrustedWallets.map((w) => (typeof w === 'string' ? w : w.name))}
+                value={receiverWallet || ''}
+                onChange={(event, newValue) => {
+                  setReceiverWallet(newValue || '');
+                }}
+                onInputChange={(event, newInputValue) => {
+                  setReceiverWallet(newInputValue || '');
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Receiver Wallet Address"
+                    required
+                    fullWidth
+                  />
+                )}
               />
             </Grid>
+
             <Grid item xs={6}></Grid>
             <Grid item xs={12}>
               <TextField
