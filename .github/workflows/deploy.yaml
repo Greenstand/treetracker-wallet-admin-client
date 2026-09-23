@@ -6,7 +6,7 @@ on:
       version:
         description: 'Version to deploy'
         required: true
-        default: 'e.g. v1.20.1-beta.1'
+        default: 'v2.1.0-v2.29'
       env:
         type: choice
         description: Environment to deploy to
