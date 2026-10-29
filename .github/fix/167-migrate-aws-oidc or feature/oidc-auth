@@ -23,6 +23,7 @@ env:
 permissions:
 id-token:write
 contents:read
+
 jobs:
   prepare:
     name: checking and prepare settings for jobs
