@@ -21,8 +21,8 @@ env:
   repository: 'Greenstand/treetracker-wallet-admin-client'
 
 permissions:
-id-token:write
-contents:read
+id-token: write
+contents: read
 
 jobs:
   prepare:
