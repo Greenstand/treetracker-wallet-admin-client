@@ -10,6 +10,10 @@ function SelectWallet({
   createdWalletName,
   isError,
   errorMessage,
+  walletType = 'managed',
+  trustedWallets = [],
+  walletScope,
+  includeCurrentWallet = false,
 }) {
   const filterLoadMore = 'LOAD_MORE';
 
@@ -25,8 +29,32 @@ function SelectWallet({
   useEffect(() => {
     const getWalletsData = async () => {
       setWalletPage(0);
+      
+      if (walletType === 'trusted') {
+        const wallets = trustedWallets
+          .filter((wallet) =>
+            wallet.name
+              .toLowerCase()
+              .includes(walletSearchString.toLocaleLowerCase())
+          );
+
+        const walletNames = wallets.map(wallet => wallet.name);
+        walletNames.sort();
+        setWalletsFullLoadedData(wallets);
+        setWalletsLoadedData(walletNames);
+        return;
+      }
+
       try {
-        let response = await getWallets(authContext.token, walletSearchString);
+        const response = await getWallets(
+          authContext.token,
+          walletSearchString,
+          undefined,
+          undefined,
+          {
+            scope: walletScope,
+          }
+        );
         if (!response) {
           console.log('No response from getWallets');
           return;
@@ -36,27 +64,55 @@ function SelectWallet({
         setWalletsFullLoadedData(response.wallets);
 
         // filter wallets to remove the current wallet witch API always returns
-        const wallets = response.wallets
+        let wallets = response.wallets
           .filter((wallet) =>
             wallet.name
               .toLowerCase()
               .includes(walletSearchString.toLocaleLowerCase())
-          )
-          .map((wallet) => wallet.name);
+          );
+
+        if (includeCurrentWallet) {
+          const currentWallet = JSON.parse(localStorage.getItem('wallet') || '{}');
+          const matchesSearch =
+            currentWallet?.name &&
+            currentWallet.name
+              .toLowerCase()
+              .includes(walletSearchString.toLocaleLowerCase());
+          const alreadyIncluded = wallets.some(
+            (walletItem) => walletItem.name === currentWallet.name
+          );
+          if (matchesSearch && !alreadyIncluded) {
+            wallets = [
+              {
+                id: currentWallet.id,
+                name: currentWallet.name,
+                logoURL: currentWallet.logoURL,
+                about: currentWallet.about,
+                displayName: currentWallet.displayName,
+                created_at: currentWallet.createdAt,
+                tokensInWallet: 0,
+              },
+              ...wallets,
+            ];
+          }
+        }
+
+        const walletNames = wallets.map((wallet) => wallet.name);
 
         // remove when API returns sorted data
-        wallets.sort();
+        walletNames.sort();
 
-        const addLoadMoreButton = response.wallets.length < total;
+        const addLoadMoreButton = response.wallets.length < total && !includeCurrentWallet;
 
-        addLoadMoreButtonToWallets([...wallets], addLoadMoreButton);
+        setWalletsFullLoadedData(wallets);
+        addLoadMoreButtonToWallets([...walletNames], addLoadMoreButton);
       } catch (error) {
         console.error(error);
       }
     };
 
     getWalletsData();
-  }, [walletSearchString]);
+  }, [walletSearchString, walletType, trustedWallets, walletScope, includeCurrentWallet]);
 
   useEffect(() => {
     // If createdWalletName is not null, get wallets again by createdWalletName and set it as selected value
@@ -73,7 +129,7 @@ function SelectWallet({
   // Is called when user click 'Load More' button in Wallet autocomplete
   useEffect(() => {
     const getWalletsData = async () => {
-      if (walletPage === 0) {
+      if (walletPage === 0 || walletType === 'trusted') {
         return;
       }
 
@@ -86,28 +142,55 @@ function SelectWallet({
               offset: walletPage * 10,
               limit: 10,
             },
+          },
+          undefined,
+          {
+            scope: walletScope,
           }
         );
 
         const total = response.total;
-        setWalletsFullLoadedData(response.wallets);
+        let walletsFullData = response.wallets;
         // filter wallets to remove the current wallet witch API always returns
-        const wallets = response.wallets
+        let wallets = response.wallets
           .filter((wallet) =>
             wallet.name
               .toLowerCase()
               .includes(walletSearchString.toLocaleLowerCase())
-          )
-          .map((wallet) => wallet.name);
+          );
+
+        if (includeCurrentWallet) {
+          const currentWallet = JSON.parse(localStorage.getItem('wallet') || '{}');
+          const alreadyIncluded = wallets.some(
+            (walletItem) => walletItem.name === currentWallet.name
+          );
+          if (currentWallet?.name && !alreadyIncluded) {
+            const currentWalletOption = {
+              id: currentWallet.id,
+              name: currentWallet.name,
+              logoURL: currentWallet.logoURL,
+              about: currentWallet.about,
+              displayName: currentWallet.displayName,
+              created_at: currentWallet.createdAt,
+              tokensInWallet: 0,
+            };
+            wallets = [currentWalletOption, ...wallets];
+            walletsFullData = [currentWalletOption, ...walletsFullData];
+          }
+        }
+
+        setWalletsFullLoadedData(walletsFullData);
+        const walletNames = wallets.map((wallet) => wallet.name);
 
         // remove when API returns sorted data
-        wallets.sort();
+        walletNames.sort();
 
         const addLoadMoreButton =
-          response.wallets.length + walletsLoadedData.length < total;
+          response.wallets.length + walletsLoadedData.length < total &&
+          !includeCurrentWallet;
 
         addLoadMoreButtonToWallets(
-          [...walletsLoadedData, ...wallets],
+          [...walletsLoadedData, ...walletNames],
           addLoadMoreButton
         );
       } catch (error) {
@@ -116,7 +199,7 @@ function SelectWallet({
     };
 
     getWalletsData();
-  }, [walletPage]);
+  }, [walletPage, walletType, walletScope, includeCurrentWallet]);
 
   const addLoadMoreButtonToWallets = (data, addMoreData) => {
     const dataToShow = data;
@@ -125,26 +208,6 @@ function SelectWallet({
     }
 
     setWalletsLoadedData(dataToShow);
-  };
-
-  const handleWalletRenderOption = (props, option) => {
-    if (!option) return;
-
-    if (option === filterLoadMore) {
-      return (
-        <li {...props}>
-          <Button
-            id="loadMore_btn"
-            onClick={handleLoadMoreWallets}
-            color="primary"
-          >
-            Load more
-          </Button>
-        </li>
-      );
-    }
-
-    return <li {...props}>{option}</li>;
   };
 
   const handleLoadMoreWallets = async (event) => {
@@ -164,14 +227,17 @@ function SelectWallet({
         htmlFor="wallet"
         id="wallet"
         sx={{ maxWidth: '30rem', minWidth: '15rem' }}
-        options={[...walletsLoadedData]}
-        value={wallet}
-        getOptionLabel={(wallet) => {
-          if (wallet === filterLoadMore) {
+        options={walletType === 'trusted' ? trustedWallets : [...walletsLoadedData]}
+        value={wallet ? (walletType === 'trusted' ? trustedWallets.find(w => w.name === wallet) : wallet) : null}
+        getOptionLabel={(option) => {
+          if (!option) return '';
+          if (option === filterLoadMore) {
             return walletSearchString;
           }
-
-          return wallet;
+          if (walletType === 'trusted') {
+            return option?.name || '';
+          }
+          return option || '';
         }}
         loading={walletsLoadedData.length === 1}
         loadingText={'Loading..'}
@@ -179,11 +245,14 @@ function SelectWallet({
           // event is triggered by onInputChange
           if (newVal === filterLoadMore) return;
 
-          const walletData = walletsFullLoadedData.find(
-            (wallet) => wallet.name === newVal
-          );
-
-          onChangeWallet(walletData);
+          if (walletType === 'trusted') {
+            onChangeWallet(newVal); // newVal is already the wallet object
+          } else {
+            const walletData = walletsFullLoadedData.find(
+              (wallet) => wallet.name === newVal
+            );
+            onChangeWallet(walletData);
+          }
         }}
         onInputChange={(event, newVal) => {
           // Do not select 'LOAD_MORE' as an autocomplete value
@@ -203,7 +272,22 @@ function SelectWallet({
             />
           );
         }}
-        renderOption={handleWalletRenderOption}
+        renderOption={(props, option) => {
+          if (option === filterLoadMore) {
+            return (
+              <li {...props}>
+                <Button
+                  id="loadMore_btn"
+                  onClick={handleLoadMoreWallets}
+                  color="primary"
+                >
+                  Load more
+                </Button>
+              </li>
+            );
+          }
+          return <li {...props}>{walletType === 'trusted' ? option.name : option}</li>;
+        }}
       />
     </>
   );

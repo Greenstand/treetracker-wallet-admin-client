@@ -46,7 +46,7 @@ const TrustRelationshipsProvider = ({ children }) => {
   const [count, setCount] = useState(0);
 
   // used to store all managed wallets
-  const [managedWallets, setManagedWallets] = useState([]);
+  const [managedWallets, setManagedWallets] = useState({ wallets: [] });
 
   // Loader
   const [isLoading, setIsLoading] = useState(false);
@@ -242,6 +242,8 @@ const TrustRelationshipsProvider = ({ children }) => {
       // get all managed wallets
       const allWalletsData = await getWallets(authContext.token, '', {
         pagination: { limit: 1000 },
+      }, undefined, {
+        scope: 'child',
       });
       setManagedWallets(allWalletsData);
 
@@ -250,11 +252,12 @@ const TrustRelationshipsProvider = ({ children }) => {
       const pendingRelationships = await getPendingTrustRelationships(
         authContext.token
       );
-      for (const item of pendingRelationships.trust_relationships) {
+      const managedWalletList = allWalletsData.wallets || [];
+      for (const item of pendingRelationships?.trust_relationships || []) {
         if (wallet.name === item.target_wallet) {
           local_count++;
         } else if (
-          allWalletsData.wallets.some(
+          managedWalletList.some(
             (wallet) => wallet.name === item.target_wallet
           )
         ) {

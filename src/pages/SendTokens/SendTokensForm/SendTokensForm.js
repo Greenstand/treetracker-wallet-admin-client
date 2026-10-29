@@ -12,6 +12,9 @@ const SendTokensForm = (props) => {
     onCreateWallet,
     createdWalletName,
     onSenderWalletSelected,
+    walletType = 'managed',
+    trustedWallets = [],
+    availableTokens = 0,
   } = props;
 
   // name of the wallet
@@ -24,12 +27,21 @@ const SendTokensForm = (props) => {
   const [createWalletError, setCreateWalletError] = useState(false);
   const [createWalletErrorMessage, setCreateWalletErrorMessage] = useState('');
 
+  const [tokenAmountError, setTokenAmountError] = useState(false);
+  const [tokenAmountErrorMessage, setTokenAmountErrorMessage] = useState('');
+
   const [isSubmitBtnDisabled, setIsSubmitButtonDisabled] = useState(true);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
   useEffect(() => {
     isSubmitButtonDisabled();
-  }, [receiverWallet, senderWallet, showCreateWallet]);
+  }, [receiverWallet, senderWallet, showCreateWallet, tokenAmountError]);
+
+  useEffect(() => {
+    if (tokensAmountRef.current && tokensAmountRef.current.value > 0) {
+      validateTokenAmount(tokensAmountRef.current.value);
+    }
+  }, [availableTokens]);
 
   const handleConfirmationDialogOpen = e => {
     e.preventDefault();
@@ -46,22 +58,24 @@ const SendTokensForm = (props) => {
   };
 
   const handleChangeSenderWallet = useCallback((wallet) => {
+    setReceiverWallet(null);
+
     // sender wallet is not selected / was deselected
     if (!wallet) {
       setSenderWallet(null);
       onSenderWalletSelected(null);
+      setTokenAmountError(false);
+      setTokenAmountErrorMessage('');
       return;
     }
 
     setSenderWallet(wallet.name);
     onSenderWalletSelected(wallet);
 
-    // it should not be possible to send more tokens than there are in the wallet
-    if (tokensAmountRef.current.value > wallet.tokensInWallet) {
-      tokensAmountRef.current.value = wallet.tokensInWallet;
+    if (tokensAmountRef.current.value > 0) {
+      validateTokenAmount(tokensAmountRef.current.value);
     }
-    tokensAmountRef.current.setAttribute('max', wallet.tokensInWallet);
-  }, []);
+  }, [availableTokens]);
 
   const handleChangeReceiverWallet = useCallback((wallet) => {
     if (!wallet) {
@@ -101,6 +115,40 @@ const SendTokensForm = (props) => {
     return true;
   };
 
+  const validateTokenAmount = (amount) => {
+    const numAmount = parseFloat(amount);
+    
+    if (!senderWallet) {
+      setTokenAmountError(false);
+      setTokenAmountErrorMessage('');
+      return true;
+    }
+
+    if (numAmount <= 0) {
+      setTokenAmountError(true);
+      setTokenAmountErrorMessage('Token amount must be greater than 0');
+      return false;
+    }
+
+    if (numAmount > availableTokens) {
+      setTokenAmountError(true);
+      setTokenAmountErrorMessage(
+        `Cannot send ${numAmount.toLocaleString()} tokens. Available: ${availableTokens.toLocaleString()}`
+      );
+      return false;
+    }
+
+    setTokenAmountError(false);
+    setTokenAmountErrorMessage('');
+    return true;
+  };
+
+  const handleTokenAmountChange = () => {
+    const amount = tokensAmountRef.current.value;
+    validateTokenAmount(amount);
+    isSubmitButtonDisabled();
+  };
+
   const handleSubmit = () => {
 
     const tokensAmount = tokensAmountRef.current.value;
@@ -122,7 +170,8 @@ const SendTokensForm = (props) => {
       !senderWallet ||
       !receiverWallet ||
       showCreateWallet ||
-      tokensAmountRef.current.value <= 0;
+      tokensAmountRef.current.value <= 0 ||
+      tokenAmountError;
     setIsSubmitButtonDisabled(isDisabled);
   };
 
@@ -136,6 +185,8 @@ const SendTokensForm = (props) => {
                 wallet={senderWallet}
                 onChangeWallet={handleChangeSenderWallet}
                 label={'Sender Wallet'}
+                walletScope="child"
+                includeCurrentWallet
               />
             </Grid>
             <Grid item xs={6}></Grid>
@@ -145,23 +196,31 @@ const SendTokensForm = (props) => {
                 onChangeWallet={handleChangeReceiverWallet}
                 label={'Receiver Wallet'}
                 createdWalletName={createdWalletName}
+                walletType={walletType}
+                trustedWallets={trustedWallets}
+                walletScope={walletType === 'managed' ? 'child' : undefined}
               />
             </Grid>
-            <Grid item xs={4} sx={{ display: 'flex', alignItems: 'center' }}>
-              <a
-                onClick={() => setShowCreateWallet(true)}
-                style={{
-                  color: 'green',
-                  cursor: 'pointer',
-                  marginLeft: '1rem',
-                }}
-              >
-                + Create Managed Wallet
-              </a>
-            </Grid>
+            
+            {walletType === 'managed' && (
+              <Grid item xs={4} sx={{ display: 'flex', alignItems: 'center' }}>
+                <a
+                  onClick={() => setShowCreateWallet(true)}
+                  style={{
+                    color: 'green',
+                    cursor: 'pointer',
+                    marginLeft: '1rem',
+                  }}
+                >
+                  + Create Managed Wallet
+                </a>
+              </Grid>
+            )}
+
+
             <Grid item xs={2}></Grid>
 
-            {showCreateWallet && (
+            {showCreateWallet && walletType === 'managed' && (
               <>
                 <Grid item xs={4}>
                   <TextField
@@ -212,10 +271,19 @@ const SendTokensForm = (props) => {
                 id="token-amount"
                 label="Token Amount"
                 type="number"
-                InputProps={{ inputProps: { min: 0, max: 10000 } }}
+                InputProps={{ 
+                  inputProps: { 
+                    min: 0, 
+                    max: Math.max(availableTokens, 0),
+                    step: 1
+                  } 
+                }}
                 defaultValue={1}
                 inputRef={tokensAmountRef}
-                onChange={() => isSubmitButtonDisabled()}
+                onChange={handleTokenAmountChange}
+                error={tokenAmountError}
+                helperText={tokenAmountError ? tokenAmountErrorMessage : `Available: ${availableTokens.toLocaleString()} tokens`}
+                disabled={!senderWallet}
               />
             </Grid>
             <Grid item xs={12}>

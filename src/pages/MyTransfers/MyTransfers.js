@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { Grid } from '@mui/material';
 import TransfersTable from './TransfersTable';
 import Message from '../../components/UI/components/Message/Message';
-import { getTransfers } from '../../api/transfers';
 import { useTransfersContext } from '../../store/TransfersContext';
-import AuthContext from '../../store/auth-context';
 
 /**@function
  * @name MyTransfers
@@ -14,39 +12,8 @@ import AuthContext from '../../store/auth-context';
  * */
 const MyTransfers = () => {
   // get data from context
-  const { pagination, filter, setIsLoading, prepareRows } =
+  const { message, tableRows, totalRowCount, setMessage } =
     useTransfersContext();
-  // error
-  const [message, setMessage] = useState('');
-  // data to be displayed in the table
-  const [tableRows, setTableRows] = useState([]);
-  // total rows count for pagination
-  const [totalRowCount, setTotalRowCount] = useState(null);
-
-  const authContext = useContext(AuthContext);
-
-  // load data
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getTransfers(authContext.token, {
-          pagination,
-          filter,
-        });
-        const preparedRows = prepareRows(await data.transfers);
-
-        setTableRows(preparedRows);
-        setTotalRowCount(data.total);
-      } catch (error) {
-        console.error(error);
-        setMessage('An error occurred while fetching the table data');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadData();
-  }, [pagination, filter]);
 
   return (
     <div

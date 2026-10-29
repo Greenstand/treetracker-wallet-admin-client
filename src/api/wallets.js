@@ -18,7 +18,8 @@ export const getWallets = async (
   token,
   name = '',
   { pagination } = { pagination: { offset: 0, limit: 10 } },
-  { sorting } = { sorting: { sortBy: 'created_at', order: 'desc' } }
+  { sorting } = { sorting: { sortBy: 'created_at', order: 'desc' } },
+  { scope } = {}
 ) => {
   const { total, wallets } = await apiClient
     .setAuthHeader(token)
@@ -29,6 +30,7 @@ export const getWallets = async (
         limit: pagination.limit,
         sort_by: sorting.sortBy,
         order: sorting.order,
+        scope,
       },
     })
     .then((response) => {
@@ -106,4 +108,17 @@ export const updateWallet = async (token, wallet) => {
     });
 
   return updatedWallet;
+};
+
+export const getPendingTransfers = async (token, walletId) => {
+  try {
+    const response = await apiClient
+      .setAuthHeader(token)
+      .get(`/wallets/${walletId}/pending-transfers`);
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching pending transfers:', error);
+    throw Error('An error occurred while fetching pending transfers data.');
+  }
 };

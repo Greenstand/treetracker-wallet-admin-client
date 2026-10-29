@@ -283,6 +283,7 @@ const TrustRelationshipTableBody = ({
     };
 
     const { managedWallets, isLoading, searchString } = useTrustRelationshipsContext();
+    const managedWalletList = managedWallets?.wallets || [];
     
     if (isLoading)
       return (
@@ -334,7 +335,7 @@ const TrustRelationshipTableBody = ({
                         ? 'rgba(135, 195, 46, .4)'
                         : row.state === 'requested' && wallet.name === row.target_wallet
                         ? 'rgba(135, 195, 46, .1)'
-                        : row.state === 'requested' && managedWallets.wallets.some(wallet => wallet.name === row.target_wallet)
+                        : row.state === 'requested' && managedWalletList.some(wallet => wallet.name === row.target_wallet)
                         ? 'rgba(135, 195, 46, .1)'
                         : null,
                   }}

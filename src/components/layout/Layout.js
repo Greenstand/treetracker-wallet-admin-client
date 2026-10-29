@@ -5,12 +5,14 @@ import { useLocation } from "react-router-dom";
 import { StyledContent } from "./LayoutStyled";
 import Menu from "./Menu/Menu";
 import { useTrustRelationshipsContext } from "../../store/TrustRelationshipsContext";
+import { useTransfersContext } from "../../store/TransfersContext";
  
 
 const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
 
-  const { count } = useTrustRelationshipsContext();
+  const { count: trustRelationshipCount } = useTrustRelationshipsContext();
+  const { count: transfersCount } = useTransfersContext();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -44,7 +46,8 @@ const Layout = ({ children }) => {
     <Box sx={{ display: "flex" }}>
       <Menu
         open={open}
-        count={count}
+        trustRelationshipCount={trustRelationshipCount}
+        transfersCount={transfersCount}
         handleDrawerClose={handleDrawerClose}
         handleDrawerOpen={handleDrawerOpen}
       />

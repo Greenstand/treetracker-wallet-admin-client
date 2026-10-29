@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Paper } from '@mui/material';
+import { useContext, useState, useEffect } from 'react';
+import { Paper, Tab, Tabs  } from '@mui/material';
 import {
   ContentContainer,
   LoaderContainer,
@@ -10,22 +10,130 @@ import SendTokensForm from './SendTokensForm/SendTokensForm';
 import Message, {
   MessageType,
 } from '../../components/UI/components/Message/Message';
-import apiClient from '../../utils/apiClient';
 import { Loader } from '../../components/UI/components/Loader/Loader';
 import TokenInfoBlock from './TokenInfoBlock/TokenInfoBlock';
-import { formatWithCommas } from '../../utils/formatting';
+import SendToUntrustedWalletsForm from './SendTokensForm/SendToUntrustedWallets';
 import AuthContext from '../../store/auth-context';
+import TabPanel from '../../components/UI/components/TabPanel'
+import { handleCreateWallet } from './helpers/walletHandlers';
+// import { formatWithCommas } from '../../utils/formatting';
+import { handleSendToUntrustedWallets } from './helpers/sendTokenHandlers';
+import apiClient from '../../utils/apiClient';
+import { getTrustedWallets, getAllTrustedWallets } from '../../api/trust_relationships';
+import { getPendingTransfers, getWalletById } from '../../api/wallets';
+
+const TAB_HELPER_TEXT = [
+  'Send tokens to your managed wallets.',
+  'Send tokens to a trusted wallet with Send trust relationship',
+  'Send tokens to all wallets.',
+];
 
 const SendTokens = () => {
   const [createdWalletName, setCreatedWalletName] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [successMessage, setSuccessMessage] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
 
   const [senderWalletName, setSenderWalletName] = useState();
   const [senderWalletTokens, setSenderWalletTokens] = useState(0);
+  const [senderWalletId, setSenderWalletId] = useState(null);
+  const [pendingTransfers, setPendingTransfers] = useState(0);
+  const [trustedWallets, setTrustedWallets] = useState([]);
+  const [allTrustedWallets, setAllTrustedWallets] = useState([]);
 
   const authContext = useContext(AuthContext);
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+    setSenderWalletName(null);
+    setSenderWalletTokens(null);
+    setSenderWalletId(null);
+    setPendingTransfers(0);
+  };
+
+  useEffect(() => {
+    if (tabValue === 1 && senderWalletId) {
+      loadTrustedWallets(senderWalletId);
+    } else {
+      setTrustedWallets([]);
+    }
+
+    if (tabValue === 2) {
+      loadAllTrustedWallets();
+    } else {
+      setAllTrustedWallets([]);
+    }
+  }, [tabValue, senderWalletId]);
+
+  const loadTrustedWallets = async (walletId) => {
+    try {
+      setIsLoading(true);
+      const wallets = await getTrustedWallets(authContext.token, walletId);
+      const uniqueWallets = wallets.filter((wallet, index, self) =>
+        index === self.findIndex((w) => w.id === wallet.id)
+      );
+      setTrustedWallets(uniqueWallets);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('An error occurred while fetching trusted wallets.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loadAllTrustedWallets = async () => {
+    try {
+      setIsLoading(true);
+      const wallets = await getAllTrustedWallets(authContext.token);
+      setAllTrustedWallets(wallets);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('An error occurred while fetching all trusted wallets.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+  const fetchPendingTransfers = async (walletId) => {
+    try {
+      const data = await getPendingTransfers(authContext.token, walletId);
+      return data.pending_outgoing.total_amount || 0;
+    } catch (error) {
+      console.error('Error fetching pending transfers:', error);
+      return 0; 
+    }
+  };
+
+  const refreshWalletData = async (walletId) => {
+    try {
+      const walletData = await getWalletById(authContext.token, walletId);
+      const pendingAmount = await fetchPendingTransfers(walletId);
+      
+      setSenderWalletTokens(walletData.tokensInWallet);
+      setPendingTransfers(pendingAmount);
+      
+      return walletData;
+    } catch (error) {
+      console.error('Error refreshing wallet data:', error);
+      setErrorMessage('An error occurred while refreshing wallet data.');
+    }
+  };
+
+  const handleWalletSelection = async (wallet) => {
+    if (!wallet) {
+      setSenderWalletName(null);
+      setSenderWalletTokens(null);
+      setSenderWalletId(null);
+      setPendingTransfers(0);
+      return;
+    }
+
+    setSenderWalletName(wallet.name);
+    setSenderWalletId(wallet.id);
+    await refreshWalletData(wallet.id);
+  };
 
   // TODO: uncomment when API is ready: is should have a totalTokens value
   // const [totalTokensAmount, setTotalTokensAmount] = useState();
@@ -71,15 +179,15 @@ const SendTokens = () => {
         receiver_wallet: data.receiverWallet,
         claim: false,
       })
-      .then((response) => {
+      .then(async (response) => {
         console.log(
           'Tokens transfer completed. Response: ' + JSON.stringify(response)
         );
 
-        // update tokens amount: total and sender's wallet token
-        // TODO: uncomment when API is ready: is should have a totalTokens value
-        // getTotalTokensAmount();
-        setSenderWalletTokens((prev) => prev - data.tokensAmount);
+        // Refresh wallet data from backend to get accurate token information
+        if (senderWalletId) {
+          await refreshWalletData(senderWalletId);
+        }
 
         setErrorMessage('');
         setSuccessMessage(
@@ -101,34 +209,18 @@ const SendTokens = () => {
       });
   };
 
-  const handleCreateWalled = (name) => {
-    if (!name) return;
+  
 
-    setIsLoading(true);
-
-    apiClient
-      .setAuthHeader(authContext.token)
-      .post('/wallets', {
-        wallet: name,
-      })
-      .then(() => {
-        setErrorMessage('');
-        setSuccessMessage(`Wallet ${name} created successfully!`);
-        setCreatedWalletName(name);
-      })
-      .catch((error) => {
-        console.error(error);
-        setSuccessMessage('');
-        const errorMessage =
-          error.response.status === 403 &&
-          error.response.data.message.includes('already exists')
-            ? 'Wallet with this name already exists.'
-            : 'An error occurred while creating a wallet.';
-        setErrorMessage(errorMessage);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+  const callbacks = {
+    setIsLoading,
+    setErrorMessage,
+    setSuccessMessage,
+    setSenderWalletTokens,
+    setCreatedWalletName,
+    setPendingTransfers,
+    fetchPendingTransfers,
+    refreshWalletData,
+    senderWalletId
   };
 
   return (
@@ -158,34 +250,83 @@ const SendTokens = () => {
             width: '100%',
             height: '60vh',
             display: 'flex',
-            justifyContent: 'space-between',
+            flexDirection: 'column',
           }}
         >
+          <Tabs value={tabValue} onChange={handleTabChange} aria-label="wallet tabs">
+            <Tab label="Managed Wallets" />
+            <Tab label="Trusted Wallets" />
+            <Tab label="All Wallets" />
+          </Tabs>
+          <div style={{ padding: '0.75rem 1rem 0', color: '#5d6b5d', fontSize: '0.95rem' }}>
+            {TAB_HELPER_TEXT[tabValue]}
+          </div>
+
           {isLoading && (
             <LoaderContainer>
               <Loader />
             </LoaderContainer>
           )}
-          <SendTokensForm
-            onSubmit={handleSendTokenForm}
-            onCreateWallet={handleCreateWalled}
-            createdWalletName={createdWalletName}
-            onSenderWalletSelected={(wallet) => {
-              if (!wallet) {
-                setSenderWalletName(null);
-                setSenderWalletTokens(null);
-                return;
-              }
 
-              setSenderWalletName(wallet.name);
-              setSenderWalletTokens(wallet.tokensInWallet);
-            }}
-          />
-          <TokenInfoBlock
-            // totalTokens={formatWithCommas(totalTokensAmount)}
-            senderWalletName={senderWalletName}
-            senderWalletTokens={formatWithCommas(senderWalletTokens)}
-          />
+          <TabPanel value={tabValue} index={0} style={{ flex: 1 }}>
+            <div style={{ display: 'flex', height: '100%' }}>
+              <SendTokensForm
+                onSubmit={(data) => handleSendTokenForm(data, authContext, callbacks)}
+                createdWalletName={createdWalletName}
+                onCreateWallet={(name) => handleCreateWallet(name, authContext, callbacks)}
+                onSenderWalletSelected={handleWalletSelection}
+                walletType="managed"
+                availableTokens={(senderWalletTokens || 0) - pendingTransfers}
+              />
+              {senderWalletName && (
+                <TokenInfoBlock
+                  inWallet={senderWalletTokens || 0}
+                  pendingTransfer={pendingTransfers}
+                  available={(senderWalletTokens || 0) - pendingTransfers}
+                  senderWalletName={senderWalletName}
+                />
+              )}
+            </div>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={1} style={{ flex: 1 }}>
+            <div style={{ display: 'flex', height: '100%' }}>
+              <SendTokensForm
+                onSubmit={(data) => handleSendTokenForm(data)}
+                onSenderWalletSelected={handleWalletSelection}
+                walletType="trusted"
+                trustedWallets={trustedWallets}
+                availableTokens={(senderWalletTokens || 0) - pendingTransfers}
+              />
+              {senderWalletName && (
+                <TokenInfoBlock
+                  inWallet={senderWalletTokens || 0}
+                  pendingTransfer={pendingTransfers}
+                  available={(senderWalletTokens || 0) - pendingTransfers}
+                  senderWalletName={senderWalletName}
+                />
+              )}
+            </div>
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={2} style={{ flex: 1 }}>
+            <div style={{ display: 'flex', height: '100%' }}>
+              <SendToUntrustedWalletsForm
+                onSubmit={(data) => handleSendToUntrustedWallets(data, authContext, callbacks)}
+                onSenderWalletSelected={handleWalletSelection}
+                availableTokens={(senderWalletTokens || 0) - pendingTransfers}
+                allTrustedWallets={allTrustedWallets}
+              />
+              {senderWalletName && (
+                <TokenInfoBlock
+                  inWallet={senderWalletTokens || 0}
+                  pendingTransfer={pendingTransfers}
+                  available={(senderWalletTokens || 0) - pendingTransfers}
+                  senderWalletName={senderWalletName}
+                />
+              )}
+            </div>
+          </TabPanel>
         </Paper>
       </ContentContainer>
     </StyledGrid>
