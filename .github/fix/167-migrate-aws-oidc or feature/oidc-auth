@@ -19,6 +19,7 @@ on:
 env:
   project-directory: ./
   repository: 'Greenstand/treetracker-wallet-admin-client'
+
 permissions:
 id-token:write
 contents:read
