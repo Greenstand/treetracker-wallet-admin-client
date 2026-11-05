@@ -1,3 +1,10 @@
+# [2.1.0-v2.30](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.29...v2.1.0-v2.30) (2026-11-05)
+
+
+### Bug Fixes
+
+* release the trusted wallet receiver changes ([622fc7b](https://github.com/Greenstand/treetracker-wallet-admin-client/commit/622fc7b353da3f3356babd4fd04f238077d89c82))
+
 # [2.1.0-v2.29](https://github.com/Greenstand/treetracker-wallet-admin-client/compare/v2.1.0-v2.28...v2.1.0-v2.29) (2026-07-15)
 
 
