@@ -147,7 +147,7 @@ jobs:
           name: frontend-bundle
           path: build
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           # prod uses the prod key; dev and test use the dev key (the same key as build-release.yaml)
           aws-access-key-id: ${{ case(github.event.inputs.env == 'prod', secrets.AWS_KEY_ID_PROD, secrets.AWS_KEY_ID_DEV) }}
